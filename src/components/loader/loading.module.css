@@ -1,0 +1,12 @@
+.loadingBar {
+  animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
