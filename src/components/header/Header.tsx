@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
+import HeaderRight from "./HeaderRight";
 
 export const Header = () => {
   return (
@@ -13,13 +14,11 @@ export const Header = () => {
           </Link>
         </div>
         {/*search */}
-        <div className="flex flex-2">
+        <div className="flex flex-1">
           <SearchMenu />
         </div>
-        {/* right menu */}
-        <div className="flex items-center gap-[15px]">
-          {/* location menu */}
-        </div>
+        {/* right */}
+        <HeaderRight />
       </Container>
     </header>
   );

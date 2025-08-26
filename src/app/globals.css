@@ -5,6 +5,8 @@
 @theme inline {
   --color-mainColor: #4fb477;
   --color-textColor: #2f2f2f;
+  --color-borderColor: #F2F2F2;
+  --color-hoverColor: #F9FAFB;  
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
