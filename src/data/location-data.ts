@@ -1,5 +1,15 @@
 export const locationData = [
-    "Muqimiy, 69",
-    "Moʻminova koʻchasi, 7/2",
-    "Toshkent koʻchasi,5"
-]
+  "Toshkent",
+  "Toshkent Viloyati",
+  "Samarqand",
+  "Andijon",
+  "Namangan",
+  "Farg'ona",
+  "Jizzax",
+  "Qashqadaryo",
+  "Sirdaryo",
+  "Surxondaryo",
+  "Navoiy",
+  "Buxoro",
+  "Qoraqalpog'iston ",
+];

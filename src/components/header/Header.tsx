@@ -8,7 +8,7 @@ export const Header = () => {
     <header className="py-6 ">
       <Container className="flex justify-between items-center">
         {/* logo */}
-        <div className="mr-[130px] flex-0">
+        <div className="flex-0">
           <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
             Logo
           </Link>

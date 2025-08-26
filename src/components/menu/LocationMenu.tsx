@@ -3,17 +3,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import {
-  CheckIcon,
-  ChevronBottom,
-  LocationIcon,
-  PlusIcon,
-} from "@/assets/icons";
+import { CheckIcon, ChevronBottom, LocationIcon } from "@/assets/icons";
 import { locationData } from "@/data";
 import { useState } from "react";
 export const LocationMenu = () => {
@@ -37,7 +31,7 @@ export const LocationMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[273px] border-borderColor p-0">
-        <DropdownMenuLabel className="p-0 pt-[10px] mb-[10px]">
+        {/* <DropdownMenuLabel className="p-0 pt-[10px] mb-[10px]">
           <Button
             variant={"link"}
             className="hover:no-underline  h-10 py-[13px] px-[10px]font-medium text-sm text-mainColor"
@@ -47,7 +41,7 @@ export const LocationMenu = () => {
             </span>{" "}
             Yangi manzil kiritish
           </Button>
-        </DropdownMenuLabel>
+        </DropdownMenuLabel> */}
         <DropdownMenuSeparator />
         {locationData.map((item, index) => (
           <DropdownMenuItem

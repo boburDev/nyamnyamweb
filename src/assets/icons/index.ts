@@ -3,3 +3,7 @@ export * from "./LocationIcon";
 export * from "./ChevronBottom";
 export * from "./PlusIcon";
 export * from "./CheckIcon";
+export * from "./NotificationIcon";
+export * from "./LanguageIcon";
+export * from "./CartIcon";
+export * from "./UserIcon";
