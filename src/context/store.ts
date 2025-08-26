@@ -13,8 +13,8 @@ const useStore = create<StoreState>()(
   persist(
     (set, _get) => ({
       auth: false,
-      login: (token) => {
-        cookieStorage.setItem(TOKEN, token);
+      login: (value) => {
+        cookieStorage.setItem(TOKEN, value);
         set({ auth: true });
       },
       logout: () => {

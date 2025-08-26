@@ -3,9 +3,21 @@ import useStore from "@/context/store";
 import { LanguageMenu, LocationMenu, NotificationMenu } from "../menu";
 import { Button } from "../ui/button";
 import { CartIcon, UserIcon } from "@/assets/icons";
+import { useRouter } from "@/i18n/navigation";
 
 const HeaderRight = () => {
   const auth = useStore((state) => state.auth);
+  console.log("auth", auth);
+  const router = useRouter();
+
+  const handleGo = () => {
+    router.push("/signin");
+  };
+
+  const handleGoCart = () => {
+    router.push("/cart");
+  };
+
   return (
     <div className="flex items-center gap-[15px] ml-[39px] shrink-0">
       {/* location menu */}
@@ -19,7 +31,7 @@ const HeaderRight = () => {
       {/* cart */}
       {auth && (
         <div>
-          <Button>
+          <Button onClick={handleGoCart}>
             <span>
               <CartIcon />
             </span>
@@ -36,7 +48,10 @@ const HeaderRight = () => {
           >
             Biznes uchun kirish
           </Button>
-          <Button className=" h-12 px-5 font-medium text-sm ">
+          <Button
+            onClick={handleGo}
+            className="w-[114px] h-12 px-5 font-medium text-sm "
+          >
             <span>
               <UserIcon />
             </span>
