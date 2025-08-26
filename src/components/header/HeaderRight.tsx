@@ -1,60 +1,48 @@
 "use client";
-import useStore from "@/context/store";
+
+import { useRouter } from "@/i18n/navigation";
 import { LanguageMenu, LocationMenu, NotificationMenu } from "../menu";
 import { Button } from "../ui/button";
-import { CartIcon, UserIcon } from "@/assets/icons";
-import { useRouter } from "@/i18n/navigation";
+import { CartIcon, UserIcon, UserProfile } from "@/assets/icons";
 
-const HeaderRight = () => {
-  const auth = useStore((state) => state.auth);
-  console.log("auth", auth);
+type HeaderRightProps = {
+  auth: boolean;
+};
+
+export const HeaderRight = ({ auth }: HeaderRightProps) => {
   const router = useRouter();
 
-  const handleGo = () => {
-    router.push("/signin");
-  };
-
-  const handleGoCart = () => {
-    router.push("/cart");
-  };
-
   return (
-    <div className="flex items-center gap-[15px] ml-[39px] shrink-0">
-      {/* location menu */}
+    <div className="flex items-center gap-4 ml-10 shrink-0">
       <LocationMenu />
-      <div className="flex gap-[10px]">
-        {/* notification */}
+      <div className="flex gap-2">
         <NotificationMenu />
-        {/* language */}
         <LanguageMenu />
       </div>
-      {/* cart */}
-      {auth && (
-        <div>
-          <Button onClick={handleGoCart}>
-            <span>
-              <CartIcon />
-            </span>
+
+      {auth ? (
+        <div className="flex items-center gap-4">
+          <Button className="w-[170px]" onClick={() => router.push("/cart")}>
+            <CartIcon />
             256,000 UZS
           </Button>
+          <Button variant="outline" className="w-12 h-12 bg-plaster">
+            <UserProfile />
+          </Button>
         </div>
-      )}
-      {/* login */}
-      {!auth && (
-        <div className="flex gap-[15px] items-center">
+      ) : (
+        <div className="flex gap-4 items-center">
           <Button
-            variant={"secondary"}
-            className="w-[174px] h-12 px-5 font-medium text-sm "
+            variant="secondary"
+            className="w-[174px] h-12 px-5 font-medium text-sm"
           >
             Biznes uchun kirish
           </Button>
           <Button
-            onClick={handleGo}
-            className="w-[114px] h-12 px-5 font-medium text-sm "
+            onClick={() => router.push("/signin")}
+            className="w-[114px] h-12 px-5 font-medium text-sm"
           >
-            <span>
-              <UserIcon />
-            </span>
+            <UserIcon />
             Kirish
           </Button>
         </div>

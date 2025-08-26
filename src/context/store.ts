@@ -5,14 +5,18 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface StoreState {
   auth: boolean;
+  isHydrated: boolean;
   login: (value: string) => void;
   logout: () => void;
+  setAuth: (auth: boolean) => void;
+  setHydrated: (value: boolean) => void;
 }
 
 const useStore = create<StoreState>()(
   persist(
     (set, _get) => ({
       auth: false,
+      isHydrated: false,
       login: (value) => {
         cookieStorage.setItem(TOKEN, value);
         set({ auth: true });
@@ -21,12 +25,25 @@ const useStore = create<StoreState>()(
         cookieStorage.removeItem(TOKEN);
         set({ auth: false });
       },
+      setAuth: (auth: boolean) => set({ auth }),
+      setHydrated: (value: boolean) => set({ isHydrated: value }),
     }),
     {
       name: "nyam-web",
       storage: createJSONStorage(() => cookieStorage),
+      onRehydrateStorage: () => (state) => {
+        const token = cookieStorage.getItem(TOKEN);
+        if (token) state?.setAuth(true);
+        state?.setHydrated(true);
+      },
     }
   )
 );
+export const hydrateStore = () => {
+  useStore.persist.rehydrate();
 
+  if (typeof window !== "undefined" && cookieStorage.getItem(TOKEN)) {
+    useStore.setState({ auth: true });
+  }
+};
 export default useStore;
