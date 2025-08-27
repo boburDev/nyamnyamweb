@@ -4,7 +4,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLocale } from "next-intl";
@@ -21,8 +20,11 @@ export const LanguageMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={"outline"} className="h-12 rounded-full w-12 focus-visible:ring-0">
-          <LanguageIcon className="size-6"/>
+        <Button
+          variant={"outline"}
+          className="h-12 rounded-full w-12 focus-visible:ring-0"
+        >
+          <LanguageIcon className="size-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="border-borderColor">
@@ -30,7 +32,9 @@ export const LanguageMenu = () => {
           {langData.map((item) => (
             <DropdownMenuItem
               key={item.value}
-              className={`bg-white text-sm rounded-[5px] cursor-pointer font-poppins focus:bg-mainColor/5 items-center px-[5px] h-[32px] justify-between ${item.value === locale ? "text-black" : "text-dolphin"}`}
+              className={`bg-white text-sm rounded-[5px] cursor-pointer font-poppins focus:bg-mainColor/5 items-center px-[5px] h-[32px] justify-between ${
+                item.value === locale ? "text-black" : "text-dolphin"
+              }`}
               onClick={() => changeLanguage(item.value)}
             >
               {item.name}
