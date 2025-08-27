@@ -21,8 +21,8 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
             <CartIcon />
             256,000 UZS
           </Button>
-          <Button variant="outline" className="w-12 h-12 bg-plaster">
-            <UserProfile/>
+          <Button variant="outline" className="w-12 h-12 bg-plasterColor">
+            <UserProfile />
           </Button>
         </div>
       ) : (

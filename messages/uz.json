@@ -1,4 +1,10 @@
 {
-    "title": "Welcome to Next.js!",
-    "description": "Get started by editing <code>pages/index.js</code>"
+  "Header": {
+    "title": "Nyam-Nyam — Tez va Mazali Ovqatlar Yetkazib Berish"
+  },
+  "Metadata": {
+    "title": "Nyam-Nyam — Tez va Mazali Ovqatlar Yetkazib Berish",
+    "description": "Toshkentda fast food, milliy taomlar, sushi, pitsa va boshqa sevimli taomlaringizga buyurtma bering. Tez yetkazib berish va yuqori sifat kafolati!",
+    "keywords": "Nyam nyam, nyam-nyam, fast food, tezkor yetkazish, milliy taomlar, o'zbek taomlari, osh, somsa, sushi, pitsa, yetkazib berish xizmati, onlayn buyurtma"
+  }
 }
