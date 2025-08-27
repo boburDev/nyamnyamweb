@@ -2,8 +2,11 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
 import HeaderRight from "./HeaderRight";
+import { getAuthStatus } from "@/lib";
 
-export const Header = () => {
+export const Header = async () => {
+  const auth = await getAuthStatus();
+
   return (
     <header className="py-6 ">
       <Container className="flex justify-between items-center">
@@ -15,10 +18,10 @@ export const Header = () => {
         </div>
         {/*search */}
         <div className="flex flex-1">
-          <SearchMenu />
+          <SearchMenu auth={auth} />
         </div>
         {/* right */}
-        <HeaderRight />
+        <HeaderRight auth={auth} />
       </Container>
     </header>
   );

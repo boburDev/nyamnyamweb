@@ -1,13 +1,10 @@
 "use client";
-import useStore from "@/context/store";
 import { LanguageMenu, LocationMenu, NotificationMenu } from "../menu";
 import { Button } from "../ui/button";
 import { CartIcon, UserIcon } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
 
-const HeaderRight = () => {
-  const auth = useStore((state) => state.auth);
-  console.log("auth", auth);
+const HeaderRight = ({ auth }: { auth: boolean }) => {
   const router = useRouter();
 
   const handleGo = () => {

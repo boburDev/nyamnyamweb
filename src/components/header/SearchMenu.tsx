@@ -2,11 +2,9 @@
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { SearchIcon } from "@/assets/icons";
-import useStore from "@/context/store";
 
-const SearchMenu = () => {
+const SearchMenu = ({ auth }: { auth: boolean }) => {
   const [search, setSearch] = useState("");
-  const auth = useStore((state) => state.auth);
   return (
     <div className={`relative w-full ${auth ? "ml-[130px]" : "ml-[58px]"}`}>
       <Input
