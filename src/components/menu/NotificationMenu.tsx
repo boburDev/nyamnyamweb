@@ -28,7 +28,7 @@ export const NotificationMenu = () => {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar">
+      <DropdownMenuContent className="    ">
         <DropdownMenuLabel className="px-0 py-[9.5px] mb-[15px] font-medium text-textColor text-[30px]">
           Bildirishnomalar
         </DropdownMenuLabel>
@@ -42,7 +42,7 @@ export const NotificationMenu = () => {
                 `Invalid date for item at index ${index}:`,
                 item.createdAt
               );
-              return null; // Don't render this item
+              return null; 
             }
 
             const sana = format(date, "d MMMM yyyy", { locale: uz });

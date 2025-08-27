@@ -1,7 +1,7 @@
 "use client";
-import { LanguageMenu, LocationMenu, NotificationMenu } from "../menu";
+import { LanguageMenu, LocationMenu, NotificationMenu, UserMenu, } from "../menu";
 import { Button } from "../ui/button";
-import { CartIcon, UserIcon, UserProfile } from "@/assets/icons";
+import { CartIcon, UserIcon } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
@@ -21,9 +21,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
             <CartIcon />
             256,000 UZS
           </Button>
-          <Button variant="outline" className="w-12 h-12 bg-plasterColor">
-            <UserProfile />
-          </Button>
+          <UserMenu />
         </div>
       ) : (
         <div className="flex gap-4 items-center">

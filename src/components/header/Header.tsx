@@ -2,7 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
 import HeaderRight from "./HeaderRight";
-import { getAuthStatus } from "@/lib";
+import { getAuthStatus } from "@/lib/auth";
 
 export const Header = async () => {
   const auth = await getAuthStatus();

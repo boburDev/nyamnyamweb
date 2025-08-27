@@ -8,3 +8,14 @@ export * from "./LanguageIcon";
 export * from "./CartIcon";
 export * from "./UserIcon";
 export * from "./UserProfile";
+
+// profile icon
+
+export * from "./profile/ProfileCart";
+export * from "./profile/ProfileFavourite";
+export * from "./profile/ProfileHistory";
+export * from "./profile/ProfileLogout";
+export * from "./profile/ProfileNotification";
+export * from "./profile/ProfileOrder";
+export * from "./profile/ProfilePayment";
+export * from "./profile/ProfileUser";
