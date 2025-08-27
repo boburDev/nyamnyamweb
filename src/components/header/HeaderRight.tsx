@@ -1,15 +1,10 @@
 "use client";
-
-import { useRouter } from "@/i18n/navigation";
 import { LanguageMenu, LocationMenu, NotificationMenu } from "../menu";
 import { Button } from "../ui/button";
-import { CartIcon, UserIcon, UserProfile } from "@/assets/icons";
+import { CartIcon, UserIcon } from "@/assets/icons";
+import { useRouter } from "@/i18n/navigation";
 
-type HeaderRightProps = {
-  auth: boolean;
-};
-
-export const HeaderRight = ({ auth }: HeaderRightProps) => {
+const HeaderRight = ({ auth }: { auth: boolean }) => {
   const router = useRouter();
 
   return (
