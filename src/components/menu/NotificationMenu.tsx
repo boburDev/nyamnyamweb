@@ -1,4 +1,3 @@
-// NotificationMenu.jsx
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,10 +18,10 @@ export const NotificationMenu = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-12 h-12 font-medium text-sm focus-visible:ring-0 "
+          className="w-12 h-12 font-medium text-sm focus-visible:ring-0"
         >
           <div className="relative">
-            <NotificationIcon />
+            <NotificationIcon className="size-6"/>
             {notificationData.length > 0 && (
               <span className="absolute top-[2px] right-[2px] w-[5px] h-[5px] bg-dangerColor rounded-full"></span>
             )}

@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "!py-3 !px-[16.5px] !rounded-[15px] !bg-mainColor !text-white",
+          "py-3 px-[16.5px] !rounded-[15px] bg-mainColor !text-white",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "!bg-white !border !border-borderColor !text-textColor !px-[10px] !rounded-[15px]",
+          "bg-white border border-borderColor !text-textColor px-[10px] rounded-[15px]",
         secondary:
           "!bg-white !border !border-mainColor !text-mainColor !rounded-[15px]",
         ghost:
