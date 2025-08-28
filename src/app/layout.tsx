@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Providers from "@/components/provider/Provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -32,7 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressContentEditableWarning>
       <body className={`${poppins.variable} antialiased`}>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+            <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -28,7 +28,7 @@ export const NotificationMenu = () => {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="    ">
+      <DropdownMenuContent className="max-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar">
         <DropdownMenuLabel className="px-0 py-[9.5px] mb-[15px] font-medium text-textColor text-[30px]">
           Bildirishnomalar
         </DropdownMenuLabel>
@@ -36,7 +36,6 @@ export const NotificationMenu = () => {
         <div className="flex flex-col gap-[15px]">
           {notificationData.map((item, index) => {
             const date = new Date(item.createdAt);
-            // Check if the date is valid before formatting
             if (!isValid(date)) {
               console.error(
                 `Invalid date for item at index ${index}:`,

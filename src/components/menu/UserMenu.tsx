@@ -19,6 +19,10 @@ export const UserMenu = () => {
     setActive(path);
     router.push(path);
   };
+  const handleLogout = () => {
+    logout();
+    router.refresh();
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -49,7 +53,7 @@ export const UserMenu = () => {
             </DropdownMenuItem>
           ))}
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="px-[10px] rounded-[10px] py-[10px] hover:bg-mainColor/5 flex items-center gap-[9px] text-sm text-red "
           >
             <span className="pl-1">
