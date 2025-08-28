@@ -18,7 +18,7 @@ export default function AuthLayout({
           priority  
         />
       </div>
-      <div className="flex items-center px-[182px]">{children}</div>
+      <div className="flex items-center px-20 2xl:px-[182px]">{children}</div>
     </div>
   );
 }
