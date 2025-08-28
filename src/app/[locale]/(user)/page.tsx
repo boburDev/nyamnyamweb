@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getBanners } from "@/api/banner";
-import BannerSwiper from "@/components/swiper/BannerSwiper";
 import { getQueryClient } from "@/lib/react-query";
+import { BannerSwiper } from "@/components/swiper";
 
 export default async function Home() {
   const queryClient = getQueryClient();
@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div>
+      <div className="mt-[100px]">
         <BannerSwiper />
       </div>
     </HydrationBoundary>
