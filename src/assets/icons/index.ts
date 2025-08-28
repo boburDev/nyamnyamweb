@@ -19,3 +19,8 @@ export * from "./profile/ProfileNotification";
 export * from "./profile/ProfileOrder";
 export * from "./profile/ProfilePayment";
 export * from "./profile/ProfileUser";
+
+export * from "./SuccesIcon";
+export * from "./WarningIcon";
+export * from "./InfoIcon";
+export * from "./ErrorIcon";

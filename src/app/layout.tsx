@@ -4,6 +4,7 @@ import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Providers from "@/components/provider/Provider";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} antialiased`}>
         <NextIntlClientProvider>
             <Providers>{children}</Providers>
+            <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>
