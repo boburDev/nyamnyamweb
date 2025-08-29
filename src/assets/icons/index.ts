@@ -24,3 +24,8 @@ export * from "./SuccesIcon";
 export * from "./WarningIcon";
 export * from "./InfoIcon";
 export * from "./ErrorIcon";
+
+// Footer
+export * from './TelegrammIcon'
+export * from './YouTubeIcon'
+export * from './InstagramIcon'
