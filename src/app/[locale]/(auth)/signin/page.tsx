@@ -17,6 +17,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { AuthBottom } from "@/components/auth";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
 const phoneLocalRegex = /^[9]\d{8}$/;
@@ -56,11 +57,9 @@ export default function SigninPage() {
     },
   });
 
-  // watch orqali input qiymatini kuzatamiz
   const emailOrPhoneValue = form.watch("emailOrPhone") ?? "";
   const isEmail = emailOrPhoneValue.includes("@");
 
-  // Telefonni normalizatsiya (APIga yuborish uchun)
   const normalizePhone = (raw: string) => {
     if (phoneWithCountryRegex.test(raw)) return raw;
     if (phoneLocalRegex.test(raw)) return `+998${raw}`;
@@ -165,16 +164,23 @@ export default function SigninPage() {
             )}
           />
           <div className="mt-[10px] flex justify-end">
-            <Link href="/reset-password">Parolni unutdingizmi?</Link>
+            <Link
+              href="/forgot-password"
+              className="font-medium text-mainColor leading-[150%]"
+            >
+              Parolni unutdingizmi?
+            </Link>
           </div>
           <Button
+            disabled={!form.formState.isValid}
             type="submit"
-            className="w-full h-12 bg-mainColor text-white text-lg font-semibold rounded-md hover:bg-mainColor/90 transition-colors"
+            className="mt-[10px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
             Kirish
           </Button>
         </form>
       </Form>
+      <AuthBottom />
     </div>
   );
 }

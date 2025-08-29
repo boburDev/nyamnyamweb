@@ -11,7 +11,9 @@
   --color-dolphin: #6a6e78;
   --color-plasterColor: #eaeaea;
   --color-dangerColor: #ec5252;
+  --color-orochimaru: #d9d9d9;
   --color-red: #ff0000;
+  --color-iron: #6e6e6e;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
@@ -91,6 +93,20 @@
   --sidebar-ring: oklch(0.708 0 0);
   --scrollbar-color: #4fb477 white;
   --scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  margin-block: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
 }
 
 * {
