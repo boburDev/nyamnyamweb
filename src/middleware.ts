@@ -10,12 +10,17 @@ const nextIntlMiddleware = createMiddleware({
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-const token = request.cookies.get(TOKEN);
+  const token = request.cookies.get(TOKEN);
 
   const isProtectedRoute = pathname.includes("/cart");
-  
+
   const isAuthRoute =
-    pathname.includes("/signin") || pathname.includes("/signup");
+    pathname.includes("/signin") ||
+    pathname.includes("/signup") ||
+    pathname.includes("/verify") ||
+    pathname.includes("/reset-password") ||
+    pathname.includes("/forgot-password");
+
 
   const isAuthenticated = !!token;
 

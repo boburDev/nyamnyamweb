@@ -20,12 +20,13 @@ import { useState } from "react";
 import { AuthBottom } from "@/components/auth";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
-const phoneLocalRegex = /^[9]\d{8}$/;
+const phoneLocalRegex = /^\d{9}$/;
 
 const formSchema = z.object({
   emailOrPhone: z
     .string()
     .min(1, "Telefon raqam yoki Email majburiy")
+    .transform((val) => val.trim().replace(/\s/g, ""))
     .refine((val) => {
       if (val.includes("@")) {
         return z.string().email().safeParse(val).success;
@@ -58,7 +59,9 @@ export default function SigninPage() {
   });
 
   const emailOrPhoneValue = form.watch("emailOrPhone") ?? "";
-  const isEmail = emailOrPhoneValue.includes("@");
+  const firstChar = emailOrPhoneValue.charAt(0);
+  const isPhoneIntent = firstChar === "+" || /^[0-9]$/.test(firstChar);
+  const inputMode = isPhoneIntent ? "tel" : "email";
 
   const normalizePhone = (raw: string) => {
     if (phoneWithCountryRegex.test(raw)) return raw;
@@ -67,24 +70,24 @@ export default function SigninPage() {
   };
 
   const onSubmit = (data: LoginFormInputs) => {
-    if (isEmail) {
-      console.log("Email bilan kirish:", data.emailOrPhone, data.password);
-    } else {
-      const phoneForApi = normalizePhone(data.emailOrPhone);
-      console.log("Telefon bilan kirish:", phoneForApi, data.password);
-    }
+    const isEmail = data.emailOrPhone.includes("@");
+    const payload = isEmail
+      ? { email: data.emailOrPhone.trim() }
+      : { phone_number: normalizePhone(data.emailOrPhone) };
+    console.log(payload);
 
     login("dummy_auth_token_from_api_response");
     router.push("/");
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-4">
-      <h2 className="auth-title mb-4 text-xl font-semibold">Kirish</h2>
+    <div className="w-full ">
+      <h2 className="auth-title ">Kirish</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-5 w-full"
+          noValidate
         >
           <FormField
             control={form.control}
@@ -92,16 +95,14 @@ export default function SigninPage() {
             render={({ field }) => {
               const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 let v = e.target.value;
-
-                if (!v.includes("@")) {
+                const fc = v.charAt(0);
+                const intentPhone = fc === "+" || /^[0-9]$/.test(fc);
+                if (intentPhone) {
                   v = v.replace(/[^\d+]/g, "");
-
                   if (v.startsWith("+")) {
                     if (v.length > 13) v = v.slice(0, 13);
-                  } else if (/^[9]/.test(v)) {
-                    if (v.length > 9) v = v.slice(0, 9);
                   } else {
-                    if (v.length > 13) v = v.slice(0, 13);
+                    if (v.length > 9) v = v.slice(0, 9);
                   }
                 }
                 field.onChange(v);
@@ -118,12 +119,12 @@ export default function SigninPage() {
                       autoComplete="username"
                       type="text"
                       placeholder={"Telefon raqam yoki Email"}
-                      inputMode={isEmail ? "email" : "tel"}
+                      inputMode={inputMode}
                       onChange={handleChange}
-                      className="h-[35px] py-[7.5px] px-4"
+                      className={`h-12 py-[7.5px] px-4  `}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               );
             }}
@@ -132,36 +133,46 @@ export default function SigninPage() {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
-              <FormItem className="gap-[3px]">
-                <FormLabel className="text-[13px] text-textColor font-normal">
-                  Parol
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      placeholder="Parolingizni kiriting"
-                      type={showPassword ? "text" : "password"}
-                      autoComplete="current-password"
-                      className="h-[35px] py-[7.5px] px-4"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gray-900 transition-colors"
-                    >
-                      {showPassword ? (
-                        <EyeOff size={22} className="text-iconColor" />
-                      ) : (
-                        <Eye size={22} className="text-iconColor" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field, fieldState }) => {
+              const hasError = !!fieldState.error;
+              return (
+                <FormItem className="gap-[3px]">
+                  <FormLabel className="text-[13px] text-textColor font-normal">
+                    Parol
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="Parolingizni kiriting"
+                        type={showPassword ? "text" : "password"}
+                        autoComplete="current-password"
+                        className={`h-12 py-[7.5px] px-4 border ${
+                          hasError ? "border-red-500" : "border-borderColor"
+                        } focus:outline-none focus:ring-2 ${
+                          hasError
+                            ? "focus:ring-red-200"
+                            : "focus:ring-mainColor/30"
+                        }`}
+                        aria-invalid={hasError ? "true" : "false"}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gray-900 transition-colors"
+                      >
+                        {showPassword ? (
+                          <EyeOff size={22} className="text-iconColor" />
+                        ) : (
+                          <Eye size={22} className="text-iconColor" />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              );
+            }}
           />
           <div className="mt-[10px] flex justify-end">
             <Link

@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import AuthBrowser from "./AuthBrowser";
 interface AuthBottomProps {
   type?: "signin" | "signup";
 }
@@ -21,6 +22,7 @@ export default function AuthBottom({ type = "signin" }: AuthBottomProps) {
           {linkText}
         </Link>
       </div>
+      <AuthBrowser />
     </div>
   );
 }
