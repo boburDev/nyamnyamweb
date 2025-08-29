@@ -104,7 +104,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
         />
         {
           searchValue && (
-            <X onClick={() => setSearchValue("")} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-mainColor w-5 h-5" />
+            <X onClick={() => { setSearchValue(""); setIsOpen(false) }} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-mainColor w-5 h-5" />
           )
         }
       </div>

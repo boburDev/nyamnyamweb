@@ -20,7 +20,7 @@ const slides = [
   // { id: 10, img: SwipeImg },
 ]
 
-const HeaderSwiper = () => {
+export const HeaderSwiper = () => {
 
   const isSingle = slides.length === 1;
 
