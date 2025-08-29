@@ -21,7 +21,6 @@ export default async function middleware(request: NextRequest) {
     pathname.includes("/reset-password") ||
     pathname.includes("/forgot-password");
 
-
   const isAuthenticated = !!token;
 
   if (!isAuthenticated && isProtectedRoute) {

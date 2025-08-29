@@ -8,7 +8,7 @@ export default function AuthBottom({ type = "signin" }: AuthBottomProps) {
   const link = type === "signin" ? "/signup" : "/signin";
   const linkText = type === "signin" ? "Ro'yxatdan o'tish" : "Kirish";
   const yesText =
-    type === "signin" ? "Hisobingiz yo’qmi?" : "Hisobingir bormi?";
+    type === "signin" ? "Hisobingiz yo’qmi?" : "Hisobingiz bormi?";
   return (
     <div className="mt-[30px]">
       <div className="flex items-center">

@@ -14,6 +14,7 @@ import {
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { AuthBottom } from "@/components/auth";
+import { useRouter } from "@/i18n/navigation";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
 const phoneLocalRegex = /^\d{9}$/;
@@ -44,7 +45,7 @@ export default function SignUpPage() {
       emailOrPhone: "",
     },
   });
-
+  const router = useRouter();
   const emailOrPhoneValue = form.watch("emailOrPhone") ?? "";
   const firstChar = emailOrPhoneValue.charAt(0);
   const isPhoneIntent = firstChar === "+" || /^[0-9]$/.test(firstChar);
@@ -61,7 +62,11 @@ export default function SignUpPage() {
     const payload = isEmail
       ? { email: data.emailOrPhone }
       : { phone_number: normalizePhone(data.emailOrPhone) };
-    console.log(payload);
+
+    router.push({
+      pathname: "/verify",
+      query: isEmail ? { to: payload.email } : { to: payload.phone_number },
+    });
   };
 
   return (
