@@ -8,16 +8,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Product } from "@/api/product";
 import { Button } from "../ui/button";
+import { ProductSkeletons } from "../loader/PageLoader";
 
 interface ProductSwiperProps {
   products: Product[];
   title?: string;
+  isLoading?: boolean;
 }
 
-export const ProductSwiper = ({ products, title }: ProductSwiperProps) => {
+export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwiperProps) => {
   const [isBookmarked, setIsBookmarked] = useState<{ [key: number]: boolean }>({});
   const [isInCart, setIsInCart] = useState<{ [key: number]: boolean }>({});
-  const [currentSlide, setCurrentSlide] = useState(0);  
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const toggleBookmark = (productId: number) => {
     setIsBookmarked((prev) => ({
       ...prev,
@@ -33,7 +36,7 @@ export const ProductSwiper = ({ products, title }: ProductSwiperProps) => {
   };
 
   const NextArrow = ({ onClick, currentSlide, total }: any) => {
-    const isDisabled = currentSlide >= total - 3; // 3ta ko‘rsatilayotgan bo‘lsa
+    const isDisabled = currentSlide >= total - 3; // 3ta ko'rsatilayotgan bo'lsa
     return (
       <button
         onClick={onClick}
@@ -47,7 +50,7 @@ export const ProductSwiper = ({ products, title }: ProductSwiperProps) => {
       </button>
     );
   };
-  
+
   const PrevArrow = ({ onClick, currentSlide }: any) => {
     const isDisabled = currentSlide === 0;
     return (
@@ -63,7 +66,7 @@ export const ProductSwiper = ({ products, title }: ProductSwiperProps) => {
       </button>
     );
   };
-  
+
 
 
   // Determine if this is the "All" category (showing all products)
@@ -124,91 +127,97 @@ export const ProductSwiper = ({ products, title }: ProductSwiperProps) => {
 
       <div className="relative">
         <Slider {...settings} className="product-swiper">
-          {products.map((product) => (
-            <div key={product.id} className="px-3">
-              <div className="bg-white rounded-[25px] border border-gray-100">
-                {/* Product Image */}
-                <div className="relative">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={300}
-                    height={200}
-                    className="w-full h-[200px] object-cover rounded-t-[25px]"
-                  />
-
-                  {/* Stock Badge */}
-                  {product.stock && product.stock <= 5 && (
-                    <div className="absolute top-3 left-3 bg-white rounded-full px-3 py-1 text-sm font-medium text-gray-700">
-                      {product.stock} ta qoldi
-                    </div>
-                  )}
-
-                  {/* Bookmark Button */}
-                  <button
-                    onClick={() => toggleBookmark(product.id)}
-                    className="absolute top-3 right-3 w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-                  >
-                    <Bookmark
-                      className={`w-4 h-4 ${isBookmarked[product.id] || product.isBookmarked
-                        ? "fill-mainColor text-mainColor"
-                        : "text-dolphin"
-                        }`}
+          {isLoading ? (
+            // Show loading skeletons
+            <ProductSkeletons count={6} />
+          ) : (
+            // Show actual products
+            products.map((product) => (
+              <div key={product.id} className="px-3">
+                <div className="bg-white rounded-[25px] border border-gray-100">
+                  {/* Product Image */}
+                  <div className="relative">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={300}
+                      height={200}
+                      className="w-full h-[200px] object-cover rounded-t-[25px]"
                     />
-                  </button>
-                </div>
 
-                {/* Product Details */}
-                <div className="p-5">
-                  {/* Rating and Name */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center gap-1">
-                      <Star fill="#F8B133" stroke="#F8B133" className="w-4 h-4" />
-                      <span className="text-textColor font-medium text-sm">
-                        {product.rating}
-                      </span>
-                    </div>
-                    <span className="text-textColor font-medium text-lg">
-                      {product.name}
-                    </span>
+                    {/* Stock Badge */}
+                    {product.stock && product.stock <= 5 && (
+                      <div className="absolute top-3 left-3 bg-white rounded-full px-3 py-1 text-sm font-medium text-gray-700">
+                        {product.stock} ta qoldi
+                      </div>
+                    )}
+
+                    {/* Bookmark Button */}
+                    <button
+                      onClick={() => toggleBookmark(product.id)}
+                      className="absolute top-3 right-3 w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+                    >
+                      <Bookmark
+                        className={`w-4 h-4 ${isBookmarked[product.id] || product.isBookmarked
+                          ? "fill-mainColor text-mainColor"
+                          : "text-dolphin"
+                          }`}
+                      />
+                    </button>
                   </div>
 
-                  {/* Restaurant and Distance */}
-                  <div className="flex items-center gap-1 mb-3 text-dolphin text-sm">
-                    <span className="font-medium">{product.restaurant}</span>
-                    <Dot className="w-4 h-4" />
-                    <span className="font-medium">{product.distance} km</span>
-                  </div>
-
-                  <div className="flex gap-[10px] justify-between">
-                    {/* Price */}
-                    <div className="flex items-center gap-2 mt-3">
-                      <span className="text-mainColor font-semibold text-lg">
-                        {product.currentPrice}
-                      </span>
-                      <span className="text-dolphin line-through text-sm">
-                        {product.originalPrice}
+                  {/* Product Details */}
+                  <div className="p-5">
+                    {/* Rating and Name */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex items-center gap-1">
+                        <Star fill="#F8B133" stroke="#F8B133" className="w-4 h-4" />
+                        <span className="text-textColor font-medium text-sm">
+                          {product.rating}
+                        </span>
+                      </div>
+                      <span className="text-textColor font-medium text-lg">
+                        {product.name}
                       </span>
                     </div>
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => toggleCart(product.id)}
-                        className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors ${isInCart[product.id] || product.isInCart
-                          ? "bg-mainColor text-white"
-                          : "bg-gray-100 !text-mainColor hover:bg-gray-200"}`}
-                      >
-                        <ShoppingCart className={`w-4 h-4 flex-1 flex items-center justify-center transition-colors`} />
-                      </Button>
-                      <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                        Batafsil
-                      </Button>
+
+                    {/* Restaurant and Distance */}
+                    <div className="flex items-center gap-1 mb-3 text-dolphin text-sm">
+                      <span className="font-medium">{product.restaurant}</span>
+                      <Dot className="w-4 h-4" />
+                      <span className="font-medium">{product.distance} km</span>
+                    </div>
+
+                    <div className="flex gap-[10px] justify-between">
+                      {/* Price */}
+                      <div className="flex items-center gap-2 mt-3">
+                        <span className="text-mainColor font-semibold text-lg">
+                          {product.currentPrice}
+                        </span>
+                        <span className="text-dolphin line-through text-sm">
+                          {product.originalPrice}
+                        </span>
+                      </div>
+                      {/* Action Buttons */}
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => toggleCart(product.id)}
+                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors ${isInCart[product.id] || product.isInCart
+                            ? "bg-mainColor text-white"
+                            : "bg-gray-100 !text-mainColor hover:bg-gray-200"}`}
+                        >
+                          <ShoppingCart className={`w-4 h-4 flex-1 flex items-center justify-center transition-colors`} />
+                        </Button>
+                        <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                          Batafsil
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </Slider>
       </div>
 
