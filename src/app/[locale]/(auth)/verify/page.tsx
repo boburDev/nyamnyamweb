@@ -51,7 +51,7 @@ export default function VerifyPage() {
     }
   };
   return (
-    <div>
+    <div className="px-[100px]">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">

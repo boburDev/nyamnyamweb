@@ -134,4 +134,7 @@ input:-webkit-autofill:active {
   .auth-title {
     @apply font-semibold text-[35px] text-textColor mb-[30px];
   }
+  .auth-label {
+    @apply !font-normal  !text-textColor
+  }
 }

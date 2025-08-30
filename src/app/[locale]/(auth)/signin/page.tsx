@@ -50,8 +50,8 @@ type LoginFormInputs = z.infer<typeof formSchema>;
 
 export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const login = useStore((s) => s.login);
-  const router = useRouter();
+  const _login = useStore((s) => s.login);
+  const _router = useRouter();
   const locale = useLocale();
 
   const form = useForm<LoginFormInputs>({

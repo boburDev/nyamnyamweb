@@ -17,14 +17,13 @@ export default function AuthLayout({
         </div>
         <Image
           src={authImage}
-          alt="auth"
-          width={955}
-          height={1084}
+          alt="Auth layout image"
+          fill
           className="h-full w-full object-cover"
-          priority={true}  
+          priority 
         />
       </div>
-      <div className="flex items-center px-20 2xl:px-[182px]">{children}</div>
+      <div className="flex flex-col justify-center px-20 2xl:px-[182px]">{children}</div>
     </div>
   );
 }
