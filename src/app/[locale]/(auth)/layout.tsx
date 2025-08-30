@@ -21,7 +21,7 @@ export default function AuthLayout({
           width={955}
           height={1084}
           className="h-full w-full object-cover"
-          priority  
+          priority={true}  
         />
       </div>
       <div className="flex items-center px-20 2xl:px-[182px]">{children}</div>

@@ -15,6 +15,12 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { AuthBottom } from "@/components/auth";
 import { useRouter } from "@/i18n/navigation";
+import axios, { AxiosError } from "axios";
+import { showError } from "@/components/toast/Toast";
+import { SIGNUP } from "@/constants";
+import { useLocale } from "next-intl";
+import useAuthStore from "@/context/useAuth";
+import { useState } from "react";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
 const phoneLocalRegex = /^\d{9}$/;
@@ -38,6 +44,10 @@ const formSchema = z.object({
 type LoginFormInputs = z.infer<typeof formSchema>;
 
 export default function SignUpPage() {
+  const locale = useLocale();
+  const [loading, setLoading] = useState(false);
+  const setTo = useAuthStore((s) => s.setTo);
+  const setAuthId = useAuthStore((s) => s.setAuthId);
   const form = useForm<LoginFormInputs>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
@@ -57,16 +67,40 @@ export default function SignUpPage() {
     return raw;
   };
 
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     const isEmail = data.emailOrPhone.includes("@");
     const payload = isEmail
       ? { email: data.emailOrPhone }
       : { phone_number: normalizePhone(data.emailOrPhone) };
+    setLoading(true);
+    try {
+      const res = await axios.post(SIGNUP, payload, {
+        headers: {
+          "Accept-Language": locale,
+        },
+      });
 
-    router.push({
-      pathname: "/verify",
-      query: isEmail ? { to: payload.email } : { to: payload.phone_number },
-    });
+      if (res.data?.data?.otp_sent === true) {
+        router.push("/verify");
+        setTo(data.emailOrPhone);
+      } else {
+        router.push("/signup-complete");
+        setTo(data.emailOrPhone);
+        setAuthId(res.data?.data?.id);
+      }
+      console.log("Signup res", res);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.error_message;
+        showError(errorMessage);
+        if (errorMessage === "❌ 1 daqiqada faqat 1 OTP yuboriladi") {
+          router.push("/verify");
+          setTo(data.emailOrPhone);
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -122,11 +156,11 @@ export default function SignUpPage() {
           />
 
           <Button
-            disabled={!form.formState.isValid}
+            disabled={!form.formState.isValid || loading}
             type="submit"
             className="mt-[43px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            Ro'yxatdan o'tish
+            {loading ? "Yuklanmoqda..." : "Ro'yxatdan o'tish"}
           </Button>
         </form>
       </Form>

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import useStore from "@/context/store";
+import axios, { AxiosError } from "axios";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AuthBottom } from "@/components/auth";
+import { showError } from "@/components/toast/Toast";
+import { SIGNIN } from "@/constants";
+import { useLocale } from "next-intl";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
 const phoneLocalRegex = /^\d{9}$/;
@@ -48,6 +52,7 @@ export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
   const login = useStore((s) => s.login);
   const router = useRouter();
+  const locale = useLocale();
 
   const form = useForm<LoginFormInputs>({
     mode: "onTouched",
@@ -69,15 +74,30 @@ export default function SigninPage() {
     return raw;
   };
 
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     const isEmail = data.emailOrPhone.includes("@");
-    const payload = isEmail
+    const emailOrPhone = isEmail
       ? { email: data.emailOrPhone.trim() }
       : { phone_number: normalizePhone(data.emailOrPhone) };
-    console.log(payload);
-
-    login("dummy_auth_token_from_api_response");
-    router.push("/");
+    const payload = {
+      ...emailOrPhone,
+      password: data.password,
+    };
+    try {
+      const res = await axios.post(SIGNIN, payload, {
+        headers: {
+          "Accept-Language": locale,
+        },
+      });
+      console.log("res", res);
+    } catch (error: unknown) {
+      console.error("Login error", error);
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data?.error_message;
+        showError(errorMessage);
+      }
+      throw error;
+    }
   };
 
   return (

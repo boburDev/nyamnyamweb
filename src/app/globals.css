@@ -12,7 +12,6 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-
 @theme inline {
   --color-mainColor: #4fb477;
   --color-textColor: #2f2f2f;
@@ -24,6 +23,7 @@ input:-webkit-autofill:active {
   --color-orochimaru: #d9d9d9;
   --color-red: #ff0000;
   --color-iron: #6e6e6e;
+  --color-dustColor: #b5b7bb08;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
