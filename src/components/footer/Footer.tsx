@@ -16,15 +16,15 @@ export const Footer = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-[155px] pt-[59px]">
                         {links.map((item, index) => (
-                            <div className=" text-white">
+                            <div key={index} className=" text-white">
                                 <h3 className="pb-[23px]">{item.title}</h3>
                                 <div className="flex flex-col gap-[10px] text-white w-[167px]">
-                                    {item.link?.map(item => (
-                                        <Link href='/' className="text-[14px] leading-[25px]">{item.title}</Link>
+                                    {item.link?.map((item, index) => (
+                                        <Link key={index} href='/' className="text-[14px] leading-[25px]">{item.title}</Link>
                                     ))}
                                 </div>
                                 <div className="flex items-center gap-[20px]">
-                                    {item.socials?.map((social, index) => (
+                                    {item.socials?.map((social) => (
                                         <Link key={social.id ?? index} href={social.path}>
                                             {typeof social.icon === "function" ? social.icon() : social.icon || ''}
                                         </Link>
