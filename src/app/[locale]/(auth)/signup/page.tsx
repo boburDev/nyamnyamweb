@@ -1,8 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { z } from "zod";
+import { useLocale } from "next-intl";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,16 +15,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { AuthBottom } from "@/components/auth";
 import { useRouter } from "@/i18n/navigation";
-import axios, { AxiosError } from "axios";
 import { showError } from "@/components/toast/Toast";
 import { SIGNUP } from "@/constants";
-import { useLocale } from "next-intl";
 import useAuthStore from "@/context/useAuth";
-import { useState } from "react";
 
 const phoneWithCountryRegex = /^\+998\d{9}$/;
 const phoneLocalRegex = /^\d{9}$/;
@@ -83,12 +83,12 @@ export default function SignUpPage() {
       if (res.data?.data?.otp_sent === true) {
         router.push("/verify");
         setTo(data.emailOrPhone);
+        setAuthId(res.data?.data?.id);
       } else {
         router.push("/signup-complete");
         setTo(data.emailOrPhone);
         setAuthId(res.data?.data?.id);
       }
-      console.log("Signup res", res);
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.error_message;

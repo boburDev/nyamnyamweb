@@ -23,7 +23,7 @@ export default function AuthLayout({
           priority 
         />
       </div>
-      <div className="flex flex-col justify-center px-20 2xl:px-[182px]">{children}</div>
+      <div className="flex flex-col justify-center px-20 3xl:px-[182px] h-screen overflow-y-auto py-5">{children}</div>
     </div>
   );
 }

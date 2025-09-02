@@ -1,4 +1,4 @@
-import { TOKEN } from "@/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
 import { cookieStorage } from "@/lib";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -18,12 +18,13 @@ const useStore = create<StoreState>()(
       auth: false,
       isHydrated: false,
       login: (access, refresh) => {
-        cookieStorage.setItem(TOKEN, access);
-        cookieStorage.setItem("refresh", refresh);
+        cookieStorage.setItem(ACCESS_TOKEN, access);
+        cookieStorage.setItem(REFRESH_TOKEN, refresh);
         set({ auth: true });
       },
       logout: () => {
-        cookieStorage.removeItem(TOKEN);
+        cookieStorage.removeItem(ACCESS_TOKEN);
+        cookieStorage.removeItem(REFRESH_TOKEN);
         set({ auth: false });
       },
       setAuth: (auth: boolean) => set({ auth }),
@@ -33,7 +34,7 @@ const useStore = create<StoreState>()(
       name: "nyam-web",
       storage: createJSONStorage(() => cookieStorage),
       onRehydrateStorage: () => (state) => {
-        const token = cookieStorage.getItem(TOKEN);
+        const token = cookieStorage.getItem(REFRESH_TOKEN);
         if (token) state?.setAuth(true);
         state?.setHydrated(true);
       },
@@ -43,7 +44,7 @@ const useStore = create<StoreState>()(
 export const hydrateStore = () => {
   useStore.persist.rehydrate();
 
-  if (typeof window !== "undefined" && cookieStorage.getItem(TOKEN)) {
+  if (typeof window !== "undefined" && cookieStorage.getItem(REFRESH_TOKEN)) {
     useStore.setState({ auth: true });
   }
 };

@@ -30,6 +30,7 @@ input:-webkit-autofill:active {
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1440px;
+  --breakpoint-3xl: 1620px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-poppins: var(--font-poppins);
@@ -132,7 +133,7 @@ input:-webkit-autofill:active {
     @apply cursor-pointer;
   }
   .auth-title {
-    @apply font-semibold text-[35px] text-textColor mb-[30px];
+    @apply font-semibold text-[25px] 2xl:text-[35px] text-textColor mb-[30px];
   }
   .auth-label {
     @apply !font-normal  !text-textColor

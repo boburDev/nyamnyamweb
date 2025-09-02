@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
-import { TOKEN } from "./constants";
+import { REFRESH_TOKEN } from "./constants";
 
 const nextIntlMiddleware = createMiddleware({
   ...routing,
@@ -10,7 +10,7 @@ const nextIntlMiddleware = createMiddleware({
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get(TOKEN);
+  const token = request.cookies.get(REFRESH_TOKEN);
 
   const isProtectedRoute = pathname.includes("/cart");
 

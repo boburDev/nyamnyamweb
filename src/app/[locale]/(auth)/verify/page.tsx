@@ -16,7 +16,6 @@ import axios, { AxiosError } from "axios";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
-  const setAuthId = useAuthStore((s) => s.setAuthId);
 
   const router = useRouter();
   const {
@@ -39,10 +38,9 @@ export default function VerifyPage() {
     try {
       const res = await axios.post(OTP, payload);
       console.log(res);
-        if (res.status === 200) {
-            setAuthId(res.data?.id);
-            router.push("/signup-complete");
-        }
+      if (res.status === 200) {
+        router.push("/signup-complete");
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         const message = error.response?.data?.error_message;

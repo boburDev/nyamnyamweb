@@ -43,15 +43,15 @@ const formSchema = z.object({
   password: z
     .string()
     .min(1, "Parol majburiy")
-    .min(6, "Parol kamida 6 belgidan iborat bo'lishi kerak"),
+    .min(5, "Parol kamida 5 belgidan iborat bo'lishi kerak"),
 });
 
 type LoginFormInputs = z.infer<typeof formSchema>;
 
 export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const _login = useStore((s) => s.login);
-  const _router = useRouter();
+  const login = useStore((s) => s.login);
+  const router = useRouter();
   const locale = useLocale();
 
   const form = useForm<LoginFormInputs>({
@@ -89,7 +89,10 @@ export default function SigninPage() {
           "Accept-Language": locale,
         },
       });
-      console.log("res", res);
+      const data = res.data.data;
+      console.log("res", data);
+      login(data.tokens.access_token, data.tokens.refresh_token);
+      router.push("/")
     } catch (error: unknown) {
       console.error("Login error", error);
       if (error instanceof AxiosError) {
