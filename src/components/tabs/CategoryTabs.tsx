@@ -4,34 +4,21 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api/category";
 import { Category } from "@/api/category";
-import { useEffect, useState } from "react";
 
 interface CategoryTabsProps {
     onCategoryChange?: (categoryId: number) => void;
     selectedCategoryId?: number;
-    categories?: Category[];
-    isLoading?: boolean;
 }
 
-const CategoryTabs = ({ onCategoryChange, selectedCategoryId, categories, isLoading }: CategoryTabsProps) => {
-    const [currentValue, setCurrentValue] = useState<string>("");
-
-    // Update current value when selectedCategoryId or categories change
-    useEffect(() => {
-        if (categories && selectedCategoryId) {
-            const category = categories.find(cat => cat.id === selectedCategoryId);
-            if (category) {
-                setCurrentValue(category.name);
-            }
-        } else if (categories && categories.length > 0) {
-            setCurrentValue(categories[0].name);
-        }
-    }, [categories, selectedCategoryId]);
+const CategoryTabs = ({ onCategoryChange, selectedCategoryId }: CategoryTabsProps) => {
+    const { data: categories = [], isLoading } = useQuery({
+        queryKey: ["categories"],
+        queryFn: getCategories,
+    });
 
     const handleCategoryChange = (categoryName: string) => {
-        const category = categories?.find(cat => cat.name === categoryName);
+        const category = categories.find(cat => cat.name === categoryName);
         if (category && onCategoryChange) {
-            setCurrentValue(categoryName);
             onCategoryChange(category.id);
         }
     };
@@ -51,11 +38,11 @@ const CategoryTabs = ({ onCategoryChange, selectedCategoryId, categories, isLoad
 
     return (
         <Tabs
-            value={currentValue}
+            defaultValue={categories[0]?.name || "Hamma"}
             onValueChange={handleCategoryChange}
         >
             <TabsList className="bg-transparent flex gap-[15px] mb-10">
-                {categories?.map((category) => (
+                {categories.map((category) => (
                     <TabsTrigger
                         key={category.id}
                         value={category.name}

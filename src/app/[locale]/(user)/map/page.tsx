@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { SurpriseBagCard } from "@/components/surprise-bag/SurpriseBagCard";
 import { MapControls } from "@/components/map/MapControls";
 import CategoryTabs from "@/components/tabs/CategoryTabs";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/api/product";
 import { getCategories } from "@/api/category";
 import { Product } from "@/api/product";
@@ -26,8 +26,6 @@ const MapPage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(6);
-  const [isPageChanging, setIsPageChanging] = useState<boolean>(false);
-  const [isCategoryChanging, setIsCategoryChanging] = useState<boolean>(false);
   const mapRef = useRef<any>(null);
 
   // Fetch products and categories
@@ -35,6 +33,7 @@ const MapPage = () => {
     queryKey: ["products", selectedCategoryId],
     queryFn: () => getProducts(selectedCategoryId),
     staleTime: 30000, // Data stays fresh for 30 seconds
+    placeholderData: keepPreviousData,
   });
 
   const { data: categories = [] } = useQuery({
@@ -80,26 +79,16 @@ const MapPage = () => {
   const handleCategoryChange = (categoryId: number) => {
     if (categoryId === selectedCategoryId) return; // Prevent unnecessary changes
 
-    setIsCategoryChanging(true);
     setSelectedCategoryId(categoryId);
     setCurrentPage(1); // Reset to first page when category changes
-
-    // Reset loading state after a short delay
-    setTimeout(() => {
-      setIsCategoryChanging(false);
-    }, 300);
+    setActiveId(null); // Reset active product when category changes
+    setHoveredId(null); // Reset hovered product when category changes
   };
 
   const handlePageChange = (page: number) => {
-    setIsPageChanging(true);
     setCurrentPage(page);
     // Scroll to top of product list when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Reset loading state after a short delay to show the transition
-    setTimeout(() => {
-      setIsPageChanging(false);
-    }, 300);
   };
 
   // Show loading only for initial load, not for category changes
@@ -118,8 +107,6 @@ const MapPage = () => {
           <CategoryTabs
             onCategoryChange={handleCategoryChange}
             selectedCategoryId={selectedCategoryId}
-            categories={categories}
-            isLoading={isLoading}
           />
           <div className="flex items-center gap-4">
             <SelectComponent value="Saralash turi">
@@ -133,28 +120,22 @@ const MapPage = () => {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px] mb-[253px]">
         {/* Product List */}
         <div className="col-span-1" style={{ scrollbarWidth: "none" }}>
-          <div className="flex flex-col gap-[10px] pb-6 transition-all duration-300 ease-in-out">
-            {isPageChanging || isCategoryChanging ? (
-              // Loading state while page or category is changing
-              <div className="flex items-center justify-center py-8 opacity-75 transition-opacity duration-300">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mainColor"></div>
-              </div>
-            ) : (
-              <div className="transition-all duration-300 ease-in-out">
-                {currentProducts.map((product) => (
-                  <SurpriseBagCard
-                    isLoading={isLoading}
-                    key={product.id}
-                    product={product}
-                    highlighted={hoveredId === product.id || activeId === product.id}
-                    active={activeId === product.id}
-                    onHover={handleCardHover(product.id)}
-                    onLeave={handleCardLeave}
-                    onClick={() => handleCardClick(product.id)}
-                  />
-                ))}
-              </div>
-            )}
+          <div className="flex flex-col gap-[10px] pb-6">
+            {/* Products Section - Only this part refreshes when category changes */}
+            <div className="transition-all duration-300 ease-in-out flex flex-col gap-[10px]">
+              {currentProducts.map((product) => (
+                <SurpriseBagCard
+                  isLoading={isLoading}
+                  key={product.id}
+                  product={product}
+                  highlighted={hoveredId === product.id || activeId === product.id}
+                  active={activeId === product.id}
+                  onHover={handleCardHover(product.id)}
+                  onLeave={handleCardLeave}
+                  onClick={() => handleCardClick(product.id)}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Pagination */}
@@ -185,7 +166,7 @@ const MapPage = () => {
             />
 
             {/* Map Controls Overlay */}
-            <MapControls />
+            {/* <MapControls /> */}
           </div>
         </div>
       </div>

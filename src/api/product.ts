@@ -13,6 +13,7 @@ export interface Product {
     stock?: number;
     isBookmarked?: boolean;
     isInCart?: boolean;
+    coords?: number[];
 }
 
 export interface ProductCategory {
