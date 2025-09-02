@@ -114,7 +114,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
           <div className="p-4">
             {searchValue && (
               <div>
-                <Link href={`/`} className="flex justify-between items-center py-[6px] px-[10px] rounded-[7px] bg-mainColor/5">
+                <Link href={`/map`} className="flex justify-between items-center py-[6px] px-[10px] rounded-[7px] bg-mainColor/5">
                   <div className="flex items-center gap-2">
                     <div className="p-[6px] bg-white rounded-[7px]">
                       <Map className="w-5 h-5 text-mainColor" />

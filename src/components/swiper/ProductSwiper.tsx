@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star, Bookmark, ShoppingCart, Dot, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Slider from "react-slick";
@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Product } from "@/api/product";
 import { Button } from "../ui/button";
-import { ProductSkeletons } from "../loader/PageLoader";
+import { ProductSkeletons } from "../loader/DataLoader";
 
 interface ProductSwiperProps {
   products: Product[];
@@ -20,6 +20,20 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
   const [isBookmarked, setIsBookmarked] = useState<{ [key: number]: boolean }>({});
   const [isInCart, setIsInCart] = useState<{ [key: number]: boolean }>({});
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  // Handle window resize for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Set initial width
+    setWindowWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleBookmark = (productId: number) => {
     setIsBookmarked((prev) => ({
@@ -36,7 +50,23 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
   };
 
   const NextArrow = ({ onClick, currentSlide, total }: any) => {
-    const isDisabled = currentSlide >= total - 3; // 3ta ko'rsatilayotgan bo'lsa
+    // Hide arrow if not enough products to scroll (responsive)
+    const shouldHideArrow = () => {
+      if (windowWidth <= 768) return total <= 1;
+      if (windowWidth <= 1024) return total <= 2;
+      return total <= 3;
+    };
+
+    if (shouldHideArrow()) return null;
+
+    // Calculate max slide based on responsive settings
+    const getMaxSlide = () => {
+      if (windowWidth <= 768) return total - 1; // 1 slide shown
+      if (windowWidth <= 1024) return total - 2; // 2 slides shown
+      return total - 3; // 3 slides shown
+    };
+
+    const isDisabled = currentSlide >= getMaxSlide();
     return (
       <button
         onClick={onClick}
@@ -45,13 +75,22 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
           ${isDisabled ? "bg-[#e0e0e0] cursor-not-allowed" : "bg-mainColor hover:bg-green-600"}`}
       >
         <ChevronRight
-          className={`w-6 h-6 ${isDisabled ? "text-white" : "text-white"}`}
+          className={`w-6 h-6 ${isDisabled ? "text-gray-400" : "text-white"}`}
         />
       </button>
     );
   };
 
-  const PrevArrow = ({ onClick, currentSlide }: any) => {
+  const PrevArrow = ({ onClick, currentSlide, total }: any) => {
+    // Hide arrow if not enough products to scroll (responsive)
+    const shouldHideArrow = () => {
+      if (windowWidth <= 768) return total <= 1;
+      if (windowWidth <= 1024) return total <= 2;
+      return total <= 3;
+    };
+
+    if (shouldHideArrow()) return null;
+
     const isDisabled = currentSlide === 0;
     return (
       <button
@@ -61,7 +100,7 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
           ${isDisabled ? "bg-[#e0e0e0] cursor-not-allowed" : "bg-mainColor hover:bg-green-600"}`}
       >
         <ChevronLeft
-          className={`w-6 h-6 ${isDisabled ? "text-white " : "text-white"}`}
+          className={`w-6 h-6 ${isDisabled ? "text-gray-400" : "text-white"}`}
         />
       </button>
     );
@@ -84,7 +123,7 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     // lazyLoad: true,
     beforeChange: (_: number, next: number) => setCurrentSlide(next),
     nextArrow: <NextArrow currentSlide={currentSlide} total={products.length} />,
-    prevArrow: <PrevArrow currentSlide={currentSlide} />,
+    prevArrow: <PrevArrow currentSlide={currentSlide} total={products.length} />,
     responsive: [
       {
         breakpoint: 1024,
