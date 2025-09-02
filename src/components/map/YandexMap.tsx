@@ -119,7 +119,7 @@ const YandexMap = ({
         <Map
           defaultState={{
             center: [41.311151, 69.279737],
-            zoom: 11,
+            zoom: 12,
             controls: [],
           }}
           width="100%"
@@ -147,18 +147,14 @@ const YandexMap = ({
           />
           {products.map((product) => {
             const isHighlighted = hoveredId === product.id;
-            // Generate coordinates based on product ID for demo purposes
-            const coords: [number, number] = [
-              41.311151 + (product.id * 0.01),
-              69.279737 + (product.id * 0.01)
-            ];
+           
 
             return (
               <Placemark
                 key={product.id}
                 onMouseEnter={() => setHoveredId?.(product.id)}
                 onMouseLeave={() => setHoveredId?.(null)}
-                geometry={coords}
+                geometry={product.coords}
                 options={{
                   iconLayout: "default#image",
                   iconImageHref: createCustomMarkerSVG(product, isHighlighted),
