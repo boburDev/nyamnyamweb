@@ -7,46 +7,50 @@ import {
   ProfilePayment,
   ProfileUser,
 } from "@/assets/icons";
+import { useTranslations } from "next-intl";
 
 export type UserMenuItem = {
   name: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   path: string;
 };
-export const userMenu: UserMenuItem[] = [
+export const useUserMenu = (): UserMenuItem[] => {
+const t = useTranslations("UserMenu");
+
+return [
   {
-    name: "Mening profilim",
+    name: t("profile"),
     icon: ProfileUser,
     path: "/profile",
   },
   {
-    name: "Tolov kartasi",
+    name: t("payment"),
     icon: ProfilePayment,
     path: "/payment",
   },
   {
-    name: "Buyurtmalarim",
+    name: t("order"),
     icon: ProfileOrder,
     path: "/order",
   },
   {
-    name: "Savat",
+    name: t("cart"),
     icon: ProfileCart,
     path: "/cart",
   },
   {
-    name: "Xaridlar tarixi",
+    name: t("order-history"),
     icon: ProfileHistory,
     path: "/order-history",
   },
   {
-    name: "Saqlangan mahsulotlar",
+    name: t("favourites"),
     icon: ProfileFavourite,
     path: "/favourites",
   },
   {
-    name: "Bildirishnoma",
+    name: t("notification"),
     icon: ProfileNotification,
     path: "/notification",
   },
-];
+]}

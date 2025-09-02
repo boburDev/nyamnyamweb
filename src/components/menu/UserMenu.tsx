@@ -7,11 +7,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ProfileLogout, UserProfile } from "@/assets/icons";
-import { userMenu } from "@/data";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import useStore from "@/context/store";
+import { useUserMenu } from "@/data";
 export const UserMenu = () => {
+  const menu = useUserMenu();
   const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
   const logout = useStore((s) => s.logout);
@@ -40,7 +41,7 @@ export const UserMenu = () => {
           </p>
         </DropdownMenuLabel>
         <div className="flex flex-col gap-1">
-          {userMenu.map(({ name, path, icon: Icon }) => (
+          {menu.map(({ name, path, icon: Icon }) => (
             <DropdownMenuItem
               key={name}
               onClick={() => handleGoTo(path)}

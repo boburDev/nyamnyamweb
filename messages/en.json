@@ -3,8 +3,310 @@
     "title": "Nyam-Nyam — Fast and Delicious Food Delivery"
   },
   "Metadata": {
-    "title": "Nyam-Nyam — Tasty and Quick Meals",
-    "description": "Enjoy fast food, national dishes, sushi, pizza, and more of your favorite meals in Tashkent. Always fresh and delicious!",
-    "keywords": "Nyam nyam, Nyam-Nyam, fast food, Uzbek cuisine, national dishes, plov, somsa, sushi, pizza, tasty meals"
+    "title": "Nyam-Nyam — Fast and Delicious Food",
+    "description": "Nyam-Nyam — buy near-expiry products at discounted prices from supermarkets and hypermarkets in Tashkent. Order fast food, national dishes, sushi, and pizza with quick delivery. Reduce food waste and enjoy exclusive discounts!",
+    "keywords": [
+      "Nyam-nyam",
+      "Super box",
+      "Surprise box",
+      "fast delivery",
+      "national dishes",
+      "cheap products Tashkent",
+      "near-expiry food",
+      "supermarket discounts",
+      "food waste",
+      "short shelf life products",
+      "food discounts",
+      "food delivery Tashkent",
+      "reduce food waste"
+    ]
+  },
+
+  "Navbar": {
+    "search": {
+      "placeholder": "Search for restaurants and boxes",
+      "found": "Found products",
+      "popular": "Popular searches"
+    },
+    "address-modal": {
+      "title": "Address",
+      "placeholder": "Enter the address",
+      "save-button": "Save"
+    },
+    "biznesButton": "Business Login",
+    "signButton": "Sign In"
+  },
+  "UserMenu": {
+    "profile": "My Profile",
+    "payment": "Payment Card",
+    "order": "My Orders",
+    "cart": "Cart",
+    "order-history": "Order History",
+    "favourites": "Favourites",
+    "notification": "Notifications",
+    "logout": "Log Out"
+  },
+  "main": {
+    "title-1": "Recommended Super Boxes",
+    "title-2": "Super Boxes",
+    "title-3": "Meals",
+    "title-4": "Fast Food",
+    "title-5": "Desserts",
+    "title-6": "App Feedback",
+    "seeMore": "See More"
+  },
+  "map-preview": {
+    "title": "Surprise Bags",
+    "filter": "Sort Type",
+    "refresh-map": "Refresh Map",
+    "cards": {
+      "count": "left",
+      "time": "Pickup time:",
+      "between": "between"
+    }
+  },
+  "cards": {
+    "count": "items left",
+    "moreButton": "More Details"
+  },
+  "cards-detail": {
+    "count": "items left",
+    "map": "View on map",
+    "time": "Pickup time:",
+    "between": "between",
+    "button": "Add to cart",
+    "other-boxes": "Other super boxes"
+  },
+  "profile": {
+    "title": "My Profile",
+    "about-title": "Personal Information",
+    "change-button": "Edit",
+    "name": "First Name",
+    "surname": "Last Name",
+    "born": "Date of Birth",
+    "phone": "Phone Number",
+    "email": "Email",
+    "password": "Password",
+    "save-button": "Save"
+  },
+  "saved-title": {
+    "title": "Saved products"
+  },
+  "orders-history": {
+    "title": "Purchase history",
+    "cards": {
+      "cards-title": "Product purchase date",
+      "confirm-button": "Picked up",
+      "canceled-button": "Canceled"
+    },
+    "select": {
+      "title": "Status",
+      "placeholder": "Select",
+      "element-1": "All",
+      "element-2": "Picked up",
+      "element-3": "Canceled"
+    },
+    "date": {
+      "title": "Date",
+      "placeholder": "Select"
+    },
+    "complaint-modal": {
+      "title": "Submit complaint",
+      "select": {
+        "title": "Complaint category",
+        "placeholder": "Select complaint category",
+        "element-1": "Product expired",
+        "element-2": "Defective product",
+        "element-3": "Poor service",
+        "element-4": "Other"
+      },
+      "text-area": {
+        "title": "Detailed information",
+        "placeholder": "Enter your detailed information..."
+      },
+      "button": "Submit complaint"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "card-count": "items left",
+    "Payment-details": {
+      "title": "Payment details",
+      "delete": "Delete",
+      "count": "Quantity:",
+      "total": "Total:",
+      "button": "Proceed to payment"
+    }
+  },
+  "my-orders": {
+    "title": "My orders",
+    "accordion-title": "Number of orders:",
+    "cards": {
+      "progress-badge": "In progress",
+      "taken-away-badge": "Picked up",
+      "qr-code": "QR code",
+      "order-quantity": "Order quantity:",
+      "ta": "pcs"
+    },
+    "qr-code-modal": {
+      "title": "QR code",
+      "cancel-button": "Close",
+      "share-button": "Share"
+    }
+  },
+  "checkout": {
+    "title": "Payment Details",
+    "payment-type": "Payment Type",
+    "add-card": "Add Card",
+    "change-card": "Change Card",
+    "All": "Total:",
+    "button": "Pay",
+    "add-card-modal": {
+      "title": "Add Card",
+      "label-1": "Card Number",
+      "placeholder-1": "0000 0000 0000 0000",
+      "label-2": "Expiry Date (MM/YY)",
+      "placeholder-2": "Enter expiry date",
+      "add-card-button": "Add Card"
+    },
+    "payment-modal": {
+      "desc-1": "We have sent a 6-digit code via SMS to",
+      "desc-2": ". Please enter the code to confirm.",
+      "summary": "Payment Amount",
+      "button": "Pay"
+    },
+    "confirmed-modal": {
+      "title": "Order Confirmed!",
+      "desc": "Your payment was successful",
+      "order-info": "Order Details",
+      "summary-payed": "Total Paid"
+    }
+  },
+  "notification": {
+    "title": "Notifications",
+    "desc": "Manage your notification settings to stay informed about important updates and offers.",
+    "section-1-title": "Email",
+    "section-1-desc": "Receive updates and information via email.",
+    "section-2-title": "Push notifications",
+    "section-2-desc": "Get real-time alerts and updates on your device.",
+    "section-3": "Important updates",
+    "section-4": "Announcements and promotions",
+    "section-5": "Surprise box alerts",
+    "section-6-title": "Daily reminder",
+    "section-6-desc": "Select the days you want to receive a daily reminder.",
+    "week-days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "save-button": "Save"
+  },
+  "Footer": {
+    "desc": "SaveMeal is a platform that fights against food waste. Find products close to their expiry date at a discounted price.",
+    "reserved": "© 2025 SaveMeal. All rights reserved",
+    "usefulLinks": {
+      "title": "Useful Links",
+      "link-1": "About the web app",
+      "link-2": "Terms of Use",
+      "link-3": "Privacy Policy"
+    },
+    "companyLinks": {
+      "title": "Company",
+      "link-1": "About Us",
+      "link-2": "Careers",
+      "link-3": "FAQs",
+      "link-4": "Teams"
+    },
+    "social": {
+      "title": "Social Network",
+      "button": "Business Login"
+    }
+  },
+  "404": {
+    "title": "Oops! Page Not Found",
+    "desc-1": "Looks like you’ve landed where there are no meals available.",
+    "desc-2": "But don’t worry — delicious offers await you on the homepage!",
+    "button": "Back to Homepage"
+  },
+  "otp-email-code": {
+    "title": "Password reset request",
+    "title-2": "Hello, dear user.",
+    "desc-1": "You requested a password reset. To complete the process, please enter the following code in your personal account. The code is valid for 5 minutes.",
+    "desc-2": {
+      "text-1": "This request was made on",
+      "text-2": "at",
+      "text-3": "using",
+      "text-4": "operating system, IP address",
+      "text-5": "from",
+      "text-6": "device. If you did not make this request, you can safely ignore this email."
+    },
+    "respect": "Best regards,",
+    "reserved": "All rights reserved.",
+    "footer-text": "You are receiving this email because you have joined the SaveMeal platform as a user or creator. This also indicates that you agree to our Terms of Use and Privacy Policy. If you no longer wish to receive emails from us, click the link below to unsubscribe."
+  },
+
+  "sign-up": {
+    "title": "Sign Up",
+    "label": "Phone number or Email",
+    "placeholder": "Enter your phone number or email",
+    "button": "Sign Up",
+    "or": "or",
+    "already-sign": "Already have an account?",
+    "sign-link": "Sign In",
+
+    "enter-details": {
+      "title": "Enter Your Details",
+      "name": "First Name",
+      "surname": "Last Name",
+      "born": "Year of Birth",
+      "password": "Create Password",
+      "confirm-password": "Confirm Password",
+      "placeholder-1": "Enter your first name",
+      "placeholder-2": "Enter your last name",
+      "placeholder-3": "Enter your year of birth",
+      "placeholder-4": "Enter your password",
+      "placeholder-5": "Re-enter your password",
+      "close-button": "Cancel",
+      "sign-button": "Sign In"
+    }
+  },
+  "sign-in": {
+    "title": "Sign in",
+    "label-1": "Phone number or Email",
+    "label-2": "Password",
+    "placeholder-1": "Enter your phone or email",
+    "placeholder-2": "Enter your password",
+    "forgot-pass": "Forgot your password?",
+    "button": "Continue",
+    "or": "or",
+    "sign": "Don't have an account?",
+    "sign-link": "Sign up"
+  },
+  "forgot-password-step": {
+    "title": "Reset Password",
+    "label-1": "Phone number or Email",
+    "placeholder-1": "Enter your phone number or email",
+    "cancel-buttton": "Cancel",
+    "next-button": "Continue",
+    "or": "or",
+    "sign": "Don’t have an account?",
+    "sign-link": "Sign Up",
+    "recovery-pass": "Reset Password",
+    "newpass-label": "Enter New Password",
+    "newpass-placeholder": "New Password",
+    "confirmpass-label": "Confirm Password",
+    "confirmpass-placeholder": "Re-enter Password"
+  },
+  "confirm-password": {
+    "title": "Confirmation Code",
+    "desc-1": "We have sent a 6-digit code via SMS to",
+    "desc-2": ". Please enter the code to confirm.",
+    "resell": "Resend",
+    "close-button": "Cancel",
+    "next-button": "Continue"
   }
 }
