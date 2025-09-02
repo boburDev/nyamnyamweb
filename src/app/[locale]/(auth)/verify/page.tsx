@@ -13,9 +13,14 @@ import useAuthStore from "@/context/useAuth";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
 import axios, { AxiosError } from "axios";
+import { useSearchParams } from "next/navigation";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
+  const params = useSearchParams();
+  const reset = params.get("reset");
+  const resetParam = reset === "true";
+  console.log(resetParam);
 
   const router = useRouter();
   const {
@@ -39,7 +44,11 @@ export default function VerifyPage() {
       const res = await axios.post(OTP, payload);
       console.log(res);
       if (res.status === 200) {
-        router.push("/signup-complete");
+        if (resetParam) {
+          router.push("/reset-password");
+        } else {
+          router.push("/signup-complete");
+        }
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -110,10 +119,10 @@ export default function VerifyPage() {
         </span>
       </div>
       {/* button */}
-      <div className="flex justify-between mt-20 gap-[10px]">
+      <div className="flex  mt-20 gap-[10px]">
         <Button
           variant={"outline"}
-          className="w-1/2 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
+          className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
           onClick={handleBack}
         >
           Bekor qilish
@@ -121,7 +130,7 @@ export default function VerifyPage() {
         <Button
           onClick={hanleVerify}
           disabled={code.length < 6}
-          className="w-1/2 h-12 rounded-[12px]"
+          className="flex-1 h-12 rounded-[12px]"
         >
           Davom etish
         </Button>

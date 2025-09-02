@@ -1,10 +1,7 @@
 "use client";
 
-import { z } from "zod";
 import { useLocale } from "next-intl";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,41 +13,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthBottom } from "@/components/auth";
+import { AuthBottom, AuthBrowser } from "@/components/auth";
 import { useRouter } from "@/i18n/navigation";
 import { showError } from "@/components/toast/Toast";
-import { SIGNUP } from "@/constants";
 import useAuthStore from "@/context/useAuth";
-
-const phoneWithCountryRegex = /^\+998\d{9}$/;
-const phoneLocalRegex = /^\d{9}$/;
-
-const formSchema = z.object({
-  emailOrPhone: z
-    .string()
-    .min(1, "Telefon raqam yoki Email majburiy")
-    .transform((val) => val.trim().replace(/\s/g, ""))
-    .refine((val) => {
-      if (val.includes("@")) {
-        return z.string().email().safeParse(val).success;
-      }
-      if (phoneWithCountryRegex.test(val) || phoneLocalRegex.test(val)) {
-        return true;
-      }
-      return false;
-    }, "Yaroqsiz telefon raqam yoki email manzili"),
-});
-
-type LoginFormInputs = z.infer<typeof formSchema>;
+import { SignupForm } from "@/types";
+import { registerSchema } from "@/schema";
+import { useRegister } from "@/hooks";
 
 export default function SignUpPage() {
   const locale = useLocale();
-  const [loading, setLoading] = useState(false);
   const setTo = useAuthStore((s) => s.setTo);
   const setAuthId = useAuthStore((s) => s.setAuthId);
-  const form = useForm<LoginFormInputs>({
+  const form = useForm<SignupForm>({
     mode: "onTouched",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       emailOrPhone: "",
     },
@@ -61,46 +38,35 @@ export default function SignUpPage() {
   const isPhoneIntent = firstChar === "+" || /^[0-9]$/.test(firstChar);
   const inputMode = isPhoneIntent ? "tel" : "email";
 
-  const normalizePhone = (raw: string) => {
-    if (phoneWithCountryRegex.test(raw)) return raw;
-    if (phoneLocalRegex.test(raw)) return `+998${raw}`;
-    return raw;
-  };
+  const { mutate: registerMutate, isPending } = useRegister(locale);
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    const isEmail = data.emailOrPhone.includes("@");
-    const payload = isEmail
-      ? { email: data.emailOrPhone }
-      : { phone_number: normalizePhone(data.emailOrPhone) };
-    setLoading(true);
-    try {
-      const res = await axios.post(SIGNUP, payload, {
-        headers: {
-          "Accept-Language": locale,
-        },
-      });
+  const onSubmit = (data: SignupForm) => {
+    registerMutate(data, {
+      onSuccess: (res) => {
+        if (res.otp_sent) {
+          router.push("/verify");
+        } else {
+          router.push("/signup-complete");
+        }
+        setTo(data.emailOrPhone);
+        setAuthId(res.id);
+      },
+      onError: (error) => {
+        const errorMessage =
+          typeof error.response?.data === "object" &&
+          error.response?.data &&
+          "error_message" in error.response.data
+            ? (error.response.data.error_message as string)
+            : "Noma'lum xatolik yuz berdi";
 
-      if (res.data?.data?.otp_sent === true) {
-        router.push("/verify");
-        setTo(data.emailOrPhone);
-        setAuthId(res.data?.data?.id);
-      } else {
-        router.push("/signup-complete");
-        setTo(data.emailOrPhone);
-        setAuthId(res.data?.data?.id);
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorMessage = error.response?.data.error_message;
         showError(errorMessage);
+
         if (errorMessage === "❌ 1 daqiqada faqat 1 OTP yuboriladi") {
           router.push("/verify");
           setTo(data.emailOrPhone);
         }
-      }
-    } finally {
-      setLoading(false);
-    }
+      },
+    });
   };
 
   return (
@@ -156,15 +122,16 @@ export default function SignUpPage() {
           />
 
           <Button
-            disabled={!form.formState.isValid || loading}
+            disabled={!form.formState.isValid || isPending}
             type="submit"
             className="mt-[43px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            {loading ? "Yuklanmoqda..." : "Ro'yxatdan o'tish"}
+            {isPending ? "Yuklanmoqda..." : "Ro'yxatdan o'tish"}
           </Button>
         </form>
       </Form>
       <AuthBottom type="signup" />
+      <AuthBrowser />
     </div>
   );
 }

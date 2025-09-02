@@ -5,3 +5,5 @@ export const SIGNIN = `${DOMAIN}/auth/login/`;
 export const SIGNUP = `${DOMAIN}/auth/register/`;
 export const OTP_UPDATE = `${DOMAIN}/otp/verify-update/`;
 export const OTP = `${DOMAIN}/otp/verify`;
+export const FORGOT_PASSWORD = `${DOMAIN}/auth/reset_password/`;
+export const RESET_PASSWORD =  `${DOMAIN}/auth/save_reset_password/`

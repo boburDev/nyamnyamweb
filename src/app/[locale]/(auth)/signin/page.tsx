@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import useStore from "@/context/store";
-import axios, { AxiosError } from "axios";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useState } from "react";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
   FormControl,
@@ -14,39 +14,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { AuthBottom } from "@/components/auth";
+import { AuthBottom, AuthBrowser } from "@/components/auth";
 import { showError } from "@/components/toast/Toast";
-import { SIGNIN } from "@/constants";
-import { useLocale } from "next-intl";
-
-const phoneWithCountryRegex = /^\+998\d{9}$/;
-const phoneLocalRegex = /^\d{9}$/;
-
-const formSchema = z.object({
-  emailOrPhone: z
-    .string()
-    .min(1, "Telefon raqam yoki Email majburiy")
-    .transform((val) => val.trim().replace(/\s/g, ""))
-    .refine((val) => {
-      if (val.includes("@")) {
-        return z.string().email().safeParse(val).success;
-      }
-      if (phoneWithCountryRegex.test(val) || phoneLocalRegex.test(val)) {
-        return true;
-      }
-      return false;
-    }, "Yaroqsiz telefon raqam yoki email manzili"),
-  password: z
-    .string()
-    .min(1, "Parol majburiy")
-    .min(5, "Parol kamida 5 belgidan iborat bo'lishi kerak"),
-});
-
-type LoginFormInputs = z.infer<typeof formSchema>;
+import { Link, useRouter } from "@/i18n/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { loginSchema } from "@/schema";
+import useStore from "@/context/store";
+import { LoginForm } from "@/types";
+import { useLogin } from "@/hooks";
+import { SubmitLoader } from "@/components/loader";
 
 export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,9 +31,9 @@ export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
 
-  const form = useForm<LoginFormInputs>({
+  const form = useForm<LoginForm>({
     mode: "onTouched",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       emailOrPhone: "",
       password: "",
@@ -68,39 +45,25 @@ export default function SigninPage() {
   const isPhoneIntent = firstChar === "+" || /^[0-9]$/.test(firstChar);
   const inputMode = isPhoneIntent ? "tel" : "email";
 
-  const normalizePhone = (raw: string) => {
-    if (phoneWithCountryRegex.test(raw)) return raw;
-    if (phoneLocalRegex.test(raw)) return `+998${raw}`;
-    return raw;
-  };
+  const { mutate: loginMutate, isPending } = useLogin(locale);
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    const isEmail = data.emailOrPhone.includes("@");
-    const emailOrPhone = isEmail
-      ? { email: data.emailOrPhone.trim() }
-      : { phone_number: normalizePhone(data.emailOrPhone) };
-    const payload = {
-      ...emailOrPhone,
-      password: data.password,
-    };
-    try {
-      const res = await axios.post(SIGNIN, payload, {
-        headers: {
-          "Accept-Language": locale,
-        },
-      });
-      const data = res.data.data;
-      console.log("res", data);
-      login(data.tokens.access_token, data.tokens.refresh_token);
-      router.push("/")
-    } catch (error: unknown) {
-      console.error("Login error", error);
-      if (error instanceof AxiosError) {
-        const errorMessage = error.response?.data?.error_message;
+  const onSubmit = (data: LoginForm) => {
+    loginMutate(data, {
+      onSuccess: (res) => {
+        console.log("res", res);
+        login(res.tokens.access_token, res.tokens.refresh_token);
+        router.push("/");
+      },
+      onError: (error) => {
+        const errorMessage =
+          typeof error.response?.data === "object" &&
+          error.response?.data &&
+          "error_message" in error.response.data
+            ? (error.response.data.error_message as string)
+            : "Noma'lum xatolik yuz berdi";
         showError(errorMessage);
-      }
-      throw error;
-    }
+      },
+    });
   };
 
   return (
@@ -206,15 +169,16 @@ export default function SigninPage() {
             </Link>
           </div>
           <Button
-            disabled={!form.formState.isValid}
+            disabled={!form.formState.isValid || isPending}
             type="submit"
             className="mt-[10px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            Kirish
+            {isPending ? <SubmitLoader /> : "Kirish"}
           </Button>
         </form>
       </Form>
       <AuthBottom />
+      <AuthBrowser />
     </div>
   );
 }
