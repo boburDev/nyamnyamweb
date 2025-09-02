@@ -12,8 +12,8 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get(REFRESH_TOKEN);
 
-  const isProtectedRoute = pathname.includes("/cart");
-
+  const isProtectedRoute = pathname.includes("/cart") || pathname.includes("/map");
+  
   const isAuthRoute =
     pathname.includes("/signin") ||
     pathname.includes("/signup") ||
