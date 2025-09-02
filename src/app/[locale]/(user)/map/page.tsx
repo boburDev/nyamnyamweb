@@ -27,17 +27,20 @@ const MapPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(6);
   const [isPageChanging, setIsPageChanging] = useState<boolean>(false);
+  const [isCategoryChanging, setIsCategoryChanging] = useState<boolean>(false);
   const mapRef = useRef<any>(null);
 
   // Fetch products and categories
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", selectedCategoryId],
     queryFn: () => getProducts(selectedCategoryId),
+    staleTime: 30000, // Data stays fresh for 30 seconds
   });
 
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
+    staleTime: 60000, // Categories stay fresh for 1 minute
   });
 
   // Calculate pagination
@@ -75,8 +78,16 @@ const MapPage = () => {
   };
 
   const handleCategoryChange = (categoryId: number) => {
+    if (categoryId === selectedCategoryId) return; // Prevent unnecessary changes
+
+    setIsCategoryChanging(true);
     setSelectedCategoryId(categoryId);
     setCurrentPage(1); // Reset to first page when category changes
+
+    // Reset loading state after a short delay
+    setTimeout(() => {
+      setIsCategoryChanging(false);
+    }, 300);
   };
 
   const handlePageChange = (page: number) => {
@@ -91,7 +102,8 @@ const MapPage = () => {
     }, 300);
   };
 
-  if (isLoading) return <DataLoader message="Mahsulotlar yuklanmoqda..." />
+  // Show loading only for initial load, not for category changes
+  if (isLoading && !products.length) return <DataLoader message="Mahsulotlar yuklanmoqda..." />
 
   return (
     <Container className="flex flex-col">
@@ -106,10 +118,14 @@ const MapPage = () => {
           <CategoryTabs
             onCategoryChange={handleCategoryChange}
             selectedCategoryId={selectedCategoryId}
+            categories={categories}
+            isLoading={isLoading}
           />
+          <div className="flex items-center gap-4">
             <SelectComponent value="Saralash turi">
               <SelectItem value="Saralash turi">Saralash turi</SelectItem>
             </SelectComponent>
+          </div>
         </div>
       </div>
 
@@ -117,26 +133,27 @@ const MapPage = () => {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px] mb-[253px]">
         {/* Product List */}
         <div className="col-span-1" style={{ scrollbarWidth: "none" }}>
-          <div className="flex flex-col gap-[10px] pb-6">
-            {isPageChanging ? (
-              // Loading state while page is changing
-              <div className="flex items-center justify-center py-8">
+          <div className="flex flex-col gap-[10px] pb-6 transition-all duration-300 ease-in-out">
+            {isPageChanging || isCategoryChanging ? (
+              // Loading state while page or category is changing
+              <div className="flex items-center justify-center py-8 opacity-75 transition-opacity duration-300">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mainColor"></div>
-                <span className="ml-3 text-dolphin">Sahifa yuklanmoqda...</span>
               </div>
             ) : (
-              currentProducts.map((product) => (
-                <SurpriseBagCard
-                  isLoading={isLoading}
-                  key={product.id}
-                  product={product}
-                  highlighted={hoveredId === product.id || activeId === product.id}
-                  active={activeId === product.id}
-                  onHover={handleCardHover(product.id)}
-                  onLeave={handleCardLeave}
-                  onClick={() => handleCardClick(product.id)}
-                />
-              ))
+              <div className="transition-all duration-300 ease-in-out">
+                {currentProducts.map((product) => (
+                  <SurpriseBagCard
+                    isLoading={isLoading}
+                    key={product.id}
+                    product={product}
+                    highlighted={hoveredId === product.id || activeId === product.id}
+                    active={activeId === product.id}
+                    onHover={handleCardHover(product.id)}
+                    onLeave={handleCardLeave}
+                    onClick={() => handleCardClick(product.id)}
+                  />
+                ))}
+              </div>
             )}
           </div>
 
