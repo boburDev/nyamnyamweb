@@ -24,7 +24,7 @@ export const surpriseBags: SurpriseBag[] = [
         discountedPrice: 12000,
         rating: 5.0,
         remainingCount: 2,
-        coords: [41.326426, 69.327429],
+        coords: [41.349467, 69.178196],
         image: "/productimg.png",
         category: "Hamma"
     },

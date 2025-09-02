@@ -3,8 +3,310 @@
     "title": "Nyam-Nyam — Tez va Mazali Ovqatlar Yetkazib Berish"
   },
   "Metadata": {
-    "title": "Nyam-Nyam — Tez va Mazali Ovqatlar ",
-    "description": "Toshkentda fast food, milliy taomlar, sushi, pitsa va boshqa sevimli taomlaringizga buyurtma bering. Tez yetkazib berish va yuqori sifat kafolati!",
-    "keywords": "Nyam nyam, nyam-nyam, fast food, tezkor yetkazish, milliy taomlar, o'zbek taomlari, osh, somsa, sushi, pitsa, yetkazib berish xizmati, onlayn buyurtma"
+    "title": "Nyam-Nyam — Tez va Mazali Ovqatlar",
+    "description": "Nyam-Nyam — Toshkentda supermarket va gipermarketlarda muddati o‘tishga yaqin mahsulotlarni arzon narxlarda sotib oling. Fast food, milliy taomlar, sushi va pitsani tezkor yetkazib berish xizmati bilan buyurtma qiling. Oziq-ovqat isrofini kamaytirish va chegirmalardan foydalaning!",
+    "keywords": [
+      "Nyam-nyam",
+      "Super box",
+      "Surprise box",
+      "tezkor yetkazish",
+      "milliy taomlar",
+      "arzon mahsulot Toshkent",
+      "muddati o‘tishga yaqin ovqatlar",
+      "supermarket chegirmali mahsulotlar",
+      "oziq-ovqat isrofi",
+      "yaqin muddati tugaydigan mahsulotlar",
+      "oziq-ovqat chegirmalari",
+      "mahsulot yetkazib berish Toshkent",
+      "isrofgarchilikni oldini olish"
+    ]
+  },
+
+  "Navbar": {
+    "search": {
+      "placeholder": "Restoran va boxlarni izlang",
+      "found": "Topilgan mahsulotlar",
+      "popular": "Ommabop qidiruvlar"
+    },
+    "address-modal": {
+      "title": "Manzil",
+      "placeholder": "Manzilingizni kiriting",
+      "save-button": "Saqlash"
+    },
+    "biznesButton": "Biznes uchun kirish",
+    "signButton": "Kirish"
+  },
+  "UserMenu": {
+    "profile": "Mening profilim",
+    "payment": "To'lov kartasi",
+    "order": "Buyurtmalarim",
+    "cart": "Savat",
+    "order-history": "Xaridlar tarixi",
+    "favourites": "Saqlangan mahsulotlar",
+    "notification": "Bildirishnoma",
+    "logout": "Hisobdan chiqish"
+  },
+  "main": {
+    "title-1": "Tavsiya etilgan Super boxlar",
+    "title-2": "Super boxlar",
+    "title-3": "Taomlar",
+    "title-4": "Fast food",
+    "title-5": "Shirinliklar",
+    "title-6": "Dastur uchun qoldirilgan fikrlar",
+    "seeMore": "Ko’proq ko’rish"
+  },
+  "map-preview": {
+    "title": "Suprise baglar",
+    "filter": "Saralash turi",
+    "refresh-map": "Xaritani yangilash",
+    "cards": {
+      "count": "ta qoldi",
+      "time": "Olib ketish vaqti:",
+      "between": "oralig’ida"
+    }
+  },
+  "cards": {
+    "count": "ta qoldi",
+    "moreButton": "Batafsil"
+  },
+  "cards-detail": {
+    "count": "ta qoldi",
+    "map": "Xaritada ko’rish",
+    "time": "Olib ketish vaqti:",
+    "between": "oralig’ida",
+    "button": "Savatga qo'shish",
+    "other-boxes": "Boshqa super boxlar"
+  },
+  "profile": {
+    "title": "Mening profilim",
+    "about-title": "Shaxsiy ma’lumotlar",
+    "change-button": "Tahrirlash",
+    "name": "Ism",
+    "surname": "Familiya",
+    "born": "Tug’ilgan sana",
+    "phone": "Telefon raqam",
+    "email": "Email",
+    "password": "Parol",
+    "save-button": "Saqlash"
+  },
+  "saved-title": {
+    "title": "Saqlangan mahsulotlar"
+  },
+  "orders-history": {
+    "title": "Xaridlar  tarixi",
+    "cards": {
+      "cards-title": "Mahsulot sotib olingan sana",
+      "confirm-button": "Olib ketilgan",
+      "canceled-button": "Bekor qilingan"
+    },
+    "select": {
+      "title": "Holati",
+      "placeholder": "Tanlang",
+      "element-1": "Hamma",
+      "element-2": "Olib ketilgan",
+      "element-3": "Bekor qilingan"
+    },
+    "date": {
+      "title": "Sana",
+      "placeholder": "Tanlang"
+    },
+    "complaint-modal": {
+      "title": "Shikoyat yuborish",
+      "select": {
+        "title": "Shikoyat kategoriyasi",
+        "placeholder": "Shikoyat kategoriyasini tanlang",
+        "element-1": "Mahsulot muddati o‘tgan",
+        "element-2": "Xato mahsulot",
+        "element-3": "Yomon xizmat",
+        "element-4": "Boshqa"
+      },
+      "text-area": {
+        "title": "Batafsil ma’lumot",
+        "placeholder": "Batafsil ma’lumotingizni kiriting..."
+      },
+      "button": "Shikoyat yuborish"
+    }
+  },
+  "cart": {
+    "title": "Savat",
+    "card-count": "ta qoldi",
+    "Payment-details": {
+      "title": "To’lov tafsiloti",
+      "delete": "O’chirish",
+      "count": "Miqdor:",
+      "total": "Jami:",
+      "button": "To’lovga o’tish"
+    }
+  },
+  "my-orders": {
+    "title": "Buyurtmalarim",
+    "accordion-title": "Buyurtma soni:",
+    "cards": {
+      "progress-badge": "In progress",
+      "taken-away-badge": "Olib ketildi",
+      "qr-code": "QR kod",
+      "order-quantity": "Buyurtma miqdori:",
+      "ta": "ta"
+    },
+    "qr-code-modal": {
+      "title": "QR code",
+      "cancel-button": "Yopish",
+      "share-button": "Ulashish"
+    }
+  },
+  "checkout": {
+    "title": "To‘lov tafsilotlari",
+    "payment-type": "To’lov turi",
+    "add-card": "Karta qo’shish",
+    "change-card": "Karta o’zgartirish",
+    "All": "Jami:",
+    "button": "To’lov qilish",
+    "add-card-modal": {
+      "title": "Kartani qo'shish",
+      "label-1": "Karta raqami",
+      "placeholder-1": "0000 0000 0000 0000",
+      "label-2": "Amal qilish muddati (MM/YY)",
+      "placeholder-2": "Amal qilish muddatini kiriting",
+      "add-card-button": "Kartani qo'shish"
+    },
+    "payment-modal": {
+      "desc-1": "Biz",
+      "desc-2": "raqamiga SMS orqali 6 xonali kod yubordik. Iltimos, tasdiqlash uchun kodni kiriting.",
+      "summary": "To’lov summasi",
+      "button": "To’lash"
+    },
+    "confirmed-modal": {
+      "title": "Buyurtma tasdiqlandi!",
+      "desc": "Toʻlovingiz muvaffaqiyatli boʻldi",
+      "order-info": "Buyurtma tafsilotlari",
+      "summary-payed": "Jami toʻlangan"
+    }
+  },
+  "notification": {
+    "title": "Bildirishnoma",
+    "desc": "Muhim maʼlumotlar va takliflardan xabardor boʻlish uchun bildirishnoma sozlamalarini boshqaring.",
+    "section-1-title": "Email",
+    "section-1-desc": "Elektron pochta orqali yangilanishlar va ma'lumotlarni oling.",
+    "section-2-title": "Push notifications",
+    "section-2-desc": "Qurilmangizda real vaqtda ogohlantirishlar va yangilanishlarni oling.",
+    "section-3": "Muhim yangilanishlar",
+    "section-4": "E'lonlar va aktsiyalar",
+    "section-5": "Suprise box haqida ogohlantirishlar",
+    "section-6-title": "Kundalik eslatma",
+    "section-6-desc": "Kunlik eslatma olishni istagan kunlarni tanlang.",
+    "week-days": {
+      "monday": "Dushanba",
+      "tuesday": "Seshanba",
+      "wednesday": "Chorshanba",
+      "thursday": "Payshanba",
+      "friday": "Juma",
+      "saturday": "Shanba",
+      "sunday": "Yakshanba"
+    },
+    "save-button": "Saqlash"
+  },
+  "Footer": {
+    "desc": "SaveMeal – bu oziq-ovqat isrofiga qarshi kurashuvchi platforma. Yaroqlilik muddati yaqin mahsulotlarni arzon narxda toping.",
+    "reserved": "2025 SaveMeal. Barcha huquqlar himoyalangan",
+    "usefulLinks": {
+      "title": "Foydali havola",
+      "link-1": "Web ilova haqida",
+      "link-2": "Foydalanish shartlari",
+      "link-3": "Maxfiylik siyosati"
+    },
+    "companyLinks": {
+      "title": "Kompaniya",
+      "link-1": "Biz haqimizda",
+      "link-2": "Karyera",
+      "link-3": "FAQs",
+      "link-4": "Jamoalar"
+    },
+    "social": {
+      "title": "Ijtimoiy tarmoq",
+      "button": "Biznes uchun kirish"
+    }
+  },
+  "404": {
+    "title": "Voy! Sahifa topilmadi",
+    "desc-1": "Birorta ham taom yo'q joyga borganga o'xshaysiz.",
+    "desc-2": "Lekin tashvishlanmang - asosiy sahifada sizni mazali takliflar kutmoqda!",
+    "button": "Bosh sahifaga qaytish"
+  },
+  "otp-email-code": {
+    "title": "Parolni tiklash  uchun soʻrov",
+    "title-2": "Salom, hurmatli foydalanuvchi.",
+    "desc-1": "Siz parolingizni tiklash bo‘yicha so‘rov yubordingiz. Jarayonni yakunlash uchun shaxsiy akkauntingizga quyidagi kodni kiriting. Kodning amal qilish muddati 5 daqiqa.",
+    "desc-2": {
+      "text-1": "Bu soʻrov",
+      "text-2": "yil",
+      "text-3": "kuni",
+      "text-4": "tizimidan foydalanadigan, IP manzili",
+      "text-5": " boʻlgan",
+      "text-6": "qurilmasidan qilingan. Agar siz bu soʻrovni amalga oshirmagan boʻlsangiz, ushbu xatni eʼtiborsiz qoldirishingiz mumkin."
+    },
+    "respect": "Hurmat bilan,",
+    "reserved": "Barcha huquqlar himoyalangan.",
+    "footer-text": "Siz SaveMeal platformasiga foydalanuvchi yoki ijodkor sifatida qo‘shilganingiz uchun ushbu xatni oldingiz. Bu shuningdek, siz bizning Foydalanish shartlari va Maxfiylik siyosatimizga rozi ekanligingizni bildiradi. Agar endi bizdan xat olishni istamasangiz, obunani bekor qilish uchun quyidagi havolani bosing."
+  },
+
+  "sign-up": {
+    "title": "Ro'yxatdan o'tish",
+    "label": "Telefon raqam yoki Email",
+    "placeholder": "Telefon raqam yoki emailingizni kiriting",
+    "button": "Ro'yxatdan o'tish",
+    "or": "yoki",
+    "already-sign": "Hisobingiz bormi?",
+    "sign-link": "Kirish",
+
+    "enter-details": {
+      "title": "Ma’lumotlaringizni kiriting",
+      "name": "Ism",
+      "surname": "Familiya",
+      "born": "Tug’ilgan yil",
+      "password": "Parol yaratish",
+      "confirm-password": "Parolni tasdiqlash",
+      "placeholder-1": "Ismingizni kiriting",
+      "placeholder-2": "Familiyangizni kiriting",
+      "placeholder-3": "Tug’ilgan yilingizni kiriting",
+      "placeholder-4": "Parolingizni kiriting",
+      "placeholder-5": "Parolingizni kiriting",
+      "close-button": "Bekor qilish",
+      "sign-button": "Kirish"
+    }
+  },
+  "sign-in": {
+    "title": "Kirish",
+    "label-1": "Telefon raqam yoki Email",
+    "label-2": "Parol",
+    "placeholder-1": "Telefon yoki emailingizni kiriting",
+    "placeholder-2": "Parolingizni kiriting",
+    "forgot-pass": "Parolni unutdingizmi?",
+    "button": "Davom etirish",
+    "or": "yoki",
+    "sign": "Hisobingiz yo’qmi?",
+    "sign-link": "Ro’yxatdan o’tish"
+  },
+  "forgot-password-step": {
+    "title": "Parolni tiklash",
+    "label-1": "Telefon raqam yoki Email",
+    "placeholder-1": "Telefon yoki emailingizni kiriting",
+    "cancel-buttton": "Bekor qilish",
+    "next-button": "Davom etish",
+    "or": "yoki",
+    "sign": "Hisobingiz yo’qmi?",
+    "sign-link": "Ro’yxatdan o’tish",
+    "recovery-pass": "Parolni tiklash",
+    "newpass-label": "Yangi parolni kiriting",
+    "newpass-placeholder": "Yangi parol",
+    "confirmpass-label": "Parolni tasdiqlang",
+    "confirmpass-placeholder": "Parolni qayta kiriting"
+  },
+  "confirm-password": {
+    "title": "Tasdiqlash kodi",
+    "desc-1": "Biz",
+    "desc-2": "raqamiga SMS orqali 6 xonali kod yubordik. Iltimos, tasdiqlash uchun kodni kiriting.",
+    "resell": "Qayta yuborish",
+    "close-button": "Bekor qilish",
+    "next-button": "Davom etish"
   }
 }

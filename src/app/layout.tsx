@@ -23,7 +23,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
-    keywords: t("keywords"),
+    keywords: t.raw("keywords") as string[],
   };
 }
 

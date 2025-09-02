@@ -40,12 +40,12 @@ export const MapControls = () => {
             </div> */}
 
             {/* Refresh Map Button */}
-            <div className="bg-mainColor rounded-full border border-white relative mr-[193px]">
+            {/* <div className="bg-mainColor rounded-full border border-white relative mr-[193px]">
                 <button className="px-4 py-2 text-white text-[13px] font-medium flex items-center gap-2 hover:bg-mainColor rounded-full">
                     <RefreshCw size={16}/>
                     XARITANI YANGILASH
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };
