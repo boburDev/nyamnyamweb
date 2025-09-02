@@ -109,7 +109,7 @@ const YandexMap = ({
   };
 
   return (
-    <div className="sticky  w-full h-screen">
+    <div className="w-full h-screen">
       <YMaps
         query={{
           apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY || "",

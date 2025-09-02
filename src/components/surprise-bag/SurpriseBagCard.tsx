@@ -23,6 +23,7 @@ export const SurpriseBagCard = ({
   onClick,
 }: SurpriseBagCardProps) => {
   if (isLoading) return <DataLoader message="Mahsulot yuklanmoqda..." />
+
   return (
     <div
       onMouseEnter={onHover}
@@ -61,7 +62,7 @@ export const SurpriseBagCard = ({
 
             {/* Rating */}
             <div className="flex items-center gap-1 ">
-                <Star className="w-[16px] h-[16px] text-[#F8B133] fill-[#F8B133]" />
+              <Star className="w-[16px] h-[16px] text-[#F8B133] fill-[#F8B133]" />
               <span className="text-lg font-medium text-textColor">{product.rating}</span>
             </div>
           </div>
@@ -78,7 +79,7 @@ export const SurpriseBagCard = ({
 
           {/* Pricing */}
           <div className="flex items-center gap-2 mt-[36px]">
-            <span className="text-[15px] text-dolphin font-medium mt-1 line-through">
+            <span className="text-[16px] text-dolphin font-medium mt-1 line-through">
               {product.originalPrice} UZS
             </span>
             <span className="text-[22px] font-semibold text-mainColor">

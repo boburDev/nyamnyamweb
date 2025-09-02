@@ -13,6 +13,7 @@ import { Container } from "@/components/container";
 import { Select, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SelectComponent from "@/components/select/Select";
 import { DataLoader } from "@/components/loader/DataLoader";
+import { Pagination } from "@/components/ui/pagination";
 
 // Dynamically import the map component to avoid SSR issues
 const YandexMap = dynamic(() => import('@/components/map/YandexMap'), {
@@ -23,6 +24,9 @@ const MapPage = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(6);
+  const [isPageChanging, setIsPageChanging] = useState<boolean>(false);
   const mapRef = useRef<any>(null);
 
   // Fetch products and categories
@@ -35,6 +39,12 @@ const MapPage = () => {
     queryKey: ["categories"],
     queryFn: getCategories,
   });
+
+  // Calculate pagination
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProducts = products.slice(startIndex, endIndex);
 
   const handleCardHover = (id: number) => () => setHoveredId(id);
   const handleCardLeave = () => setHoveredId(null);
@@ -66,12 +76,25 @@ const MapPage = () => {
 
   const handleCategoryChange = (categoryId: number) => {
     setSelectedCategoryId(categoryId);
+    setCurrentPage(1); // Reset to first page when category changes
+  };
+
+  const handlePageChange = (page: number) => {
+    setIsPageChanging(true);
+    setCurrentPage(page);
+    // Scroll to top of product list when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Reset loading state after a short delay to show the transition
+    setTimeout(() => {
+      setIsPageChanging(false);
+    }, 300);
   };
 
   if (isLoading) return <DataLoader message="Mahsulotlar yuklanmoqda..." />
 
   return (
-    <Container className="flex flex-col h-screen">
+    <Container className="flex flex-col">
       {/* Header */}
       <div className="flex-shrink-0 pt-[73px] pb-6">
         <h1 className="font-medium pb-10 text-4xl text-textColor">
@@ -79,51 +102,74 @@ const MapPage = () => {
         </h1>
 
         {/* Category Tabs */}
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <CategoryTabs
             onCategoryChange={handleCategoryChange}
             selectedCategoryId={selectedCategoryId}
           />
-          <SelectComponent value="Saralash turi">
-            <SelectItem value="Saralash turi">Saralash turi</SelectItem>
-          </SelectComponent>
+            <SelectComponent value="Saralash turi">
+              <SelectItem value="Saralash turi">Saralash turi</SelectItem>
+            </SelectComponent>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px] min-h-0">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px] mb-[253px]">
         {/* Product List */}
-        <div className="col-span-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
+        <div className="col-span-1" style={{ scrollbarWidth: "none" }}>
           <div className="flex flex-col gap-[10px] pb-6">
-            {products.map((product) => (
-              <SurpriseBagCard
-                isLoading={isLoading}
-                key={product.id}
-                product={product}
-                highlighted={hoveredId === product.id || activeId === product.id}
-                active={activeId === product.id}
-                onHover={handleCardHover(product.id)}
-                onLeave={handleCardLeave}
-                onClick={() => handleCardClick(product.id)}
-              />
-            ))}
+            {isPageChanging ? (
+              // Loading state while page is changing
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mainColor"></div>
+                <span className="ml-3 text-dolphin">Sahifa yuklanmoqda...</span>
+              </div>
+            ) : (
+              currentProducts.map((product) => (
+                <SurpriseBagCard
+                  isLoading={isLoading}
+                  key={product.id}
+                  product={product}
+                  highlighted={hoveredId === product.id || activeId === product.id}
+                  active={activeId === product.id}
+                  onHover={handleCardHover(product.id)}
+                  onLeave={handleCardLeave}
+                  onClick={() => handleCardClick(product.id)}
+                />
+              ))
+            )}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-start">
+              {/* Pagination Component */}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                className=""
+              />
+            </div>
+          )}
         </div>
 
         {/* Right Panel - Map */}
-        <div className="relative">
-          <YandexMap
-            products={products}
-            hoveredId={hoveredId}
-            activeId={activeId}
-            mapRef={mapRef}
-            handlePlacemarkClick={handlePlacemarkClick}
-            setActiveId={setActiveId}
-            setHoveredId={setHoveredId}
-          />
+        <div>
+          <div className="sticky top-0">
+            <YandexMap
+              products={products}
+              hoveredId={hoveredId}
+              activeId={activeId}
+              mapRef={mapRef}
+              handlePlacemarkClick={handlePlacemarkClick}
+              setActiveId={setActiveId}
+              setHoveredId={setHoveredId}
+            />
 
-          {/* Map Controls Overlay */}
-          <MapControls />
+            {/* Map Controls Overlay */}
+            <MapControls />
+          </div>
         </div>
       </div>
     </Container>

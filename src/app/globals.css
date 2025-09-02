@@ -24,6 +24,7 @@ input:-webkit-autofill:active {
   --color-red: #ff0000;
   --color-iron: #6e6e6e;
   --color-dustColor: #b5b7bb08;
+  --color-pagination:#F3FAF5;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
