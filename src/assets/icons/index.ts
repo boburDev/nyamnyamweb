@@ -8,6 +8,7 @@ export * from "./LanguageIcon";
 export * from "./CartIcon";
 export * from "./UserIcon";
 export * from "./UserProfile";
+export * from "./ArrowBackIcon";
 
 // profile icon
 
@@ -24,7 +25,11 @@ export * from "./SuccesIcon";
 export * from "./WarningIcon";
 export * from "./InfoIcon";
 export * from "./ErrorIcon";
-
+// auth icons
 export * from "./GoogleIcon";
 export * from "./YandexIcon";
 export * from "./FacebookIcon";
+// Footer
+export * from "./TelegrammIcon";
+export * from "./YouTubeIcon";
+export * from "./InstagramIcon";

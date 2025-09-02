@@ -6,7 +6,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface StoreState {
   auth: boolean;
   isHydrated: boolean;
-  login: (value: string) => void;
+  login: (access: string, refresh: string) => void;
   logout: () => void;
   setAuth: (auth: boolean) => void;
   setHydrated: (value: boolean) => void;
@@ -17,8 +17,9 @@ const useStore = create<StoreState>()(
     (set, _get) => ({
       auth: false,
       isHydrated: false,
-      login: (value) => {
-        cookieStorage.setItem(TOKEN, value);
+      login: (access, refresh) => {
+        cookieStorage.setItem(TOKEN, access);
+        cookieStorage.setItem("refresh", refresh);
         set({ auth: true });
       },
       logout: () => {

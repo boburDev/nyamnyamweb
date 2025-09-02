@@ -2,6 +2,15 @@
 @import "tw-animate-css";
 
 @tailwind utilities;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important; /* matn rangi ham */
+  transition: background-color 5000s ease-in-out 0s !important;
+}
 
 @theme inline {
   --color-mainColor: #4fb477;
@@ -14,6 +23,7 @@
   --color-orochimaru: #d9d9d9;
   --color-red: #ff0000;
   --color-iron: #6e6e6e;
+  --color-dustColor: #b5b7bb08;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
@@ -123,5 +133,8 @@
   }
   .auth-title {
     @apply font-semibold text-[35px] text-textColor mb-[30px];
+  }
+  .auth-label {
+    @apply !font-normal  !text-textColor
   }
 }
