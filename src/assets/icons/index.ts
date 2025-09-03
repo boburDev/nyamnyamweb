@@ -9,9 +9,7 @@ export * from "./CartIcon";
 export * from "./UserIcon";
 export * from "./UserProfile";
 export * from "./ArrowBackIcon";
-
 // profile icon
-
 export * from "./profile/ProfileCart";
 export * from "./profile/ProfileFavourite";
 export * from "./profile/ProfileHistory";
@@ -21,6 +19,7 @@ export * from "./profile/ProfileOrder";
 export * from "./profile/ProfilePayment";
 export * from "./profile/ProfileUser";
 // toast icons
+export * from "./ToastCloseIcon";
 export * from "./SuccesIcon";
 export * from "./WarningIcon";
 export * from "./InfoIcon";

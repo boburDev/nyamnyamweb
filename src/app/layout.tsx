@@ -36,9 +36,9 @@ export default function RootLayout({
     <html lang="en" suppressContentEditableWarning>
       <body className={`${poppins.variable} antialiased`}>
         <NextIntlClientProvider>
-          <RootProviders>
-            <Providers>{children}</Providers>
-          </RootProviders>
+          <Providers>
+            <RootProviders>{children}</RootProviders>
+          </Providers>
           <Toaster />
         </NextIntlClientProvider>
       </body>
