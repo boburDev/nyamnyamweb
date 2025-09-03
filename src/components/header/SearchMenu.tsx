@@ -90,6 +90,10 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
     inputRef.current?.focus()
   }
 
+  const handleNavigationClick = () => {
+    setIsOpen(false)
+  }
+
   return (
     <div className={`relative w-full ${auth ? "ml-[130px]" : "ml-[58px]"}`} ref={dropdownRef}>
       <div className="relative">
@@ -114,7 +118,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
           <div className="p-4">
             {searchValue && (
               <div>
-                <Link href={`/map`} className="flex justify-between items-center py-[6px] px-[10px] rounded-[7px] bg-mainColor/5">
+                <Link href={`/map`} className="flex justify-between items-center py-[6px] px-[10px] rounded-[7px] bg-mainColor/5" onClick={handleNavigationClick}>
                   <div className="flex items-center gap-2">
                     <div className="p-[6px] bg-white rounded-[7px]">
                       <Map className="w-5 h-5 text-mainColor" />
@@ -132,7 +136,10 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
                           key={item.id}
                           className={`flex items-center gap-[10px] px-[10px] py-[6px] rounded-lg cursor-pointer transition-colors ${item.selected ? 'bg-mainColor/5' : 'hover:bg-mainColor/5'
                             }`}
-                          onClick={() => handleItemClick(item.name)}
+                          onClick={() => {
+                            handleItemClick(item.name)
+                            handleNavigationClick()
+                          }}
                         >
                           <img src={item.image.src} alt={item.name} className="w-[36px] h-[36px] object-cover rounded-lg" />
                           <div className="flex-1">
@@ -151,7 +158,10 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
                       <Link href={`/`}
                         key={item.id}
                         className="px-[10px] py-[9.5px] rounded-lg cursor-pointer hover:bg-mainColor/5 transition-colors"
-                        onClick={() => handleItemClick(item.name)}
+                        onClick={() => {
+                          handleItemClick(item.name)
+                          handleNavigationClick()
+                        }}
                       >
                         <span className="text-textColor text-sm">{item.name}</span>
                       </Link>

@@ -83,6 +83,8 @@ const MapClient = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  
+
   // Show loading only for initial load, not for category changes
   if (isLoading && !products.length)
     return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
@@ -160,7 +162,7 @@ const MapClient = () => {
             />
 
             {/* Map Controls Overlay */}
-            <MapControls />
+            {/* <MapControls /> */}
           </div>
         </div>
       </div>

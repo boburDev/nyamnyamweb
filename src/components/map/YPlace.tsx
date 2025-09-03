@@ -1,7 +1,7 @@
 import { Product } from "@/api/product";
 import { Placemark } from "@pbe/react-yandex-maps";
 import { memo, useMemo } from "react";
-import { createCustomMarkerSVG } from "./YandexMap";
+import { createCustomMarkerSVG } from "./MapSvg";
 
 const MemoizedPlacemark = memo(
   ({
