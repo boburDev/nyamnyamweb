@@ -2,7 +2,7 @@ import { RefreshCw } from "lucide-react";
 
 export const MapControls = () => {
     return (
-        <div className="absolute top-4 right-4 z-20 space-y-3">
+        <div className="absolute top-4 right-50 z-20 space-y-3">
             {/* Sort Type Dropdown */}
             {/* <div className="bg-white rounded-lg shadow-lg p-2">
                 <select className="text-sm text-gray-700 bg-transparent border-none outline-none">
@@ -40,12 +40,12 @@ export const MapControls = () => {
             </div> */}
 
             {/* Refresh Map Button */}
-            {/* <div className="bg-mainColor rounded-full border border-white relative mr-[193px]">
+            <div className="bg-mainColor rounded-full border border-white relative">
                 <button className="px-4 py-2 text-white text-[13px] font-medium flex items-center gap-2 hover:bg-mainColor rounded-full">
                     <RefreshCw size={16}/>
                     XARITANI YANGILASH
                 </button>
-            </div> */}
+            </div>
         </div>
     );
 };
