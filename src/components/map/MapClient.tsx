@@ -1,26 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getCategories } from '@/api/category';
-import { getProducts } from '@/api/product';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
-import { useRef, useState } from 'react'
-import { DataLoader } from '../loader';
-import { Container } from '../container';
-import CategoryTabs from '../tabs/CategoryTabs';
-import SelectComponent from '../select/Select';
-import { SelectItem } from '../ui/select';
-import { SurpriseBagCard } from '../surprise-bag/SurpriseBagCard';
-import { Pagination } from '../ui/pagination';
-import { MapControls } from './MapControls';
+import { getProducts } from "@/api/product";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
+import { useRef, useState } from "react";
+import { DataLoader } from "../loader";
+import { Container } from "../container";
+import CategoryTabs from "../tabs/CategoryTabs";
+import SelectComponent from "../select/Select";
+import { SelectItem } from "../ui/select";
+import { SurpriseBagCard } from "../surprise-bag/SurpriseBagCard";
+import { Pagination } from "../ui/pagination";
+import { MapControls } from "./MapControls";
 
-
-const YandexMap = dynamic(() => import('@/components/map/YandexMap'), {
+const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
 });
 
 const MapClient = () => {
-
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
@@ -34,12 +32,6 @@ const MapClient = () => {
     queryFn: () => getProducts(selectedCategoryId),
     staleTime: 30000, // Data stays fresh for 30 seconds
     placeholderData: keepPreviousData,
-  });
-
-  const { data: categories = [] } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-    staleTime: 60000, // Categories stay fresh for 1 minute
   });
 
   // Calculate pagination
@@ -57,8 +49,8 @@ const MapClient = () => {
       setActiveId(id);
       // Generate coordinates based on product ID for demo purposes
       const coords: [number, number] = [
-        41.311151 + (product.id * 0.01),
-        69.279737 + (product.id * 0.01)
+        41.311151 + product.id * 0.01,
+        69.279737 + product.id * 0.01,
       ];
       mapRef.current?.panTo(coords, { duration: 300 });
     }
@@ -69,8 +61,8 @@ const MapClient = () => {
     const product = products.find((p) => p.id === id);
     if (product) {
       const coords: [number, number] = [
-        41.311151 + (product.id * 0.01),
-        69.279737 + (product.id * 0.01)
+        41.311151 + product.id * 0.01,
+        69.279737 + product.id * 0.01,
       ];
       mapRef.current?.panTo(coords, { duration: 300 });
     }
@@ -88,11 +80,12 @@ const MapClient = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Scroll to top of product list when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Show loading only for initial load, not for category changes
-  if (isLoading && !products.length) return <DataLoader message="Mahsulotlar yuklanmoqda..." />
+  if (isLoading && !products.length)
+    return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
   return (
     <Container className="flex flex-col">
       {/* Header */}
@@ -127,7 +120,9 @@ const MapClient = () => {
                   isLoading={isLoading}
                   key={product.id}
                   product={product}
-                  highlighted={hoveredId === product.id || activeId === product.id}
+                  highlighted={
+                    hoveredId === product.id || activeId === product.id
+                  }
                   active={activeId === product.id}
                   onHover={handleCardHover(product.id)}
                   onLeave={handleCardLeave}
@@ -170,7 +165,7 @@ const MapClient = () => {
         </div>
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default MapClient
+export default MapClient;
