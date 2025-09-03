@@ -1,26 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useRouter } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import { EmailOrPhoneInput } from "@/components/form";
+import { showError } from "@/components/toast/Toast";
+import { SubmitLoader } from "@/components/loader";
+import { Button } from "@/components/ui/button";
 import { AuthBottom } from "@/components/auth";
-import { useLocale } from "next-intl";
-import { ForgotForm } from "@/types";
-import { forgotSchema } from "@/schema";
+import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
 import { useForgotPassword } from "@/hooks";
-import { SubmitLoader } from "@/components/loader";
-import { showError } from "@/components/toast/Toast";
+import { forgotSchema } from "@/schema";
+import { ForgotForm } from "@/types";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -35,10 +29,6 @@ export default function ForgotPasswordPage() {
     },
   });
 
-  const emailOrPhoneValue = form.watch("emailOrPhone") ?? "";
-  const firstChar = emailOrPhoneValue.charAt(0);
-  const isPhoneIntent = firstChar === "+" || /^[0-9]$/.test(firstChar);
-  const inputMode = isPhoneIntent ? "tel" : "email";
 
   const { mutate: forgotMutate, isPending } = useForgotPassword(locale);
 
@@ -77,42 +67,22 @@ export default function ForgotPasswordPage() {
           <FormField
             control={form.control}
             name="emailOrPhone"
-            render={({ field }) => {
-              const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                let v = e.target.value;
-                const fc = v.charAt(0);
-                const intentPhone = fc === "+" || /^[0-9]$/.test(fc);
-                if (intentPhone) {
-                  v = v.replace(/[^\d+]/g, "");
-                  if (v.startsWith("+")) {
-                    if (v.length > 13) v = v.slice(0, 13);
-                  } else {
-                    if (v.length > 9) v = v.slice(0, 9);
-                  }
-                }
-                field.onChange(v);
-              };
-
-              return (
-                <FormItem className="w-full gap-[3px]">
-                  <FormLabel className="text-[13px] text-textColor font-normal">
-                    Telefon raqam yoki Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      autoComplete="username"
-                      type="text"
-                      placeholder={"Telefon raqam yoki Email"}
-                      inputMode={inputMode}
-                      onChange={handleChange}
-                      className={`h-12 py-[7.5px] px-4  `}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              );
-            }}
+            render={({ field }) => (
+              <FormItem className="w-full gap-[3px]">
+                <FormLabel className="text-[13px] text-textColor font-normal">
+                  Telefon raqam yoki Email
+                </FormLabel>
+                <FormControl>
+                  <EmailOrPhoneInput
+                    {...field}
+                    autoComplete="username"
+                    placeholder="Telefon raqam yoki Email"
+                    className="h-12 py-[7.5px] px-4"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
           />
           <div className="flex gap-[27px] mt-20">
             <Button

@@ -1,4 +1,5 @@
 import {
+  completeSchema,
   forgotSchema,
   loginSchema,
   registerSchema,
@@ -10,6 +11,8 @@ export type ForgotForm = z.infer<typeof forgotSchema>;
 export type LoginForm = z.infer<typeof loginSchema>;
 export type SignupForm = z.infer<typeof registerSchema>;
 export type ResetForm = z.infer<typeof resetSchema>;
+export type CompleteForm = z.infer<typeof completeSchema>;
+
 
 export interface ForgotPasswordResponse {
   success: boolean;
@@ -31,3 +34,15 @@ export type ResetPayload = {
   new_password: string;
   confirm_token: string;
 };
+export interface VerifyResetPayload {
+  email?: string;
+  phone_number?: string;
+  code: string;
+}
+
+export interface CompletePayload {
+  first_name: string;
+  last_name?: string;
+  birth_date?: Date | string;
+  password: string;
+}

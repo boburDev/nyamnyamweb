@@ -10,6 +10,7 @@ interface AuthStore {
   clearTo: () => void;
   confirm: string | null;
   setConfirm: (confirm: string) => void;
+  deleteConfirm: () => void;
 }
 
 const useAuthStore = create<AuthStore>()(
@@ -23,6 +24,7 @@ const useAuthStore = create<AuthStore>()(
       setTo: (to) => set({ to }),
       clearTo: () => set({ to: null }),
       setConfirm: (confirm) => set({ confirm }),
+      deleteConfirm: () => set({ confirm: null }),
     }),
     {
       name: "auth-store",

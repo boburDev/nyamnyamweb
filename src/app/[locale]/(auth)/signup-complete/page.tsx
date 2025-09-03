@@ -1,88 +1,30 @@
 "use client";
-import { z } from "zod";
 import { useState } from "react";
-import { CalendarIcon, Eye, EyeOff } from "lucide-react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Calendar } from "@/components/ui/calendar";
-
-function formatDate(date: Date | undefined) {
-  if (!date) return "";
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-}
-
-function parseDate(value: string): Date | undefined {
-  const regex = /^(\d{2})\.(\d{2})\.(\d{4})$/;
-  const match = value.match(regex);
-  if (!match) return undefined;
-
-  const day = parseInt(match[1], 10);
-  const month = parseInt(match[2], 10) - 1;
-  const year = parseInt(match[3], 10);
-
-  const date = new Date(year, month, day);
-  return isNaN(date.getTime()) ? undefined : date;
-}
-
-const completeSchema = z
-  .object({
-    first_name: z.string().min(1, "Ism majburiy"),
-    last_name: z.string().optional(),
-    birth_date: z
-      .date()
-      .optional()
-      .refine(
-        (date) => {
-          if (!date) return true;
-          const minDate = new Date("1900-01-01");
-          const maxDate = new Date();
-          return date >= minDate && date <= maxDate;
-        },
-        { message: "Noto‘g‘ri  sana" }
-      ),
-    password: z
-      .string()
-      .min(5, "Parol kamida 6 ta belgidan iborat bo'lishi kerak"),
-    confirmPassword: z.string().min(1, "Parolni tasdiqlash majburiy"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Parollar mos kelmadi",
-    path: ["confirmPassword"],
-  });
-
-type SignUpCompleteFormInputs = z.infer<typeof completeSchema>;
+import { format } from "date-fns";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
+import { AxiosError } from "axios";
+import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover";
+import { CompleteForm, CompletePayload } from "@/types";
+import { showError } from "@/components/toast/Toast";
+import { Calendar } from "@/components/ui/calendar";
+import { SubmitLoader } from "@/components/loader";
+import { PasswordInput } from "@/components/form";
+import { formatDate, parseDate } from "@/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
-import axios, { AxiosError } from "axios";
-import { showError } from "@/components/toast/Toast";
+import { useUpdateDetail } from "@/hooks";
+import { completeSchema } from "@/schema";
 import useStore from "@/context/store";
-import { useLocale } from "next-intl";
-import { DOMAIN } from "@/constants";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
 
 export default function SignUpCompletePage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [birthDateInput, setBirthDateInput] = useState<string>("");
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const authId = useAuthStore((s) => s.authId);
   const login = useStore((s) => s.login);
@@ -90,7 +32,7 @@ export default function SignUpCompletePage() {
   const clearId = useAuthStore((s) => s.clearAuthId);
   const clearTo = useAuthStore((s) => s.clearTo);
 
-  const form = useForm<SignUpCompleteFormInputs>({
+  const form = useForm<CompleteForm>({
     mode: "onTouched",
     resolver: zodResolver(completeSchema),
     defaultValues: {
@@ -101,41 +43,38 @@ export default function SignUpCompletePage() {
       confirmPassword: "",
     },
   });
+  const { mutate: updateDetail, isPending } = useUpdateDetail(
+    authId as string,
+    locale
+  );
 
-  const onSubmit = async (data: SignUpCompleteFormInputs) => {
+  const onSubmit = (data: CompleteForm) => {
     const { confirmPassword: _confirmPassword, ...payload } = data;
-    setLoading(true);
-    const apiPayload = {
+
+    const apiPayload: CompletePayload = {
       ...payload,
       birth_date: payload.birth_date
         ? format(new Date(payload.birth_date), "yyyy-MM-dd")
         : undefined,
     };
-    try {
-      const res = await axios.patch(
-        `${DOMAIN}/auth/${authId}/update_detail/`,
-        apiPayload,
-        {
-          headers: {
-            "Accept-Language": locale,
-          },
+
+    updateDetail(apiPayload, {
+      onSuccess: (res) => {
+        form.reset();
+        const data = res.data;
+        console.log("res", data);
+        login(data.tokens.access_token, data.tokens.refresh_token);
+        router.push("/");
+        clearId();
+        clearTo();
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const errorMessage = error.response?.data?.error_message;
+          showError(errorMessage);
         }
-      );
-      form.reset();
-      const data = res.data.data;
-      console.log("res", data);
-      login(data.tokens.access_token, data.tokens.refresh_token);
-      router.push("/");
-      clearId();
-      clearTo();
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorMessage = error.response?.data.error_message;
-        showError(errorMessage);
-      }
-    } finally {
-      setLoading(false);
-    }
+      },
+    });
   };
 
   const handleBack = () => {
@@ -201,9 +140,7 @@ export default function SignUpCompletePage() {
                 } else if (val.length > 2) {
                   val = val.replace(/^(\d{2})(\d{0,2}).*/, "$1.$2");
                 }
-
                 setBirthDateInput(val);
-
                 const parsed = parseDate(val);
                 if (parsed) {
                   field.onChange(parsed);
@@ -223,7 +160,6 @@ export default function SignUpCompletePage() {
                       className="h-12 py-[7.5px] pl-4 pr-10"
                       maxLength={10}
                     />
-
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -263,26 +199,7 @@ export default function SignUpCompletePage() {
               <FormItem className="w-full">
                 <FormLabel className="auth-label">Parol*</FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      autoComplete="current-password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Parol kiriting"
-                      className="h-12 py-[7.5px] pl-4 pr-12"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gray-900 transition-colors"
-                    >
-                      {showPassword ? (
-                        <EyeOff size={22} className="text-iconColor" />
-                      ) : (
-                        <Eye size={22} className="text-iconColor" />
-                      )}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} placeholder="Parolni kiriting" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -299,26 +216,7 @@ export default function SignUpCompletePage() {
                   Parolni tasdiqlash*
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      autoComplete="current-password"
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Parolni qayta kiriting"
-                      className="h-12 py-[7.5px] pl-4 pr-12"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gray-900 transition-colors"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff size={22} className="text-iconColor" />
-                      ) : (
-                        <Eye size={22} className="text-iconColor" />
-                      )}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} placeholder="Parolni tasdiqlash" />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -336,11 +234,11 @@ export default function SignUpCompletePage() {
               Bekor qilish
             </Button>
             <Button
-              disabled={!form.formState.isValid || loading}
+              disabled={!form.formState.isValid || isPending}
               type="submit"
               className="h-12 flex-1 rounded-[12px]"
             >
-              {loading ? "Yuborilmoqda..." : "Ro'yxatdan o'tish"}
+              {isPending ? <SubmitLoader /> : "Ro'yxatdan o'tish"}
             </Button>
           </div>
         </form>
