@@ -8,17 +8,21 @@ interface AuthStore {
   to: string | null;
   setTo: (to: string) => void;
   clearTo: () => void;
+  confirm: string | null;
+  setConfirm: (confirm: string) => void;
 }
 
 const useAuthStore = create<AuthStore>()(
   persist(
     (set, _get) => ({
       authId: null,
+      to: null,
+      confirm: null,
       setAuthId: (id) => set({ authId: id }),
       clearAuthId: () => set({ authId: null }),
-      to: null,
       setTo: (to) => set({ to }),
       clearTo: () => set({ to: null }),
+      setConfirm: (confirm) => set({ confirm }),
     }),
     {
       name: "auth-store",

@@ -1,11 +1,11 @@
 import { showSuccess } from "@/components/toast/Toast";
-import { SIGNUP } from "@/constants";
+import { FORGOT_PASSWORD, SIGNUP } from "@/constants";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useVerify = (to: string) => {
+export const useVerify = (to: string, reset?: boolean) => {
   const [code, setCode] = useState("");
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(!reset ? 60 : 0);
   const isEmail = to?.includes("@");
 
   const minutes = String(Math.floor(timer / 60)).padStart(2, "0");
@@ -35,10 +35,8 @@ export const useVerify = (to: string) => {
     if (timer > 0) return;
     const payload = isEmail ? { email: to } : { phone_number: to };
     try {
-      const res = await axios.post(SIGNUP, payload);
+      await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload);
       showSuccess("Kod qayta yuborildi");
-      console.log(res);
-
       setTimer(60);
       console.log("Resend code");
     } catch (e) {

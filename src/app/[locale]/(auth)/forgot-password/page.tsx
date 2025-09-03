@@ -17,10 +17,7 @@ import { AuthBottom } from "@/components/auth";
 import { useLocale } from "next-intl";
 import { ForgotForm } from "@/types";
 import { forgotSchema } from "@/schema";
-import { normalizePhone, phoneLocalRegex, phoneRegex } from "@/utils";
 import useAuthStore from "@/context/useAuth";
-import axios from "axios";
-import { FORGOT_PASSWORD } from "@/constants";
 import { useForgotPassword } from "@/hooks";
 import { SubmitLoader } from "@/components/loader";
 import { showError } from "@/components/toast/Toast";
@@ -50,8 +47,7 @@ export default function ForgotPasswordPage() {
       onSuccess: () => {
         setTo(data.emailOrPhone);
         router.push({
-          pathname: "/verify",
-          query: { reset: true },
+          pathname: "/verify-reset",
         });
       },
       onError: (error) => {

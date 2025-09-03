@@ -6,17 +6,22 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { OTP } from "@/constants";
+import { OTP_RESET_PASSWORD } from "@/constants";
 import { ArrowBackIcon } from "@/assets/icons";
 import { showError } from "@/components/toast/Toast";
 import { Button } from "@/components/ui/button";
 import useAuthStore from "@/context/useAuth";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
+  const setConfirm = useAuthStore((s) => s.setConfirm);
   const router = useRouter();
+  const params = useSearchParams();
+  const reset = params.get("reset");
+  const isReset = reset === "true";
   const {
     isEmail,
     setCode,
@@ -27,7 +32,7 @@ export default function VerifyPage() {
     seconds,
     maskedTo,
     onlyDigits,
-  } = useVerify(to as string);
+  } = useVerify(to as string, reset !== null ? isReset : undefined);
   const handleBack = () => {
     router.back();
   };
@@ -35,10 +40,11 @@ export default function VerifyPage() {
   const hanleVerify = async () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
     try {
-      const res = await axios.post(OTP, payload);
+      const res = await axios.post(OTP_RESET_PASSWORD, payload);
       console.log(res);
       if (res.status === 200) {
-        router.push("/signup-complete");
+        setConfirm(res.data.data.confirm_token);
+        router.push("/reset-password");
       }
     } catch (error) {
       if (error instanceof AxiosError) {

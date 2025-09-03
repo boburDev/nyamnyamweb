@@ -1,12 +1,10 @@
 import { SIGNIN } from "@/constants";
+import { LoginForm } from "@/types";
 import { normalizePhone } from "@/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
-interface LoginForm {
-  emailOrPhone: string;
-  password: string;
-}
+
 
 interface LoginResponse {
   tokens: {

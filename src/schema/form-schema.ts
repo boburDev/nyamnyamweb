@@ -40,7 +40,6 @@ export const registerSchema = z.object({
     }, "Yaroqsiz telefon raqam yoki email manzili"),
 });
 
-
 export const forgotSchema = z.object({
   emailOrPhone: z
     .string()
@@ -57,3 +56,14 @@ export const forgotSchema = z.object({
     }, "Yaroqsiz telefon raqam yoki email manzili"),
 });
 
+export const resetSchema = z
+  .object({
+    new_password: z
+      .string()
+      .min(5, "Parol kamida 5 ta belgidan iborat bo'lishi kerak"),
+    confirmPassword: z.string().min(1, "Parolni tasdiqlash majburiy"),
+  })
+  .refine((data) => data.new_password === data.confirmPassword, {
+    message: "Parollar mos kelmadi",
+    path: ["confirmPassword"],
+  });
