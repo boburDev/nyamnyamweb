@@ -1,22 +1,25 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
+import  { AxiosError } from "axios";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { OTP } from "@/constants";
-import { ArrowBackIcon } from "@/assets/icons";
 import { showError } from "@/components/toast/Toast";
 import { Button } from "@/components/ui/button";
-import useAuthStore from "@/context/useAuth";
-import { useVerify } from "@/hooks/useVerify";
+import { ArrowBackIcon } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
+import { useVerify } from "@/hooks/useVerify";
+import useAuthStore from "@/context/useAuth";
+import { useVerifyOtp } from "@/hooks";
+import { useLocale } from "next-intl";
+import { SubmitLoader } from "@/components/loader";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
   const router = useRouter();
+  const locale = useLocale();
   const {
     isEmail,
     setCode,
@@ -28,27 +31,27 @@ export default function VerifyPage() {
     maskedTo,
     onlyDigits,
   } = useVerify(to as string);
+  const { mutate: verifyOtp, isPending } = useVerifyOtp(locale);
   const handleBack = () => {
     router.back();
   };
   if (!to) return null;
-  const hanleVerify = async () => {
+  const hanleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
-    try {
-      const res = await axios.post(OTP, payload);
-      console.log(res);
-      if (res.status === 200) {
+    verifyOtp(payload, {
+      onSuccess: () => {
         router.push("/signup-complete");
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const message = error.response?.data?.error_message;
-        showError(message);
-      }
-    }
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const message = error.response?.data?.error_message;
+          showError(message);
+        }
+      },
+    });
   };
   return (
-    <div className="px-[100px]">
+    <div className="w-[390px] mx-auto">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">
@@ -119,10 +122,10 @@ export default function VerifyPage() {
         </Button>
         <Button
           onClick={hanleVerify}
-          disabled={code.length < 6}
+          disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          Davom etish
+          {isPending ? <SubmitLoader/> : "Tasdiqlash"}
         </Button>
       </div>
     </div>

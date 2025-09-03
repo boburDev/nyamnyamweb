@@ -4,15 +4,8 @@ import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { AuthBottom, AuthBrowser } from "@/components/auth";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+ import { AuthBottom, AuthBrowser } from "@/components/auth"; 
 import { EmailOrPhoneInput } from "@/components/form";
 import { showError } from "@/components/toast/Toast";
 import { Button } from "@/components/ui/button";

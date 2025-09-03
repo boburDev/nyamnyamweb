@@ -1,24 +1,24 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { OTP_RESET_PASSWORD } from "@/constants";
-import { ArrowBackIcon } from "@/assets/icons";
+import { AxiosError } from "axios";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
+
+import { InputOTP, InputOTPGroup, InputOTPSlot, } from "@/components/ui/input-otp";
 import { showError } from "@/components/toast/Toast";
+import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
-import useAuthStore from "@/context/useAuth";
+import { ArrowBackIcon } from "@/assets/icons";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import useAuthStore from "@/context/useAuth";
+import { useVerifyResetOtp } from "@/hooks";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
   const setConfirm = useAuthStore((s) => s.setConfirm);
   const router = useRouter();
+  const locale = useLocale();
   const params = useSearchParams();
   const reset = params.get("reset");
   const isReset = reset === "true";
@@ -33,28 +33,30 @@ export default function VerifyPage() {
     maskedTo,
     onlyDigits,
   } = useVerify(to as string, reset !== null ? isReset : undefined);
+  const { mutate: verifyOtp, isPending } = useVerifyResetOtp(locale);
+
   const handleBack = () => {
     router.back();
   };
   if (!to) return null;
-  const hanleVerify = async () => {
+  const hanleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
-    try {
-      const res = await axios.post(OTP_RESET_PASSWORD, payload);
-      console.log(res);
-      if (res.status === 200) {
-        setConfirm(res.data.data.confirm_token);
+
+    verifyOtp(payload, {
+      onSuccess: (data) => {
+        setConfirm(data.data.confirm_token);
         router.push("/reset-password");
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const message = error.response?.data?.error_message;
-        showError(message);
-      }
-    }
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const message = error.response?.data?.error_message;
+          showError(message);
+        }
+      },
+    });
   };
   return (
-    <div className="px-[100px]">
+    <div className="w-[390px] mx-auto">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">
@@ -79,7 +81,7 @@ export default function VerifyPage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-[15px]">
+          <InputOTPGroup className="gap-3">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <InputOTPSlot
                 key={i}
@@ -125,10 +127,10 @@ export default function VerifyPage() {
         </Button>
         <Button
           onClick={hanleVerify}
-          disabled={code.length < 6}
+          disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          Davom etish
+          {isPending ? <SubmitLoader /> : "Tasdiqlash"}
         </Button>
       </div>
     </div>
