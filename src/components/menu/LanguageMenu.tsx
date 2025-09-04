@@ -1,3 +1,4 @@
+"use client";
 import { CheckIcon, LanguageIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
 import {

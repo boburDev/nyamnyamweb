@@ -9,3 +9,4 @@ export const OTP = `${DOMAIN}/otp/verify`;
 export const OTP_RESET_PASSWORD = `${DOMAIN}/otp/verify-reset-password`;
 export const FORGOT_PASSWORD = `${DOMAIN}/auth/reset_password/`;
 export const RESET_PASSWORD = `${DOMAIN}/auth/save_reset_password/`;
+export const GET_USER =  `${DOMAIN}/auth/profile/`;

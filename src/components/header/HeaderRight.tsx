@@ -1,12 +1,14 @@
-"use client";
-import { LanguageMenu, LocationMenu, NotificationMenu, UserMenu, } from "../menu";
+import { Link } from "@/i18n/navigation";
+import {
+  LanguageMenu,
+  LocationMenu,
+  NotificationMenu,
+  UserMenu,
+} from "../menu";
 import { Button } from "../ui/button";
 import { CartIcon, UserIcon } from "@/assets/icons";
-import { useRouter } from "@/i18n/navigation";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
-  const router = useRouter();
-
   return (
     <div className="flex items-center gap-4 ml-10 shrink-0">
       <LocationMenu />
@@ -17,9 +19,11 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
 
       {auth ? (
         <div className="flex items-center gap-4">
-          <Button className="w-[170px]" onClick={() => router.push("/cart")}>
-            <CartIcon />
-            256,000 UZS
+          <Button className="w-[170px]">
+            <Link href={"/cart"} className="flex">
+              <CartIcon />
+              256,000 UZS
+            </Link>
           </Button>
           <UserMenu />
         </div>
@@ -31,12 +35,11 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
           >
             Biznes uchun kirish
           </Button>
-          <Button
-            onClick={() => router.push("/signin")}
-            className="w-[114px] h-12 px-5 font-medium text-sm"
-          >
-            <UserIcon />
-            Kirish
+          <Button className="w-[114px] h-12 px-5 font-medium text-sm">
+            <Link href={"/signin"} className="flex">
+              <UserIcon />
+              Kirish
+            </Link>
           </Button>
         </div>
       )}
