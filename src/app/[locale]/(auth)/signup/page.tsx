@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,6 +21,7 @@ export default function SignUpPage() {
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
   const setAuthId = useAuthStore((s) => s.setAuthId);
+  const t = useTranslations("sign-up")
   
   const { mutate: registerMutate, isPending } = useRegister(locale);
 
@@ -56,7 +57,7 @@ export default function SignUpPage() {
 
   return (
     <div className="w-full">
-      <h2 className="auth-title">Ro'yxatdan o'tish</h2>
+      <h2 className="auth-title">{t("title")}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full" noValidate>
           <FormField
@@ -65,13 +66,13 @@ export default function SignUpPage() {
             render={({ field }) => (
               <FormItem className="w-full gap-[3px]">
                 <FormLabel className="text-[13px] text-textColor font-normal">
-                  Telefon raqam yoki Email
+                  {t("label")}
                 </FormLabel>
                 <FormControl>
                   <EmailOrPhoneInput
                     {...field}
                     autoComplete="username"
-                    placeholder="Telefon raqam yoki Email"
+                    placeholder={t("placeholder")}
                     className="h-12 py-[7.5px] px-4"
                   />
                 </FormControl>
@@ -84,7 +85,7 @@ export default function SignUpPage() {
             type="submit"
             className="mt-[43px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            {isPending ? <SubmitLoader/> : "Ro'yxatdan o'tish"}
+            {isPending ? <SubmitLoader/> : t("button")}
           </Button>
         </form>
       </Form>

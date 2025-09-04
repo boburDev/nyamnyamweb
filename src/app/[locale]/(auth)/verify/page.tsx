@@ -1,6 +1,6 @@
 "use client";
 
-import  { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import {
   InputOTP,
   InputOTPGroup,
@@ -13,13 +13,14 @@ import { useRouter } from "@/i18n/navigation";
 import { useVerify } from "@/hooks/useVerify";
 import useAuthStore from "@/context/useAuth";
 import { useVerifyOtp } from "@/hooks";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { SubmitLoader } from "@/components/loader";
 
 export default function VerifyPage() {
   const to = useAuthStore((s) => s.to);
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("confirm-password")
   const {
     isEmail,
     setCode,
@@ -57,13 +58,16 @@ export default function VerifyPage() {
         <button onClick={handleBack} className="mb-[10px]">
           <ArrowBackIcon />
         </button>
-        <h2 className="auth-title">Tasdiqlash kodi</h2>
+        <h2 className="auth-title">{t("title")}</h2>
         <p className="text-dolphin text-sm mb-[5px] max-w-[369px]">
-          Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"}{" "}
-          6 xonali kod yubordik.
+          {t("desc-1")}
+          {locale === "uz" ?
+            ` ${maskedTo} ${isEmail ? t("email") : t("number")} `
+            : ` ${isEmail ? t("email") : t("number")} ${maskedTo} `}
+          {t("desc-2")}
         </p>
         <p className="text-dolphin text-sm">
-          Iltimos, tasdiqlash uchun kodni kiriting.
+          {t("desc-3")}
         </p>
       </div>
       {/* otp */}
@@ -101,11 +105,10 @@ export default function VerifyPage() {
         <button
           onClick={handleResend}
           disabled={timer > 0}
-          className={`text-mainColor font-medium ${
-            timer > 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`text-mainColor font-medium ${timer > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
-          Qayta yuborish
+          {t("resell")}
         </button>
         <span className="text-textColor text-base font-medium">
           {minutes}:{seconds}
@@ -118,14 +121,14 @@ export default function VerifyPage() {
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
           onClick={handleBack}
         >
-          Bekor qilish
+          {t("close-button")}
         </Button>
         <Button
           onClick={hanleVerify}
           disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          {isPending ? <SubmitLoader/> : "Tasdiqlash"}
+          {isPending ? <SubmitLoader /> : t("next-button")}
         </Button>
       </div>
     </div>

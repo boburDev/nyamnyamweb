@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,6 +20,7 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
+  const t = useTranslations("forgot-password-step")
 
   const form = useForm<ForgotForm>({
     mode: "onTouched",
@@ -57,7 +58,7 @@ export default function ForgotPasswordPage() {
   };
   return (
     <div className="w-full ">
-      <h2 className="auth-title ">Parolni tiklash</h2>
+      <h2 className="auth-title ">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -70,13 +71,13 @@ export default function ForgotPasswordPage() {
             render={({ field }) => (
               <FormItem className="w-full gap-[3px]">
                 <FormLabel className="text-[13px] text-textColor font-normal">
-                  Telefon raqam yoki Email
+                  {t("label-1")}
                 </FormLabel>
                 <FormControl>
                   <EmailOrPhoneInput
                     {...field}
                     autoComplete="username"
-                    placeholder="Telefon raqam yoki Email"
+                    placeholder={t("placeholder-1")}
                     className="h-12 py-[7.5px] px-4"
                   />
                 </FormControl>
@@ -91,14 +92,14 @@ export default function ForgotPasswordPage() {
               type="button"
               className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
             >
-              Bekor qilish
+              {t("cancel-buttton")}
             </Button>
             <Button
               disabled={isPending}
               type="submit"
               className="h-12 flex-1 rounded-[12px]"
             >
-              {isPending ? <SubmitLoader /> : "Davom etish"}
+              {isPending ? <SubmitLoader /> : t("next-button")}
             </Button>
           </div>
         </form>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { format } from "date-fns";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { CalendarIcon } from "lucide-react";
@@ -31,6 +31,7 @@ export default function SignUpCompletePage() {
   const locale = useLocale();
   const clearId = useAuthStore((s) => s.clearAuthId);
   const clearTo = useAuthStore((s) => s.clearTo);
+  const t = useTranslations("sign-up.enter-details")
 
   const form = useForm<CompleteForm>({
     mode: "onTouched",
@@ -83,7 +84,7 @@ export default function SignUpCompletePage() {
 
   return (
     <div>
-      <h2 className="auth-title">Ma’lumotlaringizni kiriting</h2>
+      <h2 className="auth-title">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -95,13 +96,13 @@ export default function SignUpCompletePage() {
             name="first_name"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="auth-label">Ism*</FormLabel>
+                <FormLabel className="auth-label">{t("name")}*</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     autoComplete="username"
                     type="text"
-                    placeholder="Ismingizni kiriting"
+                    placeholder={t("placeholder-1")}
                     className="h-12 py-[7.5px] px-4"
                   />
                 </FormControl>
@@ -116,12 +117,12 @@ export default function SignUpCompletePage() {
             name="last_name"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="auth-label">Familiya</FormLabel>
+                <FormLabel className="auth-label">{t("surname")}</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="text"
-                    placeholder="Familiyangizni kiriting"
+                    placeholder={t("placeholder-2")}
                     className="h-12 py-[7.5px] px-4"
                   />
                 </FormControl>
@@ -151,7 +152,7 @@ export default function SignUpCompletePage() {
 
               return (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="auth-label">Tug‘ilgan sana</FormLabel>
+                  <FormLabel className="auth-label">{t("born")}</FormLabel>
                   <div className="relative">
                     <Input
                       value={birthDateInput}
@@ -197,9 +198,9 @@ export default function SignUpCompletePage() {
             name="password"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="auth-label">Parol*</FormLabel>
+                <FormLabel className="auth-label">{t("password")}*</FormLabel>
                 <FormControl>
-                  <PasswordInput {...field} placeholder="Parolni kiriting" />
+                  <PasswordInput {...field} placeholder={t("placeholder-4")} />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -213,10 +214,10 @@ export default function SignUpCompletePage() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="auth-label">
-                  Parolni tasdiqlash*
+                  {t("confirm-password")}*
                 </FormLabel>
                 <FormControl>
-                  <PasswordInput {...field} placeholder="Parolni tasdiqlash" />
+                  <PasswordInput {...field} placeholder={t("placeholder-5")} />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -231,14 +232,14 @@ export default function SignUpCompletePage() {
               type="button"
               className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
             >
-              Bekor qilish
+              {t("close-button")}
             </Button>
             <Button
               disabled={!form.formState.isValid || isPending}
               type="submit"
               className="h-12 flex-1 rounded-[12px]"
             >
-              {isPending ? <SubmitLoader /> : "Ro'yxatdan o'tish"}
+              {isPending ? <SubmitLoader /> : t("sign-button  ")}
             </Button>
           </div>
         </form>

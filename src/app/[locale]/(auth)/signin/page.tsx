@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -28,6 +28,7 @@ export default function SigninPage() {
   const login = useStore((s) => s.login);
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("sign-in")
 
   const form = useForm<LoginForm>({
     mode: "onTouched",
@@ -60,8 +61,8 @@ export default function SigninPage() {
   };
 
   return (
-    <div className="w-full ">
-      <h2 className="auth-title ">Kirish</h2>
+    <div className="w-full">
+      <h2 className="auth-title ">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -74,13 +75,13 @@ export default function SigninPage() {
             render={({ field }) => (
               <FormItem className="w-full gap-[3px]">
                 <FormLabel className="text-[13px] text-textColor font-normal">
-                  Telefon raqam yoki Email
+                  {t("label-1")}
                 </FormLabel>
                 <FormControl>
                   <EmailOrPhoneInput
                     {...field}
                     autoComplete="username"
-                    placeholder="Telefon raqam yoki Email"
+                    placeholder={t("placeholder-1")}
                     className="h-12 py-[7.5px] px-4"
                   />
                 </FormControl>
@@ -96,10 +97,10 @@ export default function SigninPage() {
               return (
                 <FormItem className="gap-[3px]">
                   <FormLabel className="text-[13px] text-textColor font-normal">
-                    Parol
+                    {t("label-2")}
                   </FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="Parol" {...field} />
+                    <PasswordInput placeholder={t("placeholder-2")} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -111,7 +112,7 @@ export default function SigninPage() {
               href="/forgot-password"
               className="font-medium text-mainColor leading-[150%]"
             >
-              Parolni unutdingizmi?
+              {t("forgot-pass")}
             </Link>
           </div>
           <Button
@@ -119,7 +120,7 @@ export default function SigninPage() {
             type="submit"
             className="mt-[10px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            {isPending ? <SubmitLoader /> : "Kirish"}
+            {isPending ? <SubmitLoader /> : t("button")}
           </Button>
         </form>
       </Form>

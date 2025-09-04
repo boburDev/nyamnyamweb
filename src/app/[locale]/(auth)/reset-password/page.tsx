@@ -1,5 +1,5 @@
 "use client";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,6 +21,7 @@ export default function ResetPasswordPage() {
   const confirm = useAuthStore((s) => s.confirm);
   const deleteConfirm = useAuthStore((s) => s.deleteConfirm);
   const { mutate: resetPassword, isPending } = useResetPassword(locale);
+  const t = useTranslations("forgot-password-step")
 
   const form = useForm<ResetForm>({
     mode: "onTouched",
@@ -61,7 +62,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div>
-      <h2 className="auth-title">Parolni tiklash </h2>
+      <h2 className="auth-title">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -73,9 +74,9 @@ export default function ResetPasswordPage() {
             name="new_password"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="auth-label">Parol*</FormLabel>
+                <FormLabel className="auth-label">{t("newpass-label")}*</FormLabel>
                 <FormControl>
-                  <PasswordInput {...field} placeholder="Parol kiriting" />
+                  <PasswordInput {...field} placeholder={t("newpass-placeholder")} />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -87,12 +88,12 @@ export default function ResetPasswordPage() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="auth-label">
-                  Parolni tasdiqlash*
+                  {t("confirmpass-label")}*
                 </FormLabel>
                 <FormControl>
                   <PasswordInput
                     {...field}
-                    placeholder="Parol qayta kiriting"
+                    placeholder={t("confirmpass-label")}
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -106,14 +107,14 @@ export default function ResetPasswordPage() {
               type="button"
               className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
             >
-              Bekor qilish
+              {t("cancel-buttton")}
             </Button>
             <Button
               disabled={!form.formState.isValid || isPending}
               type="submit"
               className="h-12 flex-1 rounded-[12px]"
             >
-              {isPending ? <SubmitLoader /> : "Yuborish"}
+              {isPending ? <SubmitLoader /> : t("next-button")}
             </Button>
           </div>
         </form>

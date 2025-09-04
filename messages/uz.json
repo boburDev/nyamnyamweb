@@ -262,14 +262,14 @@
       "title": "Ma’lumotlaringizni kiriting",
       "name": "Ism",
       "surname": "Familiya",
-      "born": "Tug’ilgan yil",
+      "born": "Tug’ilgan sana",
       "password": "Parol yaratish",
       "confirm-password": "Parolni tasdiqlash",
       "placeholder-1": "Ismingizni kiriting",
       "placeholder-2": "Familiyangizni kiriting",
-      "placeholder-3": "Tug’ilgan yilingizni kiriting",
+      "placeholder-3": "Tug’ilgan sanangizni kiriting",
       "placeholder-4": "Parolingizni kiriting",
-      "placeholder-5": "Parolingizni kiriting",
+      "placeholder-5": "Parolingizni tasdiqlang",
       "close-button": "Bekor qilish",
       "sign-button": "Kirish"
     }
@@ -304,7 +304,10 @@
   "confirm-password": {
     "title": "Tasdiqlash kodi",
     "desc-1": "Biz",
-    "desc-2": "raqamiga SMS orqali 6 xonali kod yubordik. Iltimos, tasdiqlash uchun kodni kiriting.",
+    "email": "pochta manziliga",
+    "number": "raqamiga SMS orqali",
+    "desc-2": "6 xonali kod yubordik.",
+    "desc-3": "Iltimos, tasdiqlash uchun kodni kiriting.",
     "resell": "Qayta yuborish",
     "close-button": "Bekor qilish",
     "next-button": "Davom etish"
