@@ -1,5 +1,6 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
 import { cookieStorage } from "@/lib";
+import { setTokens } from "@/utils/token";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -18,8 +19,7 @@ const useStore = create<StoreState>()(
       auth: false,
       isHydrated: false,
       login: (access, refresh) => {
-        cookieStorage.setItem(ACCESS_TOKEN, access);
-        cookieStorage.setItem(REFRESH_TOKEN, refresh);
+        setTokens({ access_token: access, refresh_token: refresh });
         set({ auth: true });
       },
       logout: () => {

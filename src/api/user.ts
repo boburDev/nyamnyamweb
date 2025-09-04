@@ -1,11 +1,12 @@
 import { GET_USER } from "@/constants";
-import axios from "axios";
+import request from "@/services";
 
 export async function getUsers() {
   try {
-    const res = await axios.get(GET_USER);
-    return res.data;
+    const res = await request(GET_USER);
+    return res.data.data;
   } catch (err) {
-    console.log(err);
+    console.error("getUsers error:", err);
+    return null;
   }
 }

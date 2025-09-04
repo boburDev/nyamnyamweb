@@ -11,12 +11,19 @@ import { ProfileLogout, UserProfile } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import useStore from "@/context/store";
-import { useUserMenu } from "@/data";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "@/api";
+import { userMenu } from "@/data";
+import { useTranslations } from "next-intl";
 export const UserMenu = () => {
-  const menu = useUserMenu();
   const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
   const logout = useStore((s) => s.logout);
+  const t = useTranslations("UserMenu");
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUsers(),
+  });
   const handleGoTo = (path: string) => {
     setActive(path);
     router.push(path);
@@ -25,6 +32,8 @@ export const UserMenu = () => {
     logout();
     router.refresh();
   };
+  
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -38,11 +47,11 @@ export const UserMenu = () => {
             <UserProfile className="size-6" />
           </Button>
           <p className="font-medium text-[17px] text-textColor">
-            Abu Bakr Turgunov
+           {userData?.first_name}
           </p>
         </DropdownMenuLabel>
         <div className="flex flex-col gap-1">
-          {menu.map(({ name, path, icon: Icon }) => (
+          {userMenu.map(({ name, path, icon: Icon }) => (
             <DropdownMenuItem
               key={name}
               onClick={() => handleGoTo(path)}
@@ -51,7 +60,7 @@ export const UserMenu = () => {
               }`}
             >
               <span>{Icon && <Icon className="!w-[24px] !h-5" />}</span>
-              {name}
+              {t(name)}
             </DropdownMenuItem>
           ))}
           <button
@@ -61,7 +70,7 @@ export const UserMenu = () => {
             <span className="pl-1">
               <ProfileLogout className="w-5 h-5" />
             </span>
-            Hisobdan chiqish
+            {t("logout")}
           </button>
         </div>
       </DropdownMenuContent>

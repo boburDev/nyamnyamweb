@@ -239,7 +239,7 @@ export default function SignUpCompletePage() {
               type="submit"
               className="h-12 flex-1 rounded-[12px]"
             >
-              {isPending ? <SubmitLoader /> : t("sign-button  ")}
+              {isPending ? <SubmitLoader /> : t("sign-button")}
             </Button>
           </div>
         </form>

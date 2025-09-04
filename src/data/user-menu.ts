@@ -7,50 +7,46 @@ import {
   ProfilePayment,
   ProfileUser,
 } from "@/assets/icons";
-import { useTranslations } from "next-intl";
 
 export type UserMenuItem = {
   name: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   path: string;
 };
-export const useUserMenu = (): UserMenuItem[] => {
-const t = useTranslations("UserMenu");
-
-return [
+export const userMenu = [
   {
-    name: t("profile"),
+    name: "profile",
     icon: ProfileUser,
     path: "/profile",
   },
   {
-    name: t("payment"),
+    name: "payment",
     icon: ProfilePayment,
     path: "/payment",
   },
   {
-    name: t("order"),
+    name: "order",
     icon: ProfileOrder,
     path: "/order",
   },
   {
-    name: t("cart"),
+    name: "cart",
     icon: ProfileCart,
     path: "/cart",
   },
   {
-    name: t("order-history"),
+    name: "order-history",
     icon: ProfileHistory,
     path: "/order-history",
   },
   {
-    name: t("favourites"),
+    name: "favourites",
     icon: ProfileFavourite,
     path: "/favourites",
   },
   {
-    name: t("notification"),
+    name: "notification",
     icon: ProfileNotification,
     path: "/notification",
   },
-]}
+];

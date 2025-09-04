@@ -1,7 +1,7 @@
 export const ACCESS_TOKEN = "NYAM_ACCESS_TOKEN";
 export const REFRESH_TOKEN = "NYAM_REFRESH_TOKEN";
 export const DOMAIN = process.env.NEXT_PUBLIC_API_URL;
-export const REFRESH_USER = `${DOMAIN}/token/refresh/`;
+export const REFRESH_USER = `${DOMAIN}/auth/refresh-token/`;
 export const SIGNIN = `${DOMAIN}/auth/login/`;
 export const SIGNUP = `${DOMAIN}/auth/register/`;
 export const OTP_UPDATE = `${DOMAIN}/otp/verify-update/`;
@@ -9,4 +9,4 @@ export const OTP = `${DOMAIN}/otp/verify`;
 export const OTP_RESET_PASSWORD = `${DOMAIN}/otp/verify-reset-password`;
 export const FORGOT_PASSWORD = `${DOMAIN}/auth/reset_password/`;
 export const RESET_PASSWORD = `${DOMAIN}/auth/save_reset_password/`;
-export const GET_USER =  `${DOMAIN}/auth/profile/`;
+export const GET_USER = `/auth/profile/`;

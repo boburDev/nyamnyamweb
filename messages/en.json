@@ -311,5 +311,8 @@
     "resell": "Resend",
     "close-button": "Cancel",
     "next-button": "Continue"
+  },
+  "loader": {
+    "submit": "Sending..."
   }
 }

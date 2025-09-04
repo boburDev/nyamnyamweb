@@ -311,5 +311,8 @@
     "resell": "Qayta yuborish",
     "close-button": "Bekor qilish",
     "next-button": "Davom etish"
+  },
+  "loader": {
+    "submit": "Yuborilmoqda..."
   }
 }

@@ -20,8 +20,9 @@ export const refreshTokens = async () => {
       }
     );
     console.log("Token refreshed:", response.data);
-    
-    const { access_token: newAccess, refresh_token: newRefresh } = response.data;
+
+    const { access_token: newAccess, refresh_token: newRefresh } =
+      response.data.data;
     setTokens({ access_token: newAccess, refresh_token: newRefresh });
 
     return newAccess;
