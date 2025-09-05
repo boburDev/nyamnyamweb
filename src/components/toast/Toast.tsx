@@ -94,7 +94,7 @@ export const showToast = ({
                     <Link
                       href={href}
                       onClick={() => toast.remove(t.id)}
-                      className="text-sm text-blue-600 underline hover:text-blue-800"
+                      className="text-sm text-blue-600 hover:text-blue-800"
                     >
                       {hrefName}
                     </Link>

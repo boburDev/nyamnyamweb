@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
- import { AuthBottom, AuthBrowser } from "@/components/auth"; 
+import { AuthBottom, AuthBrowser } from "@/components/auth";
 import { EmailOrPhoneInput } from "@/components/form";
 import { showError } from "@/components/toast/Toast";
 import { Button } from "@/components/ui/button";
@@ -22,11 +22,16 @@ export default function SignUpPage() {
   const setTo = useAuthStore((s) => s.setTo);
   const setAuthId = useAuthStore((s) => s.setAuthId);
   const t = useTranslations("sign-up")
-  
+  const tValidation = useTranslations("validation")
   const { mutate: registerMutate, isPending } = useRegister(locale);
 
-  const form = useForm<SignupForm>({ mode: "onTouched", resolver: zodResolver(registerSchema), defaultValues: { emailOrPhone: "", }, });
-
+  const form = useForm<SignupForm>({
+    mode: "onTouched",
+    resolver: zodResolver(registerSchema(tValidation)),
+    defaultValues: {
+      emailOrPhone: "",
+    },
+  });
 
   const onSubmit = (data: SignupForm) => {
     registerMutate(data, {
@@ -42,8 +47,8 @@ export default function SignUpPage() {
       onError: (error) => {
         const errorMessage =
           typeof error.response?.data === "object" &&
-          error.response?.data &&
-          "error_message" in error.response.data
+            error.response?.data &&
+            "error_message" in error.response.data
             ? (error.response.data.error_message as string)
             : "Noma'lum xatolik yuz berdi";
         showError(errorMessage);
@@ -85,7 +90,7 @@ export default function SignUpPage() {
             type="submit"
             className="mt-[43px] w-full h-12 rounded-[10px] font-semibold text-lg"
           >
-            {isPending ? <SubmitLoader/> : t("button")}
+            {isPending ? <SubmitLoader /> : t("button")}
           </Button>
         </form>
       </Form>

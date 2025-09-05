@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { useLocale, useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,10 +32,10 @@ export default function SignUpCompletePage() {
   const clearId = useAuthStore((s) => s.clearAuthId);
   const clearTo = useAuthStore((s) => s.clearTo);
   const t = useTranslations("sign-up.enter-details")
-
-  const form = useForm<CompleteForm>({
+  const tValidation = useTranslations("validation")
+  const form = useForm<CompleteForm & FieldValues>({
     mode: "onTouched",
-    resolver: zodResolver(completeSchema),
+    resolver: zodResolver(completeSchema(tValidation) as any),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -49,13 +49,15 @@ export default function SignUpCompletePage() {
     locale
   );
 
-  const onSubmit = (data: CompleteForm) => {
-    const { confirmPassword: _confirmPassword, ...payload } = data;
+  const onSubmit = (data: CompleteForm & FieldValues) => {
+    const { confirmPassword: _confirmPassword, ...restData } = data;
 
     const apiPayload: CompletePayload = {
-      ...payload,
-      birth_date: payload.birth_date
-        ? format(new Date(payload.birth_date), "yyyy-MM-dd")
+      first_name: restData.first_name,
+      last_name: restData.last_name,
+      password: restData.password,
+      birth_date: restData.birth_date
+        ? format(new Date(restData.birth_date), "yyyy-MM-dd")
         : undefined,
     };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -29,10 +29,11 @@ export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("sign-in")
+  const tValidation = useTranslations("validation")
 
-  const form = useForm<LoginForm>({
+  const form = useForm<LoginForm & FieldValues>({
     mode: "onTouched",
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema(tValidation) as any),
     defaultValues: {
       emailOrPhone: "",
       password: "",
@@ -82,7 +83,7 @@ export default function SigninPage() {
                     {...field}
                     autoComplete="username"
                     placeholder={t("placeholder-1")}
-                    className="h-12 py-[7.5px] px-4"
+                    className="h-12 py-[7.5px] px-4 rounded-[12px]"
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />

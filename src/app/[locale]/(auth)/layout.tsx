@@ -8,11 +8,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-2">
-      <div className="overflow-hidden h-screen relative">
-        <div className="absolute top-4 left-4 w-full h-full z-10">
+    <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="hidden lg:block overflow-hidden h-screen relative">
+        <div className="absolute top-4 left-4 z-10">
           <Link href="/" className="font-medium text-white text-[40px]">
-          Logo
+            Logo
           </Link>
         </div>
         <Image
@@ -20,10 +20,12 @@ export default function AuthLayout({
           alt="Auth layout image"
           fill
           className="h-full w-full object-cover"
-          priority 
+          priority
         />
       </div>
-      <div className="flex flex-col justify-center px-20 3xl:px-[182px] h-screen overflow-y-auto py-5">{children}</div>
+      <div className="flex flex-col justify-center px-5 sm:px-10 lg:px-20 3xl:px-[182px] h-screen overflow-y-auto py-5">
+        {children}
+      </div>
     </div>
   );
 }
