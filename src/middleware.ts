@@ -13,7 +13,6 @@ export default async function middleware(request: NextRequest) {
   const token = request.cookies.get(REFRESH_TOKEN);
 
   const isProtectedRoute =
-    pathname.includes("/cart") ||
     pathname.includes("/order") ||
     pathname.includes("/profile");
 

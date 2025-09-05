@@ -21,10 +21,10 @@ export default function ForgotPasswordPage() {
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
   const t = useTranslations("forgot-password-step")
-
+ const tValidation = useTranslations("validation")
   const form = useForm<ForgotForm>({
     mode: "onTouched",
-    resolver: zodResolver(forgotSchema),
+    resolver: zodResolver(forgotSchema(tValidation)),
     defaultValues: {
       emailOrPhone: "",
     },

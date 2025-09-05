@@ -22,10 +22,11 @@ export default function ResetPasswordPage() {
   const deleteConfirm = useAuthStore((s) => s.deleteConfirm);
   const { mutate: resetPassword, isPending } = useResetPassword(locale);
   const t = useTranslations("forgot-password-step")
+  const tValidation = useTranslations("validation")
 
   const form = useForm<ResetForm>({
     mode: "onTouched",
-    resolver: zodResolver(resetSchema),
+    resolver: zodResolver(resetSchema(tValidation)),
     defaultValues: {
       new_password: "",
       confirmPassword: "",
