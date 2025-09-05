@@ -7,8 +7,19 @@ import { AxiosError } from "axios";
 import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
-import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CompleteForm, CompletePayload } from "@/types";
 import { showError } from "@/components/toast/Toast";
 import { Calendar } from "@/components/ui/calendar";
@@ -22,6 +33,7 @@ import useAuthStore from "@/context/useAuth";
 import { useUpdateDetail } from "@/hooks";
 import { completeSchema } from "@/schema";
 import useStore from "@/context/store";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignUpCompletePage() {
   const [birthDateInput, setBirthDateInput] = useState<string>("");
@@ -31,8 +43,8 @@ export default function SignUpCompletePage() {
   const locale = useLocale();
   const clearId = useAuthStore((s) => s.clearAuthId);
   const clearTo = useAuthStore((s) => s.clearTo);
-  const t = useTranslations("sign-up.enter-details")
-
+  const t = useTranslations("sign-up.enter-details");
+  const queryClient = useQueryClient();
   const form = useForm<CompleteForm>({
     mode: "onTouched",
     resolver: zodResolver(completeSchema),
@@ -65,6 +77,7 @@ export default function SignUpCompletePage() {
         const data = res.data;
         console.log("res", data);
         login(data.tokens.access_token, data.tokens.refresh_token);
+        queryClient.invalidateQueries({ queryKey: ["user"]});
         router.push("/");
         clearId();
         clearTo();

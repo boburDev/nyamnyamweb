@@ -80,14 +80,20 @@
   "profile": {
     "title": "Mening profilim",
     "about-title": "Shaxsiy ma’lumotlar",
-    "change-button": "Tahrirlash",
-    "name": "Ism",
-    "surname": "Familiya",
-    "born": "Tug’ilgan sana",
-    "phone": "Telefon raqam",
+    "edit": "Tahrirlash",
+    "first_name": "Ism",
+    "last_name": "Familiya",
+    "birth_date": "Tug’ilgan sana",
+    "phone_number": "Telefon raqam",
     "email": "Email",
     "password": "Parol",
-    "save-button": "Saqlash"
+    "save": "Saqlash",
+    "sentPhone": "Biz sizning {phone} raqamingizga kod jo’natdik",
+    "sentEmail": "Biz sizning {email} emailingizga kod jo’natdik",
+    "send": "Yuborish",
+    "phoneTitle": "Telefon raqamini o'zgartirish",
+    "emailTitle": "Email o'zgartirish",
+    "updated": "Malumotlar muvaffaqiyatli yangilandi"
   },
   "saved-title": {
     "title": "Saqlangan mahsulotlar"

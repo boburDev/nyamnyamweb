@@ -9,6 +9,7 @@ export * from "./CartIcon";
 export * from "./UserIcon";
 export * from "./UserProfile";
 export * from "./ArrowBackIcon";
+export * from "./EditIcon";
 // profile icon
 export * from "./profile/ProfileCart";
 export * from "./profile/ProfileFavourite";

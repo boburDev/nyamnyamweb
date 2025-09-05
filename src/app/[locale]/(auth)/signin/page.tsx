@@ -23,13 +23,14 @@ import { useLogin } from "@/hooks";
 import { SubmitLoader } from "@/components/loader";
 import { PasswordInput } from "@/components/form";
 import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SigninPage() {
   const login = useStore((s) => s.login);
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("sign-in")
-
+  const queryClinet = useQueryClient();
   const form = useForm<LoginForm>({
     mode: "onTouched",
     resolver: zodResolver(loginSchema),
@@ -45,6 +46,7 @@ export default function SigninPage() {
     loginMutate(data, {
       onSuccess: (res) => {
         login(res.tokens.access_token, res.tokens.refresh_token);
+        queryClinet.invalidateQueries({ queryKey: ["user"] });
         showSuccess("Muvaffaqiyatli kirdingiz");
         router.push("/");
       },

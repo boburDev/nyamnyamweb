@@ -10,3 +10,5 @@ export const OTP_RESET_PASSWORD = `${DOMAIN}/otp/verify-reset-password`;
 export const FORGOT_PASSWORD = `${DOMAIN}/auth/reset_password/`;
 export const RESET_PASSWORD = `${DOMAIN}/auth/save_reset_password/`;
 export const GET_USER = `/auth/profile/`;
+export const UPDATE_OTP_USER = `/otp/verify-update`;
+export const UPDATE_ME = `/auth/update-me/`;

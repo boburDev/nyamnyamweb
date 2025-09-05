@@ -1,8 +1,9 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
-import { cookieStorage } from "@/lib";
-import { setTokens } from "@/utils/token";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
+import { setTokens } from "@/utils/token";
+import { cookieStorage } from "@/lib";
 
 interface StoreState {
   auth: boolean;

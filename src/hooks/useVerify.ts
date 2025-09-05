@@ -1,13 +1,16 @@
-import { showSuccess } from "@/components/toast/Toast";
-import { FORGOT_PASSWORD, SIGNUP } from "@/constants";
-import axios from "axios";
+"use client";
+import { showError, showSuccess } from "@/components/toast/Toast";
+import { FORGOT_PASSWORD, SIGNUP, UPDATE_ME } from "@/constants";
+import request from "@/services";
+import axios, { AxiosError } from "axios";
+import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 
 export const useVerify = (to: string, reset?: boolean) => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(!reset ? 60 : 0);
   const isEmail = to?.includes("@");
-
+  const locale = useLocale();
   const minutes = String(Math.floor(timer / 60)).padStart(2, "0");
   const seconds = String(timer % 60).padStart(2, "0");
 
@@ -36,11 +39,33 @@ export const useVerify = (to: string, reset?: boolean) => {
     const payload = isEmail ? { email: to } : { phone_number: to };
     try {
       await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload);
+      setCode("");
       showSuccess("Kod qayta yuborildi");
       setTimer(60);
-      console.log("Resend code");
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const message = error.response?.data?.error_message;
+        showError(message);
+      }
+    }
+  };
+  const updateResend = async () => {
+    if (timer > 0) return;
+    const payload = isEmail ? { email: to } : { phone_number: to };
+    try {
+      await request.patch(UPDATE_ME, payload, {
+        headers: {
+          "Accept-Language": locale,
+        },
+      });
+      setCode("");
+      showSuccess("Kod qayta yuborildi");
+      setTimer(60);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const message = error.response?.data?.error_message;
+        showError(message);
+      }
     }
   };
   const onlyDigits = (e: React.KeyboardEvent | React.ClipboardEvent) => {
@@ -68,5 +93,6 @@ export const useVerify = (to: string, reset?: boolean) => {
     handleResend,
     maskedTo,
     onlyDigits,
+    updateResend,
   };
 };

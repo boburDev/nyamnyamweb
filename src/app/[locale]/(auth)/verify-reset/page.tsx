@@ -4,7 +4,11 @@ import { AxiosError } from "axios";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
-import { InputOTP, InputOTPGroup, InputOTPSlot, } from "@/components/ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { showError } from "@/components/toast/Toast";
 import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
@@ -74,8 +78,9 @@ export default function VerifyPage() {
       {/* otp */}
       <div className="mt-[30px]">
         <InputOTP
+          value={code}
           maxLength={6}
-          onChange={setCode}
+          onChange={(val) => setCode(val)}
           inputMode="numeric"
           pattern="[0-9]*"
           onKeyDown={onlyDigits}

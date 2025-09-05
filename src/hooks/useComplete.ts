@@ -5,8 +5,6 @@ import axios from "axios";
 import { DOMAIN } from "@/constants";
 import { CompletePayload } from "@/types";
 
-
-
 export function useUpdateDetail(authId: string, locale: string) {
   return useMutation({
     mutationFn: async (payload: CompletePayload) => {

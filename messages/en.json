@@ -80,14 +80,20 @@
   "profile": {
     "title": "My Profile",
     "about-title": "Personal Information",
-    "change-button": "Edit",
-    "name": "First Name",
-    "surname": "Last Name",
-    "born": "Date of Birth",
-    "phone": "Phone Number",
+    "edit": "Edit",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "birth_date": "Date of Birth",
+    "phone_number": "Phone Number",
     "email": "Email",
     "password": "Password",
-    "save-button": "Save"
+    "save": "Save",
+    "sentPhone": "We sent a code to your number {phone}",
+    "sentEmail": "We sent a code to your email {email}",
+    "send": "Send",
+    "phoneTitle": "Edit phone",
+    "emailTitle": "Edit email",
+    "updated": "Information updated successfully"
   },
   "saved-title": {
     "title": "Saved products"

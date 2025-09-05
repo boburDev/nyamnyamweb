@@ -80,14 +80,20 @@
   "profile": {
     "title": "Мой профиль",
     "about-title": "Личные данные",
-    "change-button": "Редактировать",
-    "name": "Имя",
-    "surname": "Фамилия",
-    "born": "Дата рождения",
-    "phone": "Номер телефона",
+    "edit": "Редактировать",
+    "first_name": "Имя",
+    "last_name": "Фамилия",
+    "birth_date": "Дата рождения",
+    "phone_number": "Номер телефона",
     "email": "Электронная почта",
     "password": "Пароль",
-    "save-button": "Сохранить"
+    "save": "Сохранить",
+    "sentPhone": "Мы отправили код на ваш номер {phone}",
+    "sentEmail": "Мы отправили код на вашу почту {email}",
+    "send": "Отправить",
+    "phoneTitle": "Редактировать телефон",
+    "emailTitle": "Редактировать email",
+    "updated": "Данные успешно обновлены"
   },
   "saved-title": {
     "title": "Сохраненные товары"
@@ -313,7 +319,7 @@
     "close-button": "Отмена",
     "next-button": "Продолжить"
   },
-   "loader": {
+  "loader": {
     "submit": "Отправить..."
   }
 }

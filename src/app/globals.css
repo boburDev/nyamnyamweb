@@ -25,6 +25,7 @@ input:-webkit-autofill:active {
   --color-iron: #6e6e6e;
   --color-dustColor: #b5b7bb08;
   --color-pagination: #f3faf5;
+  --color-mounSnow: #e9e9eb;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
@@ -141,5 +142,11 @@ input:-webkit-autofill:active {
   }
   .page-title {
     @apply font-medium text-[36px] text-textColor;
+  }
+  .profile-label {
+    @apply font-normal text-sm text-textColor;
+  }
+  .profile-name {
+    @apply text-base text-dolphin font-medium;
   }
 }

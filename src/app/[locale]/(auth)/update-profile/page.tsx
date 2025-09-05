@@ -1,47 +1,53 @@
 "use client";
 
 import { AxiosError } from "axios";
+import { useLocale } from "next-intl";
+
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { showError } from "@/components/toast/Toast";
+import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { ArrowBackIcon } from "@/assets/icons";
-import { useRouter } from "@/i18n/navigation";
 import { useVerify } from "@/hooks/useVerify";
+import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
-import { useVerifyOtp } from "@/hooks";
-import { useLocale, useTranslations } from "next-intl";
-import { SubmitLoader } from "@/components/loader";
+import { useUpdateVerifyOtp } from "@/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function VerifyPage() {
+export default function UpdateProfilePage() {
   const to = useAuthStore((s) => s.to);
+  const clearTo = useAuthStore((s) => s.clearTo);
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations("confirm-password");
   const {
     isEmail,
     setCode,
     code,
-    handleResend,
+    updateResend,
     timer,
     minutes,
     seconds,
     maskedTo,
     onlyDigits,
   } = useVerify(to as string);
-  const { mutate: verifyOtp, isPending } = useVerifyOtp(locale);
+  const { mutate: verifyOtp, isPending } = useUpdateVerifyOtp(locale);
+  const queryClient = useQueryClient();
   const handleBack = () => {
     router.back();
   };
   if (!to) return null;
   const hanleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
+
     verifyOtp(payload, {
       onSuccess: () => {
-        router.push("/signup-complete");
+        router.push("/profile");
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+        clearTo();
       },
       onError: (error) => {
         if (error instanceof AxiosError) {
@@ -51,6 +57,7 @@ export default function VerifyPage() {
       },
     });
   };
+
   return (
     <div className="w-[390px] mx-auto">
       {/* top */}
@@ -58,15 +65,14 @@ export default function VerifyPage() {
         <button onClick={handleBack} className="mb-[10px]">
           <ArrowBackIcon />
         </button>
-        <h2 className="auth-title">{t("title")}</h2>
+        <h2 className="auth-title">Tasdiqlash kodi</h2>
         <p className="text-dolphin text-sm mb-[5px] max-w-[369px]">
-          {t("desc-1")}
-          {locale === "uz"
-            ? ` ${maskedTo} ${isEmail ? t("email") : t("number")} `
-            : ` ${isEmail ? t("email") : t("number")} ${maskedTo} `}
-          {t("desc-2")}
+          Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"}{" "}
+          6 xonali kod yubordik.
         </p>
-        <p className="text-dolphin text-sm">{t("desc-3")}</p>
+        <p className="text-dolphin text-sm">
+          Iltimos, tasdiqlash uchun kodni kiriting.
+        </p>
       </div>
       {/* otp */}
       <div className="mt-[30px]">
@@ -79,7 +85,7 @@ export default function VerifyPage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-[15px]">
+          <InputOTPGroup className="gap-3">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <InputOTPSlot
                 key={i}
@@ -102,13 +108,13 @@ export default function VerifyPage() {
       </div>
       <div className="flex justify-between items-center mt-[25px]">
         <button
-          onClick={handleResend}
+          onClick={updateResend}
           disabled={timer > 0}
           className={`text-mainColor font-medium ${
             timer > 0 ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {t("resell")}
+          Qayta yuborish
         </button>
         <span className="text-textColor text-base font-medium">
           {minutes}:{seconds}
@@ -121,14 +127,14 @@ export default function VerifyPage() {
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
           onClick={handleBack}
         >
-          {t("close-button")}
+          Bekor qilish
         </Button>
         <Button
           onClick={hanleVerify}
           disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          {isPending ? <SubmitLoader /> : t("next-button")}
+          {isPending ? <SubmitLoader /> : "Tasdiqlash"}
         </Button>
       </div>
     </div>
