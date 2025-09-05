@@ -320,5 +320,14 @@
   },
   "loader": {
     "submit": "Yuborilmoqda..."
+  },
+  "validation": {
+    "emailOrPhone": "Telefon raqam yoki Email majburiy",
+    "password": "Parol majburiy",
+    "passwordMin": "Parol kamida 5 belgidan iborat bo'lishi kerak",
+    "passwordMatch": "Parollar mos kelmadi",
+    "firstName": "Ism majburiy",
+    "invalidDate": "Noto‘g‘ri  sana",
+    "confirmPassword": "Parolni tasdiqlash majburiy"
   }
 }

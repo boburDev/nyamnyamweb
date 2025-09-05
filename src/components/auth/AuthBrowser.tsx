@@ -16,9 +16,9 @@ export const AuthBrowser = () => {
         <button
           key={item.name}
           onClick={() => handleBrowserAuth(item.name)}
-          className="group bg-borderColor/50 border border-plasterColor rounded-[20px] py-[21px] px-[36px] "
+          className="group bg-borderColor/50 border border-plasterColor rounded-[20px] py-[17px] px-[24px] xl:py-[21px] xl:px-[36px] "
         >
-          <item.icon className="grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" />
+          <item.icon className="grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all w-[34px] h-[34px] xl:w-[42px] xl:h-[42px] " />
         </button>
       ))}
     </div>

@@ -2,10 +2,10 @@ import { phoneLocalRegex, phoneRegex } from "@/utils";
 import z from "zod";
 
 // signin
-export const loginSchema = z.object({
+export const loginSchema = (tValidation: (key: string) => string) => z.object({
   emailOrPhone: z
     .string()
-    .min(1, "Telefon raqam yoki Email majburiy")
+    .min(1, tValidation("emailOrPhone"))
     .transform((val) => val.trim().replace(/\s/g, ""))
     .refine((val) => {
       if (val.includes("@")) {
@@ -15,35 +15,35 @@ export const loginSchema = z.object({
         return true;
       }
       return false;
-    }, "Yaroqsiz telefon raqam yoki email manzili"),
+    }, tValidation("emailOrPhone")),
   password: z
     .string()
-    .min(1, "Parol majburiy")
-    .min(5, "Parol kamida 5 belgidan iborat bo'lishi kerak"),
+    .min(1, tValidation("password"))
+    .min(5, tValidation("password")),
 });
 
 // signup
+export const registerSchema = (tValidation: (key: string) => string) => z.object({
+  emailOrPhone: z
+    .string()
+    .min(1, tValidation("emailOrPhone"))
+    .transform((val) => val.trim().replace(/\s/g, ""))
+    .refine((val) => {
+      if (val.includes("@")) {
+        return z.string().email().safeParse(val).success;
+      }
+      if (phoneRegex.test(val) || phoneLocalRegex.test(val)) {
+        return true;
+      }
+      return false;
+    }, tValidation("emailOrPhone")),
+});
 
-export const registerSchema = z.object({
-  emailOrPhone: z
-    .string()
-    .min(1, "Telefon raqam yoki Email majburiy")
-    .transform((val) => val.trim().replace(/\s/g, ""))
-    .refine((val) => {
-      if (val.includes("@")) {
-        return z.string().email().safeParse(val).success;
-      }
-      if (phoneRegex.test(val) || phoneLocalRegex.test(val)) {
-        return true;
-      }
-      return false;
-    }, "Yaroqsiz telefon raqam yoki email manzili"),
-});
 // ForgotPassword 
-export const forgotSchema = z.object({
+export const forgotSchema = (tValidation: (key: string) => string) => z.object({
   emailOrPhone: z
     .string()
-    .min(1, "Telefon raqam yoki Email majburiy")
+    .min(1, tValidation("emailOrPhone"))
     .transform((val) => val.trim().replace(/\s/g, ""))
     .refine((val) => {
       if (val.includes("@")) {
@@ -53,26 +53,27 @@ export const forgotSchema = z.object({
         return true;
       }
       return false;
-    }, "Yaroqsiz telefon raqam yoki email manzili"),
+    }, tValidation("emailOrPhone")),
 });
-  // ResetPasswordPage
-export const resetSchema = z
+
+// ResetPasswordPage
+export const resetSchema = (tValidation: (key: string) => string) => z
   .object({
     new_password: z
       .string()
-      .min(5, "Parol kamida 5 ta belgidan iborat bo'lishi kerak")
+      .min(5, tValidation("password"))
       .trim(),
-    confirmPassword: z.string().min(1, "Parolni tasdiqlash majburiy").trim(),
+    confirmPassword: z.string().min(1, tValidation("confirmPassword")).trim(),
   })
   .refine((data) => data.new_password === data.confirmPassword, {
-    message: "Parollar mos kelmadi",
+    message: tValidation("passwordMatch"),
     path: ["confirmPassword"],
   });
 
-  // Signup Complete
-export const completeSchema = z
+// Signup Complete
+export const completeSchema = (tValidation: (key: string) => string) => z
   .object({
-    first_name: z.string().min(1, "Ism majburiy"),
+    first_name: z.string().min(1, tValidation("firstName")),
     last_name: z.string().optional(),
     birth_date: z
       .date()
@@ -84,14 +85,14 @@ export const completeSchema = z
           const maxDate = new Date();
           return date >= minDate && date <= maxDate;
         },
-        { message: "Noto‘g‘ri  sana" }
+        { message: tValidation("invalidDate") }
       ),
     password: z
       .string()
-      .min(5, "Parol kamida 5 ta belgidan iborat bo'lishi kerak"),
-    confirmPassword: z.string().min(1, "Parolni tasdiqlash majburiy"),
+      .min(5, tValidation("password")),
+    confirmPassword: z.string().min(1, tValidation("confirmPassword")),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Parollar mos kelmadi",
+    message: tValidation("passwordMatch"),
     path: ["confirmPassword"],
   });

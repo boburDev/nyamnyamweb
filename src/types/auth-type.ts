@@ -1,17 +1,30 @@
-import {
-  completeSchema,
-  forgotSchema,
-  loginSchema,
-  registerSchema,
-  resetSchema,
-} from "@/schema";
 import z from "zod";
 
-export type ForgotForm = z.infer<typeof forgotSchema>;
-export type LoginForm = z.infer<typeof loginSchema>;
-export type SignupForm = z.infer<typeof registerSchema>;
-export type ResetForm = z.infer<typeof resetSchema>;
-export type CompleteForm = z.infer<typeof completeSchema>;
+export type ForgotForm = {
+  emailOrPhone: string;
+};
+
+export type LoginForm = {
+  emailOrPhone: string;
+  password: string;
+};
+
+export type SignupForm = {
+  emailOrPhone: string;
+};
+
+export type ResetForm = {
+  new_password: string;
+  confirmPassword: string;
+};
+
+export type CompleteForm = {
+  first_name: string;
+  last_name?: string;
+  birth_date?: Date;
+  password: string;
+  confirmPassword: string;
+};
 
 
 export interface ForgotPasswordResponse {

@@ -320,5 +320,14 @@
   },
   "loader": {
     "submit": "Sending..."
+  },
+  "validation": {
+    "emailOrPhone": "Phone number or email is required",
+    "password": "Password is required",
+    "passwordMin": "Password must be at least 5 characters long",
+    "passwordMatch": "Passwords do not match",
+    "firstName": "First name is required",
+    "invalidDate": "Invalid date",
+    "confirmPassword": "Confirm password is required"
   }
 }

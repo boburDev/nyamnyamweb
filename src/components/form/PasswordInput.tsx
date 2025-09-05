@@ -22,7 +22,7 @@ export function PasswordInput({
       <Input
         {...inputProps}
         type={show ? "text" : "password"}
-        className={cn("h-12 py-[7.5px] pl-4 pr-12", className)}
+        className={cn("h-12 py-[7.5px] pl-4 pr-12 rounded-[12px]", className)}
       />
       <button
         type="button"

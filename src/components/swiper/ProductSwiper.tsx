@@ -9,6 +9,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Product } from "@/api/product";
 import { Button } from "../ui/button";
 import { ProductSkeletons } from "../loader/DataLoader";
+import useCartStore from "@/context/cartStore";
+import { showToast } from "../toast/Toast";
 
 interface ProductSwiperProps {
   products: Product[];
@@ -18,9 +20,11 @@ interface ProductSwiperProps {
 
 export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwiperProps) => {
   const [isBookmarked, setIsBookmarked] = useState<{ [key: number]: boolean }>({});
-  const [isInCart, setIsInCart] = useState<{ [key: number]: boolean }>({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
+
+  // Cart store
+  const { addToCart, removeFromCart, isInCart } = useCartStore();
 
   // Handle window resize for responsive behavior
   useEffect(() => {
@@ -42,11 +46,14 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     }));
   };
 
-  const toggleCart = (productId: number) => {
-    setIsInCart((prev) => ({
-      ...prev,
-      [productId]: !prev[productId],
-    }));
+  const toggleCart = (product: Product) => {
+    if (isInCart(product.id)) {
+      removeFromCart(product.id);
+      showToast({ title: "Savatdan o'chirildi", type: "info", href: "/cart", hrefName: "Savatga o'tish" });
+    } else {
+      addToCart(product);
+      showToast({ title: "Savatga qo'shildi", type: "success", href: "/cart", hrefName: "Savatga o'tish" });
+    }
   };
 
   const NextArrow = ({ onClick, currentSlide, total }: any) => {
@@ -240,14 +247,14 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
                       {/* Action Buttons */}
                       <div className="flex gap-2">
                         <Button
-                          onClick={() => toggleCart(product.id)}
-                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors ${isInCart[product.id] || product.isInCart
+                          onClick={() => toggleCart(product)}
+                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${isInCart(product.id) || product.isInCart
                             ? "bg-mainColor text-white"
                             : "bg-gray-100 !text-mainColor hover:bg-gray-200"}`}
                         >
                           <ShoppingCart className={`w-4 h-4 flex-1 flex items-center justify-center transition-colors`} />
                         </Button>
-                        <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
                           Batafsil
                         </Button>
                       </div>
