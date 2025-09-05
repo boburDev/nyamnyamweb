@@ -23,18 +23,17 @@ import { useLogin } from "@/hooks";
 import { SubmitLoader } from "@/components/loader";
 import { PasswordInput } from "@/components/form";
 import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function SigninPage() {
   const login = useStore((s) => s.login);
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations("sign-in")
-  const tValidation = useTranslations("validation")
+  const t = useTranslations("sign-in");
+  const tValidation = useTranslations("validation");
 
   const form = useForm<LoginForm & FieldValues>({
     mode: "onTouched",
-    resolver: zodResolver(loginSchema(tValidation) as any),
+    resolver: zodResolver(loginSchema(tValidation)),
     defaultValues: {
       emailOrPhone: "",
       password: "",
@@ -47,7 +46,6 @@ export default function SigninPage() {
     loginMutate(data, {
       onSuccess: (res) => {
         login(res.tokens.access_token, res.tokens.refresh_token);
-        queryClinet.invalidateQueries({ queryKey: ["user"] });
         showSuccess("Muvaffaqiyatli kirdingiz");
         router.push("/");
       },
@@ -103,7 +101,10 @@ export default function SigninPage() {
                     {t("label-2")}
                   </FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder={t("placeholder-2")} {...field} />
+                    <PasswordInput
+                      placeholder={t("placeholder-2")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>

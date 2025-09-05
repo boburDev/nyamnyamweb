@@ -1,7 +1,7 @@
 import { SIGNIN } from "@/constants";
 import { LoginForm } from "@/types";
 import { normalizePhone } from "@/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 interface LoginResponse {
@@ -12,6 +12,7 @@ interface LoginResponse {
 }
 
 export const useLogin = (locale: string) => {
+  const queryClient = useQueryClient();
   return useMutation<LoginResponse, AxiosError, LoginForm>({
     mutationFn: async (data: LoginForm) => {
       const isEmail = data.emailOrPhone.includes("@");
@@ -31,6 +32,9 @@ export const useLogin = (locale: string) => {
       });
 
       return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 };

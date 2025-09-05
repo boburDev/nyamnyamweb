@@ -33,7 +33,6 @@ import useAuthStore from "@/context/useAuth";
 import { useUpdateDetail } from "@/hooks";
 import { completeSchema } from "@/schema";
 import useStore from "@/context/store";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignUpCompletePage() {
   const [birthDateInput, setBirthDateInput] = useState<string>("");
@@ -47,7 +46,7 @@ export default function SignUpCompletePage() {
   const tValidation = useTranslations("validation")
   const form = useForm<CompleteForm & FieldValues>({
     mode: "onTouched",
-    resolver: zodResolver(completeSchema(tValidation) as any),
+    resolver: zodResolver(completeSchema(tValidation)),
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -79,7 +78,6 @@ export default function SignUpCompletePage() {
         const data = res.data;
         console.log("res", data);
         login(data.tokens.access_token, data.tokens.refresh_token);
-        queryClient.invalidateQueries({ queryKey: ["user"]});
         router.push("/");
         clearId();
         clearTo();
