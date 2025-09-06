@@ -1,139 +1,128 @@
-import Link from "next/link";
-import toast, { Toast } from "react-hot-toast";
-import {
-  ErrorIcon,
-  InfoIcon,
-  SuccesIcon,
-  ToastCloseIcon,
-  WarningIcon,
-} from "@/assets/icons";
-import { ToastType } from "@/types";
+"use client"
 
+import type React from "react"
+
+import Link from "next/link"
+import toast, { type Toast } from "react-hot-toast"
+import { X } from "lucide-react"
+import { SuccesIcon } from "@/assets/icons"
+import { WarningIcon } from "@/assets/icons"
+import { InfoIcon } from "@/assets/icons"
+import { ErrorIcon } from "@/assets/icons"
+import type { ToastType } from "@/types"
 
 interface ToastProps {
-  title: string;
-  message?: string;
-  type: ToastType;
-  href?: string;
-  hrefName?: string;
+  title: string
+  message?: string
+  type: ToastType
+  href?: string
+  hrefName?: string
 }
 
 const toastStyles: Record<
   ToastType,
   {
-    bg: string;
-    text: string;
-    icon: React.ReactNode;
-    titleColor: string;
+    bgColor: string
+    iconColor: string
+    titleColor: string
+    icon: React.ReactNode
   }
 > = {
   success: {
-    bg: "#fff",
-    text: "#4FB477",
-    icon: <SuccesIcon />,
-    titleColor: "#4FB477",
+    bgColor: "bg-white",
+    iconColor: "text-mainColor",
+    titleColor: "text-mainColor",
+    icon: <SuccesIcon className="w-5 h-5" />,
   },
   warning: {
-    bg: "#fff",
-    text: "#F8B133",
-    icon: <WarningIcon />,
-    titleColor: "#F8B133",
+    bgColor: "bg-white",
+    iconColor: "text-mainColor",
+    titleColor: "text-[#F8B133]",
+    icon: <WarningIcon className="w-5 h-5" />,
   },
   info: {
-    bg: "#fff",
-    text: "#237FD2",
-    icon: <InfoIcon />,
-    titleColor: "#237FD2",
+    bgColor: "bg-white",
+    iconColor: "text-mainColor",
+    titleColor: "text-[#237FD2]",
+    icon: <InfoIcon className="w-5 h-5" />,
   },
   error: {
-    bg: "#fff",
-    text: "#E63946",
-    icon: <ErrorIcon />,
-    titleColor: "#E63946",
+    bgColor: "bg-white",
+    iconColor: "text-mainColor",
+    titleColor: "text-[#E63946]",
+    icon: <ErrorIcon className="w-5 h-5" />,
   },
-};
+}
 
-export const showToast = ({
-  title,
-  message,
-  type,
-  href,
-  hrefName,
-}: ToastProps) => {
-  toast.custom((t: Toast) => {
-    const { bg, icon, titleColor } = toastStyles[type];
-    return (
-      <div
-        className=" bg-white rounded-3xl shadow-lg border border-gray-100 p-4 mb-3"
-        style={{ backgroundColor: bg }}
-      >
-        <div className="flex items-center gap-3">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0`}
+export const showToast = ({ title, message, type, href, hrefName }: ToastProps) => {
+  toast.custom(
+    (t: Toast) => {
+      const { bgColor, iconColor, titleColor, icon } = toastStyles[type]
+
+      return (
+        <div
+          className={`
+          ${bgColor} 
+          backdrop-blur-sm
+          rounded-xl 
+          shadow-lg 
+          p-4 
+          mb-3 
+          max-w-md 
+          w-full
+          toast-enter
+          transition-all 
+          duration-300 
+          hover:shadow-xl 
+          hover:scale-[1.02]
+          ${t.visible ? "animate-in slide-in-from-top-5" : "animate-out slide-out-to-top-5"}
+        `}
+        >
+          <div className="flex items-start gap-3">
+            <div className={`${iconColor} flex-shrink-0 mt-0.5`}>{icon}</div>
+
+            <div className="flex-1 min-w-0">
+              <h3 className={`${titleColor} font-medium text-lg leading-tight text-balance`}>{title}</h3>
+
+              {message && <p className="text-card-foreground/80 text-sm mt-1 leading-relaxed text-pretty">{message}</p>}
+
+              {href && hrefName && (
+                <div className="mt-2 flex items-end justify-end">
+                  <Link
+                    href={href}
+                    onClick={() => toast.remove(t.id)}
+                    className={`${iconColor} text-sm font-medium hover:underline underline-offset-4 transition-colors`}
                   >
-                    {icon}
-                  </div>
-                  <h3
-                    className="font-medium text-[20px]"
-                    style={{ color: titleColor }}
-                  >
-                    {title}
-                  </h3>
+                    {hrefName}
+                  </Link>
                 </div>
-                {message && (
-                  <p className="text-sm text-dolphin ml-8 mt-2 leading-relaxed">
-                    {message}
-                  </p>
-                )}
-                {href && hrefName && (
-                  <div className="mt-2">
-                    <Link
-                      href={href}
-                      onClick={() => toast.remove(t.id)}
-                      className="text-sm text-blue-600 hover:text-blue-800"
-                    >
-                      {hrefName}
-                    </Link>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
+
+            <button
+              className="flex-shrink-0 text-card-foreground/60 hover:text-card-foreground transition-colors p-1 rounded-md hover:bg-card-foreground/10"
+              onClick={() => toast.remove(t.id)}
+              aria-label="Close notification"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-
-          {/* Close Button */}
-          <button
-            className="flex-shrink-0  flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
-            onClick={() => toast.remove(t.id)}
-          >
-            <ToastCloseIcon />
-          </button>
         </div>
-      </div>
-    );
-  });
-};
+      )
+    },
+    {
+      duration: 5000,
+      position: "top-center",
+    },
+  )
+}
 
-// Convenience functions
-export const showSuccess = (
-  title: string,
-  message?: string,
-  href?: string,
-  hrefName?: string
-) => showToast({ title, message, type: "success", href, hrefName });
+export const showSuccess = (title: string, message?: string, href?: string, hrefName?: string) =>
+  showToast({ title, message, type: "success", href, hrefName })
 
-export const showWarning = (title: string, message?: string) =>
-  showToast({ title, message, type: "warning" });
+export const showWarning = (title: string, message?: string) => showToast({ title, message, type: "warning" })
 
-export const showInfo = (
-  title: string,
-  message?: string,
-  href?: string,
-  hrefName?: string
-) => showToast({ title, message, type: "info", href, hrefName });
+export const showInfo = (title: string, message?: string, href?: string, hrefName?: string) =>
+  showToast({ title, message, type: "info", href, hrefName })
 
-export const showError = (title: string, message?: string) =>
-  showToast({ title, message, type: "error" });
+export const showError = (title: string, message?: string) => showToast({ title, message, type: "error" })

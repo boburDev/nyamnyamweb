@@ -2,6 +2,7 @@ import { Product } from "@/api/product";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { DataLoader } from "../loader/DataLoader";
+import useCartStore from "@/context/cartStore";
 
 interface SurpriseBagCardProps {
   product: Product;
@@ -22,6 +23,8 @@ export const SurpriseBagCard = ({
   onLeave,
   onClick,
 }: SurpriseBagCardProps) => {
+  const { formatPrice } = useCartStore();
+
   if (isLoading) return <DataLoader message="Mahsulot yuklanmoqda..." />
 
   return (
@@ -48,7 +51,7 @@ export const SurpriseBagCard = ({
             className="rounded-lg object-cover"
           />
           {/* Remaining Count Badge */}
-          <div className="absolute top-[10px] left-[10px] bg-white text-textColor text-xs px-[10px] py-[3px] rounded-full font-medium">
+          <div className="absolute top-[10px] left-[10px] bg-mainColor/20 text-white text-xs backdrop-blur-[45px] px-[10px] py-[3px] rounded-full font-medium">
             {product.stock || 0} ta qoldi
           </div>
         </div>
@@ -80,10 +83,10 @@ export const SurpriseBagCard = ({
           {/* Pricing */}
           <div className="flex items-center gap-2 mt-[36px]">
             <span className="text-[16px] text-dolphin font-medium mt-1 line-through">
-              {product.originalPrice} UZS
+              {formatPrice(product.originalPrice)}
             </span>
             <span className="text-[22px] font-semibold text-mainColor">
-              {product.currentPrice}
+              {formatPrice(product.currentPrice)}
             </span>
           </div>
         </div>

@@ -25,7 +25,8 @@ const MapClient = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(6);
   const mapRef = useRef<any>(null);
-
+  const [mapCenter, setMapCenter] = useState<[number, number]>([41.311151, 69.279737]);
+  const [mapZoom, setMapZoom] = useState<number>(12);
   // Fetch products and categories
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", selectedCategoryId],
@@ -83,6 +84,15 @@ const MapClient = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleRefreshMap = () => {
+    setMapCenter([41.311151, 69.279737]);
+    setMapZoom(12);
+    setActiveId(null);
+    setHoveredId(null);
+    if (mapRef.current) {
+      mapRef.current.setCenter(mapCenter, mapZoom, { duration: 500 });
+    }
+  };
   
 
   // Show loading only for initial load, not for category changes
@@ -162,7 +172,7 @@ const MapClient = () => {
             />
 
             {/* Map Controls Overlay */}
-            {/* <MapControls /> */}
+            <MapControls onRefresh={handleRefreshMap} />
           </div>
         </div>
       </div>

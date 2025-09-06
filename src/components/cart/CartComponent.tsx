@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Minus, Plus, Trash2 } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import { Button } from '../ui/button'
 import useCartStore from '@/context/cartStore'
 import { Container } from '../container'
@@ -10,10 +10,10 @@ import { Container } from '../container'
 const CartComponent = () => {
   const {
     items,
-    removeFromCart,
     updateQuantity,
     clearCart,
-    getTotalPrice
+    getTotalPrice,
+    formatPrice
   } = useCartStore()
 
   if (items.length === 0) {
@@ -21,13 +21,8 @@ const CartComponent = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
           <div className="text-center py-16">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gray-200 rounded-full flex items-center justify-center">
-              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-semibold text-gray-700 mb-2">Savat bo'sh</h2>
-            <p className="text-gray-500">Mahsulot qo'shish uchun savat tugmasini bosing</p>
+            <h2 className="text-2xl font-semibold text-textColor mb-2">Savat bo'sh</h2>
+            <p className="text-dolphin">Mahsulot qo'shish uchun savat tugmasini bosing</p>
           </div>
         </div>
       </div>
@@ -78,10 +73,10 @@ const CartComponent = () => {
                         <div className="flex justify-between">
                           <div className="flex items-center gap-2 mt-[53px]">
                             <span className="text-gray-400 line-through text-sm">
-                              {item.originalPrice}
+                              {formatPrice(item.originalPrice)}
                             </span>
                             <span className="text-mainColor font-medium text-xl">
-                              {item.currentPrice}
+                              {formatPrice(item.currentPrice)}
                             </span>
                           </div>
 
@@ -154,10 +149,10 @@ const CartComponent = () => {
                         </p>
                         <div className="flex items-center gap-2">
                           <p className="text-dolphin line-through text-xs mt-1">
-                            {item.originalPrice}
+                            {formatPrice(item.originalPrice)}
                           </p>
                           <p className="text-textColor font-medium">
-                            {item.currentPrice}
+                            {formatPrice(item.currentPrice)}
                           </p>
                         </div>
                       </div>
@@ -171,7 +166,7 @@ const CartComponent = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-medium text-textColor">Jami:</span>
                   <span className="text-xl font-medium text-textColor">
-                    {getTotalPrice().toLocaleString()} UZS
+                    {getTotalPrice().toLocaleString('uz-UZ')} UZS
                   </span>
                 </div>
               </div>

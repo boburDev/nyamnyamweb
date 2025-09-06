@@ -10,6 +10,7 @@ import { Product } from "@/api/product";
 import { Button } from "../ui/button";
 import { ProductSkeletons } from "../loader/DataLoader";
 import useCartStore from "@/context/cartStore";
+import useFavouriteStore from "@/context/favouriteStore";
 import { showToast } from "../toast/Toast";
 
 interface ProductSwiperProps {
@@ -19,12 +20,14 @@ interface ProductSwiperProps {
 }
 
 export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwiperProps) => {
-  const [isBookmarked, setIsBookmarked] = useState<{ [key: number]: boolean }>({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
 
   // Cart store
-  const { addToCart, removeFromCart, isInCart } = useCartStore();
+  const { addToCart, removeFromCart, isInCart, formatPrice } = useCartStore();
+
+  // Favourite store
+  const { toggleFavourite, isFavourite } = useFavouriteStore();
 
   // Handle window resize for responsive behavior
   useEffect(() => {
@@ -39,11 +42,15 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const toggleBookmark = (productId: number) => {
-    setIsBookmarked((prev) => ({
-      ...prev,
-      [productId]: !prev[productId],
-    }));
+  const toggleBookmark = (product: Product) => {
+    const isCurrentlyFavourite = isFavourite(product.id);
+    toggleFavourite(product);
+    showToast({
+      title: isCurrentlyFavourite ? "Saqlangan mahsulotlardan o'chirildi" : "Saqlangan mahsulotlarga qo'shildi",
+      type: isCurrentlyFavourite ? "info" : "success",
+      href: "/favourite",
+      hrefName: "Saqlangan mahsulotlar"
+    });
   };
 
   const toggleCart = (product: Product) => {
@@ -56,7 +63,7 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     }
   };
 
-  const NextArrow = ({ onClick, currentSlide, total }: any) => {
+  const NextArrow = ({ onClick, currentSlide, total }: { onClick: () => void, currentSlide: number, total: number }) => {
     // Hide arrow if not enough products to scroll (responsive)
     const shouldHideArrow = () => {
       if (windowWidth <= 768) return total <= 1;
@@ -88,7 +95,7 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     );
   };
 
-  const PrevArrow = ({ onClick, currentSlide, total }: any) => {
+  const PrevArrow = ({ onClick, currentSlide, total }: { onClick: () => void, currentSlide: number, total: number }) => {
     // Hide arrow if not enough products to scroll (responsive)
     const shouldHideArrow = () => {
       if (windowWidth <= 768) return total <= 1;
@@ -116,7 +123,7 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
 
 
   // Determine if this is the "All" category (showing all products)
-  const isAllCategory = products.length > 6; // Assuming "All" has more products than individual categories
+  // const isAllCategory = products.length > 6; // Assuming "All" has more products than individual categories
 
   const settings = {
     dots: products.length > 3, // Only show dots if more than 3 products
@@ -129,8 +136,8 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
     pagination: true,
     // lazyLoad: true,
     beforeChange: (_: number, next: number) => setCurrentSlide(next),
-    nextArrow: <NextArrow currentSlide={currentSlide} total={products.length} />,
-    prevArrow: <PrevArrow currentSlide={currentSlide} total={products.length} />,
+    nextArrow: <NextArrow onClick={() => { }} currentSlide={currentSlide} total={products.length} />,
+    prevArrow: <PrevArrow onClick={() => { }} currentSlide={currentSlide} total={products.length} />,
     responsive: [
       {
         breakpoint: 1024,
@@ -193,20 +200,20 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
 
                     {/* Stock Badge */}
                     {product.stock && product.stock <= 5 && (
-                      <div className="absolute top-3 left-3 bg-white rounded-full px-3 py-1 text-sm font-medium text-gray-700">
+                      <div className="absolute top-3 left-3 bg-mainColor/20 rounded-full px-[14px] py-2 text-sm font-medium text-white backdrop-blur-[45px]">
                         {product.stock} ta qoldi
                       </div>
                     )}
 
                     {/* Bookmark Button */}
                     <button
-                      onClick={() => toggleBookmark(product.id)}
-                      className="absolute top-3 right-3 w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+                      onClick={() => toggleBookmark(product)}
+                      className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
                     >
                       <Bookmark
-                        className={`w-4 h-4 ${isBookmarked[product.id] || product.isBookmarked
+                        className={`w-[24px] h-[24px] ${isFavourite(product.id) || product.isBookmarked
                           ? "fill-mainColor text-mainColor"
-                          : "text-dolphin"
+                          : "text-mainColor"
                           }`}
                       />
                     </button>
@@ -238,10 +245,10 @@ export const ProductSwiper = ({ products, title, isLoading = false }: ProductSwi
                       {/* Price */}
                       <div className="flex items-center gap-2 mt-3">
                         <span className="text-mainColor font-semibold text-lg">
-                          {product.currentPrice}
+                          {formatPrice(product.currentPrice)}
                         </span>
                         <span className="text-dolphin line-through text-sm">
-                          {product.originalPrice}
+                          {formatPrice(product.originalPrice)}
                         </span>
                       </div>
                       {/* Action Buttons */}

@@ -2,10 +2,12 @@
 
 import { useEffect } from "react";
 import useStore from "@/context/store";
+import useFavouriteStore from "@/context/favouriteStore";
 import { useRouter } from "@/i18n/navigation";
 
 export function RootProviders({ children }: { children: React.ReactNode }) {
   const { login, auth } = useStore();
+  const { initializeFavourites } = useFavouriteStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +28,12 @@ export function RootProviders({ children }: { children: React.ReactNode }) {
       window.history.replaceState({}, "", url.pathname + url.search);
       router.refresh();
     }
-  }, [auth, login,router]);
+  }, [auth, login, router]);
+
+  // Initialize favourites on app start
+  useEffect(() => {
+    initializeFavourites();
+  }, [initializeFavourites]);
 
   return <>{children}</>;
 }

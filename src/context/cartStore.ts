@@ -22,6 +22,7 @@ interface CartStore {
   getTotalItems: () => number;
   getUniqueItemsCount: () => number;
   getTotalPrice: () => number;
+  formatPrice: (price: string) => string;
 }
 
 const useCartStore = create<CartStore>()(
@@ -116,13 +117,64 @@ const useCartStore = create<CartStore>()(
       getTotalPrice: () => {
         const { items } = get();
         return items.reduce((total, item) => {
-          const price = parseFloat(item.currentPrice.replace(/[^\d.]/g, ''));
+          // Extract numeric value from price string, handling different formats
+          // Remove all non-numeric characters except dots and commas
+          const cleanPrice = item.currentPrice.replace(/[^\d.,]/g, '');
+
+          // Handle different price formats
+          let price = 0;
+          if (cleanPrice.includes(',')) {
+            // If comma exists, treat it as decimal separator (e.g., "12,50")
+            price = parseFloat(cleanPrice.replace(',', '.')) || 0;
+          } else if (cleanPrice.includes('.')) {
+            // If only dot exists, check if it's likely a thousands separator
+            const parts = cleanPrice.split('.');
+            if (parts.length === 2 && parts[1].length <= 2) {
+              // Likely decimal (e.g., "12.50")
+              price = parseFloat(cleanPrice) || 0;
+            } else {
+              // Likely thousands separator (e.g., "12.000")
+              price = parseFloat(cleanPrice.replace(/\./g, '')) || 0;
+            }
+          } else {
+            // No separators, just parse as integer
+            price = parseFloat(cleanPrice) || 0;
+          }
+
           return total + (price * item.quantity);
         }, 0);
       },
+
+      formatPrice: (price: string) => {
+        // Extract numeric value from price string
+        const cleanPrice = price.replace(/[^\d.,]/g, '');
+
+        // Handle different price formats (same logic as getTotalPrice)
+        let numericPrice = 0;
+        if (cleanPrice.includes(',')) {
+          // If comma exists, treat it as decimal separator (e.g., "12,50")
+          numericPrice = parseFloat(cleanPrice.replace(',', '.')) || 0;
+        } else if (cleanPrice.includes('.')) {
+          // If only dot exists, check if it's likely a thousands separator
+          const parts = cleanPrice.split('.');
+          if (parts.length === 2 && parts[1].length <= 2) {
+            // Likely decimal (e.g., "12.50")
+            numericPrice = parseFloat(cleanPrice) || 0;
+          } else {
+            // Likely thousands separator (e.g., "12.000")
+            numericPrice = parseFloat(cleanPrice.replace(/\./g, '')) || 0;
+          }
+        } else {
+          // No separators, just parse as integer
+          numericPrice = parseFloat(cleanPrice) || 0;
+        }
+
+        // Format with proper spacing and UZS suffix
+        return `${numericPrice.toLocaleString('uz-UZ')} UZS`;
+      },
     }),
     {
-      name: "nyam-cart",
+      name: "nyam-web-cart",
       storage: createJSONStorage(() => cookieStorage),
     }
   )
