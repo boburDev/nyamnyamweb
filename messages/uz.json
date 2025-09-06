@@ -142,7 +142,8 @@
       "count": "Miqdor:",
       "total": "Jami:",
       "button": "To’lovga o’tish"
-    }
+    },
+    "deleteAll": "Haqiqatan ham barcha narsalarni savatingizdan olib tashlamoqchimisiz?"
   },
   "my-orders": {
     "title": "Buyurtmalarim",
@@ -329,5 +330,10 @@
     "firstName": "Ism majburiy",
     "invalidDate": "Noto‘g‘ri  sana",
     "confirmPassword": "Parolni tasdiqlash majburiy"
+  },
+  "confirmModal": {
+    "deleteConfirm": "O'chirishni tasdiqlang",
+    "cancel": "Bekor qilish",
+    "delete": "O'chirish"
   }
 }

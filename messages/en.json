@@ -142,7 +142,8 @@
       "count": "Quantity:",
       "total": "Total:",
       "button": "Proceed to payment"
-    }
+    },
+    "deleteAll": "Are you sure you want to remove all items from your cart?"
   },
   "my-orders": {
     "title": "My orders",
@@ -329,5 +330,10 @@
     "firstName": "First name is required",
     "invalidDate": "Invalid date",
     "confirmPassword": "Confirm password is required"
+  },
+  "confirmModal": {
+    "deleteConfirm": "Confirm deletion",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }
