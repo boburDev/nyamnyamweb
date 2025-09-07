@@ -30,9 +30,9 @@ export const UserMenu = () => {
   };
   const handleLogout = () => {
     logout();
+    window.location.href = "/api/auth/logout";
     router.refresh();
   };
-  
 
   return (
     <DropdownMenu>
@@ -47,7 +47,7 @@ export const UserMenu = () => {
             <UserProfile className="size-6" />
           </Button>
           <p className="font-medium text-[17px] text-textColor">
-           {userData?.first_name}
+            {userData?.first_name}
           </p>
         </DropdownMenuLabel>
         <div className="flex flex-col gap-1">

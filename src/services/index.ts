@@ -1,9 +1,9 @@
 import axios from "axios";
-import { DOMAIN, REFRESH_USER } from "@/constants";
+import { ACCESS_TOKEN, DOMAIN, REFRESH_USER } from "@/constants";
 import { requestQueue } from "./requestQueue";
 import { refreshTokens } from "./refreshService";
 import useStore from "@/context/store";
-import { getTokens } from "@/utils/token";
+import { cookieStorage } from "@/lib";
 
 const request = axios.create({
   baseURL: DOMAIN,
@@ -11,7 +11,7 @@ const request = axios.create({
 });
 
 request.interceptors.request.use((config) => {
-  const { access_token } = getTokens();
+  const access_token = cookieStorage.getItem(ACCESS_TOKEN);
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   }

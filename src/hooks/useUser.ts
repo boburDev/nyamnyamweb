@@ -1,20 +1,14 @@
-import { UPDATE_ME } from "@/constants";
-import request from "@/services";
-import { UserData } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateUser } from "@/api/user";
+import { UserData } from "@/types";
 
-export const useUpdateUser = (locale: string) => {
+export function useUpdateUser(locale: string) {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async (data: UserData) => {
-      return await request.patch(UPDATE_ME, data, {
-        headers: {
-          "Accept-Language": locale,
-        },
-      });
-    },
+    mutationFn: (data: UserData) => updateUser(data, locale),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
-};
+}

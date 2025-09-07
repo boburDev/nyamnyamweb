@@ -42,23 +42,20 @@ export default function SigninPage() {
 
   const { mutate: loginMutate, isPending } = useLogin(locale);
 
-  const onSubmit = (data: LoginForm) => {
-    loginMutate(data, {
-      onSuccess: (res) => {
-        login(res.tokens.access_token, res.tokens.refresh_token);
-        showSuccess("Muvaffaqiyatli kirdingiz");
-        router.push("/");
-      },
-      onError: (error) => {
-        const errorMessage =
-          typeof error.response?.data === "object" &&
-          error.response?.data &&
-          "error_message" in error.response.data
-            ? (error.response.data.error_message as string)
-            : "Noma'lum xatolik yuz berdi";
-        showError(errorMessage);
-      },
+const onSubmit = async (data: LoginForm) => {
+    const res = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    if (res.ok) {
+      showSuccess("Muvaffaqiyatli kirdingiz");
+      router.push("/");
+    } else {
+      const json = await res.json();
+      showError(json.error || "Noma'lum xatolik");
+    }
   };
 
   return (

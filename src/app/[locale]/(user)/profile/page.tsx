@@ -2,20 +2,20 @@
 
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "@/api";
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/assets/icons";
 import { DataLoader } from "@/components/loader";
 import { ProfileForm, ProfileInfo } from "@/components/profile";
 import { useState } from "react";
+import { getUsers } from "@/api";
 
 export default function ProfilePage() {
   const t = useTranslations("profile");
   const [editMode, setEditMode] = useState(false);
   const { data: user, isLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: getUsers,
+    queryFn: getUsers, 
   });
 
   if (isLoading) {
