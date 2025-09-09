@@ -1,3 +1,4 @@
 import authImage from "./authLayout.png";
+import qrCode from './QrCode.png'
 
-export { authImage };
+export { authImage, qrCode };

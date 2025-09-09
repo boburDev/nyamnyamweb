@@ -16,7 +16,7 @@ export const productData = [
                 categoryId: 2,
                 stock: 2,
                 isBookmarked: false,
-                isInCart: false
+                isInCart: false,
             },
             {
                 id: 14,
