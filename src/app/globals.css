@@ -19,7 +19,7 @@ input:-webkit-autofill:active {
   --color-hoverColor: #f9fafb;
   --color-dolphin: #6a6e78;
   --color-plasterColor: #eaeaea;
-  --color-dangerColor: #ec5252; 
+  --color-dangerColor: #ec5252;  
   --color-orochimaru: #d9d9d9;
   --color-red: #ff0000;
   --color-iron: #6e6e6e;
@@ -27,6 +27,7 @@ input:-webkit-autofill:active {
   --color-pagination: #f3faf5;
   --color-mounSnow: #e9e9eb;
   --color-accordionText: #F8B133;
+  --color-notificationColor:#F7FAFC;
   --breakpoint-xs: 340px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
@@ -128,6 +129,81 @@ input:-webkit-autofill:active {
   scrollbar-width: thin;
 }
 
+.checkbox {
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+.checkbox input[type="checkbox"] {
+  width: auto;
+  opacity: 0.00000001;
+  position: absolute;
+  left: 0;
+  margin-left: -20px;
+}
+
+.checkbox label {
+  position: relative;
+}
+
+.checkbox label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.28s ease;
+  border-radius: 3px;
+  border: 2px solid #EAEAEA; 
+}
+
+.checkbox label:after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 5px;
+  border-bottom: 2px solid #7bbe72;
+  border-left: 2px solid #7bbe72;
+  -webkit-transform: rotate(-45deg) scale(0);
+  transform: rotate(-45deg) scale(0);
+  transition: transform ease 0.25s;
+  will-change: transform;
+  position: absolute;
+  top: 6px;
+  left: 5px;
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::before {
+  border-color: #7bbe72;
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::after {
+  -webkit-transform: rotate(-45deg) scale(1);
+  transform: rotate(-45deg) scale(1);
+}
+
+.checkbox label {
+  min-height: 34px;
+  display: block;
+  padding-left: 30px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.checkbox label span {
+  position: absolute;
+  top: 30%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline: 0;
+}
+
+
 @layer base {
   body {
     @apply bg-background font-poppins;
@@ -138,6 +214,7 @@ input:-webkit-autofill:active {
   .auth-title {
     @apply font-semibold text-[25px] 2xl:text-[35px] text-textColor mb-[30px];
   }
+
   .auth-label {
     @apply !font-normal  !text-textColor;
   }

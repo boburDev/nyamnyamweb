@@ -209,8 +209,7 @@
       "friday": "Friday",
       "saturday": "Saturday",
       "sunday": "Sunday"
-    },
-    "save-button": "Save"
+    }
   },
   "Footer": {
     "desc": "SaveMeal is a platform that fights against food waste. Find products close to their expiry date at a discounted price.",
