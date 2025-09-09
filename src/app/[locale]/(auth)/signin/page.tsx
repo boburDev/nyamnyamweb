@@ -17,7 +17,6 @@ import { showError, showSuccess } from "@/components/toast/Toast";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { loginSchema } from "@/schema";
-import useStore from "@/context/store";
 import { LoginForm } from "@/types";
 import { useLogin } from "@/hooks";
 import { SubmitLoader } from "@/components/loader";
@@ -25,7 +24,6 @@ import { PasswordInput } from "@/components/form";
 import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
 
 export default function SigninPage() {
-  const login = useStore((s) => s.login);
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("sign-in");
@@ -42,20 +40,16 @@ export default function SigninPage() {
 
   const { mutate: loginMutate, isPending } = useLogin(locale);
 
-const onSubmit = async (data: LoginForm) => {
-    const res = await fetch("/api/auth/signin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+  const onSubmit = (data: LoginForm) => {
+    loginMutate(data, {
+      onSuccess: () => {
+        showSuccess("Muvaffaqiyatli kirdingiz");
+        router.push("/");
+      },
+      onError: (error) => {
+        showError(error.message)
+      },
     });
-
-    if (res.ok) {
-      showSuccess("Muvaffaqiyatli kirdingiz");
-      router.push("/");
-    } else {
-      const json = await res.json();
-      showError(json.error || "Noma'lum xatolik");
-    }
   };
 
   return (

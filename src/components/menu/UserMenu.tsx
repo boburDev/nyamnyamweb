@@ -28,10 +28,12 @@ export const UserMenu = () => {
     setActive(path);
     router.push(path);
   };
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout();
-    window.location.href = "/api/auth/logout";
-    router.refresh();
+    const res = await fetch("/api/auth/logout", { method: "POST" });
+    if (res.ok) {
+      router.refresh();
+    }
   };
 
   return (

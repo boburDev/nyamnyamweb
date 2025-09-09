@@ -1,9 +1,9 @@
 import { Link } from "@/i18n/navigation";
 import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
-import HeaderRight from "./HeaderRight";
 import { cookies } from "next/headers";
 import { REFRESH_TOKEN } from "@/constants";
+import HeaderRight from "./HeaderRight";
 
 export const Header = async () => {
   const cookieStore = await cookies();

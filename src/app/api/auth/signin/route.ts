@@ -4,12 +4,9 @@ import { normalizePhone } from "@/utils";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-function normalizeLang(raw: string) {
-  return (raw || "uz").toLowerCase().split(",")[0].split("-")[0];
-}
+
 
 export async function POST(req: Request) {
-  const lang = normalizeLang(req.headers.get("accept-language") || "uz");
 
   let body: LoginForm;
   try {
@@ -31,24 +28,17 @@ export async function POST(req: Request) {
     : { phone_number: normalizePhone(id) };
 
   const payload = {
-    ...identifier, 
+    ...identifier,
     password: body.password,
   };
 
   try {
-    const res = await axios.post(SIGNIN, payload, {
-      headers: {
-        "Accept-Language": lang, 
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("TOKENLAR", res.data);
+    const res = await axios.post(SIGNIN, payload);
 
     const { access_token, refresh_token } = res.data?.data?.tokens || {};
     const response = NextResponse.json({ success: true });
 
     response.cookies.set(ACCESS_TOKEN, access_token, {
-      httpOnly: true,
       path: "/",
       sameSite: "lax",
       secure: true,
@@ -60,6 +50,7 @@ export async function POST(req: Request) {
     });
 
     return response;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const status = e?.response?.status ?? 500;
     const data = e?.response?.data;

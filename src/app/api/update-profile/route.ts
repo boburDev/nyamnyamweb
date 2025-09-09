@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
     );
   }
 
-  let body = await req.json();
+  const body = await req.json();
 
   Object.keys(body).forEach((key) => {
     if (body[key] === "" || body[key] === undefined) {
@@ -21,10 +21,8 @@ export async function PATCH(req: Request) {
     }
   });
 
-  console.log("➡️ PATCH /update-me body:", body);
-
   const response = await fetch(
-    "https://api.shaxriyorbek.uz/api/users/auth/update-me/",
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/update-me/`,
     {
       method: "PATCH",
       headers: {
@@ -36,8 +34,6 @@ export async function PATCH(req: Request) {
   );
 
   const text = await response.text();
-  console.log("⬅️ Response status:", response.status);
-  console.log("⬅️ Response body:", text);
 
   try {
     return NextResponse.json(JSON.parse(text), { status: response.status });
