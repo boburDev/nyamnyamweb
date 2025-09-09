@@ -54,7 +54,6 @@ export async function POST(req: Request) {
       secure: true,
     });
     response.cookies.set(REFRESH_TOKEN, refresh_token, {
-      httpOnly: true,
       path: "/",
       sameSite: "lax",
       secure: true,

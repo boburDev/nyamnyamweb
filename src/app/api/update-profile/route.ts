@@ -1,4 +1,3 @@
-// app/api/update-profile/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ACCESS_TOKEN } from "@/constants";
