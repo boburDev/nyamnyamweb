@@ -44,10 +44,11 @@ export default function SigninPage() {
     loginMutate(data, {
       onSuccess: () => {
         showSuccess("Muvaffaqiyatli kirdingiz");
+        router.refresh();
         router.push("/");
       },
       onError: (error) => {
-        showError(error.message)
+        showError(error.message);
       },
     });
   };

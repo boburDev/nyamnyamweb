@@ -1,7 +1,7 @@
 import { UserData } from "@/types";
 
 export async function getUsers() {
-  const res = await fetch("/api/proxy/auth/profile/", {
+  const res = await fetch("/api/proxy/auth/profile", {
     method: "GET",
     credentials: "include",
   });

@@ -37,6 +37,7 @@ export async function GET(
       if (!refreshRes.ok) {
         console.error("🔴 Refresh token invalid, redirecting to signin");
         const logoutResponse = NextResponse.redirect(new URL("/signin", req.url));
+        window.location.reload();
         logoutResponse.cookies.delete(ACCESS_TOKEN);
         logoutResponse.cookies.delete(REFRESH_TOKEN);
         return logoutResponse;
