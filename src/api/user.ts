@@ -12,7 +12,9 @@ export async function getUsers() {
       errorData?.error ||
       errorData?.message ||
       `Failed to fetch user (status ${res.status})`;
-    throw new Error(message);
+    const err = new Error(message) as Error & { status: number };
+    err.status = res.status;
+    throw err;
   }
 
   const data = await res.json();

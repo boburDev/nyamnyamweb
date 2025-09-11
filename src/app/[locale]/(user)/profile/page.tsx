@@ -1,22 +1,43 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { Container } from "@/components/container";
-import { Button } from "@/components/ui/button";
-import { UserProfile } from "@/assets/icons";
-import { DataLoader } from "@/components/loader";
 import { ProfileForm, ProfileInfo } from "@/components/profile";
-import { useState } from "react";
+import { showSuccess } from "@/components/toast/Toast";
+import { Container } from "@/components/container";
+import { DataLoader } from "@/components/loader";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "@/i18n/navigation";
+import { UserProfile } from "@/assets/icons";
 import { getUsers } from "@/api";
 
 export default function ProfilePage() {
   const t = useTranslations("profile");
   const [editMode, setEditMode] = useState(false);
-  const { data: user, isLoading } = useQuery({
+  const router = useRouter();
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["user"],
-    queryFn: getUsers, 
+    queryFn: getUsers,
+    retry: false,
   });
+
+  useEffect(() => {
+    if (error) {
+      const err = error as Error & { status?: number };
+      if (err.status === 401) {
+        router.refresh();
+        showSuccess("error", err.message);
+      } else {
+        showSuccess("error", err.message);
+      }
+    }
+  }, [error, router]);
 
   if (isLoading) {
     return (
