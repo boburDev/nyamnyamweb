@@ -2,7 +2,7 @@ import { Product } from "@/api/product";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { DataLoader } from "../loader/DataLoader";
-import useCartStore from "@/context/cartStore";
+import { formatPrice } from "@/utils/price-format";
 
 interface SurpriseBagCardProps {
   product: Product;
@@ -23,7 +23,6 @@ export const SurpriseBagCard = ({
   onLeave,
   onClick,
 }: SurpriseBagCardProps) => {
-  const { formatPrice } = useCartStore();
 
   if (isLoading) return <DataLoader message="Mahsulot yuklanmoqda..." />
 

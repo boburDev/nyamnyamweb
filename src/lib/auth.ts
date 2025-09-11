@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 
 export async function getAuthStatus() {
   const cookieStore = await cookies();
-  const token = cookieStore.get(REFRESH_TOKEN);
-  return !!token;
+  const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
+  const isAuth = Boolean(refreshToken);
+  return isAuth;
 }

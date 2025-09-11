@@ -9,7 +9,7 @@ import {
   ZoomControl,
   GeolocationControl,
 } from "@pbe/react-yandex-maps";
-import React, { useEffect, useState, useMemo, memo } from "react";
+import React, { useEffect, useState } from "react";
 import MemoizedPlacemark from "./YPlace";
 
 interface YandexMapProps {
@@ -22,17 +22,12 @@ interface YandexMapProps {
   setHoveredId?: (id: number | null) => void;
 }
 
-
-
-
-
 const YandexMap = ({
   products,
   hoveredId,
   activeId,
   mapRef,
   handlePlacemarkClick,
-  setActiveId,
   setHoveredId,
 }: YandexMapProps) => {
   const uzbekistanBounds: [[number, number], [number, number]] = [
