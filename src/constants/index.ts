@@ -12,3 +12,4 @@ export const RESET_PASSWORD = `${DOMAIN}/auth/save_reset_password/`;
 export const GET_USER = `/auth/profile/`;
 export const UPDATE_OTP_USER = `/otp/verify-update`;
 export const UPDATE_ME = `/auth/update-me/`;
+export const SIGNUP_COMPLETE = `${DOMAIN}/auth/complete-signup/`;
