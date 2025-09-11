@@ -50,12 +50,15 @@ export async function POST(req: Request) {
     });
 
     return response;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    const status = e?.response?.status ?? 500;
-    const data = e?.response?.data;
-    const msg =
-      data?.error_message || data?.message || data?.detail || "Login Failed";
+  } catch (e: unknown) {
+    let status = 500;
+    let msg = "Login Failed";
+    if (axios.isAxiosError(e) && e.response) {
+      status = e.response.status ?? 500;
+      const data = e.response.data;
+      msg =
+        data?.error_message || data?.message || data?.detail || "Login Failed";
+    }
     return NextResponse.json({ error: msg }, { status });
   }
 }
