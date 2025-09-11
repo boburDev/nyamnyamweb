@@ -14,9 +14,6 @@ export async function GET(
 
     const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
 
-    console.log("➡️ Request to target:", targetUrl);
-    console.log("📌 Current accessToken:", accessToken);
-    console.log("📌 Current refreshToken:", refreshToken);
 
     let response = await fetch(targetUrl, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -35,7 +32,6 @@ export async function GET(
       );
 
       if (!refreshRes.ok) {
-        console.error("🔴 Refresh token invalid, redirecting to signin");
         const logoutResponse = NextResponse.redirect(new URL("/signin", req.url));
         logoutResponse.cookies.delete(ACCESS_TOKEN);
         logoutResponse.cookies.delete(REFRESH_TOKEN);
@@ -43,20 +39,17 @@ export async function GET(
       }
 
       const json = await refreshRes.json();
-      console.log("🟢 Refresh success, new tokens:", json);
 
       const newAT = json?.data?.access_token;
       const newRT = json?.data?.refresh_token;
 
       if (!newAT) {
-        console.error("❌ Refresh response invalid:", json);
         const logoutResponse = NextResponse.redirect(new URL("/signin", req.url));
         logoutResponse.cookies.delete(ACCESS_TOKEN);
         logoutResponse.cookies.delete(REFRESH_TOKEN);
         return logoutResponse;
       }
 
-      // Yangi tokenlarni cookie ga yozamiz
       const res = NextResponse.next();
       res.cookies.set(ACCESS_TOKEN, newAT, { httpOnly: true, path: "/" });
       if (newRT) {
@@ -64,7 +57,6 @@ export async function GET(
       }
       accessToken = newAT;
 
-      // Qaytadan profile so‘rov yuboramiz
       response = await fetch(targetUrl, {
         headers: { Authorization: `Bearer ${newAT}` },
       });

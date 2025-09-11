@@ -4,25 +4,18 @@ import { useLocale, useTranslations } from "next-intl";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { AuthBottom, AuthBrowser } from "@/components/auth";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
 import { showError, showSuccess } from "@/components/toast/Toast";
+import { AuthBottom, AuthBrowser } from "@/components/auth";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { loginSchema } from "@/schema";
-import { LoginForm } from "@/types";
-import { useLogin } from "@/hooks";
 import { SubmitLoader } from "@/components/loader";
-import { PasswordInput } from "@/components/form";
-import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
+import { LoginForm } from "@/types";
 
+import { useLogin } from "@/hooks";
+import { PasswordInput } from "@/components/form";
 export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();

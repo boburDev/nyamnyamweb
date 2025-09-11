@@ -2,22 +2,19 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { DOMAIN } from "@/constants";
 import { CompletePayload } from "@/types";
 
-export function useUpdateDetail(authId: string, locale: string) {
+export function useUpdateDetail(locale: string) {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async (payload: CompletePayload) => {
-      const res = await axios.patch(
-        `${DOMAIN}/auth/${authId}/update_detail/`,
-        payload,
-        {
-          headers: {
-            "Accept-Language": locale,
-          },
-        }
-      );
+    mutationFn: async (payload: CompletePayload & { authId: string }) => {
+      const res = await axios.patch("/api/auth/signup-complete", payload, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale,
+        },
+      });
       return res.data;
     },
     onSuccess: () => {

@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import { ProfileLogout, UserProfile } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
-import useStore from "@/context/store";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { userMenu } from "@/data";
@@ -18,7 +17,6 @@ import { useTranslations } from "next-intl";
 export const UserMenu = () => {
   const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
-  const logout = useStore((s) => s.logout);
   const t = useTranslations("UserMenu");
   const { data: userData } = useQuery({
     queryKey: ["user"],
@@ -29,7 +27,6 @@ export const UserMenu = () => {
     router.push(path);
   };
   const handleLogout = async () => {
-    logout();
     const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.ok) {
       router.refresh();

@@ -68,8 +68,6 @@ export const showToast = ({ title, message, type, href, hrefName }: ToastProps) 
           shadow-lg 
           p-4 
           mb-3 
-          max-w-md 
-          w-full
           toast-enter
           transition-all 
           duration-300 

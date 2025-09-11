@@ -1,25 +1,14 @@
 "use client";
 import { useState } from "react";
 import { format } from "date-fns";
-import { useLocale, useTranslations } from "next-intl";
-import { FieldValues, useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale, useTranslations } from "next-intl";
+import { FieldValues, useForm } from "react-hook-form";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover";
 import { CompleteForm, CompletePayload } from "@/types";
 import { showError } from "@/components/toast/Toast";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,18 +21,16 @@ import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
 import { useUpdateDetail } from "@/hooks";
 import { completeSchema } from "@/schema";
-import useStore from "@/context/store";
 
 export default function SignUpCompletePage() {
   const [birthDateInput, setBirthDateInput] = useState<string>("");
   const router = useRouter();
   const authId = useAuthStore((s) => s.authId);
-  const login = useStore((s) => s.login);
   const locale = useLocale();
   const clearId = useAuthStore((s) => s.clearAuthId);
   const clearTo = useAuthStore((s) => s.clearTo);
-  const t = useTranslations("sign-up.enter-details")
-  const tValidation = useTranslations("validation")
+  const t = useTranslations("sign-up.enter-details");
+  const tValidation = useTranslations("validation");
   const form = useForm<CompleteForm & FieldValues>({
     mode: "onTouched",
     resolver: zodResolver(completeSchema(tValidation)),
@@ -55,10 +42,7 @@ export default function SignUpCompletePage() {
       confirmPassword: "",
     },
   });
-  const { mutate: updateDetail, isPending } = useUpdateDetail(
-    authId as string,
-    locale
-  );
+  const { mutate: updateDetail, isPending } = useUpdateDetail(locale);
 
   const onSubmit = (data: CompleteForm & FieldValues) => {
     const { confirmPassword: _confirmPassword, ...restData } = data;
@@ -72,23 +56,23 @@ export default function SignUpCompletePage() {
         : undefined,
     };
 
-    updateDetail(apiPayload, {
-      onSuccess: (res) => {
-        form.reset();
-        const data = res.data;
-        console.log("res", data);
-        login(data.tokens.access_token, data.tokens.refresh_token);
-        router.push("/");
-        clearId();
-        clearTo();
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          const errorMessage = error.response?.data?.error_message;
-          showError(errorMessage);
-        }
-      },
-    });
+    updateDetail(
+      { ...apiPayload, authId: authId as string },
+      {
+        onSuccess: () => {
+          form.reset();
+          router.push("/");
+          clearId();
+          clearTo();
+        },
+        onError: (error) => {
+          if (error instanceof AxiosError) {
+            const errorMessage = error.response?.data?.error_message;
+            showError(errorMessage);
+          }
+        },
+      }
+    );
   };
 
   const handleBack = () => {
