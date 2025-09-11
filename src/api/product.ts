@@ -6,8 +6,8 @@ export interface Product {
     image: string;
     restaurant: string;
     distance: number;
-    currentPrice: string;
-    originalPrice: string;
+    currentPrice: number;
+    originalPrice: number;
     rating: number;
     categoryId: number;
     stock?: number;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import Image from "next/image";
 import { Minus, Plus } from "lucide-react";
@@ -7,13 +8,48 @@ import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
 import { Container } from "../container";
 import { ConfirmModal } from "../modal";
-import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { SubmitLoader } from "../loader";
+import { formatPrice } from "@/utils/price-format";
 
-const CartComponent = () => {
+const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const t = useTranslations("cart");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
-  const { items, updateQuantity, getTotalPrice, formatPrice } = useCartStore();
+  const [loading, setLoading] = useState(false);
+  const { items, updateQuantity, getTotalPrice } = useCartStore();
+  const router = useRouter();
+  const handleCheckout = async () => {
+    if (isAuth) {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            items,
+            total: getTotalPrice(),
+          }),
+        });
+        const data = await res.json();
+        console.log("Checkout response:", data);
+
+        if (data.success) {
+          router.push("/checkout");
+          deleteCart();
+        }
+      } catch (error) {
+        console.error("Checkout error:", error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      router.push("/signin");
+    }
+  };
+
   const openConfirm = () => {
     setConfirmOpen(true);
   };
@@ -195,8 +231,12 @@ const CartComponent = () => {
                 </div>
 
                 {/* Checkout Button */}
-                <Button className="w-full h-12 bg-mainColor hover:bg-mainColor/90 text-white font-medium text-xl rounded-xl transition-colors">
-                  To'lovga o'tish
+                <Button
+                  disabled={items.length === 0 || loading}
+                  onClick={handleCheckout}
+                  className="w-full h-12  text-white font-medium text-xl rounded-xl "
+                >
+                  {loading ? <SubmitLoader /> : "To'lovga o'tish"}
                 </Button>
               </div>
             </div>

@@ -1,14 +1,11 @@
 import { Link } from "@/i18n/navigation";
 import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
-import { cookies } from "next/headers";
-import { REFRESH_TOKEN } from "@/constants";
 import HeaderRight from "./HeaderRight";
+import { getAuthStatus } from "@/lib/auth";
 
 export const Header = async () => {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value;
-  const isAuth = Boolean(refreshToken);
+  const isAuth = await getAuthStatus();
 
   return (
     <header className="py-6 ">
