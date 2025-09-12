@@ -31,7 +31,7 @@ export const NotificationMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar">
         <DropdownMenuLabel className="px-0 py-[9.5px] mb-[15px] font-medium text-textColor text-[30px]">
-          <Link href={'/notification'}>Bildirishnomalar</Link>
+          Bildirishnomalar
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-col gap-[15px]">

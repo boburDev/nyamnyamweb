@@ -1,0 +1,102 @@
+export const OrdersData = [
+    {
+        ordersId: 12,
+        products: [
+            {
+                id: 1,
+                name: "Suprise bag",
+                image: "/productimg.png",
+                restaurant: "Oqtepa lavash",
+                distance: 1.2,
+                currentPrice: "12.000 UZS",
+                originalPrice: "18.000",
+                coords: [41.294053, 69.266459],
+                rating: 5.0,
+                categoryId: 2,
+                stock: 2,
+                isBookmarked: false,
+                isInCart: false,
+                start: "2025-09-11T17:00:00Z",
+                end: "2025-09-11T18:00:00Z",
+                status: "In Progress"
+            },
+            {
+                id: 14,
+                name: "Suprise bag",
+                image: "/productimg.png",
+                restaurant: "Oqtepa lavash",
+                distance: 1.2,
+                currentPrice: "12.000 UZS",
+                originalPrice: "18.000",
+                coords: [41.371939, 69.310607],
+                rating: 5.0,
+                categoryId: 2,
+                stock: 2,
+                isBookmarked: false,
+                isInCart: false,
+                start: "2025-09-11T17:00:00Z",
+                end: "2025-09-11T18:00:00Z",
+                status: "Pending"
+            },
+            {
+                id: 5,
+                name: "Black Burger",
+                image: "/blackburger.webp",
+                restaurant: "Shef Burger",
+                distance: 3.0,
+                currentPrice: "25.000 so'm",
+                coords: [41.285827, 69.204606],
+                originalPrice: "35.000",
+                rating: 5.0,
+                categoryId: 2,
+                stock: 1,
+                isBookmarked: false,
+                isInCart: false,
+                start: "2025-09-11T17:00:00Z",
+                end: "2025-09-11T18:00:00Z",
+                status: "Completed"
+            },
+        ]
+    },
+    {
+        ordersId: 13,
+        products: [
+            {
+                id: 9,
+                name: "Suprise bag",
+                image: "/productimg.png",
+                restaurant: "Oqtepa lavash",
+                distance: 1.2,
+                currentPrice: "12.000 UZS",
+                originalPrice: "18.000",
+                coords: [41.329587, 69.284094],
+                rating: 5.0,
+                categoryId: 2,
+                stock: 2,
+                isBookmarked: false,
+                isInCart: false,
+                start: "2025-09-11T17:00:00Z",
+                end: "2025-09-11T18:00:00Z",
+                status: "In Progress"
+            },
+            {
+                id: 9,
+                name: "Suprise bag",
+                image: "/productimg.png",
+                restaurant: "Oqtepa lavash",
+                distance: 1.2,
+                currentPrice: "12.000 UZS",
+                originalPrice: "18.000",
+                coords: [41.329587, 69.284094],
+                rating: 5.0,
+                categoryId: 2,
+                stock: 2,
+                isBookmarked: false,
+                isInCart: false,
+                start: "2025-09-11T17:00:00Z",
+                end: "2025-09-11T18:00:00Z",
+                status: "Pending"
+            },
+        ]
+    }
+]
