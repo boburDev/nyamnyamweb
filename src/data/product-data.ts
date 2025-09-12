@@ -15,7 +15,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 2,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false,
             },
             {
@@ -30,7 +29,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 2,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -45,7 +43,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 2,
                 stock: 1,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -60,7 +57,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 2,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false
             },
         ]
@@ -81,7 +77,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 3,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -96,7 +91,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 3,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -111,7 +105,6 @@ export const productData = [
                 rating: 4.8,
                 categoryId: 3,
                 stock: 5,
-                isBookmarked: false,
                 isInCart: true
             },
             {
@@ -126,7 +119,6 @@ export const productData = [
                 rating: 4.8,
                 categoryId: 3,
                 stock: 5,
-                isBookmarked: false,
                 isInCart: true
             },
         ]
@@ -147,7 +139,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 4,
                 stock: 2,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -162,7 +153,6 @@ export const productData = [
                 rating: 4.5,
                 categoryId: 4,
                 stock: 8,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -177,7 +167,6 @@ export const productData = [
                 rating: 4.6,
                 categoryId: 4,
                 stock: 6,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -192,7 +181,6 @@ export const productData = [
                 rating: 4.4,
                 categoryId: 4,
                 stock: 7,
-                isBookmarked: false,
                 isInCart: false
             },
         ]
@@ -213,7 +201,6 @@ export const productData = [
                 rating: 5.0,
                 categoryId: 5,
                 stock: 2,
-                isBookmarked: true,
                 isInCart: false
             },
             {
@@ -228,7 +215,6 @@ export const productData = [
                 rating: 4.5,
                 categoryId: 5,
                 stock: 5,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -243,7 +229,6 @@ export const productData = [
                 rating: 4.5,
                 categoryId: 5,
                 stock: 5,
-                isBookmarked: false,
                 isInCart: false
             },
             {
@@ -258,7 +243,6 @@ export const productData = [
                 rating: 4.8,
                 categoryId: 5,
                 stock: 2,
-                isBookmarked: true,
                 isInCart: false
             },
         ]

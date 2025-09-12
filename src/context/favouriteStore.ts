@@ -70,7 +70,7 @@ const useFavouriteStore = create<FavouriteStore>()(
                 const { initialized } = get();
                 if (!initialized) {
                     const allProducts = getAllProducts();
-                    const bookmarkedProducts = allProducts.filter(product => product.isBookmarked);
+                    const bookmarkedProducts = allProducts.filter(product => product.id);
 
                     set({
                         items: bookmarkedProducts,

@@ -3,12 +3,12 @@
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
 import { Container } from "../container";
 import { ConfirmModal } from "../modal";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
 
@@ -60,13 +60,20 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
-          <div className="text-center py-16">
-            <h2 className="text-2xl font-semibold text-textColor mb-2">
-              Savat bo'sh
+          <div className="flex flex-col items-center justify-center py-[127px]">
+              <ShoppingCart size={113} className="text-[#BCBEC3]" />
+            <h2 className="text-[30px] font-semibold text-textColor mt-5">
+              Savatda hozircha hech narsa yo‘q
             </h2>
-            <p className="text-dolphin">
-              Mahsulot qo'shish uchun savat tugmasini bosing
+            <p className="text-dolphin mt-[15px]">
+              Surprise baglarni tanlab, savatingizni to‘ldiring.
             </p>
+            <Link href="/">
+              <Button className="font-semibold text-xl px-[25px] py-[9px] mt-5">
+                Surprise baglarni ko’rish
+              </Button>
+            </Link>
+
           </div>
         </div>
       </div>
