@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScanQrCode } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { OrdersData } from "@/data";
 
 export default function OrderPage() {
   const [open, setOpen] = useState(false);
@@ -60,7 +61,7 @@ export default function OrderPage() {
             </div>
           </div>
         </div>
-        <OrderAccordion open={open} setOpen={setOpen} />
+        <OrderAccordion open={open} setOpen={setOpen} orders={OrdersData} />
       </div>
       <QrCodeModal open={open} setOpen={setOpen} />
     </Container>
