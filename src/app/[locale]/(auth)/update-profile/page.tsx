@@ -23,17 +23,7 @@ export default function UpdateProfilePage() {
   const clearTo = useAuthStore((s) => s.clearTo);
   const router = useRouter();
   const locale = useLocale();
-  const {
-    isEmail,
-    setCode,
-    code,
-    updateResend,
-    timer,
-    minutes,
-    seconds,
-    maskedTo,
-    onlyDigits,
-  } = useVerify(to as string);
+  const { isEmail, setCode, code, updateResend, timer, minutes, seconds, maskedTo, onlyDigits, } = useVerify(to as string);
   const { mutate: verifyOtp, isPending } = useUpdateVerifyOtp(locale);
   const queryClient = useQueryClient();
   const handleBack = () => {
