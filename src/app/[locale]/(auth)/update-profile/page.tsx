@@ -26,11 +26,14 @@ export default function UpdateProfilePage() {
   const { isEmail, setCode, code, updateResend, timer, minutes, seconds, maskedTo, onlyDigits, } = useVerify(to as string);
   const { mutate: verifyOtp, isPending } = useUpdateVerifyOtp(locale);
   const queryClient = useQueryClient();
+
+  if (!to) return null;
+
   const handleBack = () => {
     router.back();
   };
-  if (!to) return null;
-  const hanleVerify = () => {
+
+  const handleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
 
     verifyOtp(payload, {
@@ -41,7 +44,7 @@ export default function UpdateProfilePage() {
       },
       onError: (error) => {
         if (error instanceof AxiosError) {
-          const message = error.response?.data?.error_message;
+          const message = error.response?.data?.error_message || "Xatolik yuz berdi";
           showError(message);
         }
       },
@@ -57,13 +60,13 @@ export default function UpdateProfilePage() {
         </button>
         <h2 className="auth-title">Tasdiqlash kodi</h2>
         <p className="text-dolphin text-sm mb-[5px] max-w-[369px]">
-          Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"}{" "}
-          6 xonali kod yubordik.
+          Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"} 6 xonali kod yubordik.
         </p>
         <p className="text-dolphin text-sm">
           Iltimos, tasdiqlash uchun kodni kiriting.
         </p>
       </div>
+
       {/* otp */}
       <div className="mt-[30px]">
         <InputOTP
@@ -96,6 +99,7 @@ export default function UpdateProfilePage() {
           </InputOTPGroup>
         </InputOTP>
       </div>
+
       <div className="flex justify-between items-center mt-[25px]">
         <button
           onClick={updateResend}
@@ -110,8 +114,9 @@ export default function UpdateProfilePage() {
           {minutes}:{seconds}
         </span>
       </div>
-      {/* button */}
-      <div className="flex  mt-20 gap-[10px]">
+
+      {/* buttons */}
+      <div className="flex mt-20 gap-[10px]">
         <Button
           variant={"outline"}
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
@@ -120,7 +125,7 @@ export default function UpdateProfilePage() {
           Bekor qilish
         </Button>
         <Button
-          onClick={hanleVerify}
+          onClick={handleVerify}
           disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >

@@ -1,8 +1,8 @@
 "use client";
+
 import { useEffect, useState, FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import request from "@/services";
 import { useRouter } from "@/i18n/navigation";
 import PhoneInput from "../phone-input/PhoneInput";
 import { UPDATE_ME } from "@/constants";
@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { showError, showSuccess } from "../toast/Toast";
 import useAuthStore from "@/context/useAuth";
 import { AxiosError } from "axios";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   open: boolean;
@@ -25,7 +27,6 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
   const setTo = useAuthStore((s) => s.setTo);
 
   const [val, setVal] = useState<string>(phone);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -33,44 +34,50 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
     }
   }, [open, phone]);
 
-  const isDisabled = loading || val === phone || val.trim() === "";
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (isDisabled) return;
-    const normalizePhone = (phone: string) => phone.replace(/\s+/g, "");
-    const normalizedVal = normalizePhone(val);
-    try {
-      setLoading(true);
-      await request.patch(
-        `${UPDATE_ME}`,
-        {
-          phone: normalizedVal,
-        },
+  const mutation = useMutation({
+    mutationFn: async (phone: string) => {
+      const normalized = phone.replace(/\s+/g, "");
+      return axios.patch(
+        UPDATE_ME,
+        { phone: normalized },
         {
           headers: {
             "Accept-Language": locale,
           },
         }
       );
-      setTo(normalizedVal);
+    },
+    onSuccess: (_, phone) => {
+      const normalized = phone.replace(/\s+/g, "");
+      setTo(normalized);
       router.push("/update-profile");
-      showSuccess(t("sentPhone", { phone: normalizedVal }));
-    } catch (error) {
+      showSuccess(t("sentPhone", { phone: normalized }));
+      toggleOpen(); // modalni yopib qo'yish
+    },
+    onError: (error) => {
       if (error instanceof AxiosError) {
         const message = error.response?.data?.error_message;
-        showError(message);
+        showError(message || "Xatolik yuz berdi");
+      } else {
+        showError("Unexpected error");
       }
-    } finally {
-      setLoading(false);
-    }
+    },
+  });
+
+  const isDisabled =
+    mutation.isPending || val === phone || val.trim() === "";
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (isDisabled) return;
+    mutation.mutate(val);
   };
 
   return (
     <Dialog open={open} onOpenChange={toggleOpen}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="px-10 pt-7 pb-[36px] w-[80%] md:max-w-[480px] rounded-[10px] sm:rounded-[20px]  -mt-14 md:-mt-0 border-none"
+        className="px-10 pt-7 pb-[36px] w-[80%] md:max-w-[480px] rounded-[10px] sm:rounded-[20px] -mt-14 md:-mt-0 border-none"
       >
         <DialogHeader>
           <DialogTitle className="text-textColor font-semibold text-xl">
@@ -92,7 +99,7 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
           </div>
 
           <Button type="submit" disabled={isDisabled} className="w-full mt-10">
-            {loading ? <SubmitLoader /> : t("send")}
+            {mutation.isPending ? <SubmitLoader /> : t("send")}
           </Button>
         </form>
       </DialogContent>
