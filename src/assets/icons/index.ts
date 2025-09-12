@@ -10,7 +10,6 @@ export * from "./UserIcon";
 export * from "./UserProfile";
 export * from "./ArrowBackIcon";
 export * from "./EditIcon";
-export * from "./FavouriteActiveIcon";
 export * from "./FavouriteIcon";
 // payment icon
 export * from "./ClickIcon";
