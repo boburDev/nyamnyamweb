@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Container } from "@/components/container";
 import PriceFormatter from "@/components/price-format/PriceFormatter";
+import { formatTimeRange } from "@/utils";
 import { formatPrice } from "@/utils/price-format";
 import Image from "next/image";
 
@@ -29,7 +30,7 @@ export default async function CheckoutPage() {
               {data.items?.map((item: any, idx: number) => (
                 <div
                   key={idx}
-                  className="flex justify-between py-5 border-b last:border-b-0"
+                  className="flex justify-between py-5 border-b last:border-b-0 border-plasterColor"
                 >
                   <div className="flex gap-[17px]">
                     <div className="rounded-[20px] overflow-hidden">
@@ -51,19 +52,32 @@ export default async function CheckoutPage() {
                       <span className="text-dolphin font-normal text-sm mb-4">
                         {item.restaurant}
                       </span>
-                      <div className="flex">
-                        <span>{formatPrice(item.originalPrice)}</span>
-                        <PriceFormatter amount={item.currentPrice} />
+                      <div className="flex gap-3 items-center">
+                        <span className="text-dolphin font-normal text-base">
+                          {formatPrice(item.originalPrice)}
+                        </span>
+                        <PriceFormatter
+                          amount={item.currentPrice}
+                          className="text-[22px]"
+                        />
                       </div>
                     </div>
                   </div>
-                  <PriceFormatter amount={item.currentPrice} />
+                  <div>
+                    <span className="font-normal text-dolphin">
+                      {formatTimeRange(data.createdAt)}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="col-span-5">
-            <div className="bg-black">asdasdas</div>
+            <div className="bg-white rounded-[30px] shadow-md px-5 pt-5 pb-[30px] border border-nitrogenColor">
+              <h3 className="font-medium text-2xl mb-[30px] text-textColor">
+                To’lov turi
+              </h3>
+            </div>
           </div>
         </div>
       </Container>
