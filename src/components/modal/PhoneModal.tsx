@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useRouter } from "@/i18n/navigation";
 import PhoneInput from "../phone-input/PhoneInput";
-import { UPDATE_ME } from "@/constants";
 import { SubmitLoader } from "../loader";
 import { Button } from "../ui/button";
 import { showError, showSuccess } from "../toast/Toast";
@@ -38,8 +37,8 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
     mutationFn: async (phone: string) => {
       const normalized = phone.replace(/\s+/g, "");
       return axios.patch(
-        UPDATE_ME,
-        { phone: normalized },
+        "/api/email-phone",
+        { phone_number: normalized },
         {
           headers: {
             "Accept-Language": locale,

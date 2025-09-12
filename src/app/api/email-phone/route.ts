@@ -13,15 +13,6 @@ export async function PATCH(req: Request) {
     );
   }
 
-  const { phone_number } = await req.json();
-
-//   if (!phone) {
-//     return NextResponse.json(
-//       { success: false, message: "Phone is required" },
-//       { status: 400 }
-//     );
-//   }
-
   const response = await fetch(
     `${DOMAIN}${UPDATE_ME}`,
     {
@@ -30,7 +21,7 @@ export async function PATCH(req: Request) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ phone_number }),
+      body: JSON.stringify(req.body),
     }
   );
 

@@ -9,8 +9,6 @@ import {
 } from "../ui/dialog";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import request from "@/services";
-import { UPDATE_ME } from "@/constants";
 import { useRouter } from "@/i18n/navigation";
 import toast from "react-hot-toast";
 import useAuthStore from "@/context/useAuth";
@@ -70,9 +68,11 @@ export const EmailModal = ({ open, toggleOpen, email }: Props) => {
       router.push("/update-profile");
       toast.success(t("sentEmail", { email: variables.email }));
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError) => {
       const message =
-        error.response?.data?.error_message || error.message || "Something went wrong";
+        (error.response?.data as { error_message?: string })?.error_message ||
+        error.message ||
+        "Something went wrong";
       showError(message);
     },
   });
