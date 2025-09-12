@@ -53,7 +53,7 @@ const Notification = () => {
                             aria-label='Success Switch'
                         />
                     </div>
-                    <div className="flex flex-col gap-[22px] pt-[22px] pl-[30px]">
+                    <div className="flex flex-col w-[290px] gap-[22px] pt-[22px] pl-[30px]">
                         <div className="checkbox">
                             <input type="checkbox" id="checkbox1" />
                             <label htmlFor="checkbox1">
