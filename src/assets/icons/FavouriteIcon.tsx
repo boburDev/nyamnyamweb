@@ -1,0 +1,22 @@
+export const FavouriteIcon = (props: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      width={16}
+      height={21}
+      viewBox="0 0 16 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M15 19.5L8 15.5L1 19.5V3.5C1 2.96957 1.21071 2.46086 1.58579 2.08579C1.96086 1.71071 2.46957 1.5 3 1.5H13C13.5304 1.5 14.0391 1.71071 14.4142 2.08579C14.7893 2.46086 15 2.96957 15 3.5V19.5Z"
+        stroke="#4FB477"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export default FavouriteIcon;

@@ -10,6 +10,14 @@ export * from "./UserIcon";
 export * from "./UserProfile";
 export * from "./ArrowBackIcon";
 export * from "./EditIcon";
+export * from "./FavouriteActiveIcon";
+export * from "./FavouriteIcon";
+// payment icon
+export * from "./ClickIcon";
+export * from "./PaymeIcon";
+export * from "./PaynetIcon";
+export * from "./UzcardIcon";
+export * from "./UzumIcon";
 // profile icon
 export * from "./profile/ProfileCart";
 export * from "./profile/ProfileFavourite";

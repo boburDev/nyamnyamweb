@@ -77,7 +77,7 @@ const FavouriteCart = () => {
                   onClick={() => removeFromFavourites(item.id)}
                   className="p-1 hover:bg-gray-50 rounded-lg transition-colors"
                 >
-                  <Bookmark className="w-6 h-6 text-mainColor fill-mainColor" />
+                  <Bookmark className="w-6 h-6 stroke-mainColor fill-mainColor" />
                 </button>
               </div>
 

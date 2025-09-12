@@ -269,11 +269,12 @@ export const ProductSwiper = ({
                       onClick={() => toggleBookmark(product)}
                       className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
                     >
+                      
                       <Bookmark
                         className={`w-[24px] h-[24px] ${
                           isFavourite(product.id) || product.isBookmarked
-                            ? "fill-mainColor text-mainColor"
-                            : "text-mainColor"
+                            ? " fill-mainColor stroke-mainColor"
+                            : "fill-white stroke-mainColor"
                         }`}
                       />
                     </button>

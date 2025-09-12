@@ -1,13 +1,16 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { getBanners } from "@/api/banner";
 import { getCategories } from "@/api/category";
 import { prefetchAllProducts } from "@/api/product";
-import { getQueryClient } from "@/lib/react-query";
 import { BannerSwiper } from "@/components/swiper";
 import ProductsSection from "@/components/ProductsSection";
 
 export default async function Home() {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   // Prefetch all product data
   await queryClient.prefetchQuery({
