@@ -15,7 +15,7 @@ export async function getCategories(): Promise<Category[]> {
         },
         {
             id: 2,
-            name: "Super box",
+            name: "Super boxlar",
             slug: "super-box"
         },
         {

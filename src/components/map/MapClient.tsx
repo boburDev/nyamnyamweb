@@ -121,7 +121,7 @@ const MapClient = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px] mb-[253px]">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px]">
         {/* Product List */}
         <div className="col-span-1" style={{ scrollbarWidth: "none" }}>
           <div className="flex flex-col gap-[10px] pb-6">

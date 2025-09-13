@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 
 export const Footer = () => {
     return (
-        <div className="w-full pt-[39px] pb-[29px] bg-mainColor rounded-t-[45px]">
+        <div className="w-full pt-[39px] mt-[150px] pb-[29px] bg-mainColor rounded-t-[45px]">
             <Container>
                 <div className="flex items-center gap-[63px]">
                     <div className="w-[433px] gap-[21px] flex flex-col">

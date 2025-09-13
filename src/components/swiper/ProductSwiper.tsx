@@ -22,17 +22,20 @@ import { showToast } from "../toast/Toast";
 import { formatPrice } from "@/utils/price-format";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { FavouriteIcon } from "@/assets/icons";
+import { Link } from "@/i18n/navigation";
 
 interface ProductSwiperProps {
   products: Product[];
   title?: string;
   isLoading?: boolean;
+  categoryId?: number;
 }
 
 export const ProductSwiper = ({
   products,
   title,
   isLoading = false,
+  categoryId,
 }: ProductSwiperProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -120,10 +123,9 @@ export const ProductSwiper = ({
         onClick={onClick}
         disabled={isDisabled}
         className={`absolute right-[-10px] top-1/2 -translate-y-1/2 z-50 p-2 rounded-full transition
-          ${
-            isDisabled
-              ? "bg-[#e0e0e0] cursor-not-allowed"
-              : "bg-mainColor hover:bg-green-600"
+          ${isDisabled
+            ? "bg-[#e0e0e0] cursor-not-allowed"
+            : "bg-mainColor hover:bg-green-600"
           }`}
       >
         <ChevronRight
@@ -157,10 +159,9 @@ export const ProductSwiper = ({
         onClick={onClick}
         disabled={isDisabled}
         className={`absolute left-[-10px] top-1/2 -translate-y-1/2 z-50 p-2 rounded-full transition
-          ${
-            isDisabled
-              ? "bg-[#e0e0e0] cursor-not-allowed"
-              : "bg-mainColor hover:bg-green-600"
+          ${isDisabled
+            ? "bg-[#e0e0e0] cursor-not-allowed"
+            : "bg-mainColor hover:bg-green-600"
           }`}
       >
         <ChevronLeft
@@ -186,14 +187,14 @@ export const ProductSwiper = ({
     beforeChange: (_: number, next: number) => setCurrentSlide(next),
     nextArrow: (
       <NextArrow
-        onClick={() => {}}
+        onClick={() => { }}
         currentSlide={currentSlide}
         total={products.length}
       />
     ),
     prevArrow: (
       <PrevArrow
-        onClick={() => {}}
+        onClick={() => { }}
         currentSlide={currentSlide}
         total={products.length}
       />
@@ -231,10 +232,13 @@ export const ProductSwiper = ({
       {title && (
         <div className="mb-6 flex justify-between items-center">
           <h2 className="font-medium text-4xl text-textColor">{title}</h2>
-          <button className="flex items-center gap-2 text-mainColor hover:text-green-600 transition-colors">
+          <Link
+            href={categoryId ? `/all-products?category=${categoryId}` : "/all-products"}
+            className="flex items-center gap-2 text-mainColor hover:text-green-600 transition-colors"
+          >
             <span className="font-medium text-[20px]">Ko'proq ko'rish</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       )}
 
@@ -269,11 +273,15 @@ export const ProductSwiper = ({
                       onClick={() => toggleBookmark(product)}
                       className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
                     >
-                    {isFavourite(product.id) || product.isBookmarked ? (
-                      <FavouriteIcon className="w-[24px] h-[24px] text-mainColor" />
-                    ) : (
-                      <FavouriteIcon className="w-[24px] h-[24px] text-white" />
-                    )}
+                      <span
+                        className={`${isFavourite(product.id)
+                            ? "text-mainColor"
+                            : "text-white"
+                          }`}
+                      >
+                        <FavouriteIcon className="w-[24px] h-[24px]" />
+                      </span>
+
                     </button>
                   </div>
 
@@ -319,11 +327,10 @@ export const ProductSwiper = ({
                       <div className="flex gap-2">
                         <Button
                           onClick={() => toggleCart(product)}
-                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${
-                            isInCart(product.id) || product.isInCart
-                              ? "bg-mainColor text-white"
-                              : "bg-gray-100 !text-mainColor hover:bg-gray-200"
-                          }`}
+                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${isInCart(product.id) || product.isInCart
+                            ? "bg-mainColor text-white"
+                            : "bg-gray-100 !text-mainColor hover:bg-gray-200"
+                            }`}
                         >
                           <ShoppingCart className="w-4 h-4" />
                         </Button>

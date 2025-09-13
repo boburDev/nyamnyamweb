@@ -25,6 +25,7 @@ const ProductsSection = () => {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
+
   // Get products for selected category
   const { data: categoryProducts = [], isLoading: isCategoryLoading } = useQuery({
     queryKey: ["products", selectedCategoryId],
@@ -37,24 +38,6 @@ const ProductsSection = () => {
     setSelectedCategoryId(categoryId);
   };
 
-  // Get products by category from prefetched data
-  const getProductsByCategory = (categoryId: number) => {
-    if (!prefetchedData) return [];
-
-    if (selectedCategoryId === 1) {
-      // When "Hamma" is selected, filter from all products
-      return prefetchedData.allProducts.filter(product => product.categoryId === categoryId);
-    }
-    // When specific category is selected, return all products for that category
-    return categoryProducts;
-  };
-
-  // Get recommended products (first 6 products from each category)
-  const getRecommendedProducts = (categoryId: number) => {
-    const categoryProducts = getProductsByCategory(categoryId);
-    return categoryProducts.slice(0, 6);
-  };
-
 
 
   // Render multiple sections for "Hamma" category
@@ -63,49 +46,19 @@ const ProductsSection = () => {
 
     return (
       <>
-        {/* Recommended Super Boxes */}
-        <div className="mb-16">
-          <ProductSwiper
-            products={getRecommendedProducts(2)}
-            title="Tavsiya etilgan Super boxlar"
-            isLoading={!prefetchedData}
-          />
-        </div>
-
-        {/* Super Boxes */}
-        <div className="mb-16">
-          <ProductSwiper
-            products={getProductsByCategory(2)}
-            title="Super boxlar"
-            isLoading={!prefetchedData}
-          />
-        </div>
-
-        {/* Meals */}
-        <div className="mb-16">
-          <ProductSwiper
-            products={getProductsByCategory(3)}
-            title="Taomlar"
-            isLoading={!prefetchedData}
-          />
-        </div>
-
-        {/* Fast Food */}
-        <div className="mb-16">
-          <ProductSwiper
-            products={getProductsByCategory(4)}
-            title="Fast food"
-            isLoading={!prefetchedData}
-          />
-        </div>
-
-        {/* Desserts */}
-        <div className="mb-16">
-          <ProductSwiper
-            products={getProductsByCategory(5)}
-            title="Shirinliklar"
-            isLoading={!prefetchedData}
-          />
+        {/* All Products */}
+        <div className="mb-16 flex flex-col gap-[80px]">
+          {
+            prefetchedData.categories.map((category) => (
+              <ProductSwiper
+                key={category.categoryId}
+                products={category.products}
+                title={category.category}
+                isLoading={isCategoryLoading}
+                categoryId={category.categoryId === 1 ? 2 : category.categoryId}
+              />
+            ))
+          }
         </div>
       </>
     );
@@ -126,6 +79,7 @@ const ProductsSection = () => {
           products={categoryProducts}
           title={getCategoryTitle()}
           isLoading={isCategoryLoading}
+          categoryId={selectedCategoryId}
         />
       </div>
     );
@@ -136,9 +90,9 @@ const ProductsSection = () => {
       <CategoryTabs
         onCategoryChange={handleCategoryChange}
         selectedCategoryId={selectedCategoryId}
-      />
-
-      {selectedCategoryId === 1 ? renderAllSections() : renderSingleSection()}
+      >
+        {selectedCategoryId === 1 ? renderAllSections() : renderSingleSection()}
+      </CategoryTabs>
     </Container>
   );
 };
