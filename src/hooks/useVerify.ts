@@ -1,7 +1,6 @@
 "use client";
 import { showError, showSuccess } from "@/components/toast/Toast";
-import { FORGOT_PASSWORD, SIGNUP, UPDATE_ME } from "@/constants";
-import request from "@/services";
+import { FORGOT_PASSWORD, SIGNUP } from "@/constants";
 import axios, { AxiosError } from "axios";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
@@ -53,7 +52,7 @@ export const useVerify = (to: string, reset?: boolean) => {
     if (timer > 0) return;
     const payload = isEmail ? { email: to } : { phone_number: to };
     try {
-      await request.patch(UPDATE_ME, payload, {
+      await axios.patch(`/api/email-phone`, payload, {
         headers: {
           "Accept-Language": locale,
         },

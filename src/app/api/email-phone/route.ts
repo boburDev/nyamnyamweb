@@ -12,7 +12,7 @@ export async function PATCH(req: Request) {
       { status: 401 }
     );
   }
-
+  const body = await req.json();
   const response = await fetch(
     `${DOMAIN}${UPDATE_ME}`,
     {
@@ -21,7 +21,7 @@ export async function PATCH(req: Request) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(body),
     }
   );
 

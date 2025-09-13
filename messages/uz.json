@@ -334,5 +334,9 @@
     "deleteConfirm": "O'chirishni tasdiqlang",
     "cancel": "Bekor qilish",
     "delete": "O'chirish"
+  },
+  "verify-update": {
+    "success-email": "Email muvaffaqiyatli yangilandi",
+    "success-phone": "Telefon raqam muvaffaqiyatli yangilandi"
   }
 }

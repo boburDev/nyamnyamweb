@@ -1,21 +1,20 @@
 "use client";
 
-import { AxiosError } from "axios";
-import { useLocale } from "next-intl";
-
+import { useLocale, useTranslations } from "next-intl";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { showError } from "@/components/toast/Toast";
 import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { ArrowBackIcon } from "@/assets/icons";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
-import { useUpdateVerifyOtp } from "@/hooks";
+import { useUpdateVerify } from "@/hooks";
+import { showError, showSuccess } from "@/components/toast/Toast";
+import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function UpdateProfilePage() {
@@ -23,32 +22,46 @@ export default function UpdateProfilePage() {
   const clearTo = useAuthStore((s) => s.clearTo);
   const router = useRouter();
   const locale = useLocale();
-  const { isEmail, setCode, code, updateResend, timer, minutes, seconds, maskedTo, onlyDigits, } = useVerify(to as string);
-  const { mutate: verifyOtp, isPending } = useUpdateVerifyOtp(locale);
   const queryClient = useQueryClient();
-
-  if (!to) return null;
+  const t = useTranslations("verify-update");
+  const {
+    isEmail,
+    setCode,
+    code,
+    updateResend,
+    timer,
+    minutes,
+    seconds,
+    maskedTo,
+    onlyDigits,
+  } = useVerify(to as string);
+  const { mutate: updateVerify, isPending } = useUpdateVerify(locale)
 
   const handleBack = () => {
     router.back();
   };
 
+  if (!to) return null;
+
   const handleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
 
-    verifyOtp(payload, {
+    updateVerify(payload, {
       onSuccess: () => {
-        router.push("/profile");
-        queryClient.invalidateQueries({ queryKey: ["user"] });
         clearTo();
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+        router.push("/profile");
+        showSuccess(isEmail ? t("success-email") : t("success-phone"));
       },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          const message = error.response?.data?.error_message || "Xatolik yuz berdi";
-          showError(message);
-        }
-      },
-    });
+      onError: (error: Error | AxiosError) => {
+        const message =
+          error instanceof AxiosError
+            ? (error.response?.data as { error?: string })?.error ||
+            error.message
+            : error.message;
+        showError(message);
+      }
+    })
   };
 
   return (
@@ -104,9 +117,8 @@ export default function UpdateProfilePage() {
         <button
           onClick={updateResend}
           disabled={timer > 0}
-          className={`text-mainColor font-medium ${
-            timer > 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`text-mainColor font-medium ${timer > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Qayta yuborish
         </button>

@@ -334,5 +334,9 @@
     "deleteConfirm": "Confirm deletion",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "verify-update": {
+    "success-email": "Email has been successfully updated",
+    "success-phone": "Phone number has been successfully updated"
   }
 }

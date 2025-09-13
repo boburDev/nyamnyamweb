@@ -9,16 +9,14 @@ import {
 } from "../ui/dialog";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useRouter } from "@/i18n/navigation";
-import toast from "react-hot-toast";
-import useAuthStore from "@/context/useAuth";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { SubmitLoader } from "../loader";
-import axios, { AxiosError } from "axios";
-import { showError } from "../toast/Toast";
-import { useMutation } from "@tanstack/react-query";
-
+import { useChangeEmail } from "@/hooks";
+import useAuthStore from "@/context/useAuth";
+import { useRouter } from "@/i18n/navigation";
+import { AxiosError } from "axios";
+import { showError, showSuccess } from "../toast/Toast";
 interface Props {
   open: boolean;
   toggleOpen: () => void;
@@ -27,10 +25,11 @@ interface Props {
 type FormValues = { email: string };
 
 export const EmailModal = ({ open, toggleOpen, email }: Props) => {
-  const t = useTranslations("profile");
-  const setTo = useAuthStore((s) => s.setTo);
   const router = useRouter();
+  const setTo = useAuthStore((s) => s.setTo);
+  const t = useTranslations("profile");
   const locale = useLocale();
+  const { mutate: ChangeEmail, isPending } = useChangeEmail(locale);
 
   const {
     register,
@@ -48,38 +47,27 @@ export const EmailModal = ({ open, toggleOpen, email }: Props) => {
     }
   }, [open, email, reset]);
 
-  const mutation = useMutation({
-    mutationFn: async (data: FormValues) => {
-      const res = await axios.patch(
-        '/api/email-phone',
-        { email: data.email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept-Language": locale,
-          },
-        }
-      );
-  
-      return res.data;
-    },
-    onSuccess: (_, variables) => {
-      setTo(variables.email);
-      router.push("/update-profile");
-      toast.success(t("sentEmail", { email: variables.email }));
-    },
-    onError: (error: AxiosError) => {
-      const message =
-        (error.response?.data as { error_message?: string })?.error_message ||
-        error.message ||
-        "Something went wrong";
-      showError(message);
-    },
-  });
-  
 
   const onSubmit = (data: FormValues) => {
-    mutation.mutate(data);
+    ChangeEmail(data, {
+      onSuccess: (_, variables) => {
+        setTo(variables.email);
+        router.push("/update-profile");
+        showSuccess(t("sentEmail", { email: variables.email }));
+      },
+      onError: (error, variables) => {
+        let message =
+          error instanceof AxiosError
+            ? (error.response?.data as { error_message?: string })?.error_message ||
+            error.message
+            : error.message;
+        if (variables?.email) {
+          message = message.replace(/"email"/gi, `"${variables.email}"`);
+        }
+
+        showError(message);
+      },
+    });
   };
 
   return (
@@ -130,10 +118,10 @@ export const EmailModal = ({ open, toggleOpen, email }: Props) => {
 
           <Button
             type="submit"
-            disabled={mutation.isPending || !isDirty}
+            disabled={isPending || !isDirty}
             className="w-full mt-10"
           >
-            {mutation.isPending ? <SubmitLoader /> : t("send")}
+            {isPending ? <SubmitLoader /> : t("send")}
           </Button>
         </form>
       </DialogContent>

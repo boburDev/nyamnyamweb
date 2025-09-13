@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { LoginForm } from "@/types";
 import { AxiosError } from "axios";
+import { LoginForm } from "@/types";
 
 interface LoginSuccess {
   success: boolean;
