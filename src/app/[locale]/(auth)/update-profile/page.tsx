@@ -76,7 +76,6 @@ export default function UpdateProfilePage() {
   });
   if (!to) return null;
 
-  // handle verify click
   const handleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
     mutation.mutate(payload);

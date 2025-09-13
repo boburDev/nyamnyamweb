@@ -2,10 +2,8 @@
 
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-
-import { OTP, OTP_RESET_PASSWORD, UPDATE_OTP_USER } from "@/constants";
+import { OTP, OTP_RESET_PASSWORD } from "@/constants";
 import { VerifyResetPayload } from "@/types";
-import request from "@/services";
 
 export function useVerifyResetOtp(locale: string) {
   return useMutation({
@@ -31,15 +29,3 @@ export function useVerifyOtp(locale: string) {
     },
   });
 }
-// export function useUpdateVerifyOtp(locale: string) {
-//   return useMutation({
-//     mutationFn: async (payload: VerifyResetPayload) => {
-//       const res = await request.post(UPDATE_OTP_USER, payload, {
-//         headers: {
-//           "Accept-Language": locale,
-//         },
-//       });
-//       return res.data;
-//     },
-//   });
-// }
