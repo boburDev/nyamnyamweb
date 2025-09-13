@@ -4,3 +4,5 @@ export * from "./useReset";
 export * from "./useOtp";
 export * from "./useComplete";
 export * from "./useUser";
+export * from "./useChangeEmail"
+export * from "./useUpdateVerify"

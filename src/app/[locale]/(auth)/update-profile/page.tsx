@@ -1,26 +1,21 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
-import { useLocale } from "next-intl";
-
+import { useLocale, useTranslations } from "next-intl";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { showError, showSuccess } from "@/components/toast/Toast";
 import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { ArrowBackIcon } from "@/assets/icons";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-interface VerifyOtpPayload {
-  email?: string;
-  phone_number?: string;
-  code: string;
-}
+import { useUpdateVerify } from "@/hooks";
+import { showError, showSuccess } from "@/components/toast/Toast";
+import { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function UpdateProfilePage() {
   const to = useAuthStore((s) => s.to);
@@ -28,6 +23,7 @@ export default function UpdateProfilePage() {
   const router = useRouter();
   const locale = useLocale();
   const queryClient = useQueryClient();
+  const t = useTranslations("verify-update");
   const {
     isEmail,
     setCode,
@@ -39,46 +35,33 @@ export default function UpdateProfilePage() {
     maskedTo,
     onlyDigits,
   } = useVerify(to as string);
+  const { mutate: updateVerify, isPending } = useUpdateVerify(locale)
 
   const handleBack = () => {
     router.back();
   };
-  // verify OTP mutation
-  const mutation = useMutation({
-    mutationFn: async (payload: VerifyOtpPayload) => {
-      const res = await axios.post(
-        "/api/verify-update",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept-Language": locale,
-          },
-        }
-      );
 
-      return res.data;
-    },
-    onSuccess: () => {
-      router.push("/profile");
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-      clearTo();
-      showSuccess(isEmail ? "Email muvaffaqiyatli yangilandi" : "Telefon raqam muvaffaqiyatli yangilandi")
-    },
-    onError: (error: Error | AxiosError) => {
-      const message =
-        error instanceof AxiosError
-          ? (error.response?.data as { error?: string })?.error ||
-          error.message
-          : error.message;
-      showError(message);
-    },
-  });
   if (!to) return null;
 
   const handleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
-    mutation.mutate(payload);
+
+    updateVerify(payload, {
+      onSuccess: () => {
+        clearTo();
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+        router.push("/profile");
+        showSuccess(isEmail ? t("success-email") : t("success-phone"));
+      },
+      onError: (error: Error | AxiosError) => {
+        const message =
+          error instanceof AxiosError
+            ? (error.response?.data as { error?: string })?.error ||
+            error.message
+            : error.message;
+        showError(message);
+      }
+    })
   };
 
   return (
@@ -155,10 +138,10 @@ export default function UpdateProfilePage() {
         </Button>
         <Button
           onClick={handleVerify}
-          disabled={code.length < 6 || mutation.isPending}
+          disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          {mutation.isPending ? <SubmitLoader /> : "Tasdiqlash"}
+          {isPending ? <SubmitLoader /> : "Tasdiqlash"}
         </Button>
       </div>
     </div>
