@@ -21,8 +21,6 @@ const FavouriteCart = () => {
       showToast({
         title: "Savatdan o'chirildi",
         type: "info",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
       });
     } else {
       addToCart(item);

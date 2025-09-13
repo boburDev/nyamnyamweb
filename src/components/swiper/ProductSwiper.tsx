@@ -67,8 +67,8 @@ export const ProductSwiper = ({
         ? "Saqlangan mahsulotlardan o'chirildi"
         : "Saqlangan mahsulotlarga qo'shildi",
       type: isCurrentlyFavourite ? "info" : "success",
-      href: "/favourite",
-      hrefName: "Saqlangan mahsulotlar",
+      href: isCurrentlyFavourite ? "" : "/favourite",
+      hrefName: isCurrentlyFavourite ? "" : "Saqlangan mahsulotlar",
     });
   };
 
@@ -78,8 +78,6 @@ export const ProductSwiper = ({
       showToast({
         title: "Savatdan o'chirildi",
         type: "info",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
       });
     } else {
       addToCart(product);
