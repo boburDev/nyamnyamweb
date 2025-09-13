@@ -53,7 +53,7 @@ export const useVerify = (to: string, reset?: boolean) => {
     if (timer > 0) return;
     const payload = isEmail ? { email: to } : { phone_number: to };
     try {
-      await request.patch(UPDATE_ME, payload, {
+      await axios.patch(`/api/email-phone`, payload, {
         headers: {
           "Accept-Language": locale,
         },

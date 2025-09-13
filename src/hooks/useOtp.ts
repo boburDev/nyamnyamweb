@@ -31,15 +31,15 @@ export function useVerifyOtp(locale: string) {
     },
   });
 }
-export function useUpdateVerifyOtp(locale: string) {
-  return useMutation({
-    mutationFn: async (payload: VerifyResetPayload) => {
-      const res = await request.post(UPDATE_OTP_USER, payload, {
-        headers: {
-          "Accept-Language": locale,
-        },
-      });
-      return res.data;
-    },
-  });
-}
+// export function useUpdateVerifyOtp(locale: string) {
+//   return useMutation({
+//     mutationFn: async (payload: VerifyResetPayload) => {
+//       const res = await request.post(UPDATE_OTP_USER, payload, {
+//         headers: {
+//           "Accept-Language": locale,
+//         },
+//       });
+//       return res.data;
+//     },
+//   });
+// }

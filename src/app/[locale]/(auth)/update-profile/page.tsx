@@ -1,6 +1,6 @@
 "use client";
 
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useLocale } from "next-intl";
 
 import {
@@ -8,47 +8,78 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { showError } from "@/components/toast/Toast";
+import { showError, showSuccess } from "@/components/toast/Toast";
 import { SubmitLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { ArrowBackIcon } from "@/assets/icons";
 import { useVerify } from "@/hooks/useVerify";
 import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
-import { useUpdateVerifyOtp } from "@/hooks";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+interface VerifyOtpPayload {
+  email?: string;
+  phone_number?: string;
+  code: string;
+}
 
 export default function UpdateProfilePage() {
   const to = useAuthStore((s) => s.to);
   const clearTo = useAuthStore((s) => s.clearTo);
   const router = useRouter();
   const locale = useLocale();
-  const { isEmail, setCode, code, updateResend, timer, minutes, seconds, maskedTo, onlyDigits, } = useVerify(to as string);
-  const { mutate: verifyOtp, isPending } = useUpdateVerifyOtp(locale);
   const queryClient = useQueryClient();
-
-  if (!to) return null;
+  const {
+    isEmail,
+    setCode,
+    code,
+    updateResend,
+    timer,
+    minutes,
+    seconds,
+    maskedTo,
+    onlyDigits,
+  } = useVerify(to as string);
 
   const handleBack = () => {
     router.back();
   };
+  // verify OTP mutation
+  const mutation = useMutation({
+    mutationFn: async (payload: VerifyOtpPayload) => {
+      const res = await axios.post(
+        "/api/verify-update",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept-Language": locale,
+          },
+        }
+      );
 
+      return res.data;
+    },
+    onSuccess: () => {
+      router.push("/profile");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      clearTo();
+      showSuccess(isEmail ? "Email muvaffaqiyatli yangilandi" : "Telefon raqam muvaffaqiyatli yangilandi")
+    },
+    onError: (error: Error | AxiosError) => {
+      const message =
+        error instanceof AxiosError
+          ? (error.response?.data as { error?: string })?.error ||
+          error.message
+          : error.message;
+      showError(message);
+    },
+  });
+  if (!to) return null;
+
+  // handle verify click
   const handleVerify = () => {
     const payload = isEmail ? { email: to, code } : { phone_number: to, code };
-
-    verifyOtp(payload, {
-      onSuccess: () => {
-        router.push("/profile");
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-        clearTo();
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          const message = error.response?.data?.error_message || "Xatolik yuz berdi";
-          showError(message);
-        }
-      },
-    });
+    mutation.mutate(payload);
   };
 
   return (
@@ -104,9 +135,8 @@ export default function UpdateProfilePage() {
         <button
           onClick={updateResend}
           disabled={timer > 0}
-          className={`text-mainColor font-medium ${
-            timer > 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`text-mainColor font-medium ${timer > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Qayta yuborish
         </button>
@@ -126,10 +156,10 @@ export default function UpdateProfilePage() {
         </Button>
         <Button
           onClick={handleVerify}
-          disabled={code.length < 6 || isPending}
+          disabled={code.length < 6 || mutation.isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          {isPending ? <SubmitLoader /> : "Tasdiqlash"}
+          {mutation.isPending ? <SubmitLoader /> : "Tasdiqlash"}
         </Button>
       </div>
     </div>
