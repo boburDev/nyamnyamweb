@@ -1,98 +1,87 @@
-'use client'
 import { Container } from "@/components/container"
-import { Switch } from "@/components/ui/switch"
-import { useTranslations } from "next-intl"
-import { useState } from "react"
+import { NotificationSettings } from "@/components/notification";
+import { Calendar, Clock } from "lucide-react";
+import { getTranslations } from "next-intl/server"
+import Link from "next/link"
 
-const Notification = () => {
-    const [activeDay, setActiveDay] = useState<string[]>([]);
-    const t = useTranslations('notification')
+interface Notification {
+  id: number;
+  name: string;
+  desc: string;
+  createdAt: string;
+}
 
-    const weekDaysKeys = [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-      ];
+async function getNotifications(): Promise<Notification[]> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/notification`, {
+      cache: 'no-store'
+    });
 
-    const toggleDay = (day: string) => {
-        setActiveDay((prev) =>
-            prev.includes(day)
-                ? prev.filter((d) => d !== day)
-                : [...prev, day]
-        );
-    };
-    return (
-        <Container>
-            <div className="mt-[76px] pb-[150px]">
-                <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
-                <div className="bg-white border border-plasterColor rounded-[20px] mt-10">
-                    <h4 className="text-[16px] text-textColor pl-[30px] pt-6">
-                        {t("desc")}
-                    </h4>
-                    <div className="flex items-center justify-between px-[30px] bg-notificationColor py-[13.5px] mt-[22px]">
-                        <div>
-                            <h4 className="font-medium text-[16px] text-textColor">{t("section-1-title")}</h4>
-                            <p className="text-sm text-dolphin">{t("section-1-desc")}</p>
-                        </div>
-                        <Switch
-                            className='w-13 h-7.5 pl-[2px] data-[state=checked]:!bg-mainColor data-[state=unchecked]:!bg-switchBgColor shadow-none border-0 focus-visible:ring-gColor/20 focus-visible:ring-[2px] [&_span]:!bg-white [&_span]:w-6.5 [&_span]:h-6.5 [&_span]:data-[state=checked]:!translate-x-[calc(100%-4px)] [&_span]:data-[state=unchecked]:!translate-x-3px [&_span]:shadow-[0px_3px_8px_0px_#00000026]'
-                            aria-label='Success Switch'
-                        />
+    if (!response.ok) {
+      throw new Error('Failed to fetch notifications');
+    }
+
+    const data = await response.json();
+    return data.notifications || [];
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return [];
+  }
+}
+
+const Notification = async () => {
+  const t = await getTranslations('notification')
+  const t2 = await getTranslations('cards')
+  const notifications = await getNotifications();
+
+  return (
+    <Container>
+      <div className="mt-[76px] pb-[150px]">
+        <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
+
+        {/* Notifications List */}
+        <div className="mt-10 space-y-4 bg-white p-[30px] rounded-[20px] border border-plasterColor">
+          {notifications.map((notification) => (
+            <div
+              key={notification.id}
+              // href={`/notification/${notification.id}`}
+              className="block  border border-plasterColor rounded-[20px] p-6 hover:border-mainColor gorup transition-all duration-300"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="font-medium text-2xl text-textColor mb-[15px]">
+                    {notification.name}
+                  </h3>
+                  <p className="text-sm text-dolphin mb-[15px] line-clamp-2 group-hover:text-textColor transition-all duration-300">
+                    {notification.desc}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-[10px] text-gray-500 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(notification.createdAt).toLocaleDateString('uz-UZ').replaceAll("/", ".")}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4" />
+                        <span>{new Date(notification.createdAt).toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' })}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between px-[30px] bg-notificationColor py-[13.5px] mt-[10px]">
-                        <div>
-                            <h4 className="font-medium text-[16px] text-textColor">{t("section-2-title")}</h4>
-                            <p className="text-sm text-dolphin">{t("section-2-desc")}</p>
-                        </div>
-                        <Switch
-                            className='w-13 h-7.5 pl-[2px] data-[state=checked]:!bg-mainColor data-[state=unchecked]:!bg-switchBgColor shadow-none border-0 focus-visible:ring-gColor/20 focus-visible:ring-[2px] [&_span]:!bg-white [&_span]:w-6.5 [&_span]:h-6.5 [&_span]:data-[state=checked]:!translate-x-[calc(100%-4px)] [&_span]:data-[state=unchecked]:!translate-x-3px [&_span]:shadow-[0px_3px_8px_0px_#00000026]'
-                            aria-label='Success Switch'
-                        />
-                    </div>
-                    <div className="flex flex-col w-[290px] gap-[22px] pt-[22px] pl-[30px]">
-                        <div className="checkbox">
-                            <input type="checkbox" id="checkbox1" />
-                            <label htmlFor="checkbox1">
-                                <span className="text-[16px] leading-6 text-dolphin">{t("section-3")}</span>
-                            </label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" id="checkbox2" />
-                            <label htmlFor="checkbox2">
-                                <span className="text-[16px] leading-6 text-dolphin">{t("section-4")}</span>
-                            </label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" id="checkbox3" />
-                            <label htmlFor="checkbox3">
-                                <span className="text-[16px] leading-6 text-dolphin">{t("section-5")}</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div className="pl-[30px] pt-[32px]">
-                        <h2 className="font-semibold text-[22px] leading-7">{t("section-6-title")}</h2>
-                        <p className="text-[16px] leading-6 text-dolphin pt-[26px]">{t("section-6-desc")}</p>
-                        <div className="flex items-center gap-[15px] pt-[34px] pb-[30px]">
-                            {weekDaysKeys.map((key) => (
-                                <button key={key} onClick={() => toggleDay(key)}
-                                    className={`px-[10px] py-[5.5px] rounded-[16px] border transition text-sm font-medium 
-                                  ${activeDay.includes(key)
-                                            ? "bg-mainColor text-white border-mainColor"
-                                            : "bg-white text-black border-gray-300"
-                                        }`}
-                                >{t(`week-days.${key}`)}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    <Link href={`/notification/${notification.id}`} className="text-sm text-mainColor">
+                      {t2("moreButton")}
+                    </Link>
+                  </div>
                 </div>
+
+              </div>
             </div>
-        </Container>
-    )
+          ))}
+        </div>
+
+        {/* Settings Section */}
+        <NotificationSettings />
+      </div>
+    </Container>
+  )
 }
 
 export default Notification
