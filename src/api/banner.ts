@@ -1,22 +1,15 @@
-export interface Banner {
-    id: number;
-    image: string;
-    title?: string;
-    description?: string;
-    link?: string;
-}
+import { GET_BANNERS } from "@/constants";
+import axios from "axios";
 
-export async function getBanners(): Promise<Banner[]> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    return [
-        {
-            id: 1,
-            image: "/swipe1.png",
-        },
-        {
-            id: 2,
-            image: "/swipe3.png",
-        },
-    ];
+
+export async function getBanners() {
+    try{
+        const {data} = await axios.get(GET_BANNERS);
+        return data.data ?? [];
+
+    }catch(error){
+        console.log(error);
+        return []
+    }
 }

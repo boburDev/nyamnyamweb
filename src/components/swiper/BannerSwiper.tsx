@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Banner } from "@/types";
 
 export const BannerSwiper = () => {
   const {
@@ -48,6 +49,8 @@ export const BannerSwiper = () => {
   }
 
   const isSingle = banners.length === 1;
+  console.log(banners);
+
 
   const settings = {
     infinite: !isSingle,
@@ -68,34 +71,24 @@ export const BannerSwiper = () => {
       </div>
     ),
   };
+  const handleGo = (url: string) => {
+    window.open(url, "_blank");
+  }
 
   return (
     <div className="relative w-full mt-20">
       <Slider {...settings}>
-        {banners.map((banner) => (
-          <div key={banner.id} className="px-2">
-            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
+        {banners?.map((banner: Banner, index: number) => (
+          <div key={index} className="px-2">
+            <div onClick={() => handleGo(banner.url)} className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] cursor-pointer">
               <Image
                 priority
-                src={banner.image}
-                alt={banner.title || "Banner"}
+                src={banner.cover_image}
+                alt={banner.url || "Banner"}
                 fill
                 className="object-cover rounded-2xl"
               />
-              {(banner.title || banner.description) && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6 rounded-b-2xl">
-                  {banner.title && (
-                    <h3 className="text-white text-xl font-bold mb-2">
-                      {banner.title}
-                    </h3>
-                  )}
-                  {banner.description && (
-                    <p className="text-white/90 text-sm">
-                      {banner.description}
-                    </p>
-                  )}
-                </div>
-              )}
+
             </div>
           </div>
         ))}
