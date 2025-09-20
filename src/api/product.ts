@@ -1,7 +1,7 @@
 import { getAllProducts, getProductsByCategoryId } from "@/data/product-data";
 
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     image: string;
     restaurant: string;
@@ -58,6 +58,16 @@ export async function prefetchAllProducts(): Promise<{
         categories: productData
     };
 }
+
+
+export const buildRequestBody = (cartItems: { id: string; quantity: number }[]) => {
+    return {
+      items: cartItems.map(item => ({
+        surprise_bag: item.id, // product id
+        quantity: item.quantity // cart ichidagi miqdor
+      }))
+    }
+  };
 
 // Function to get products by category with loading simulation
 export async function getProductsByCategory(categoryId: number): Promise<Product[]> {

@@ -1,10 +1,11 @@
+import { v4 as uuidv4 } from 'uuid';
 export const productData = [
     {
         category: "Tavsiya etilgan Super boxlar",
         categoryId: 1,
         products: [
             {
-                id: 101,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -18,7 +19,7 @@ export const productData = [
                 isInCart: false,
             },
             {
-                id: 102,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -32,7 +33,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 103,
+                id: uuidv4(),
                 name: "Black Burger",
                 image: "/blackburger.webp",
                 restaurant: "Shef Burger",
@@ -46,7 +47,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 104,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -66,7 +67,7 @@ export const productData = [
         categoryId: 2,
         products: [
             {
-                id: 201,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -80,7 +81,7 @@ export const productData = [
                 isInCart: false,
             },
             {
-                id: 202,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -94,7 +95,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 203,
+                id: uuidv4(),
                 name: "Black Burger",
                 image: "/blackburger.webp",
                 restaurant: "Shef Burger",
@@ -108,7 +109,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 204,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -128,7 +129,7 @@ export const productData = [
         categoryId: 3,
         products: [
             {
-                id: 10,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -142,7 +143,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 6,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -156,7 +157,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 15,
+                id: uuidv4(),
                 name: "Xachapuri",
                 image: "/afsona.webp",
                 restaurant: "Afsona Shevchenko",
@@ -170,7 +171,7 @@ export const productData = [
                 isInCart: true
             },
             {
-                id: 2,
+                id: uuidv4(),
                 name: "Achchiq Osh",
                 image: "/beshqozon.webp",
                 restaurant: "Besh Qozon",
@@ -190,7 +191,7 @@ export const productData = [
         categoryId: 4,
         products: [
             {
-                id: 3,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -204,7 +205,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 16,
+                id: uuidv4(),
                 name: "Burger Deluxe",
                 image: "/oqtepa.webp",
                 restaurant: "Oq tepa lavash",
@@ -218,7 +219,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 7,
+                id: uuidv4(),
                 name: "Pizza Margherita",
                 image: "/bellisimo.webp",
                 restaurant: "Bellisimo pizza",
@@ -232,7 +233,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 11,
+                id: uuidv4(),
                 name: "Chicken Wings",
                 image: "/kfs.webp",
                 restaurant: "KFS",
@@ -252,7 +253,7 @@ export const productData = [
         categoryId: 5,
         products: [
             {
-                id: 4,
+                id: uuidv4(),
                 name: "Suprise bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -266,7 +267,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 12,
+                id: uuidv4(),
                 name: "Ice Cream Sundae",
                 image: "/giotto.webp",
                 restaurant: "Giotto Novza",
@@ -280,7 +281,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 13,
+                id: uuidv4(),
                 name: "Ice Cream Sundae",
                 image: "/cakelab.webp",
                 restaurant: "Cake Lab",
@@ -294,7 +295,7 @@ export const productData = [
                 isInCart: false
             },
             {
-                id: 8,
+                id: uuidv4(),
                 name: "Tiramisu",
                 image: "/pierepublic.webp",
                 restaurant: "Pie Republic",

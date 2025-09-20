@@ -49,7 +49,6 @@ export const BannerSwiper = () => {
   }
 
   const isSingle = banners.length === 1;
-  console.log(banners);
 
 
   const settings = {

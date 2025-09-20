@@ -15,7 +15,9 @@ import { SubmitLoader } from "@/components/loader";
 import { LoginForm } from "@/types";
 
 import { useLogin } from "@/hooks";
+import { usePostCartAfterSignup } from "@/hooks/usePostCartAfterSignup";
 import { PasswordInput } from "@/components/form";
+import useCartStore from "@/context/cartStore";
 export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
@@ -32,10 +34,29 @@ export default function SigninPage() {
   });
 
   const { mutate: loginMutate, isPending } = useLogin(locale);
+  const { mutate: postCartAfterSignup } = usePostCartAfterSignup();
+  const { items: cartItems, clearCart } = useCartStore();
 
   const onSubmit = (data: LoginForm) => {
     loginMutate(data, {
       onSuccess: () => {
+        // Post cart items if there are any
+        if (cartItems.length > 0) {
+          postCartAfterSignup(
+            { items: cartItems },
+            {
+              onSuccess: () => {
+                console.log("Cart items posted successfully after signin");
+                clearCart(); // Clear local cart after successful post
+              },
+              onError: (error) => {
+                console.error("Failed to post cart items after signin:", error);
+                // Don't show error to user, just log it
+              },
+            }
+          );
+        }
+
         showSuccess("Muvaffaqiyatli kirdingiz");
         router.refresh();
         router.push("/");
@@ -45,6 +66,7 @@ export default function SigninPage() {
       },
     });
   };
+
 
   return (
     <div className="w-full">

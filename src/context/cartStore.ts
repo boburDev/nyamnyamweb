@@ -4,6 +4,7 @@ import { cookieStorage } from "@/lib";
 import { Product } from "@/api/product";
 
 export interface CartItem extends Product {
+  id: string;
   quantity: number;
 }
 
@@ -13,12 +14,12 @@ interface CartStore {
 
   // Actions
   addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   toggleCart: () => void;
   clearCart: () => void;
-  isInCart: (productId: number) => boolean;
-  getCartItem: (productId: number) => CartItem | undefined;
+  isInCart: (productId: string) => boolean;
+  getCartItem: (productId: string) => CartItem | undefined;
   getTotalItems: () => number;
   getUniqueItemsCount: () => number;
   getTotalPrice: () => number;
@@ -55,14 +56,14 @@ const useCartStore = create<CartStore>()(
         }
       },
 
-      removeFromCart: (productId: number) => {
+      removeFromCart: (productId: string) => {
         const { items } = get();
         set({
           items: items.filter((item) => item.id !== productId),
         });
       },
 
-      updateQuantity: (productId: number, quantity: number) => {
+      updateQuantity: (productId: string, quantity: number) => {
         if (quantity <= 0) {
           get().removeFromCart(productId);
           return;
@@ -91,12 +92,12 @@ const useCartStore = create<CartStore>()(
         set({ items: [] });
       },
 
-      isInCart: (productId: number) => {
+      isInCart: (productId: string) => {
         const { items } = get();
         return items.some((item) => item.id === productId);
       },
 
-      getCartItem: (productId: number) => {
+      getCartItem: (productId: string) => {
         const { items } = get();
         return items.find((item) => item.id === productId);
       },
