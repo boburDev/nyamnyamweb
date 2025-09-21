@@ -49,6 +49,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       router.push("/signin");
     }
   };
+console.log("Items here: ", items);
 
   const openConfirm = () => {
     setConfirmOpen(true);

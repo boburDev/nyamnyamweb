@@ -14,5 +14,5 @@ export const UPDATE_OTP_USER = `/otp/verify-update`;
 export const UPDATE_ME = `/auth/update-me/`;
 export const GET_BANNERS = `${DOMAIN}/banners/`;
 export const GET_CART = `${DOMAIN}/cart/`;
-export const POST_CART = `${DOMAIN}/cart/create_all`;
-export const DELETE_CART = `${DOMAIN}/cart/delete_all`;
+export const POST_CART = `${DOMAIN}/cart/create_all/`;
+export const DELETE_CART = `${DOMAIN}/cart/delete_all/`;

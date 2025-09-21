@@ -5,8 +5,8 @@ export const productData = [
         categoryId: 1,
         products: [
             {
-                id: uuidv4(),
-                name: "Suprise bag",
+                id: "99ef98f9-b2dd-4058-b140-1da33f713539",
+                name: "Test bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
                 distance: 1.2,
@@ -19,8 +19,8 @@ export const productData = [
                 isInCart: false,
             },
             {
-                id: uuidv4(),
-                name: "Suprise bag",
+                id: "2f62e7fb-631d-4c6e-beec-fafd3605ab3a",
+                name: "Test2 bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
                 distance: 1.2,

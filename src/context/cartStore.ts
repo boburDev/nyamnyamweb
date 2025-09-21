@@ -6,6 +6,7 @@ import { Product } from "@/api/product";
 export interface CartItem extends Product {
   id: string;
   quantity: number;
+  surprise_bag?: string;
 }
 
 interface CartStore {

@@ -41,10 +41,12 @@ export async function POST(req: Request) {
         }
 
         // Map frontend CartItem format to backend format - only send id and quantity
+        // Backend mappingni shunday qiling:
         const mappedItems = items.map((item: CartItem) => ({
-            surprise_bag: item.id,
+            surprise_bag: item.surprise_bag ?? item.id, // agar frontenddan surprise_bag kelsa uni ishlatadi
             quantity: item.quantity,
         }));
+
 
         console.log("Mapped items for backend:", mappedItems); // Debug log
 
@@ -65,6 +67,10 @@ export async function POST(req: Request) {
                 body: JSON.stringify(requestBody),
             }
         );
+        console.log("Post cart", POST_CART);
+
+        console.log("Response here: ", response);
+
 
         if (!response.ok) {
             const errorData = await response.text();
@@ -84,7 +90,7 @@ export async function POST(req: Request) {
         });
 
     } catch (error) {
-        console.error("Cart POST after signup error:",error);
+        console.error("Cart POST after signup error:", error);
         return NextResponse.json(
             { success: false, message: "Internal server error" },
             { status: 500 }
