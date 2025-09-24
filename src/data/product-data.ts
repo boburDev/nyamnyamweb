@@ -5,7 +5,7 @@ export const productData = [
         categoryId: 1,
         products: [
             {
-                id: "99ef98f9-b2dd-4058-b140-1da33f713539",
+                id: "4c5b3f13-d31a-4974-bda8-5577b201fede",
                 name: "Test bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
@@ -19,7 +19,7 @@ export const productData = [
                 isInCart: false,
             },
             {
-                id: "2f62e7fb-631d-4c6e-beec-fafd3605ab3a",
+                id: "8bf876c4-6e73-459c-9d30-0b677c70adcf",
                 name: "Test2 bag",
                 image: "/productimg.png",
                 restaurant: "Oqtepa lavash",
