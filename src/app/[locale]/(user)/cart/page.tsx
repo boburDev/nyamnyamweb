@@ -1,10 +1,7 @@
 import CartComponent from "@/components/cart/CartComponent";
+import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();
@@ -22,8 +19,8 @@ export default async function CartPage() {
   }
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <Providers dehydratedState={dehydrate(queryClient)}>
       <CartComponent isAuth={isAuth} />
-    </HydrationBoundary>
+    </Providers>
   );
 }

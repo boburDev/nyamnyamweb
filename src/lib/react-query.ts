@@ -5,11 +5,11 @@ export function makeQueryClient() {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
-        // gcTime: 5 * 60 * 1000,
-        // retry: false,
-        // refetchOnMount: false,
-        // refetchOnReconnect: false,
-        // refetchOnWindowFocus: false,
+        gcTime: 5 * 60 * 1000,
+        retry: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
       },
     },
   });

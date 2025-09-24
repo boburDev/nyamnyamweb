@@ -15,7 +15,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
-  const t = useTranslations("cart");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const [loading, setLoading] = useState(false);
@@ -25,9 +24,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
-    enabled: isAuth,
   });
   const items = isAuth ? data?.items : cartStore;
+  const t = useTranslations("cart");
   const handleCheckout = async () => {
     if (isAuth) {
       setLoading(true);
@@ -66,7 +65,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const handleConfirm = () => {
     deleteCart();
   };
-  if (items.length === 0) {
+  if (items?.length === 0) {
     return (
       <div className=" bg-gray-50 py-8">
         <div className="container mx-auto px-4">
