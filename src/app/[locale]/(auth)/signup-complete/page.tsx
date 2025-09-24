@@ -21,6 +21,10 @@ import { useRouter } from "@/i18n/navigation";
 import useAuthStore from "@/context/useAuth";
 import { useUpdateDetail } from "@/hooks";
 import { completeSchema } from "@/schema";
+import { usePostCartAfterSignup } from "@/hooks/usePostCartAfterSignup";
+import { usePostFavouriteAfterSignup } from "@/hooks/usePostFavouriteAfterSignup";
+import useCartStore from "@/context/cartStore";
+import useFavouriteStore from "@/context/favouriteStore";
 
 export default function SignUpCompletePage() {
   const [birthDateInput, setBirthDateInput] = useState<string>("");
@@ -43,6 +47,10 @@ export default function SignUpCompletePage() {
     },
   });
   const { mutate: updateDetail, isPending } = useUpdateDetail(locale);
+  const { mutate: postCartAfterSignup } = usePostCartAfterSignup();
+  const { mutate: postFavouriteAfterSignup } = usePostFavouriteAfterSignup();
+  const { items: cartItems, clearCart } = useCartStore();
+  const { items: favouriteItems, clearFavourites } = useFavouriteStore();
 
   const onSubmit = (data: CompleteForm & FieldValues) => {
     const { confirmPassword: _confirmPassword, ...restData } = data;
@@ -60,6 +68,36 @@ export default function SignUpCompletePage() {
       { ...apiPayload, authId: authId as string },
       {
         onSuccess: () => {
+          // Post cart items if any
+          if (cartItems.length > 0) {
+            postCartAfterSignup(
+              { items: cartItems },
+              {
+                onSuccess: () => {
+                  clearCart();
+                },
+                onError: (error) => {
+                  console.error("Failed to post cart items after signup-complete:", error);
+                },
+              }
+            );
+          }
+
+          // Post favourite items if any
+          if (favouriteItems.length > 0) {
+            postFavouriteAfterSignup(
+              { items: favouriteItems.map((item) => item.id) },
+              {
+                onSuccess: () => {
+                  clearFavourites();
+                },
+                onError: (error) => {
+                  console.error("Failed to post favourite items after signup-complete:", error);
+                },
+              }
+            );
+          }
+
           form.reset();
           router.push("/");
           clearId();
