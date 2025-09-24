@@ -11,14 +11,23 @@ import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
+import { useQuery } from "@tanstack/react-query";
+import { getCart } from "@/api";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const t = useTranslations("cart");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const [loading, setLoading] = useState(false);
-  const { items, updateQuantity, getTotalPrice } = useCartStore();
+  const { updateQuantity, getTotalPrice } = useCartStore();
+  const cartStore = useCartStore((s) => s.items);
   const router = useRouter();
+  const { data, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: getCart,
+    enabled: isAuth,
+  });
+  const items = isAuth ? data?.items : cartStore;
   const handleCheckout = async () => {
     if (isAuth) {
       setLoading(true);
@@ -49,7 +58,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       router.push("/signin");
     }
   };
-console.log("Items here: ", items);
+  console.log("Items here: ", data);
 
   const openConfirm = () => {
     setConfirmOpen(true);
@@ -62,7 +71,7 @@ console.log("Items here: ", items);
       <div className=" bg-gray-50 py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center pt-[127px]">
-              <ShoppingCart size={113} className="text-[#BCBEC3]" />
+            <ShoppingCart size={113} className="text-[#BCBEC3]" />
             <h2 className="text-[30px] font-semibold text-textColor mt-5">
               Savatda hozircha hech narsa yo‘q
             </h2>
@@ -74,13 +83,21 @@ console.log("Items here: ", items);
                 Surprise baglarni ko’rish
               </Button>
             </Link>
-
           </div>
         </div>
       </div>
     );
   }
-
+  if (isLoading) {
+    return (
+      <div className="bg-gray-50 py-8 h-screen flex flex-col justify-center items-center">
+        <h3 className="text-[30px] font-semibold text-textColor animate-spin">
+          Logo
+        </h3>
+        <p className="text-black">Loading...</p>
+      </div>
+    );
+  }
   return (
     <>
       <Container className="mb-[150px] mt-[76px]">
