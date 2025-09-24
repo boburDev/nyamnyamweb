@@ -12,3 +12,21 @@ export interface Banner {
   cover_image: string;
   url: string;
 }
+export interface CartData {
+  id: string;
+  surprise_bag: string;
+  surprise_bag_image: string;
+  branch_name: string;
+  quantity: number;
+  subtotal: number;
+  title: string;
+  count: number;
+  price: number;
+  start_time: string;
+  end_time: string;
+  distance_km: number;
+}
+export interface Cart {
+  cart_total: number;
+  cart_items: CartData[];
+}

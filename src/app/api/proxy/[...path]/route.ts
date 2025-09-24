@@ -63,7 +63,7 @@ export async function GET(
     }
 
     const data = await response.json();
-    console.log("✅ Final response data:", data);
+    // console.log("✅ Final response data:", data);
     return NextResponse.json(data, { status: response.status });
   } catch (err) {
     console.error("🔥 Proxy error:", err);
