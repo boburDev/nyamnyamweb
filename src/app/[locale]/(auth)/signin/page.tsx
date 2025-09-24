@@ -16,8 +16,10 @@ import { LoginForm } from "@/types";
 
 import { useLogin } from "@/hooks";
 import { usePostCartAfterSignup } from "@/hooks/usePostCartAfterSignup";
+import { usePostFavouriteAfterSignup } from "@/hooks/usePostFavouriteAfterSignup";
 import { PasswordInput } from "@/components/form";
 import useCartStore from "@/context/cartStore";
+import useFavouriteStore from "@/context/favouriteStore";
 export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
@@ -35,7 +37,9 @@ export default function SigninPage() {
 
   const { mutate: loginMutate, isPending } = useLogin(locale);
   const { mutate: postCartAfterSignup } = usePostCartAfterSignup();
+  const { mutate: postFavouriteAfterSignup } = usePostFavouriteAfterSignup();
   const { items: cartItems, clearCart } = useCartStore();
+  const { items: favouriteItems, clearFavourites } = useFavouriteStore();
 
   const onSubmit = (data: LoginForm) => {
     loginMutate(data, {
@@ -51,6 +55,23 @@ export default function SigninPage() {
               },
               onError: (error) => {
                 console.error("Failed to post cart items after signin:", error);
+                // Don't show error to user, just log it
+              },
+            }
+          );
+        }
+
+        // Post favourite items if there are any
+        if (favouriteItems.length > 0) {
+          postFavouriteAfterSignup(
+            { items: favouriteItems.map(item => item.id) },
+            {
+              onSuccess: () => {
+                console.log("Favourite items posted successfully after signin");
+                clearFavourites(); // Clear local favourites after successful post
+              },
+              onError: (error) => {
+                console.error("Failed to post favourite items after signin:", error);
                 // Don't show error to user, just log it
               },
             }

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { buildFavouriteRequestBody } from "@/api/product";
 
 interface PostFavouriteData {
     // Accept array of ids or product-like objects
@@ -6,16 +7,13 @@ interface PostFavouriteData {
 }
 
 const postFavouriteAfterSignup = async (data: PostFavouriteData) => {
-    const requestItems = (data.items || []).map((item) =>
-        typeof item === "string" || typeof item === "number" ? { surprise_bag: item } : { surprise_bag: item.surprise_bag ?? item.id }
-    );
-
-    const response = await fetch(`/api/favourite/post-after-signup`, {
+    console.log("Frontend sending favourite data:", buildFavouriteRequestBody(data.items)); // Debug log
+    const response = await fetch(`/api/favourite/post-favorite-after-signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items: requestItems }),
+        body: JSON.stringify(buildFavouriteRequestBody(data.items)),
     });
 
     if (!response.ok) {

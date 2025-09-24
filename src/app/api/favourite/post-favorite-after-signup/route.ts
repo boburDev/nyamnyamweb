@@ -27,7 +27,8 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { items } = body || {};
+        console.log("API received favourite data:", body); // Debug log
+        const { items } = body;
 
         if (!items || !Array.isArray(items) || items.length === 0) {
             return NextResponse.json(
@@ -36,13 +37,11 @@ export async function POST(req: Request) {
             );
         }
 
-        // Accept items as an array of product objects or ids and map to backend format
-        type FavouriteItemInput = string | number | { id?: string | number; surprise_bag?: string | number };
-        const mappedItems = (items as FavouriteItemInput[]).map((item) => ({
-            surprise_bag: typeof item === "string" || typeof item === "number" ? item : (item.surprise_bag ?? item.id),
-        }));
+        // Items are already mapped by buildFavouriteRequestBody in the hook
+        // Just pass them directly to the backend
+        const requestBody = { items };
 
-        const requestBody = { items: mappedItems };
+        console.log("Sending to backend:", JSON.stringify(requestBody, null, 2)); // Debug log
 
         const response = await fetch(
             POST_FAVORITE,
@@ -55,6 +54,9 @@ export async function POST(req: Request) {
                 body: JSON.stringify(requestBody),
             }
         );
+
+        console.log("Post favourite", POST_FAVORITE);
+        console.log("Response here: ", response);
 
         if (!response.ok) {
             const errorData = await response.text();
