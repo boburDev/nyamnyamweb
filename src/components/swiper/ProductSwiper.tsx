@@ -10,7 +10,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Product } from "@/api/product";
@@ -23,6 +22,10 @@ import { formatPrice } from "@/utils/price-format";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { FavouriteIcon } from "@/assets/icons";
 import { Link } from "@/i18n/navigation";
+import dynamic from "next/dynamic";
+
+const Slider = dynamic(() => import("react-slick"), { ssr: false });
+
 
 interface ProductSwiperProps {
   products: Product[];
