@@ -254,13 +254,13 @@ export const ProductSwiper = ({
               <div key={product.id} className="px-[5.5px]">
                 <div className="bg-white rounded-[25px] border border-gray-100">
                   {/* Product Image */}
-                  <div className="relative">
+                  <div className="relative h-[200px]">
                     <Image
                       src={product.image}
                       alt={product.name}
-                      width={300}
-                      height={200}
-                      className="w-full h-[200px] object-cover rounded-t-[25px]"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover rounded-t-[25px]"
                     />
 
                     {/* Stock Badge */}
@@ -276,8 +276,8 @@ export const ProductSwiper = ({
                     >
                       <span
                         className={`${isFavourite(product.id)
-                            ? "text-mainColor"
-                            : "text-white"
+                          ? "text-mainColor"
+                          : "text-white"
                           }`}
                       >
                         <FavouriteIcon className="w-[24px] h-[24px]" />

@@ -1,13 +1,10 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getBanners } from "@/api/banner";
 import { getCategories } from "@/api/category";
 import { prefetchAllProducts } from "@/api/product";
 import { BannerSwiper } from "@/components/swiper";
 import ProductsSection from "@/components/ProductsSection";
+import Providers from "@/components/provider/Provider";
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -31,11 +28,11 @@ export default async function Home() {
   });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <Providers dehydratedState={dehydrate(queryClient)}>
       <main>
         <BannerSwiper />
         <ProductsSection />
       </main>
-    </HydrationBoundary>
+    </Providers>
   );
 }
