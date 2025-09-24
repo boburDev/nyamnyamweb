@@ -7,6 +7,7 @@ import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Banner } from "@/types";
+import { BannerSkeleton } from "../loader/DataLoader";
 
 export const BannerSwiper = () => {
   const {
@@ -19,13 +20,7 @@ export const BannerSwiper = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="relative  w-full h-[400px] md:h-[500px] lg:h-[600px] bg-gray-200 rounded-2xl animate-pulse">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-gray-500">Loading banners...</div>
-        </div>
-      </div>
-    );
+    return <BannerSkeleton />
   }
 
   if (error) {

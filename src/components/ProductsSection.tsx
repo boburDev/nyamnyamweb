@@ -6,7 +6,7 @@ import { getProducts, getAllProductCategories, prefetchAllProducts } from "@/api
 import CategoryTabs from "./tabs/CategoryTabs";
 import ProductSwiper from "./swiper/ProductSwiper";
 import { Container } from "./container";
-import { DataLoader } from "./loader/DataLoader";
+import { ProductSkeletonGrid } from "./loader/DataLoader";
 
 const ProductsSection = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
@@ -42,7 +42,11 @@ const ProductsSection = () => {
 
   // Render multiple sections for "Hamma" category
   const renderAllSections = () => {
-    if (!prefetchedData) return <DataLoader message="Mahsulotlar yuklanmoqda..." />
+    if (!prefetchedData) return (
+      <div className="mt-6">
+        <ProductSkeletonGrid count={8} />
+      </div>
+    )
 
     return (
       <>
@@ -71,7 +75,11 @@ const ProductsSection = () => {
       return category ? category.category : "Mahsulotlar";
     };
 
-    if (isCategoryLoading) return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
+    if (isCategoryLoading) return (
+      <div className="mt-6">
+        <ProductSkeletonGrid count={6} />
+      </div>
+    );
 
     return (
       <div className="">

@@ -10,10 +10,10 @@ interface FavouriteStore {
 
     // Actions
     addToFavourites: (product: Product) => void;
-    removeFromFavourites: (productId: number) => void;
+    removeFromFavourites: (productId: string) => void;
     toggleFavourite: (product: Product) => void;
     clearFavourites: () => void;
-    isFavourite: (productId: number) => boolean;
+    isFavourite: (productId: string) => boolean;
     getFavouriteCount: () => number;
     initializeFavourites: () => void;
 }
@@ -35,7 +35,7 @@ const useFavouriteStore = create<FavouriteStore>()(
                 }
             },
 
-            removeFromFavourites: (productId: number) => {
+            removeFromFavourites: (productId: string) => {
                 const { items } = get();
                 set({
                     items: items.filter(item => item.id !== productId)
@@ -56,7 +56,7 @@ const useFavouriteStore = create<FavouriteStore>()(
                 set({ items: [] });
             },
 
-            isFavourite: (productId: number) => {
+            isFavourite: (productId: string) => {
                 const { items } = get();
                 return items.some(item => item.id === productId);
             },

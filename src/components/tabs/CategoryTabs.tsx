@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api/category";
 import { ReactNode, useState, useEffect } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
+import TabsLoader from "../loader/TabsLoader";
 
 interface CategoryTabsProps {
     onCategoryChange?: (categoryId: number) => void;
@@ -64,14 +65,7 @@ const CategoryTabs = ({ onCategoryChange, selectedCategoryId, children }: Catego
 
     if (isLoading) {
         return (
-            <div className="flex gap-[15px]">
-                {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                        key={i}
-                        className="h-12 w-24 bg-gray-200 rounded-[25px] animate-pulse"
-                    />
-                ))}
-            </div>
+          <TabsLoader />
         );
     }
 

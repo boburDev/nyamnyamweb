@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { ACCESS_TOKEN, POST_CART } from "@/constants";
-import { CartItem } from "@/context/cartStore";
+import { ACCESS_TOKEN, POST_FAVORITE } from "@/constants";
 
 // Helper function to check authentication
 async function checkAuth() {
@@ -15,7 +14,7 @@ async function checkAuth() {
     return { isAuthenticated: true, token: accessToken };
 }
 
-// POST - Post cart items after successful signup
+// POST - Post favourite items after successful signup (bulk create)
 export async function POST(req: Request) {
     try {
         const { isAuthenticated, token } = await checkAuth();
@@ -26,37 +25,27 @@ export async function POST(req: Request) {
                 { status: 401 }
             );
         }
-        console.log("Body here: ", req);
 
         const body = await req.json();
-        console.log("API received cart data:", body); // Debug log
-        const { items } = body;
+        const { items } = body || {};
 
         if (!items || !Array.isArray(items) || items.length === 0) {
             return NextResponse.json(
-                { success: false, message: "No cart items to post" },
+                { success: false, message: "No favourite items to post" },
                 { status: 400 }
             );
         }
 
-        // Map frontend CartItem format to backend format - only send id and quantity
-        // Backend mappingni shunday qiling:
-        const mappedItems = items.map((item: CartItem) => ({
-            surprise_bag: item.surprise_bag ?? item.id, // agar frontenddan surprise_bag kelsa uni ishlatadi
-            quantity: item.quantity,
+        // Accept items as an array of product objects or ids and map to backend format
+        type FavouriteItemInput = string | number | { id?: string | number; surprise_bag?: string | number };
+        const mappedItems = (items as FavouriteItemInput[]).map((item) => ({
+            surprise_bag: typeof item === "string" || typeof item === "number" ? item : (item.surprise_bag ?? item.id),
         }));
 
-
-        console.log("Mapped items for backend:", mappedItems); // Debug log
-
-        const requestBody = {
-            items: mappedItems,
-        };
-
-        console.log("Sending to backend:", JSON.stringify(requestBody, null, 2)); // Debug log    
+        const requestBody = { items: mappedItems };
 
         const response = await fetch(
-            POST_CART,
+            POST_FAVORITE,
             {
                 method: "POST",
                 headers: {
@@ -66,16 +55,12 @@ export async function POST(req: Request) {
                 body: JSON.stringify(requestBody),
             }
         );
-        console.log("Post cart", POST_CART);
-
-        console.log("Response here: ", response);
-
 
         if (!response.ok) {
             const errorData = await response.text();
-            console.error("Cart POST error:", errorData);
+            console.error("Favourites POST error:", errorData);
             return NextResponse.json(
-                { success: false, message: "Failed to post cart items" },
+                { success: false, message: "Failed to post favourite items" },
                 { status: response.status }
             );
         }
@@ -84,15 +69,17 @@ export async function POST(req: Request) {
 
         return NextResponse.json({
             success: true,
-            message: "Cart items posted successfully",
+            message: "Favourite items posted successfully",
             data: result,
         });
 
     } catch (error) {
-        console.error("Cart POST after signup error:", error);
+        console.error("Favourites POST after signup error:", error);
         return NextResponse.json(
             { success: false, message: "Internal server error" },
             { status: 500 }
         );
     }
 }
+
+
