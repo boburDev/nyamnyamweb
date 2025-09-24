@@ -13,6 +13,7 @@ import { SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
 import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
+import { useDeleteCartAll } from "@/hooks";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -24,7 +25,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
+    enabled: isAuth,
   });
+  const { mutate: deleteCartAll } = useDeleteCartAll();
   const items = isAuth ? data?.items : cartStore;
   const t = useTranslations("cart");
   const handleCheckout = async () => {
@@ -63,7 +66,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     setConfirmOpen(true);
   };
   const handleConfirm = () => {
-    deleteCart();
+    if (!isAuth) {
+      deleteCart();
+    } else {
+      deleteCartAll();
+    }
   };
   if (items?.length === 0) {
     return (

@@ -4,7 +4,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { EmailOrPhoneInput } from "@/components/form/EmailOrPhoneInput";
 import { showError, showSuccess } from "@/components/toast/Toast";
 import { AuthBottom, AuthBrowser } from "@/components/auth";
@@ -44,34 +51,37 @@ export default function SigninPage() {
   const onSubmit = (data: LoginForm) => {
     loginMutate(data, {
       onSuccess: () => {
-        // Post cart items if there are any
         if (cartItems.length > 0) {
           postCartAfterSignup(
             { items: cartItems },
             {
               onSuccess: () => {
                 console.log("Cart items posted successfully after signin");
-                clearCart(); // Clear local cart after successful post
+                clearCart();
               },
               onError: (error) => {
                 console.error("Failed to post cart items after signin:", error);
-                // Don't show error to user, just log it
               },
             }
           );
+        } else {
+          clearCart();
         }
 
         // Post favourite items if there are any
         if (favouriteItems.length > 0) {
           postFavouriteAfterSignup(
-            { items: favouriteItems.map(item => item.id) },
+            { items: favouriteItems.map((item) => item.id) },
             {
               onSuccess: () => {
                 console.log("Favourite items posted successfully after signin");
                 clearFavourites(); // Clear local favourites after successful post
               },
               onError: (error) => {
-                console.error("Failed to post favourite items after signin:", error);
+                console.error(
+                  "Failed to post favourite items after signin:",
+                  error
+                );
                 // Don't show error to user, just log it
               },
             }
@@ -87,7 +97,6 @@ export default function SigninPage() {
       },
     });
   };
-
 
   return (
     <div className="w-full">
