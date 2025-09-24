@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Banner } from "@/types";
 import { BannerSkeleton } from "../loader/DataLoader";
+import { Link } from "@/i18n/navigation";
 
 export const BannerSwiper = () => {
   const {
@@ -20,7 +21,7 @@ export const BannerSwiper = () => {
   });
 
   if (isLoading) {
-    return <BannerSkeleton />
+    return <BannerSkeleton />;
   }
 
   if (error) {
@@ -45,7 +46,6 @@ export const BannerSwiper = () => {
 
   const isSingle = banners.length === 1;
 
-
   const settings = {
     infinite: !isSingle,
     centerMode: !isSingle,
@@ -65,24 +65,23 @@ export const BannerSwiper = () => {
       </div>
     ),
   };
-  const handleGo = (url: string) => {
-    window.open(url, "_blank");
-  }
+
 
   return (
     <div className="relative w-full mt-20">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-2">
-            <div onClick={() => handleGo(banner.url)} className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] cursor-pointer">
-              <Image
-                priority
-                src={banner.cover_image}
-                alt={banner.url || "Banner"}
-                fill
-                className="object-cover rounded-2xl"
-              />
-
+            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] cursor-pointer">
+              <Link href={banner.url} target="_blank">
+                <Image
+                  priority
+                  src={banner.cover_image}
+                  alt={banner.url || "Banner"}
+                  fill
+                  className="object-cover rounded-2xl"
+                />
+              </Link>
             </div>
           </div>
         ))}
