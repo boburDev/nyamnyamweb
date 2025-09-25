@@ -91,6 +91,7 @@ const useCartStore = create<CartStore>()(
 
       clearCart: () => {
         set({ items: [] });
+        cookieStorage.removeItem("nyam-web-cart");
       },
 
       isInCart: (productId: string) => {
@@ -147,6 +148,9 @@ const useCartStore = create<CartStore>()(
     {
       name: "nyam-web-cart",
       storage: createJSONStorage(() => cookieStorage),
+      onRehydrateStorage: () => (state) => {
+        console.log("Cart rehydrated:", state);
+      },
     }
   )
 );

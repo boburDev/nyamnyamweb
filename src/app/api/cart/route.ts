@@ -13,6 +13,68 @@ async function checkAuth() {
 
   return { isAuthenticated: true, token: accessToken };
 }
+// PUT - Update specific cart item
+// pages/api/cart.ts (yoki shunga o'xshash yo'l)
+// ... (boshqa importlar)
+
+export async function PATCH(req: Request) {
+  try {
+    const { isAuthenticated, token } = await checkAuth();
+
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: No access token" },
+        { status: 401 }
+      );
+    }
+
+    const body = await req.json();
+    const { surprise_bag, quantity, id } = body;
+
+    // ... (boshqa tekshiruvlar)
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/cart/${id}/`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quantity, surprise_bag }),
+      }
+    );
+
+    // Backenddan kelgan javobni o'qib olamiz
+    const backendData = await response.json();
+
+    if (!response.ok) {
+      // Backenddan kelgan xato matnini to'g'ridan-to'g'ri qaytaramiz
+      return NextResponse.json(
+        {
+          success: false,
+          // Backenddan kelgan error_message ni ishlatamiz
+          error_message:
+            backendData?.error_message || "Failed to update cart item",
+        },
+        { status: response.status }
+      );
+    }
+
+    // Muvaffaqiyatli javobni qaytarish
+    return NextResponse.json({
+      success: true,
+      message: "Cart item updated successfully",
+      data: backendData,
+    });
+  } catch (error) {
+    console.error("Cart PATCH error:", error);
+    return NextResponse.json(
+      { success: false, error_message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function GET() {
   try {
@@ -127,63 +189,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Cart POST error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 }
-    );
-  }
-}
-
-// PUT - Update specific cart item
-export async function PUT(req: Request) {
-  try {
-    const { isAuthenticated, token } = await checkAuth();
-
-    if (!isAuthenticated) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized: No access token" },
-        { status: 401 }
-      );
-    }
-
-    const body = await req.json();
-    const { productId, quantity } = body;
-
-    if (!productId || quantity === undefined) {
-      return NextResponse.json(
-        { success: false, message: "Product ID and quantity are required" },
-        { status: 400 }
-      );
-    }
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/cart/item/${productId}/`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ quantity }),
-      }
-    );
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { success: false, message: "Failed to update cart item" },
-        { status: response.status }
-      );
-    }
-
-    const result = await response.json();
-
-    return NextResponse.json({
-      success: true,
-      message: "Cart item updated successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("Cart PUT error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

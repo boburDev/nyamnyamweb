@@ -1,8 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import React, { useState } from "react";
 import Image from "next/image";
+import React, { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
@@ -11,9 +12,8 @@ import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
-import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
-import { useDeleteCartAll } from "@/hooks";
+import { useDeleteCartAll, useUpdateCart } from "@/hooks";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -28,6 +28,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     enabled: isAuth,
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
+  const { mutate: updateCartQty } = useUpdateCart();
   const items = isAuth ? data?.items : cartStore;
   const t = useTranslations("cart");
   const handleCheckout = async () => {
@@ -62,6 +63,17 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   };
   console.log("Items here: ", data);
 
+  const handleUpdateQuantity = (
+    id: string,
+    quantity: number,
+    surprise_bag?: string
+  ) => {
+    if (!isAuth) {
+      updateQuantity(id, quantity);
+    } else {
+      updateCartQty({ id, quantity, surprise_bag: surprise_bag ?? "" });
+    }
+  };
   const openConfirm = () => {
     setConfirmOpen(true);
   };
@@ -117,24 +129,24 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                 </div>
 
                 <div className="space-y-4">
-                  {items.map((item) => (
+                  {items?.map((item) => (
                     <div
-                      key={item.id}
+                      key={item?.id}
                       className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
                     >
                       <div className="flex gap-4">
                         {/* Product Image */}
                         <div className="relative w-[217px] h-[147px] flex-shrink-0">
                           <Image
-                            src={item.image}
-                            alt={item.name}
+                            src={item?.image}
+                            alt={item?.name}
                             fill
                             className="object-cover rounded-xl"
                           />
                           {/* Stock Badge */}
-                          {item.stock && item.stock <= 5 && (
+                          {item?.stock && item?.stock <= 5 && (
                             <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
-                              {item.stock} ta qoldi
+                              {item?.stock} ta qoldi
                             </div>
                           )}
                         </div>
@@ -142,20 +154,20 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         {/* Product Details */}
                         <div className="flex-1 min-w-0">
                           <h3 className="font-medium text-textColor text-xl mb-[10px]">
-                            {item.name}
+                            {item?.name}
                           </h3>
                           <p className="text-dolphin">
-                            {item.restaurant} • {item.distance} km
+                            {item?.restaurant} • {item?.distance} km
                           </p>
 
                           {/* Pricing */}
                           <div className="flex justify-between">
                             <div className="flex items-center gap-2 mt-[53px]">
                               <span className="text-gray-400 line-through text-sm">
-                                {formatPrice(item.originalPrice)}
+                                {formatPrice(item?.originalPrice)}
                               </span>
                               <span className="text-mainColor font-medium text-xl">
-                                {formatPrice(item.currentPrice)}
+                                {formatPrice(item?.currentPrice)}
                               </span>
                             </div>
 
@@ -164,18 +176,26 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                               <div className="flex items-center bg-plasterColor rounded-full p-[2px]">
                                 <button
                                   onClick={() =>
-                                    updateQuantity(item.id, item.quantity - 1)
+                                    handleUpdateQuantity(
+                                      item?.id,
+                                      item?.quantity - 1,
+                                      item?.surprise_bag
+                                    )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
                                 >
                                   <Minus className="w-4 h-4 text-textColor" />
                                 </button>
                                 <span className="px-4 py-2 font-medium text-textColor">
-                                  {item.quantity}
+                                  {item?.quantity}
                                 </span>
                                 <button
                                   onClick={() =>
-                                    updateQuantity(item.id, item.quantity + 1)
+                                    handleUpdateQuantity(
+                                      item?.id,
+                                      item?.quantity + 1,
+                                      item?.surprise_bag
+                                    )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
                                 >
@@ -209,15 +229,15 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
                 {/* Items Summary */}
                 <div className="flex flex-col gap-[15px] mb-6">
-                  {items.map((item) => (
+                  {items?.map((item) => (
                     <div
-                      key={item.id}
+                      key={item?.id}
                       className="grid grid-cols-4 border-b border-gray-200 pb-[15px]"
                     >
                       <div className="relative col-span-1 w-[100px] h-[67px] flex-shrink-0">
                         <Image
-                          src={item.image}
-                          alt={item.name}
+                          src={item?.image}
+                          alt={item?.name}
                           fill
                           className="object-cover rounded-lg"
                         />
@@ -225,22 +245,22 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       <div className="flex flex-col col-span-3 gap-[13px]">
                         <div className="flex items-center justify-between">
                           <p className="font-medium text-textColor text-lg truncate">
-                            {item.name}
+                            {item?.name}
                           </p>
                           <p className="text-dolphin font-medium text-sm flex items-end justify-end">
-                            Miqdor: {item.quantity}
+                            Miqdor: {item?.quantity}
                           </p>
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-dolphin text-lg truncate  max-w-[130px]">
-                            {item.restaurant}
+                            {item?.restaurant}
                           </p>
                           <div className="flex items-center gap-2">
                             <p className="text-dolphin line-through text-xs mt-1">
-                              {formatPrice(item.originalPrice)}
+                              {formatPrice(item?.originalPrice)}
                             </p>
                             <p className="text-textColor font-medium">
-                              {formatPrice(item.currentPrice)}
+                              {formatPrice(item?.currentPrice)}
                             </p>
                           </div>
                         </div>
@@ -263,7 +283,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
                 {/* Checkout Button */}
                 <Button
-                  disabled={items.length === 0 || loading}
+                  disabled={items?.length === 0 || loading}
                   onClick={handleCheckout}
                   className="w-full h-12  text-white font-medium text-xl rounded-xl "
                 >
