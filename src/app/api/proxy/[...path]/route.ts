@@ -14,10 +14,11 @@ export async function GET(
 
     const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
 
-
     let response = await fetch(targetUrl, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    console.log("response", response);
+    console.log("APIRUL", targetUrl);
 
     if (response.status === 401 && refreshToken) {
       console.warn("⚠️ Access token expired, trying refresh...");
@@ -32,7 +33,9 @@ export async function GET(
       );
 
       if (!refreshRes.ok) {
-        const logoutResponse = NextResponse.redirect(new URL("/signin", req.url));
+        const logoutResponse = NextResponse.redirect(
+          new URL("/signin", req.url)
+        );
         logoutResponse.cookies.delete(ACCESS_TOKEN);
         logoutResponse.cookies.delete(REFRESH_TOKEN);
         return logoutResponse;
@@ -44,16 +47,18 @@ export async function GET(
       const newRT = json?.data?.refresh_token;
 
       if (!newAT) {
-        const logoutResponse = NextResponse.redirect(new URL("/signin", req.url));
+        const logoutResponse = NextResponse.redirect(
+          new URL("/signin", req.url)
+        );
         logoutResponse.cookies.delete(ACCESS_TOKEN);
         logoutResponse.cookies.delete(REFRESH_TOKEN);
         return logoutResponse;
       }
 
       const res = NextResponse.next();
-      res.cookies.set(ACCESS_TOKEN, newAT, { httpOnly: true, path: "/" });
+      res.cookies.set(ACCESS_TOKEN, newAT, { httpOnly: false, path: "/" });
       if (newRT) {
-        res.cookies.set(REFRESH_TOKEN, newRT, { httpOnly: true, path: "/" });
+        res.cookies.set(REFRESH_TOKEN, newRT, { httpOnly: false, path: "/" });
       }
       accessToken = newAT;
 
@@ -63,8 +68,9 @@ export async function GET(
     }
 
     const data = await response.json();
-    // console.log("✅ Final response data:", data);
+    console.log("✅ Final response data:", data);
     return NextResponse.json(data, { status: response.status });
+
   } catch (err) {
     console.error("🔥 Proxy error:", err);
     return NextResponse.json(

@@ -11,11 +11,19 @@ import { Button } from "../ui/button";
 import { CartIcon, UserIcon } from "@/assets/icons";
 import useCartStore from "@/context/cartStore";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getCart } from "@/api";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
   const { getUniqueItemsCount, getTotalPrice } = useCartStore();
   const [isClient, setIsClient] = useState(false);
-
+  const cartStore = useCartStore((s) => s.items);
+  const { data } = useQuery({
+    queryKey: ["cart"],
+    queryFn: getCart,
+    enabled: auth,
+  });
+  const items = auth ? data : cartStore;
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -30,14 +38,13 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
 
       {auth ? (
         <div className="flex items-center gap-4">
-          <Button
-            asChild
-            className="w-[170px] relative"
-          >
+          <Button asChild className="w-[170px] relative">
             <Link href="/cart">
               <div className="flex gap-4 py-3">
                 <CartIcon />
-                <span>{isClient ? getTotalPrice().toLocaleString() : '0'} UZS</span>
+                <span>
+                  {isClient ? getTotalPrice().toLocaleString() : "0"} UZS
+                </span>
               </div>
               {isClient && getUniqueItemsCount() > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -67,20 +74,20 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
                 <CartIcon />
                 <span>Savat</span>
               </div>
-              {isClient && getUniqueItemsCount() > 0 && (
+              {isClient && items?.length > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
-                  {getUniqueItemsCount()}
+                  {items?.length}
                 </div>
               )}
             </Link>
           </Button>
 
-          <Button className="w-[114px] h-12 px-5 font-medium text-sm">
-            <Link href={"/signin"} className="flex">
+          <Link href={"/signin"} className="flex">
+            <Button className="w-[114px] h-12 px-5 font-medium text-sm">
               <UserIcon />
               Kirish
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       )}
     </div>
