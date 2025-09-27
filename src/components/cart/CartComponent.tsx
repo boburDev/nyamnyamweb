@@ -34,12 +34,16 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const toNumeric = (value?: number | string): number | undefined => {
     if (value == null) return undefined;
     if (typeof value === "number") return value;
-    const parsed = parseFloat(String(value).replace(/[^\d.,-]/g, "").replace(",", "."));
+    const parsed = parseFloat(
+      String(value)
+        .replace(/[^\d.,-]/g, "")
+        .replace(",", ".")
+    );
     return Number.isNaN(parsed) ? undefined : parsed;
   };
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
-  const removeItem = useCartStore((s) => s.removeFromCart); 
+  const removeItem = useCartStore((s) => s.removeFromCart);
   const [loading, setLoading] = useState(false);
   const { updateQuantity, getTotalPrice } = useCartStore();
   const cartStore = useCartStore((s) => s.items);
@@ -51,7 +55,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();
-  const { mutate: deleteCartItem } = useDeleteCartItem(); 
+  const { mutate: deleteCartItem } = useDeleteCartItem();
   const items: CartUIItem[] | undefined = isAuth
     ? (data?.items as CartUIItem[] | undefined)
     : (cartStore as unknown as CartUIItem[]);
@@ -86,17 +90,19 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     quantity: number,
     surprise_bag?: string
   ) => {
-    if (quantity < 1) return; // ❌ 1 dan pastga tushirmaymiz
+    if (quantity < 1) return;
 
-    // Hozirgi itemni topamiz va serverdan kelgan count (maksimum) bo'lsa uni hisobga olamiz
     const currentItem = items?.find((i: CartUIItem) => i?.id === id);
-    const serverMax = typeof currentItem?.count === "number" && currentItem?.count > 0 ? currentItem.count : 30;
+    const serverMax =
+      typeof currentItem?.count === "number" && currentItem?.count > 0
+        ? currentItem.count
+        : 30;
     const maxAllowed = Math.min(30, serverMax);
 
     if (quantity > maxAllowed) {
       showToast({
         title: `Maksimal miqdor ${maxAllowed} tadan oshmasligi kerak!`,
-        type: 'warning'
+        type: "warning",
       });
       quantity = maxAllowed;
     }
@@ -108,11 +114,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     }
   };
 
-  const handleRemoveItem = (id: string, surprise_bag?: string) => {
+  const handleRemoveItem = (id: string) => {
     if (!isAuth) {
       removeItem(id);
     } else {
-      deleteCartItem({ id, surprise_bag: surprise_bag ?? "" });
+      deleteCartItem({ id });
     }
   };
 
@@ -196,7 +202,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             {/* ❌ Trash delete */}
                             <Button
                               onClick={() =>
-                                handleRemoveItem(item?.id, item?.surprise_bag)
+                                handleRemoveItem(item?.id,)
                               }
                               className="w-[38px] h-[38px] rounded-full bg-hoverColor"
                               variant={"ghost"}
@@ -319,9 +325,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                 {/* Total */}
                 <div className=" mb-[65px]">
                   <div className="flex items-center justify-between text-mainColor">
-                    <span className="text-xl font-medium ">
-                      Jami:
-                    </span>
+                    <span className="text-xl font-medium ">Jami:</span>
                     <span className="text-xl font-medium ">
                       {getTotalPrice().toLocaleString("uz-UZ")} UZS
                     </span>

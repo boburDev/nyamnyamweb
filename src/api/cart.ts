@@ -4,7 +4,9 @@ export async function getCart() {
   return res.json();
 }
 
-export const addToCart = async (items: Array<{ id: string; quantity: number }>) => {
+export const addToCart = async (
+  items: Array<{ id: string; quantity: number }>
+) => {
   try {
     const res = await axios.post(`/api/cart`, {
       items,
@@ -12,8 +14,15 @@ export const addToCart = async (items: Array<{ id: string; quantity: number }>) 
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
-      const data = error.response.data as { backend?: string; message?: string; error_message?: string } | undefined;
-      const errorMessage = data?.backend || data?.message || data?.error_message || error.message || "Xato yuz berdi";
+      const data = error.response.data as
+        | { backend?: string; message?: string; error_message?: string }
+        | undefined;
+      const errorMessage =
+        data?.backend ||
+        data?.message ||
+        data?.error_message ||
+        error.message ||
+        "Xato yuz berdi";
       throw new Error(errorMessage);
     }
     throw new Error((error as Error)?.message || "Xato yuz berdi");
@@ -57,7 +66,11 @@ export const updateCart = async ({
       // Agar server bizning Next.js API yoki bevosita backenddan custom backend message qaytgan bo'lsa shu maydonlarni tekshiramiz
       const data = error.response.data;
       const errorMessage =
-        data?.backend || data?.message || data?.error_message || error.message || "Xato yuz berdi";
+        data?.backend ||
+        data?.message ||
+        data?.error_message ||
+        error.message ||
+        "Xato yuz berdi";
       throw new Error(errorMessage);
     }
     throw new Error((error as Error)?.message || "Xato yuz berdi");
@@ -66,13 +79,19 @@ export const updateCart = async ({
 
 export const deleteCartItem = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`/api/cart/${encodeURIComponent(id)}`);
+    const res = await axios.delete(`/api/cart`, { data: { id } });
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
-      const data = error.response.data as { backend?: string; message?: string; error_message?: string } | undefined;
+      const data = error.response.data as
+        | { backend?: string; message?: string; error_message?: string }
+        | undefined;
       const errorMessage =
-        data?.backend || data?.message || data?.error_message || error.message || "Xato yuz berdi";
+        data?.backend ||
+        data?.message ||
+        data?.error_message ||
+        error.message ||
+        "Xato yuz berdi";
       throw new Error(errorMessage);
     }
     throw new Error((error as Error)?.message || "Xato yuz berdi");

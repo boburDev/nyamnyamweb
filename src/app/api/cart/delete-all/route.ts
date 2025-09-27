@@ -16,7 +16,6 @@ export async function DELETE() {
       }
     );
     const response = NextResponse.json({ status: 200 });
-    console.log("Cart deleted successfully xasxsadasdas123" );
     return response;
     
   } catch (e: unknown) {

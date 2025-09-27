@@ -53,8 +53,7 @@ const useUpdateCart = () => {
 const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ surprise_bag }: { id: string; surprise_bag: string }) =>
-      deleteCartItem({ id: surprise_bag }),
+    mutationFn: ({ id }: { id: string }) => deleteCartItem({ id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
@@ -78,7 +77,8 @@ const useDeleteCartItem = () => {
 const useAddToCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (items: Array<{ id: string; quantity: number }>) => addToCart(items),
+    mutationFn: (items: Array<{ id: string; quantity: number }>) =>
+      addToCart(items),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },

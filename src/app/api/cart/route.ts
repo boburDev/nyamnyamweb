@@ -13,9 +13,6 @@ async function checkAuth() {
 
   return { isAuthenticated: true, token: accessToken };
 }
-// PUT - Update specific cart item
-// pages/api/cart.ts (yoki shunga o'xshash yo'l)
-// ... (boshqa importlar)
 
 export async function PATCH(req: Request) {
   try {
@@ -31,8 +28,6 @@ export async function PATCH(req: Request) {
     const body = await req.json();
     const { surprise_bag, quantity, id } = body;
 
-    // ... (boshqa tekshiruvlar)
-
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/cart/${id}/`,
       {
@@ -45,15 +40,12 @@ export async function PATCH(req: Request) {
       }
     );
 
-    // Backenddan kelgan javobni o'qib olamiz
     const backendData = await response.json();
 
     if (!response.ok) {
-      // Backenddan kelgan xato matnini to'g'ridan-to'g'ri qaytaramiz
       return NextResponse.json(
         {
           success: false,
-          // Backenddan kelgan error_message ni ishlatamiz
           error_message:
             backendData?.error_message || "Failed to update cart item",
         },
@@ -61,7 +53,6 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // Muvaffaqiyatli javobni qaytarish
     return NextResponse.json({
       success: true,
       message: "Cart item updated successfully",
@@ -76,6 +67,65 @@ export async function PATCH(req: Request) {
   }
 }
 
+export async function POST(req: Request) {
+  try {
+    const { isAuthenticated, token } = await checkAuth();
+
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: No access token" },
+        { status: 401 }
+      );
+    }
+
+    const body = await req.json();
+    const { items } = body;
+
+    if (!items || !Array.isArray(items)) {
+      return NextResponse.json(
+        { success: false, message: "Invalid cart items" },
+        { status: 400 }
+      );
+    }
+
+    const mappedItems = items.map((item: CartData) => ({
+      surprise_bag: item.id,
+      quantity: item.quantity,
+    }));
+
+    const response = await fetch(POST_CART, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        items: mappedItems,
+      }),
+    });
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { success: false, message: "Failed to update cart" },
+        { status: response.status }
+      );
+    }
+
+    const result = await response.json();
+
+    return NextResponse.json({
+      success: true,
+      message: result.error_message,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Cart POST error:", error);
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
 export async function GET() {
   try {
     const { isAuthenticated, token } = await checkAuth();
@@ -136,10 +186,9 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function DELETE(req: Request) {
   try {
     const { isAuthenticated, token } = await checkAuth();
-
     if (!isAuthenticated) {
       return NextResponse.json(
         { success: false, message: "Unauthorized: No access token" },
@@ -147,79 +196,26 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req.json();
-    const { items } = body;
-
-    if (!items || !Array.isArray(items)) {
+    let body;
+    try {
+      body = await req.json();
+    } catch {
       return NextResponse.json(
-        { success: false, message: "Invalid cart items" },
+        { success: false, message: "Request body is missing or invalid" },
         { status: 400 }
       );
     }
 
-    const mappedItems = items.map((item: CartData) => ({
-      surprise_bag: item.id,
-      quantity: item.quantity,
-    }));
-
-    const response = await fetch(POST_CART, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        items: mappedItems,
-      }),
-    });
-
-    if (!response.ok) {
+    const { id } = body;
+    if (!id) {
       return NextResponse.json(
-        { success: false, message: "Failed to update cart" },
-        { status: response.status }
-      );
-    }
-
-    const result = await response.json();
-
-    return NextResponse.json({
-      success: true,
-      message: "Cart updated successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("Cart POST error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 }
-    );
-  }
-}
-
-// DELETE - Remove item from cart
-export async function DELETE(req: Request) {
-  try {
-    const { isAuthenticated, token } = await checkAuth();
-
-    if (!isAuthenticated) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized: No access token" },
-        { status: 401 }
-      );
-    }
-
-    const { searchParams } = new URL(req.url);
-    const productId = searchParams.get("productId");
-
-    if (!productId) {
-      return NextResponse.json(
-        { success: false, message: "Product ID is required" },
+        { success: false, message: "Cart item ID is required" },
         { status: 400 }
       );
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/cart/${productId}/`,
+      `${process.env.NEXT_PUBLIC_API_URL}/cart/${id}/`,
       {
         method: "DELETE",
         headers: {
@@ -229,31 +225,37 @@ export async function DELETE(req: Request) {
       }
     );
 
+    let backendData;
+    try {
+      backendData = await response.json();
+    } catch {
+      backendData = await response.text();
+    }
+
     if (!response.ok) {
-      let backendData: unknown;
-      try {
-        backendData = await response.json();
-      } catch (_error) {
-        backendData = undefined;
-      }
-      const error_message =
-        (backendData as { error_message?: string; message?: string })?.error_message ||
-        (backendData as { error_message?: string; message?: string })?.message ||
-        "Failed to remove cart item";
+      console.error("Backend error:", backendData);
       return NextResponse.json(
-        { success: false, message: error_message },
+        {
+          success: false,
+          error_message:
+            backendData?.error_message ||
+            backendData?.message ||
+            backendData ||
+            "Failed to delete cart item",
+        },
         { status: response.status }
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: "Cart item removed successfully",
+      message: "Cart item deleted successfully",
+      data: backendData,
     });
   } catch (error) {
     console.error("Cart DELETE error:", error);
     return NextResponse.json(
-      { success: false, message: "Internal server error" },
+      { success: false, error_message: "Internal server error" },
       { status: 500 }
     );
   }
