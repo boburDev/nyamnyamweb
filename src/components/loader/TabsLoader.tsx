@@ -6,7 +6,7 @@ const TabsLoader = () => {
             {[1, 2, 3, 4, 5].map((i) => (
                 <div
                     key={i}
-                    className="h-12 w-24 bg-gray-200 rounded-[25px] animate-pulse"
+                    className="h-12 w-24  rounded-[25px] skeleton-puls"
                 />
             ))}
         </div>

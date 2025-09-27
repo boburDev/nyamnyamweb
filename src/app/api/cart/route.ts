@@ -219,7 +219,7 @@ export async function DELETE(req: Request) {
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/cart/item/${productId}/`,
+      `${process.env.NEXT_PUBLIC_API_URL}/cart/${productId}/`,
       {
         method: "DELETE",
         headers: {
@@ -230,8 +230,18 @@ export async function DELETE(req: Request) {
     );
 
     if (!response.ok) {
+      let backendData: unknown;
+      try {
+        backendData = await response.json();
+      } catch (_error) {
+        backendData = undefined;
+      }
+      const error_message =
+        (backendData as { error_message?: string; message?: string })?.error_message ||
+        (backendData as { error_message?: string; message?: string })?.message ||
+        "Failed to remove cart item";
       return NextResponse.json(
-        { success: false, message: "Failed to remove cart item" },
+        { success: false, message: error_message },
         { status: response.status }
       );
     }

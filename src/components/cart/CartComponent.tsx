@@ -4,20 +4,42 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
 import { Container } from "../container";
 import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
-import { SubmitLoader } from "../loader";
+import { ProductSkeletons, SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
 import { getCart } from "@/api";
-import { useDeleteCartAll, useUpdateCart } from "@/hooks";
+import { useDeleteCartAll, useUpdateCart, useDeleteCartItem } from "@/hooks";
+import { showToast } from "../toast/Toast";
+
+type CartUIItem = {
+  id: string;
+  name: string;
+  image: string;
+  restaurant: string;
+  distance: number;
+  originalPrice: number | string;
+  currentPrice: number | string;
+  quantity: number;
+  count?: number;
+  stock?: number;
+  surprise_bag?: string;
+};
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
+  const toNumeric = (value?: number | string): number | undefined => {
+    if (value == null) return undefined;
+    if (typeof value === "number") return value;
+    const parsed = parseFloat(String(value).replace(/[^\d.,-]/g, "").replace(",", "."));
+    return Number.isNaN(parsed) ? undefined : parsed;
+  };
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
+  const removeItem = useCartStore((s) => s.removeFromCart); 
   const [loading, setLoading] = useState(false);
   const { updateQuantity, getTotalPrice } = useCartStore();
   const cartStore = useCartStore((s) => s.items);
@@ -29,25 +51,22 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();
-  const items = isAuth ? data?.items : cartStore;
+  const { mutate: deleteCartItem } = useDeleteCartItem(); 
+  const items: CartUIItem[] | undefined = isAuth
+    ? (data?.items as CartUIItem[] | undefined)
+    : (cartStore as unknown as CartUIItem[]);
   const t = useTranslations("cart");
+
   const handleCheckout = async () => {
     if (isAuth) {
       setLoading(true);
       try {
         const res = await fetch("/api/checkout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            items,
-            total: getTotalPrice(),
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items, total: getTotalPrice() }),
         });
         const data = await res.json();
-        console.log("Checkout response:", data);
-
         if (data.success) {
           router.push("/checkout");
           deleteCart();
@@ -61,22 +80,44 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       router.push("/signin");
     }
   };
-  console.log("Items here: ", data);
 
   const handleUpdateQuantity = (
     id: string,
     quantity: number,
     surprise_bag?: string
   ) => {
+    if (quantity < 1) return; // ❌ 1 dan pastga tushirmaymiz
+
+    // Hozirgi itemni topamiz va serverdan kelgan count (maksimum) bo'lsa uni hisobga olamiz
+    const currentItem = items?.find((i: CartUIItem) => i?.id === id);
+    const serverMax = typeof currentItem?.count === "number" && currentItem?.count > 0 ? currentItem.count : 30;
+    const maxAllowed = Math.min(30, serverMax);
+
+    if (quantity > maxAllowed) {
+      showToast({
+        title: `Maksimal miqdor ${maxAllowed} tadan oshmasligi kerak!`,
+        type: 'warning'
+      });
+      quantity = maxAllowed;
+    }
+
     if (!isAuth) {
       updateQuantity(id, quantity);
     } else {
       updateCartQty({ id, quantity, surprise_bag: surprise_bag ?? "" });
     }
   };
-  const openConfirm = () => {
-    setConfirmOpen(true);
+
+  const handleRemoveItem = (id: string, surprise_bag?: string) => {
+    if (!isAuth) {
+      removeItem(id);
+    } else {
+      deleteCartItem({ id, surprise_bag: surprise_bag ?? "" });
+    }
   };
+
+  const openConfirm = () => setConfirmOpen(true);
+
   const handleConfirm = () => {
     if (!isAuth) {
       deleteCart();
@@ -84,6 +125,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       deleteCartAll();
     }
   };
+
   if (items?.length === 0) {
     return (
       <div className=" bg-gray-50 py-8">
@@ -106,16 +148,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       </div>
     );
   }
+
   if (isLoading) {
-    return (
-      <div className="bg-gray-50 py-8 h-screen flex flex-col justify-center items-center">
-        <h3 className="text-[30px] font-semibold text-textColor animate-spin">
-          Logo
-        </h3>
-        <p className="text-black">Loading...</p>
-      </div>
-    );
+    return <ProductSkeletons count={3} />;
   }
+
   return (
     <>
       <Container className="mb-[150px] mt-[76px]">
@@ -143,7 +180,6 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             fill
                             className="object-cover rounded-xl"
                           />
-                          {/* Stock Badge */}
                           {item?.stock && item?.stock <= 5 && (
                             <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
                               {item?.stock} ta qoldi
@@ -153,21 +189,32 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
                         {/* Product Details */}
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-textColor text-xl mb-[10px]">
-                            {item?.name}
-                          </h3>
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-medium text-textColor text-xl mb-[10px]">
+                              {item?.name}
+                            </h3>
+                            {/* ❌ Trash delete */}
+                            <Button
+                              onClick={() =>
+                                handleRemoveItem(item?.id, item?.surprise_bag)
+                              }
+                              className="w-[38px] h-[38px] rounded-full bg-hoverColor"
+                              variant={"ghost"}
+                            >
+                              <Trash className="w-5 h-5 text-[#9A9DA5]" />
+                            </Button>
+                          </div>
                           <p className="text-dolphin">
                             {item?.restaurant} • {item?.distance} km
                           </p>
 
-                          {/* Pricing */}
                           <div className="flex justify-between">
                             <div className="flex items-center gap-2 mt-[53px]">
                               <span className="text-gray-400 line-through text-sm">
-                                {formatPrice(item?.originalPrice)}
+                                {formatPrice(toNumeric(item?.originalPrice))}
                               </span>
                               <span className="text-mainColor font-medium text-xl">
-                                {formatPrice(item?.currentPrice)}
+                                {formatPrice(toNumeric(item?.currentPrice))}
                               </span>
                             </div>
 
@@ -212,7 +259,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
               </div>
             </div>
 
-            {/* Right Section - Payment Summary */}
+            {/* Right Section */}
             <div className="lg:col-span-2 mt-20">
               <div className="bg-white rounded-2xl shadow-sm px-5 py-[15px] sticky top-4">
                 <div className="flex items-center justify-between mb-5">
@@ -252,15 +299,15 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                           </p>
                         </div>
                         <div className="flex items-center justify-between">
-                          <p className="text-dolphin text-lg truncate  max-w-[130px]">
+                          <p className="text-dolphin text-lg truncate max-w-[130px]">
                             {item?.restaurant}
                           </p>
                           <div className="flex items-center gap-2">
                             <p className="text-dolphin line-through text-xs mt-1">
-                              {formatPrice(item?.originalPrice)}
+                              {formatPrice(toNumeric(item?.originalPrice))}
                             </p>
                             <p className="text-textColor font-medium">
-                              {formatPrice(item?.currentPrice)}
+                              {formatPrice(toNumeric(item?.currentPrice))}
                             </p>
                           </div>
                         </div>
@@ -271,21 +318,20 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
                 {/* Total */}
                 <div className=" mb-[65px]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-medium text-textColor">
+                  <div className="flex items-center justify-between text-mainColor">
+                    <span className="text-xl font-medium ">
                       Jami:
                     </span>
-                    <span className="text-xl font-medium text-textColor">
+                    <span className="text-xl font-medium ">
                       {getTotalPrice().toLocaleString("uz-UZ")} UZS
                     </span>
                   </div>
                 </div>
 
-                {/* Checkout Button */}
                 <Button
                   disabled={items?.length === 0 || loading}
                   onClick={handleCheckout}
-                  className="w-full h-12  text-white font-medium text-xl rounded-xl "
+                  className="w-full h-12 text-white font-medium text-xl rounded-xl"
                 >
                   {loading ? <SubmitLoader /> : "To'lovga o'tish"}
                 </Button>

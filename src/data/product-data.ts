@@ -5,7 +5,7 @@ export const productData = [
     categoryId: 1,
     products: [
       {
-        id: "c7a83161-3f69-4d70-ab2c-29509f85017a",
+        id: "86012d54-ab2c-4acf-bb58-aa5ff9c583f4",
         name: "Test bag",
         image: "/productimg.png",
         restaurant: "Oqtepa lavash",
@@ -19,7 +19,7 @@ export const productData = [
         isInCart: false,
       },
       {
-        id: "86012d54-ab2c-4acf-bb58-aa5ff9c583f4",
+        id: "6e4b5b8d-1c31-4fc0-8435-5f93b67037aa",
         name: "Test2 bag",
         image: "/evos.webp",
         restaurant: "Oqtepa lavash",
@@ -33,7 +33,7 @@ export const productData = [
         isInCart: false,
       },
       {
-        id: uuidv4(),
+        id: "1131774e-e14a-4eba-ba04-eef67872537b",
         name: "Black Burger",
         image: "/blackburger.webp",
         restaurant: "Shef Burger",
@@ -215,7 +215,7 @@ export const productData = [
         originalPrice: 25000,
         rating: 4.5,
         categoryId: 4,
-        stock: 8,
+        stock: 40,
         isInCart: false,
       },
       {

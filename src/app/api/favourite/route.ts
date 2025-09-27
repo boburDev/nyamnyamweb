@@ -38,17 +38,34 @@ export async function GET() {
         );
 
         if (!response.ok) {
+            let backendData: unknown;
+            try {
+                backendData = await response.json();
+            } catch (_error) {
+                backendData = undefined;
+            }
+            const error_message =
+                (backendData as { error_message?: string; message?: string })?.error_message ||
+                (backendData as { error_message?: string; message?: string })?.message ||
+                "Failed to fetch favourites";
             return NextResponse.json(
-                { success: false, message: "Failed to fetch favourites" },
+                { success: false, message: error_message },
                 { status: response.status }
             );
         }
 
-        const data = await response.json();
+        const backend = await response.json();
+        const list = Array.isArray(backend)
+            ? backend
+            : Array.isArray(backend?.data)
+                ? backend.data
+                : Array.isArray(backend?.items)
+                    ? backend.items
+                    : [];
 
         return NextResponse.json({
             success: true,
-            data,
+            data: list,
         });
 
     } catch (error) {
@@ -100,8 +117,18 @@ export async function POST(req: Request) {
         );
 
         if (!response.ok) {
+            let backendData: unknown;
+            try {
+                backendData = await response.json();
+            } catch (_error) {
+                backendData = undefined;
+            }
+            const error_message =
+                (backendData as { error_message?: string; message?: string })?.error_message ||
+                (backendData as { error_message?: string; message?: string })?.message ||
+                "Failed to update favourites";
             return NextResponse.json(
-                { success: false, message: "Failed to update favourites" },
+                { success: false, message: error_message },
                 { status: response.status }
             );
         }
@@ -136,22 +163,49 @@ export async function DELETE(req: Request) {
         }
 
         const { searchParams } = new URL(req.url);
-        const ids = searchParams.getAll("id"); // /api/favourite?id=123&id=456
+        const ids = searchParams.getAll("id"); 
 
-        const response = await fetch(
-            DELETE_FAVORITE + (ids.length ? `?${ids.map((id) => `id=${encodeURIComponent(id)}`).join("&")}` : ""),
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
+        const response = await (async () => {
+            if (ids.length === 1) {
+                // Delete a single favourite by id
+                return await fetch(
+                    `${FAVORITE}${encodeURIComponent(ids[0])}/`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
             }
-        );
+            // Delete multiple or all favourites
+            const query = ids.length ? `?${ids.map((id) => `id=${encodeURIComponent(id)}`).join("&")}` : "";
+            return await fetch(
+                DELETE_FAVORITE + query,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+        })();
 
         if (!response.ok) {
+            let backendData: unknown;
+            try {
+                backendData = await response.json();
+            } catch (_error) {
+                backendData = undefined;
+            }
+            const error_message =
+                (backendData as { error_message?: string; message?: string })?.error_message ||
+                (backendData as { error_message?: string; message?: string })?.message ||
+                "Failed to remove favourites";
             return NextResponse.json(
-                { success: false, message: "Failed to remove favourites" },
+                { success: false, message: error_message },
                 { status: response.status }
             );
         }

@@ -7,3 +7,4 @@ export * from "./useUser";
 export * from "./useChangeEmail";
 export * from "./useUpdateVerify";
 export * from "./useCart";
+export * from "./useFavourite";
