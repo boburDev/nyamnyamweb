@@ -1,37 +1,32 @@
-export interface Category {
-    id: number;
-    name: string;
-    slug?: string;
+import { CATEGORY } from "@/constants";
+import axios, { AxiosError } from "axios";
+interface AxiosErrorResponse {
+  error_message?: string;
+  message?: string;
+  detail?: string;
 }
 
-export async function getCategories(): Promise<Category[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+export const getCategories = async () => {
+  try {
+    const res = await axios.get(CATEGORY);
+    return res.data.data || [];
+  } catch (error: unknown) {
+    console.error("Error fetching categories:", error);
+    if (axios.isAxiosError(error)) {
+      const axiosErr = error as AxiosError & {
+        response?: { data: unknown };
+      };
+      const respData = axiosErr.response?.data as AxiosErrorResponse;
 
-    return [
-        {
-            id: 1,
-            name: "Hamma",
-            slug: "all"
-        },
-        {
-            id: 2,
-            name: "Super boxlar",
-            slug: "super-box"
-        },
-        {
-            id: 3,
-            name: "Taomlar",
-            slug: "meals"
-        },
-        {
-            id: 4,
-            name: "Fast food",
-            slug: "fast-food"
-        },
-        {
-            id: 5,
-            name: "Shirinliklar",
-            slug: "desserts"
-        },
-    ];
-}
+      const backendMsg =
+        respData?.error_message ||
+        respData?.message ||
+        JSON.stringify(respData) ||
+        axiosErr.message;
+      console.log("Axios error message:", backendMsg);
+
+      throw new Error(backendMsg);
+    }
+    return [];
+  }
+};

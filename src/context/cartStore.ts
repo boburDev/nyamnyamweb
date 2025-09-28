@@ -148,9 +148,6 @@ const useCartStore = create<CartStore>()(
     {
       name: "nyam-web-cart",
       storage: createJSONStorage(() => cookieStorage),
-      onRehydrateStorage: () => (state) => {
-        console.log("Cart rehydrated:", state);
-      },
     }
   )
 );

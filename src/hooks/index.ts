@@ -8,3 +8,4 @@ export * from "./useChangeEmail";
 export * from "./useUpdateVerify";
 export * from "./useCart";
 export * from "./useFavourite";
+export * from "./category";

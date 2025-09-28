@@ -18,6 +18,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
   const { getUniqueItemsCount, getTotalPrice } = useCartStore();
   const [isClient, setIsClient] = useState(false);
   const cartStore = useCartStore((s) => s.items);
+
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,

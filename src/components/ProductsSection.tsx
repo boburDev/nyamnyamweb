@@ -11,27 +11,24 @@ import { ProductSkeletonGrid } from "./loader/DataLoader";
 const ProductsSection = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
 
-  // Use prefetched data for better performance
   const { data: prefetchedData } = useQuery({
     queryKey: ["products", "all"],
     queryFn: prefetchAllProducts,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000, 
   });
 
-  // Get categories data
   const { data: categories = [] } = useQuery({
     queryKey: ["product-categories"],
     queryFn: getAllProductCategories,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000, 
   });
 
 
-  // Get products for selected category
   const { data: categoryProducts = [], isLoading: isCategoryLoading } = useQuery({
     queryKey: ["products", selectedCategoryId],
     queryFn: () => getProducts(selectedCategoryId),
-    enabled: selectedCategoryId !== 1, // Only fetch when specific category is selected
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    enabled: selectedCategoryId !== 1, 
+    staleTime: 2 * 60 * 1000, 
   });
 
   const handleCategoryChange = (categoryId: number) => {
@@ -40,7 +37,6 @@ const ProductsSection = () => {
 
 
 
-  // Render multiple sections for "Hamma" category
   const renderAllSections = () => {
     if (!prefetchedData) return (
       <div className="mt-6">

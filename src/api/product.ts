@@ -22,7 +22,6 @@ export interface ProductCategory {
     products: Product[];
 }
 
-// Simulate API delay for loading states
 const simulateDelay = (ms: number = 400) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function getProducts(categoryId?: number): Promise<Product[]> {
@@ -35,7 +34,6 @@ export async function getProducts(categoryId?: number): Promise<Product[]> {
     return getAllProducts();
 }
 
-// New function to get all categories with their products
 export async function getAllProductCategories(): Promise<ProductCategory[]> {
     await simulateDelay(300);
 
@@ -43,7 +41,6 @@ export async function getAllProductCategories(): Promise<ProductCategory[]> {
     return productData;
 }
 
-// Function to prefetch all product data
 export async function prefetchAllProducts(): Promise<{
     allProducts: Product[];
     categories: ProductCategory[];

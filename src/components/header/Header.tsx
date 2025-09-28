@@ -3,10 +3,22 @@ import { Container } from "../container";
 import SearchMenu from "./SearchMenu";
 import HeaderRight from "./HeaderRight";
 import { getAuthStatus } from "@/lib/auth";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import Providers from "../provider/Provider";
 
 export const Header = async () => {
   const isAuth = await getAuthStatus();
-
+  const queryClient = new QueryClient();
+  if (isAuth) {
+    await queryClient.prefetchQuery({
+      queryKey: ["cart"],
+      queryFn: async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`);
+        if (!res.ok) throw new Error("Serverdan savatni olishda xatolik");
+        return res.json();
+      },
+    });
+  }
   return (
     <header className="py-6 ">
       <Container className="flex justify-between items-center">
@@ -21,7 +33,9 @@ export const Header = async () => {
           <SearchMenu auth={isAuth} />
         </div>
         {/* right */}
-        <HeaderRight auth={isAuth} />
+        <Providers dehydratedState={dehydrate(queryClient)}>
+          <HeaderRight auth={isAuth} />
+        </Providers>
       </Container>
     </header>
   );

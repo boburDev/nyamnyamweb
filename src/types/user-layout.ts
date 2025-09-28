@@ -1,5 +1,10 @@
 export type ToastType = "success" | "warning" | "info" | "error";
 
+export interface CategoryData {
+  id: string;
+  slug: string;
+  title: string;
+}
 export interface UserData {
   birth_date: string;
   email: string;
