@@ -1,24 +1,19 @@
 "use client"
-import { getProducts, Product } from "@/api/product"
-import { FavouriteIcon } from "@/assets/icons"
+import { getProducts } from "@/api/product"
 import { ProductSkeletons } from "@/components/loader"
 import PriceFormatter from "@/components/price-format/PriceFormatter"
-import { showToast } from "@/components/toast/Toast"
 import { Button } from "@/components/ui/button"
-import useCartStore from "@/context/cartStore"
-import useFavouriteStore from "@/context/favouriteStore"
 import { formatPrice } from "@/utils/price-format"
 import { useQuery } from "@tanstack/react-query"
-import { Dot, ShoppingCart, Star } from "lucide-react"
+import { Dot, Star } from "lucide-react"
 import Image from "next/image"
+import { AddToCart, FavouriteButton } from "@/components/add-to-cart"
 
 interface AllProductsComponentProps {
   selectedCategoryId?: number;
 }
 
 const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps) => {
-  const { addToCart, removeFromCart, isInCart } = useCartStore();
-  const { toggleFavourite, isFavourite } = useFavouriteStore();
 
 
   const { data: products, isLoading } = useQuery({
@@ -26,38 +21,7 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
     queryFn: () => getProducts(selectedCategoryId),
   });
 
-  const toggleBookmark = (product: Product) => {
-    const isCurrentlyFavourite = isFavourite(product.id);
-    toggleFavourite(product);
-    showToast({
-      title: isCurrentlyFavourite
-        ? "Saqlangan mahsulotlardan o'chirildi"
-        : "Saqlangan mahsulotlarga qo'shildi",
-      type: isCurrentlyFavourite ? "info" : "success",
-      href: "/favourite",
-      hrefName: "Saqlangan mahsulotlar",
-    });
-  };
-
-  const toggleCart = (product: Product) => {
-    if (isInCart(product.id)) {
-      removeFromCart(product.id);
-      showToast({
-        title: "Savatdan o'chirildi",
-        type: "info",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
-      });
-    } else {
-      addToCart(product);
-      showToast({
-        title: "Savatga qo'shildi",
-        type: "success",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
-      });
-    }
-  };
+  // Remove toggle functions since AddToCart and FavouriteButton handle this internally
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-3'>
@@ -87,19 +51,9 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
                   </div>
                 )}
                 {/* Bookmark Button */}
-                <button
-                  onClick={() => toggleBookmark(product)}
-                  className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
-                >
-                  <span
-                    className={`${isFavourite(product.id)
-                      ? "text-mainColor"
-                      : "text-white"
-                      }`}
-                  >
-                    <FavouriteIcon className="w-[24px] h-[24px]" />
-                  </span>
-                </button>
+                <div className="absolute top-3 right-3">
+                  <FavouriteButton product={product} size="md" />
+                </div>
               </div>
 
               {/* Product Details */}
@@ -142,15 +96,7 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <Button
-                      onClick={() => toggleCart(product)}
-                      className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${isInCart(product.id) || product.isInCart
-                        ? "bg-mainColor text-white"
-                        : "bg-gray-100 !text-mainColor hover:bg-gray-200"
-                        }`}
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                    </Button>
+                    <AddToCart product={product} className="flex-1" />
                     <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
                       Batafsil
                     </Button>

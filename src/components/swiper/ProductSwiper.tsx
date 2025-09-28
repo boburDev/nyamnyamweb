@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   Star,
-  ShoppingCart,
   Dot,
   ArrowRight,
   ChevronLeft,
@@ -15,14 +14,11 @@ import "slick-carousel/slick/slick-theme.css";
 import { Product } from "@/api/product";
 import { Button } from "../ui/button";
 import { ProductSkeletons } from "../loader/DataLoader";
-import useCartStore from "@/context/cartStore";
-import useFavouriteStore from "@/context/favouriteStore";
-import { showToast } from "../toast/Toast";
 import { formatPrice } from "@/utils/price-format";
 import PriceFormatter from "../price-format/PriceFormatter";
-import { FavouriteIcon } from "@/assets/icons";
 import { Link } from "@/i18n/navigation";
 import dynamic from "next/dynamic";
+import { AddToCart, FavouriteButton } from "../add-to-cart";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
 
@@ -43,11 +39,7 @@ export const ProductSwiper = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
 
-  // Cart store
-  const { addToCart, removeFromCart, isInCart } = useCartStore();
-
-  // Favourite store
-  const { toggleFavourite, isFavourite } = useFavouriteStore();
+  // Remove cart and favourite store usage since we'll use components instead
 
   // Handle window resize for responsive behavior
   useEffect(() => {
@@ -62,36 +54,7 @@ export const ProductSwiper = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleBookmark = (product: Product) => {
-    const isCurrentlyFavourite = isFavourite(product.id);
-    toggleFavourite(product);
-    showToast({
-      title: isCurrentlyFavourite
-        ? "Saqlangan mahsulotlardan o'chirildi"
-        : "Saqlangan mahsulotlarga qo'shildi",
-      type: isCurrentlyFavourite ? "info" : "success",
-      href: isCurrentlyFavourite ? "" : "/favourite",
-      hrefName: isCurrentlyFavourite ? "" : "Saqlangan mahsulotlar",
-    });
-  };
-
-  const toggleCart = (product: Product) => {
-    if (isInCart(product.id)) {
-      removeFromCart(product.id);
-      showToast({
-        title: "Savatdan o'chirildi",
-        type: "info",
-      });
-    } else {
-      addToCart(product);
-      showToast({
-        title: "Savatga qo'shildi",
-        type: "success",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
-      });
-    }
-  };
+  // Remove toggle functions since AddToCart and FavouriteButton handle this internally
 
   const NextArrow = ({
     onClick,
@@ -270,20 +233,9 @@ export const ProductSwiper = ({
                       </div>
                     )}
                     {/* Bookmark Button */}
-                    <button
-                      onClick={() => toggleBookmark(product)}
-                      className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
-                    >
-                      <span
-                        className={`${isFavourite(product.id)
-                          ? "text-mainColor"
-                          : "text-white"
-                          }`}
-                      >
-                        <FavouriteIcon className="w-[24px] h-[24px]" />
-                      </span>
-
-                    </button>
+                    <div className="absolute top-3 right-3">
+                      <FavouriteButton product={product} size="md" />
+                    </div>
                   </div>
 
                   {/* Product Details */}
@@ -326,15 +278,7 @@ export const ProductSwiper = ({
 
                       {/* Action Buttons */}
                       <div className="flex gap-2">
-                        <Button
-                          onClick={() => toggleCart(product)}
-                          className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${isInCart(product.id) || product.isInCart
-                            ? "bg-mainColor text-white"
-                            : "bg-gray-100 !text-mainColor hover:bg-gray-200"
-                            }`}
-                        >
-                          <ShoppingCart className="w-4 h-4" />
-                        </Button>
+                        <AddToCart product={product} className="flex-1" />
                         <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
                           Batafsil
                         </Button>
