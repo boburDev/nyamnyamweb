@@ -45,12 +45,13 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
         <button
             onClick={handleFavourite}
             className={`
-     
+                backdrop-blur-[45px] bg-mainColor/20 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full
+            
       `}
-            // variant={variant}
-           >
+        // variant={variant}
+        >
             <Heart
-                className={`w-6 h-6 rounded-full `}
+                className={`w-6 h-6 rounded-full ${isFavouriteState ? ' fill-white' : ''} `}
             />
             {showText && (
                 <span className="ml-2">

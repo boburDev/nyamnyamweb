@@ -88,12 +88,12 @@ export const ProductSwiper = ({
         disabled={isDisabled}
         className={`absolute right-[-10px] top-1/2 -translate-y-1/2 z-50 p-2 rounded-full transition
           ${isDisabled
-            ? "bg-[#e0e0e0] cursor-not-allowed"
+            ? "bg-white border border-mainColor  cursor-not-allowed"
             : "bg-mainColor hover:bg-green-600"
           }`}
       >
         <ChevronRight
-          className={`w-6 h-6 ${isDisabled ? "text-gray-400" : "text-white"}`}
+          className={`w-6 h-6 ${isDisabled ? "text-mainColor " : "text-white"}`}
         />
       </button>
     );
@@ -124,12 +124,12 @@ export const ProductSwiper = ({
         disabled={isDisabled}
         className={`absolute left-[-10px] top-1/2 -translate-y-1/2 z-50 p-2 rounded-full transition
           ${isDisabled
-            ? "bg-[#e0e0e0] cursor-not-allowed"
+            ? "bg-white border border-mainColor cursor-not-allowed"
             : "bg-mainColor hover:bg-green-600"
           }`}
       >
         <ChevronLeft
-          className={`w-6 h-6 ${isDisabled ? "text-gray-400" : "text-white"}`}
+          className={`w-6 h-6 ${isDisabled ? "text-mainColor" : "text-white"}`}
         />
       </button>
     );

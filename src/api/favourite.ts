@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getFavourites = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/favourite`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/proxy/favourite`);
     if (!res.ok) throw new Error("Favourites olishda xatolik");
     return res.json();
 };
