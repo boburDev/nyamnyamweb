@@ -2,19 +2,18 @@
 
 import React from "react";
 import Image from "next/image";
-import { Star, Bookmark, ShoppingCart, Dot } from "lucide-react";
+import { Star, Dot } from "lucide-react";
 import { Button } from "../ui/button";
 import useFavouriteStore from "@/context/favouriteStore";
-import useCartStore from "@/context/cartStore";
-import { showToast } from "../toast/Toast";
 import { Product } from "@/api/product";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
 import { ProductSkeletons } from "../loader";
-import { useFavouritesQuery, useAddFavourites, useRemoveFavourites } from "@/hooks";
+import { useFavouritesQuery } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api/user";
 import { CartData } from "@/types";
+import { AddToCart, FavouriteButton } from "../add-to-cart";
 
 type FavouriteUI = {
   id: string;
@@ -33,55 +32,14 @@ interface Props {
 }
 
 const FavouriteCart = ({ isLoading = false }: Props) => {
-  const { items, removeFromFavourites, addToFavourites, isFavourite } = useFavouriteStore();
-  const { addToCart, removeFromCart, isInCart } = useCartStore();
+  const { items } = useFavouriteStore();
   const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUsers });
   const isAuth = Boolean(user);
   const { data: favData, isLoading: favLoading } = useFavouritesQuery(isAuth);
-  const { mutate: addFav } = useAddFavourites();
-  const { mutate: removeFav } = useRemoveFavourites();
 
-  const toggleCart = (item: Product | FavouriteUI) => {
-    if (isInCart(String(item.id))) {
-      removeFromCart(String(item.id));
-      showToast({
-        title: "Savatdan o'chirildi",
-        type: "info",
-      });
-    } else {
-      addToCart(item as Product);
-      showToast({
-        title: "Savatga qo'shildi",
-        type: "success",
-        href: "/cart",
-        hrefName: "Savatga o'tish",
-      });
-    }
-  };
+  // Remove toggleCart function since AddToCart component handles this
 
-  const toggleFavourite = (item: Product | FavouriteUI) => {
-    if (isAuth) {
-      const favs = (favData?.data as CartData[] | undefined) || [];
-      const favIdSet = new Set<string>(
-        favs.map((f) => String((f as unknown as { id?: string | number; surprise_bag?: string | number }).id ?? (f as unknown as { id?: string | number; surprise_bag?: string | number }).surprise_bag))
-      );
-      if (favIdSet.has(String(item.id))) {
-        removeFav([String(item.id)]);
-        showToast({ title: "Sevimlilardan o'chirildi", type: "info" });
-      } else {
-        addFav([String(item.id)]);
-        showToast({ title: "Sevimlilarga qo'shildi", type: "success" });
-      }
-    } else {
-      if (isFavourite(String(item.id))) {
-        removeFromFavourites(String(item.id));
-        showToast({ title: "Sevimlilardan o'chirildi", type: "info" });
-      } else {
-        addToFavourites(item as Product);
-        showToast({ title: "Sevimlilarga qo'shildi", type: "success" });
-      }
-    }
-  };
+  // Remove toggleFavourite function since FavouriteButton component handles this
 
   const apiList: CartData[] = (favData?.data as CartData[] | undefined) || [];
   const apiMapped: FavouriteUI[] = apiList.map((f) => {
@@ -168,13 +126,21 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
                   {/* Stock Badge */}
                   {/* no stock info for unified item */}
                   {/* Bookmark Button */}
-                  <button
-                    onClick={() => toggleFavourite(item)}
-                    className="absolute top-3 right-3 px-[9px] py-[6.5px] bg-white rounded-[15px] flex items-center justify-center hover:bg-gray-50 transition-colors"
-                  >
-                    <Bookmark className="w-6 h-6 stroke-mainColor fill-mainColor" />
-
-                  </button>
+                  <div className="absolute top-3 right-3">
+                    <FavouriteButton
+                      product={{
+                        id: item.id,
+                        name: item.name,
+                        image: item.image,
+                        currentPrice: item.currentPrice,
+                        originalPrice: item.originalPrice,
+                        restaurant: item.restaurant,
+                        distance: item.distance,
+                        rating: item.rating || 0,
+                        stock: undefined
+                      } as Product}
+                    />
+                  </div>
                 </div>
 
                 {/* Product Details */}
@@ -212,15 +178,20 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <Button
-                        onClick={() => toggleCart(item)}
-                        className={`flex-1 h-10 rounded-lg flex items-center justify-center transition-colors hover:!text-white ${isInCart(item.id) || item.isInCart
-                          ? "bg-mainColor text-white"
-                          : "bg-gray-100 !text-mainColor hover:bg-gray-200"
-                          }`}
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                      </Button>
+                      <AddToCart
+                        product={{
+                          id: item.id,
+                          name: item.name,
+                          image: item.image,
+                          currentPrice: item.currentPrice,
+                          originalPrice: item.originalPrice,
+                          restaurant: item.restaurant,
+                          distance: item.distance,
+                          rating: item.rating || 0,
+                          stock: undefined
+                        } as Product}
+                        className="flex-1"
+                      />
                       <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
                         Batafsil
                       </Button>
