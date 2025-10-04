@@ -6,9 +6,11 @@ interface AxiosErrorResponse {
   detail?: string;
 }
 
-export const getCategories = async () => {
+export const getCategories = async (locale: string) => {
   try {
-    const res = await axios.get(CATEGORY);
+    const res = await axios.get(CATEGORY, {
+      headers: { "Accept-Language": locale },
+    });
     return res.data.data || [];
   } catch (error: unknown) {
     console.error("Error fetching categories:", error);

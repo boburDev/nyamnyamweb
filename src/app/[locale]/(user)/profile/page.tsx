@@ -1,10 +1,7 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { ProfilePageClient } from "@/components/profile";
+import Providers from "@/components/provider/Provider";
 
 export default async function ProfilePage() {
   const queryClient = new QueryClient();
@@ -15,8 +12,8 @@ export default async function ProfilePage() {
   });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <Providers dehydratedState={dehydrate(queryClient)}>
       <ProfilePageClient />
-    </HydrationBoundary>
+    </Providers>
   );
 }

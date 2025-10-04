@@ -1,10 +1,10 @@
 import { getCategories } from "@/api/category";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetCategory = () => {
+const useGetCategory = (locale: string) => {
   return useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
+    queryKey: ["categories", locale],
+    queryFn: () => getCategories(locale),
   });
 };
 
