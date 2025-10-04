@@ -19,8 +19,8 @@ const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
 });
 
 const MapClient = () => {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(6);
@@ -41,35 +41,29 @@ const MapClient = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
 
-  const handleCardHover = (id: number) => () => setHoveredId(id);
+  const handleCardHover = (id: string) => () => setHoveredId(id);
   const handleCardLeave = () => setHoveredId(null);
-
-  const handleCardClick = (id: number) => {
+  const handleCardClick = (id: string) => {
     const product = products.find((p) => p.id === id);
     if (product) {
       setActiveId(id);
-      // Generate coordinates based on product ID for demo purposes
-      const coords: [number, number] = [
-        41.311151 + product.id * 0.01,
-        69.279737 + product.id * 0.01,
-      ];
-      mapRef.current?.panTo(coords, { duration: 300 });
+      // If product has coords, pan to them
+      if (product.coords && product.coords.length === 2) {
+        mapRef.current?.panTo(product.coords as [number, number], { duration: 300 });
+      }
     }
   };
 
-  const handlePlacemarkClick = (id: number) => {
+  const handlePlacemarkClick = (id: string) => {
     setActiveId(id);
     const product = products.find((p) => p.id === id);
-    if (product) {
-      const coords: [number, number] = [
-        41.311151 + product.id * 0.01,
-        69.279737 + product.id * 0.01,
-      ];
-      mapRef.current?.panTo(coords, { duration: 300 });
+    if (product && product.coords && product.coords.length === 2) {
+      mapRef.current?.panTo(product.coords as [number, number], { duration: 300 });
     }
   };
 
-  const handleCategoryChange = (categoryId: number) => {
+  const handleCategoryChange = (categoryIds: number[]) => {
+    const categoryId = categoryIds && categoryIds.length > 0 ? categoryIds[0] : 1;
     if (categoryId === selectedCategoryId) return; // Prevent unnecessary changes
 
     setSelectedCategoryId(categoryId);
@@ -93,7 +87,7 @@ const MapClient = () => {
       mapRef.current.setCenter(mapCenter, mapZoom, { duration: 500 });
     }
   };
-  
+
 
   // Show loading only for initial load, not for category changes
   if (isLoading && !products.length)
@@ -110,7 +104,7 @@ const MapClient = () => {
         <div className="flex justify-between items-center">
           <CategoryTabs
             onCategoryChange={handleCategoryChange}
-            selectedCategoryId={selectedCategoryId}
+            selectedCategoryIds={[selectedCategoryId]}
           />
           <div className="flex items-center gap-4">
             <SelectComponent value="Saralash turi">

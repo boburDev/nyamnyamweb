@@ -36,8 +36,8 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
               {/* Product Image */}
               <div className="relative">
                 <Image
-                  src={product.image}
-                  alt={product.name}
+                  src={product.image ?? product.cover_image}
+                  alt={product.name ?? product.title}
                   loading="lazy"
                   width={300}
                   height={200}
@@ -71,13 +71,13 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
                     </span>
                   </div>
                   <span className="text-textColor font-medium text-lg">
-                    {product.name}
+                    {product.name ?? product.title}
                   </span>
                 </div>
 
                 {/* Restaurant and Distance */}
                 <div className="flex items-center gap-1 mb-3 text-dolphin text-sm">
-                  <span className="font-medium">{product.restaurant}</span>
+                  <span className="font-medium">{product.restaurant ?? product.business_name}</span>
                   <Dot className="w-4 h-4" />
                   <span className="font-medium">{product.distance} km</span>
                 </div>
@@ -86,11 +86,11 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
                   {/* Price */}
                   <div className="flex items-center gap-2">
                     <PriceFormatter
-                      amount={product.currentPrice}
+                      amount={product.currentPrice ?? product.price_in_app}
                       className="text-lg"
                     />
                     <span className="text-dolphin line-through text-sm flex-shrink-0">
-                      {formatPrice(product.originalPrice)}
+                      {formatPrice(product.originalPrice ?? product.original_price)}
                     </span>
                   </div>
 

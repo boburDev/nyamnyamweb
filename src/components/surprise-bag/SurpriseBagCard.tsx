@@ -44,8 +44,8 @@ export const SurpriseBagCard = ({
         {/* Product Image */}
         <div className="relative w-[237px] h-[166px] flex-shrink-0">
           <Image
-            src={product.image}
-            alt={product.name}
+            src={product.image ?? product.cover_image}
+            alt={product.name ?? product.title}
             fill
             className="rounded-lg object-cover"
           />
@@ -59,7 +59,7 @@ export const SurpriseBagCard = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-textColor text-lg ">
-              {product.name}
+              {product.name ?? product.title}
             </h3>
 
             {/* Rating */}
@@ -71,7 +71,7 @@ export const SurpriseBagCard = ({
 
           {/* Location */}
           <p className=" text-dolphin mt-[15px]">
-            {product.restaurant} • {product.distance} km
+            {product.restaurant ?? product.business_name} • {product.distance ?? product.distance} km
           </p>
 
           {/* Pickup Time */}
@@ -82,10 +82,10 @@ export const SurpriseBagCard = ({
           {/* Pricing */}
           <div className="flex items-center gap-2 mt-[36px]">
             <span className="text-[16px] text-dolphin font-medium mt-1 line-through">
-              {formatPrice(product.originalPrice)}
+              {formatPrice(product.originalPrice ?? product.original_price)}
             </span>
             <span className="text-[22px] font-semibold text-mainColor">
-              {formatPrice(product.currentPrice)}
+              {formatPrice(product.currentPrice ?? product.price_in_app)}
             </span>
           </div>
         </div>

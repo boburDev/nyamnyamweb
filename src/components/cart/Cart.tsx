@@ -52,8 +52,8 @@ export const Cart = () => {
                   {/* Product Image */}
                   <div className="relative w-20 h-20 flex-shrink-0">
                     <Image
-                      src={item.image}
-                      alt={item.name}
+                      src={item.image ?? item.cover_image}
+                      alt={item.name ?? item.title}
                       fill
                       className="object-cover rounded-lg"
                     />
@@ -62,11 +62,11 @@ export const Cart = () => {
                   {/* Product Details */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-textColor text-sm line-clamp-2 mb-2">
-                      {item.name}
+                      {item.name ?? item.title}
                     </h3>
-                    <p className="text-dolphin text-xs mb-2">{item.restaurant}</p>
+                    <p className="text-dolphin text-xs mb-2">{item.restaurant ?? item.business_name}</p>
                     <p className="text-mainColor font-semibold text-sm">
-                      {item.currentPrice}
+                      {item.currentPrice ?? item.price_in_app}
                     </p>
                   </div>
 

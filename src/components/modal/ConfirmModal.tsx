@@ -39,13 +39,13 @@ export const ConfirmModal = ({
           <Button
             variant="secondary"
             onClick={onCancel}
-            className="!rounded-none"
+            className="rounded-[15px]"
           >
             {t("cancel")}
           </Button>
           <Button
             variant="destructive"
-            className="px-5 rounded-none !bg-red-500"
+            className="px-5 rounded-[15px] !bg-red-500"
             onClick={handleDelete}
           >
             {t("delete")}

@@ -2,19 +2,49 @@ import { getAllProducts, getProductsByCategoryId } from "@/data/product-data";
 
 export interface Product {
     id: string;
-    name: string;
-    image: string;
-    restaurant: string;
-    distance: number;
-    currentPrice: number;
-    originalPrice: number;
-    rating: number;
-    categoryId: number;
+    cover_image: string;
+    title: string;
+    business_name: string;
+    branch_name: string;
+    price_in_app: number;
+    currency: string;
+    rating?: number;
     stock?: number;
-    isBookmarked?: boolean;
-    isInCart?: boolean;
+    distance?: number;
+    original_price?: number;
+    // Compatibility / legacy fields (optional)
+    name?: string;
+    image?: string;
+    restaurant?: string;
+    currentPrice?: number;
+    originalPrice?: number;
     coords?: number[];
+    isInCart?: boolean;
+    // UI helper
+    isBookmarked?: boolean;
 }
+
+// Legacy product/category shapes from src/data/product-data.ts
+type LegacyProduct = {
+    id: string;
+    name?: string;
+    image?: string;
+    restaurant?: string;
+    distance?: number;
+    currentPrice?: number;
+    originalPrice?: number;
+    coords?: number[];
+    rating?: number;
+    categoryId?: number;
+    stock?: number;
+    isInCart?: boolean;
+};
+
+type LegacyCategory = {
+    category: string;
+    categoryId: number;
+    products: LegacyProduct[];
+};
 
 export interface ProductCategory {
     category: string;
@@ -28,17 +58,22 @@ export async function getProducts(categoryId?: number): Promise<Product[]> {
     await simulateDelay(400);
 
     if (categoryId && categoryId !== 1) {
-        return getProductsByCategoryId(categoryId);
+        return getProductsByCategoryId(categoryId).map(mapLegacyProductToProduct);
     }
 
-    return getAllProducts();
+    return getAllProducts().map(mapLegacyProductToProduct);
 }
 
 export async function getAllProductCategories(): Promise<ProductCategory[]> {
     await simulateDelay(300);
 
     const { productData } = await import("@/data/product-data");
-    return productData;
+    // Map legacy category products to the new Product shape
+    return (productData as LegacyCategory[]).map((cat) => ({
+        category: cat.category,
+        categoryId: cat.categoryId,
+        products: cat.products.map(mapLegacyProductToProduct)
+    }));
 }
 
 export async function prefetchAllProducts(): Promise<{
@@ -47,12 +82,16 @@ export async function prefetchAllProducts(): Promise<{
 }> {
     await simulateDelay(500);
 
-    const allProducts = getAllProducts();
+    const allProducts = getAllProducts().map(mapLegacyProductToProduct);
     const { productData } = await import("@/data/product-data");
 
     return {
         allProducts,
-        categories: productData
+        categories: (productData as LegacyCategory[]).map((cat) => ({
+            category: cat.category,
+            categoryId: cat.categoryId,
+            products: cat.products.map(mapLegacyProductToProduct)
+        }))
     };
 }
 
@@ -77,5 +116,51 @@ export const buildFavouriteRequestBody = (favouriteItems: Array<string | number 
 // Function to get products by category with loading simulation
 export async function getProductsByCategory(categoryId: number): Promise<Product[]> {
     await simulateDelay(200);
-    return getProductsByCategoryId(categoryId);
+    return getProductsByCategoryId(categoryId).map(mapLegacyProductToProduct);
 }
+
+// Mapper: convert legacy product object from src/data/product-data.ts
+// to the requested Product interface shape. Also keep legacy fields
+// on the returned object for backward compatibility with components
+// that haven't been migrated yet.
+export const mapLegacyProductToProduct = (p: LegacyProduct): Product => {
+    // treat p as a flexible record to read potential legacy keys without using `any`
+    const rec = p as unknown as Record<string, unknown>;
+
+    const getField = <T>(...keys: string[]): T | undefined => {
+        for (const k of keys) {
+            if (rec[k] !== undefined) return rec[k] as T;
+        }
+        return undefined;
+    };
+
+    const cover = getField<string>("image", "cover_image") ?? "/productimg.png";
+    const title = getField<string>("name", "title") ?? "";
+    const business = getField<string>("restaurant", "business_name") ?? "";
+    const price = Number(getField<number | string>("currentPrice", "price_in_app") ?? 0);
+    const original = getField<number>("originalPrice", "original_price");
+    const branch = getField<string>("branch_name") ?? "";
+    const currency = getField<string>("currency") ?? "UZS";
+
+    return {
+        id: String(p.id),
+        cover_image: cover,
+        title,
+        business_name: business,
+        branch_name: branch,
+        price_in_app: price,
+        currency,
+        rating: typeof p.rating === "number" ? p.rating : undefined,
+        stock: typeof p.stock === "number" ? p.stock : undefined,
+        distance: typeof p.distance === "number" ? p.distance : undefined,
+        original_price: original,
+        // keep legacy aliases for backwards compatibility
+        name: p.name,
+        image: p.image,
+        restaurant: p.restaurant,
+        currentPrice: p.currentPrice,
+        originalPrice: p.originalPrice,
+        coords: p.coords,
+        isInCart: p.isInCart,
+    };
+};

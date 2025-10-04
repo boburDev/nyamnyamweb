@@ -18,22 +18,20 @@ export const createCustomMarkerSVG = (
   const formattedRating =
     typeof product.rating === "number" ? product.rating.toFixed(1) : "0.0";
 
-  const parsePrice = (price: string | number): number => {
+  const parsePrice = (price?: string | number): number => {
     if (typeof price === "number") return price;
-    if (typeof price === "string") {
-      return parseFloat(price.replace(/[^\d]/g, ""));
-    }
+    if (typeof price === "string")
+      return parseFloat(price.replace(/[^\d]/g, "")) || 0;
     return 0;
   };
 
-  const originalPrice = parsePrice(product.originalPrice);
-  const currentPrice = parsePrice(product.currentPrice);
+  const originalPrice = parsePrice(product.originalPrice ?? product.original_price);
+  const currentPrice = parsePrice(product.currentPrice ?? product.price_in_app);
 
   const discountPercent =
     originalPrice > 0
       ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
       : 0;
-
   const formattedDiscount = `-${discountPercent}%`;
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`

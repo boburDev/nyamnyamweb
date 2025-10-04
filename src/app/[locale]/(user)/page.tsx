@@ -18,7 +18,6 @@ export default async function Home() {
       <main>
         <BannerSwiper />
         <ProductTabs />
-        {/* <ProductsSection /> */}
       </main>
     </Providers>
   );

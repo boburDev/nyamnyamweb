@@ -14,12 +14,12 @@ import MemoizedPlacemark from "./YPlace";
 
 interface YandexMapProps {
   products: Product[];
-  hoveredId: number | null;
-  activeId: number | null;
+  hoveredId: string | null;
+  activeId: string | null;
   mapRef: React.RefObject<any>;
-  handlePlacemarkClick: (id: number) => void;
-  setActiveId?: (id: number | null) => void;
-  setHoveredId?: (id: number | null) => void;
+  handlePlacemarkClick: (id: string) => void;
+  setActiveId?: (id: string | null) => void;
+  setHoveredId?: (id: string | null) => void;
 }
 
 const YandexMap = ({
@@ -55,7 +55,7 @@ const YandexMap = ({
   useEffect(() => {
     if (activeId && mapRef.current) {
       const product = products.find((p) => p.id === activeId);
-      if (product) {
+      if (product && product.coords && product.coords.length === 2) {
         mapRef.current.setCenter(product.coords, 14, { duration: 500 });
       }
     }

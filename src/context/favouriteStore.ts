@@ -70,12 +70,15 @@ const useFavouriteStore = create<FavouriteStore>()(
                 const { initialized } = get();
                 if (!initialized) {
                     const allProducts = getAllProducts();
-                    const bookmarkedProducts = allProducts.filter(product => product.id);
-
-                    set({
-                        items: bookmarkedProducts,
-                        initialized: true
-                    });
+                    // Map legacy products to the canonical Product shape
+                    (async () => {
+                        const mod = await import("@/api/product");
+                        type LegacyProduct = {
+                            id: string;
+                        };
+                        const bookmarkedProducts = allProducts.map((p) => mod.mapLegacyProductToProduct(p as unknown as LegacyProduct));
+                        set({ items: bookmarkedProducts, initialized: true });
+                    })();
                 }
             },
         }),
