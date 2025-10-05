@@ -12,6 +12,7 @@ import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { ProductSkeletons, SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
+import { Product } from "@/api/product";
 import { getCart } from "@/api";
 import { useDeleteCartAll, useUpdateCart, useDeleteCartItem } from "@/hooks";
 import { showToast } from "../toast/Toast";
@@ -30,17 +31,40 @@ type CartUIItem = {
   surprise_bag?: string;
 };
 
+type ItemLike = CartUIItem | (Product & { quantity: number });
+
+const getItemImage = (item: ItemLike): string => {
+  const img = ("image" in item ? item.image : undefined) || ("cover_image" in item ? item.cover_image : undefined);
+  return img && String(img).trim() !== "" ? String(img) : "/productimg.png";
+};
+
+const getItemTitle = (item: ItemLike): string => {
+  return ("name" in item && item.name) ? item.name : ("title" in item ? item.title : "");
+};
+
+const getItemRestaurant = (item: ItemLike): string => {
+  if ("restaurant" in item && item.restaurant) return item.restaurant;
+  if ("business_name" in item && item.business_name) return item.business_name;
+  return "";
+};
+
+const getItemOriginalPrice = (item: ItemLike): number | undefined => {
+  const val = ("originalPrice" in item ? item.originalPrice : undefined) ?? ("original_price" in item ? item.original_price : undefined);
+  if (val == null) return undefined;
+  if (typeof val === "number") return val;
+  const parsed = parseFloat(String(val).replace(/[^\d.,-]/g, "").replace(",", "."));
+  return Number.isNaN(parsed) ? undefined : parsed;
+};
+
+const getItemCurrentPrice = (item: ItemLike): number => {
+  const raw = ("currentPrice" in item ? item.currentPrice : undefined) ?? ("price_in_app" in item ? item.price_in_app : undefined);
+  if (typeof raw === "number") return raw;
+  const parsed = parseFloat(String(raw ?? 0).replace(/[^\d.,-]/g, "").replace(",", "."));
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
-  const toNumeric = (value?: number | string): number | undefined => {
-    if (value == null) return undefined;
-    if (typeof value === "number") return value;
-    const parsed = parseFloat(
-      String(value)
-        .replace(/[^\d.,-]/g, "")
-        .replace(",", ".")
-    );
-    return Number.isNaN(parsed) ? undefined : parsed;
-  };
+  // removed old toNumeric; using typed helpers below
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const removeItem = useCartStore((s) => s.removeFromCart);
@@ -56,10 +80,23 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();
   const { mutate: deleteCartItem } = useDeleteCartItem();
-  const items: CartUIItem[] | undefined = isAuth
-    ? (data?.items as CartUIItem[] | undefined)
-    : (cartStore as unknown as CartUIItem[]);
+  const items: ItemLike[] | undefined = isAuth
+    ? ((data?.items as ItemLike[] | undefined))
+    : ((cartStore as unknown as ItemLike[]));
   const t = useTranslations("cart");
+
+  const getDisplayTotal = () => {
+    if (!items) return 0;
+    try {
+      return items.reduce((sum, it: ItemLike) => {
+        const price = getItemCurrentPrice(it);
+        const qty = typeof it.quantity === "number" ? it.quantity : 1;
+        return sum + price * qty;
+      }, 0);
+    } catch {
+      return 0;
+    }
+  };
 
   const handleCheckout = async () => {
     if (isAuth) {
@@ -92,11 +129,14 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   ) => {
     if (quantity < 1) return;
 
-    const currentItem = items?.find((i: CartUIItem) => i?.id === id);
-    const serverMax =
-      typeof currentItem?.count === "number" && currentItem?.count > 0
-        ? currentItem.count
-        : 30;
+    const currentItem = items?.find((i: ItemLike) => i && "id" in i && i.id === id);
+    const getServerMax = (it?: ItemLike): number => {
+      if (!it) return 30;
+      if ("count" in it && typeof it.count === "number" && it.count > 0) return it.count;
+      if ("stock" in it && typeof it.stock === "number" && it.stock > 0) return it.stock;
+      return 30;
+    };
+    const serverMax = getServerMax(currentItem);
     const maxAllowed = Math.min(30, serverMax);
 
     if (quantity > maxAllowed) {
@@ -110,7 +150,12 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     if (!isAuth) {
       updateQuantity(id, quantity);
     } else {
-      updateCartQty({ id, quantity, surprise_bag: surprise_bag ?? "" });
+      const sb = (() => {
+        if (typeof surprise_bag === "string") return surprise_bag;
+        if (currentItem && "surprise_bag" in currentItem) return (currentItem as CartUIItem).surprise_bag ?? "";
+        return "";
+      })();
+      updateCartQty({ id, quantity, surprise_bag: sb });
     }
   };
 
@@ -181,11 +226,12 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         {/* Product Image */}
                         <div className="relative w-[217px] h-[147px] flex-shrink-0">
                           <Image
-                            src={item?.image}
-                            alt={item?.name}
+                            src={getItemImage(item)}
+                            alt={getItemTitle(item) || "Mahsulot rasmi"}
                             fill
                             className="object-cover rounded-xl"
                           />
+
                           {item?.stock && item?.stock <= 5 && (
                             <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
                               {item?.stock} ta qoldi
@@ -197,7 +243,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <h3 className="font-medium text-textColor text-xl mb-[10px]">
-                              {item?.name}
+                              {getItemTitle(item)}
                             </h3>
                             {/* ❌ Trash delete */}
                             <Button
@@ -211,28 +257,28 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             </Button>
                           </div>
                           <p className="text-dolphin">
-                            {item?.restaurant} • {item?.distance} km
+                            {getItemRestaurant(item)} • {item?.distance} km
                           </p>
 
                           <div className="flex justify-between">
                             <div className="flex items-center gap-2 mt-[53px]">
                               <span className="text-gray-400 line-through text-sm">
-                                {formatPrice(toNumeric(item?.originalPrice))}
+                                {formatPrice(getItemOriginalPrice(item))}
                               </span>
                               <span className="text-mainColor font-medium text-xl">
-                                {formatPrice(toNumeric(item?.currentPrice))}
+                                {formatPrice(getItemCurrentPrice(item))}
                               </span>
                             </div>
 
                             {/* Quantity Controls */}
                             <div className="flex items-center gap-3 mt-10">
-                              <div className="flex items-center bg-plasterColor rounded-full p-[2px]">
+                              <div className="flex items-center bg-plasterColor rounded-full p-[2px] pr-[2.5px] py-[1px]">
                                 <button
                                   onClick={() =>
                                     handleUpdateQuantity(
                                       item?.id,
                                       item?.quantity - 1,
-                                      item?.surprise_bag
+                                      "surprise_bag" in item ? (item as CartUIItem).surprise_bag : undefined
                                     )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
@@ -247,7 +293,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                     handleUpdateQuantity(
                                       item?.id,
                                       item?.quantity + 1,
-                                      item?.surprise_bag
+                                      "surprise_bag" in item ? (item as CartUIItem).surprise_bag : undefined
                                     )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
@@ -289,8 +335,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     >
                       <div className="relative col-span-1 w-[100px] h-[67px] flex-shrink-0">
                         <Image
-                          src={item?.image}
-                          alt={item?.name}
+                          src={getItemImage(item)}
+                          alt={getItemTitle(item)}
                           fill
                           className="object-cover rounded-lg"
                         />
@@ -298,7 +344,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       <div className="flex flex-col col-span-3 gap-[13px]">
                         <div className="flex items-center justify-between">
                           <p className="font-medium text-textColor text-lg truncate">
-                            {item?.name}
+                            {getItemTitle(item)}
                           </p>
                           <p className="text-dolphin font-medium text-sm flex items-end justify-end">
                             Miqdor: {item?.quantity}
@@ -306,14 +352,14 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-dolphin text-lg truncate max-w-[130px]">
-                            {item?.restaurant}
+                            {getItemRestaurant(item)}
                           </p>
                           <div className="flex items-center gap-2">
                             <p className="text-dolphin line-through text-xs mt-1">
-                              {formatPrice(toNumeric(item?.originalPrice))}
+                              {formatPrice(getItemOriginalPrice(item))}
                             </p>
                             <p className="text-textColor font-medium">
-                              {formatPrice(toNumeric(item?.currentPrice))}
+                              {formatPrice(getItemCurrentPrice(item))}
                             </p>
                           </div>
                         </div>
@@ -327,7 +373,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div className="flex items-center justify-between text-mainColor">
                     <span className="text-xl font-medium ">Jami:</span>
                     <span className="text-xl font-medium ">
-                      {getTotalPrice().toLocaleString("uz-UZ")} UZS
+                      {(isAuth ? getDisplayTotal() : getTotalPrice()).toLocaleString("uz-UZ")} UZS
                     </span>
                   </div>
                 </div>

@@ -12,6 +12,8 @@ export interface Product {
     stock?: number;
     distance?: number;
     original_price?: number;
+    // Category reference (from legacy data)
+    categoryId?: number;
     // Compatibility / legacy fields (optional)
     name?: string;
     image?: string;
@@ -141,6 +143,7 @@ export const mapLegacyProductToProduct = (p: LegacyProduct): Product => {
     const original = getField<number>("originalPrice", "original_price");
     const branch = getField<string>("branch_name") ?? "";
     const currency = getField<string>("currency") ?? "UZS";
+    const categoryId = typeof p.categoryId === "number" ? p.categoryId : undefined;
 
     return {
         id: String(p.id),
@@ -150,6 +153,7 @@ export const mapLegacyProductToProduct = (p: LegacyProduct): Product => {
         branch_name: branch,
         price_in_app: price,
         currency,
+        categoryId,
         rating: typeof p.rating === "number" ? p.rating : undefined,
         stock: typeof p.stock === "number" ? p.stock : undefined,
         distance: typeof p.distance === "number" ? p.distance : undefined,
@@ -164,3 +168,16 @@ export const mapLegacyProductToProduct = (p: LegacyProduct): Product => {
         isInCart: p.isInCart,
     };
 };
+
+// Single product fetch by id
+export async function getProductById(id: string): Promise<Product | null> {
+    await simulateDelay(200);
+    const all = getAllProducts().map(mapLegacyProductToProduct);
+    return all.find(p => p.id === id) ?? null;
+}
+
+// Related products by category (excluding the given product id if provided)
+export async function getRelatedProducts(categoryId: number, excludeId?: string): Promise<Product[]> {
+    const items = await getProductsByCategory(categoryId);
+    return excludeId ? items.filter(p => p.id !== excludeId) : items;
+}

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api/category";
 import { ReactNode, useState, useEffect, useRef } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import TabsLoader from "../loader/TabsLoader";
 
 interface Category {
@@ -21,11 +22,12 @@ interface CategoryTabsProps {
 const CategoryTabs = ({ onCategoryChange, selectedCategoryIds = [], children }: CategoryTabsProps) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
+    const locale = useLocale();
     const isInitialized = useRef(false);
 
     const { data: categories = [], isLoading } = useQuery<Category[]>({
-        queryKey: ["categories"],
-        queryFn: getCategories,
+        queryKey: ["categories", locale],
+        queryFn: () => getCategories(locale),
     });
 
     // Get categories from URL query params

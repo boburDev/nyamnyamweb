@@ -115,7 +115,7 @@ export const ProductTabs = () => {
                     <div className="space-y-10">
                       {orderedSections.map(([sectionName, items]) => (
                         <div key={sectionName}>
-                          <h2 className="text-xl font-semibold capitalize mb-4">
+                          <h2 className="page-title capitalize mb-4">
                             {sectionName}
                           </h2>
 

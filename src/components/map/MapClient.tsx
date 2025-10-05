@@ -1,39 +1,112 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getProducts } from "@/api/product";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
-import { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DataLoader } from "../loader";
 import { Container } from "../container";
-import CategoryTabs from "../tabs/CategoryTabs";
 import SelectComponent from "../select/Select";
 import { SelectItem } from "../ui/select";
 import { SurpriseBagCard } from "../surprise-bag/SurpriseBagCard";
 import { Pagination } from "../ui/pagination";
 import { MapControls } from "./MapControls";
+import { useGetCategory } from "@/hooks";
+import { useGetSupriseBag } from "@/hooks/suprise-bag";
+import { useLocale } from "next-intl";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { CategoryData } from "@/types";
+import { Product } from "@/api/product";
 
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
 });
 
 const MapClient = () => {
+  const locale = useLocale()
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(6);
+  const [itemsPerPage] = useState<number>(10);
   const mapRef = useRef<any>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([41.311151, 69.279737]);
   const [mapZoom, setMapZoom] = useState<number>(12);
-  // Fetch products and categories
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ["products", selectedCategoryId],
-    queryFn: () => getProducts(selectedCategoryId),
-    staleTime: 30000, // Data stays fresh for 30 seconds
-    placeholderData: keepPreviousData,
+  const { data: category } = useGetCategory(locale);
+
+  // 🧭 User location
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+
+  // 📍 Get or load location
+  useEffect(() => {
+    const savedLocation = localStorage.getItem("user_location");
+    if (savedLocation) {
+      setUserLocation(JSON.parse(savedLocation));
+      return;
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const location = { lat: latitude, lon: longitude };
+          setUserLocation(location);
+          localStorage.setItem("user_location", JSON.stringify(location));
+        },
+        (error) => {
+          console.warn("Location permission denied:", error.message);
+        }
+      );
+    }
+  }, []);
+
+  // 🧾 Fetch SurpriseBags (location bilan)
+  const { data: surpriseBagData, isLoading } = useGetSupriseBag({
+    locale,
+    slug: activeTab,
+    lat: userLocation?.lat,
+    lon: userLocation?.lon,
   });
+  // Flatten all products from different sections into a single array with unique products
+  const products: Product[] = React.useMemo(() => {
+    if (!surpriseBagData) return [];
+
+    const allProducts: Product[] = [];
+    const productIds = new Set<string>();
+
+    // Add popular products
+    if (Array.isArray(surpriseBagData.popular)) {
+      surpriseBagData.popular.forEach((product: Product) => {
+        if (!productIds.has(product.id)) {
+          productIds.add(product.id);
+          allProducts.push(product);
+        }
+      });
+    }
+
+    // Add recommended products
+    if (Array.isArray(surpriseBagData.recommended)) {
+      surpriseBagData.recommended.forEach((product: Product) => {
+        if (!productIds.has(product.id)) {
+          productIds.add(product.id);
+          allProducts.push(product);
+        }
+      });
+    }
+
+    // Add other category products
+    Object.entries(surpriseBagData).forEach(([key, items]) => {
+      if (key !== "popular" && key !== "recommended" && Array.isArray(items)) {
+        items.forEach((product: Product) => {
+          if (!productIds.has(product.id)) {
+            productIds.add(product.id);
+            allProducts.push(product);
+          }
+        });
+      }
+    });
+
+    return allProducts;
+  }, [surpriseBagData]);
 
   // Calculate pagination
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -62,14 +135,13 @@ const MapClient = () => {
     }
   };
 
-  const handleCategoryChange = (categoryIds: number[]) => {
-    const categoryId = categoryIds && categoryIds.length > 0 ? categoryIds[0] : 1;
-    if (categoryId === selectedCategoryId) return; // Prevent unnecessary changes
+  const handleTabChange = (value: string) => {
+    if (value === activeTab) return; // Prevent unnecessary changes
 
-    setSelectedCategoryId(categoryId);
-    setCurrentPage(1); // Reset to first page when category changes
-    setActiveId(null); // Reset active product when category changes
-    setHoveredId(null); // Reset hovered product when category changes
+    setActiveTab(value);
+    setCurrentPage(1); // Reset to first page when tab changes
+    setActiveId(null); // Reset active product when tab changes
+    setHoveredId(null); // Reset hovered product when tab changes
   };
 
   const handlePageChange = (page: number) => {
@@ -102,10 +174,30 @@ const MapClient = () => {
 
         {/* Category Tabs */}
         <div className="flex justify-between items-center">
-          <CategoryTabs
-            onCategoryChange={handleCategoryChange}
-            selectedCategoryIds={[selectedCategoryId]}
-          />
+          <Tabs
+            defaultValue={activeTab}
+            value={activeTab}
+            onValueChange={handleTabChange}
+          >
+            <TabsList className="bg-transparent flex gap-[15px] mb-10">
+              <TabsTrigger
+                key="all"
+                value="all"
+                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+              >
+                Hamma
+              </TabsTrigger>
+              {category?.map((cat: CategoryData) => (
+                <TabsTrigger
+                  key={cat.id}
+                  value={cat.slug}
+                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+                >
+                  {cat.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
           <div className="flex items-center gap-4">
             <SelectComponent value="Saralash turi">
               <SelectItem value="Saralash turi">Saralash turi</SelectItem>
@@ -121,10 +213,10 @@ const MapClient = () => {
           <div className="flex flex-col gap-[10px] pb-6">
             {/* Products Section - Only this part refreshes when category changes */}
             <div className="transition-all duration-300 ease-in-out flex flex-col gap-[10px]">
-              {currentProducts.map((product) => (
+              {currentProducts.map((product, index) => (
                 <SurpriseBagCard
                   isLoading={isLoading}
-                  key={product.id}
+                  key={`${activeTab}-${product.id}-${index}`}
                   product={product}
                   highlighted={
                     hoveredId === product.id || activeId === product.id

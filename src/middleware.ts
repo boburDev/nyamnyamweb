@@ -16,7 +16,7 @@ export default async function middleware(request: NextRequest) {
     pathname.includes("/order") ||
     pathname.includes("/profile") ||
     pathname.includes("/favourite") ||
-    pathname.includes("/all-products");
+    pathname.includes("/products");
 
   const isAuthRoute =
     pathname.includes("/signin") ||

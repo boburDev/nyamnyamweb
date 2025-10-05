@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Star, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { AddToCart, FavouriteButton } from "../add-to-cart";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
@@ -104,9 +105,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             {/* Action Buttons */}
             <div className="flex gap-2">
               <AddToCart product={item} className="flex-1" />
-              <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
-                Batafsil
-              </Button>
+              <Link href={`/product/${item.id}`}>
+                <Button
+                  className="w-full h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors"
+                >
+                  Batafsil
+                </Button>
+              </Link>
+
             </div>
           </div>
         </div>
