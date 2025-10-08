@@ -9,8 +9,6 @@ import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
 import { ProductSkeletons } from "../loader";
 import { useFavouritesQuery } from "@/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "@/api/user";
 import { CartData, ProductData } from "@/types";
 import { AddToCart, FavouriteButton } from "../add-to-cart";
 import { useAuthStatus } from "@/hooks/auth-status";
