@@ -3,15 +3,14 @@ import { Container } from "@/components/container";
 import { getSurpriseBagById } from "@/api";
 
 interface PageProps {
-  params: Promise<{ locale: string; id: string }>;
+  params: { locale: string; id: string };
 }
 
 export default async function SurpriseBagDetailPage({ params }: PageProps) {
-  const { locale, id } = await params;
+  const { locale, id } = params;
 
   const data = await getSurpriseBagById({ id, locale });
 
-  // ❌ Agar ma'lumot topilmasa — 404 emas, shunchaki bo‘sh chiqsin
   if (!data) return <div className="text-center py-10">Ma'lumot topilmadi</div>;
 
   return (

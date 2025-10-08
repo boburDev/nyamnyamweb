@@ -82,10 +82,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className="flex items-center gap-2">
               <PriceFormatter
                 amount={product.price_in_app}
-                className="text-lg text-textColor font-semibold"
+                className="text-lg text-mainColor font-semibold"
               />
               {product.price && (
-                <span className="text-dolphin line-through text-sm flex-shrink-0">
+                <span className="text-dolphin w-[70px] truncate line-through text-sm flex-shrink-0">
                   {formatPrice(product.price)}
                 </span>
               )}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../ui/button";
@@ -27,6 +27,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
   variant = "default",
   showText = false,
 }) => {
+  const [justAdded, setJustAdded] = useState(false);
   const { addToCart, isInCart } = useCartStore();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -57,9 +58,10 @@ const AddToCart: React.FC<AddToCartProps> = ({
 
     if (isAuth) {
       addToCartApi([{ id: product.id, quantity: 1 }], {
-        onSuccess: () => {
-          // Cart yangilanganda query cache ni yangilash
-          queryClient.invalidateQueries({ queryKey: ["cart"] });
+        onSuccess: async () => {
+          // Optimistically mark as added so button becomes active immediately
+          setJustAdded(true);
+          await queryClient.invalidateQueries({ queryKey: ["cart"] });
           showToast({
             title: "Savatga qo'shildi",
             type: "success",
@@ -70,6 +72,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
       });
     } else {
       addToCart(product);
+      setJustAdded(true);
       showToast({
         title: "Savatga qo'shildi",
         type: "success",
@@ -80,11 +83,11 @@ const AddToCart: React.FC<AddToCartProps> = ({
   };
 
   const isInCartState =
+    justAdded ||
     isInCart(product.id) ||
     (isAuth &&
-      cartData?.items?.some(
-        (item: ProductData) =>
-          String(item?.id ?? item?.id) === String(product.id)
+        cartData?.cart_items?.some(
+        (item: any) => String(item?.id) === String(product.id)
       ));
 
   const sizeClasses = {
@@ -105,10 +108,9 @@ const AddToCart: React.FC<AddToCartProps> = ({
       className={`
         ${sizeClasses[size]}
         ${className}
-        ${
-          isInCartState
-            ? "bg-mainColor text-white hover:bg-mainColor/90"
-            : "bg-gray-100 !text-mainColor hover:bg-gray-200 hover:!text-white"
+        ${isInCartState
+          ? "bg-mainColor text-white hover:bg-mainColor/90"
+          : "bg-gray-100 !text-mainColor hover:bg-gray-200 hover:!text-white"
         }
         transition-colors duration-200
       `}

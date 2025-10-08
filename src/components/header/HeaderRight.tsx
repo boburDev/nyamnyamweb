@@ -15,20 +15,21 @@ import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
-  const { getUniqueItemsCount, getTotalPrice } = useCartStore();
+  // Subscribe to cart store values using selectors so component re-renders on updates
+  const guestCount = useCartStore((s) => s.items.length);
+  const guestTotal = useCartStore((s) => s.getTotalPrice());
   const [isClient, setIsClient] = useState(false);
-  const cartStore = useCartStore((s) => s.items);
 
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
     enabled: auth,
-  });
+    refetchOnWindowFocus: false,
+  });  
+  
   // Derived counts and totals for both modes
-  const serverCount = (data?.items?.length as number) || 0;
-  const serverTotal = (data?.total as number) || 0;
-  const guestCount = getUniqueItemsCount();
-  const guestTotal = getTotalPrice();
+  const serverCount = (data?.cart_items?.length as number) || 0;
+  const serverTotal = (data?.cart_total as number) || 0;
   useEffect(() => {
     setIsClient(true);
   }, []);

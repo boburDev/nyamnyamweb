@@ -5,27 +5,14 @@ export async function getCart() {
     credentials: "include",
     cache: "no-store",
   });
+
   if (!res.ok) throw new Error("Cart olishda xatolik");
+
   const raw = await res.json();
-  const data = raw?.data ?? raw;
-  const cartItems = data?.cart_items || [];
-  const cartTotal = data?.cart_total || 0;
-  const mappedCartItems = cartItems.map((item: any) => ({
-    id: item.id,
-    name: item.title,
-    image: item.surprise_bag_image,
-    restaurant: item.branch_name,
-    distance: item.distance_km,
-    originalPrice: item.price,
-    currentPrice: item.price_in_app,
-    quantity: item.quantity,
-    count: item.count,
-    start_time: item.start_time,
-    end_time: item.end_time,
-    surprise_bag: item.surprise_bag,
-  }));
-  return { success: true, items: mappedCartItems, total: cartTotal };
+  return raw?.data ?? raw;
 }
+
+
 
 export const addToCart = async (
   items: Array<{ id: string; quantity: number }>

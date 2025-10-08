@@ -1,11 +1,11 @@
-import { Product } from "@/api/product";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { DataLoader } from "../loader/DataLoader";
 import { formatPrice } from "@/utils/price-format";
+import { ProductData } from "@/types";
 
 interface SurpriseBagCardProps {
-  product: Product;
+  product: ProductData;
   highlighted: boolean;
   active: boolean;
   isLoading: boolean;
@@ -44,14 +44,14 @@ export const SurpriseBagCard = ({
         {/* Product Image */}
         <div className="relative w-[237px] h-[166px] flex-shrink-0">
           <Image
-            src={product.image ?? product.cover_image ?? '/productimg.png'}
-            alt={product.name ?? product.title ?? 'Mahsulot rasmi'}
+            src={product.cover_image ?? product.cover_image ?? '/productimg.png'}
+            alt={product.title ?? product.title ?? 'Mahsulot rasmi'}
             fill
             className="rounded-lg object-cover"
           />
           {/* Remaining Count Badge */}
           <div className="absolute top-[10px] left-[10px] bg-mainColor/20 text-white text-xs backdrop-blur-[45px] px-[10px] py-[3px] rounded-full font-medium">
-            {product.stock || 0} ta qoldi
+            {/* {product.stock || 0} ta qoldi */}
           </div>
         </div>
 
@@ -59,19 +59,19 @@ export const SurpriseBagCard = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-textColor text-lg ">
-              {product.name ?? product.title}
+              {product.title ?? product.title}
             </h3>
 
             {/* Rating */}
             <div className="flex items-center gap-1 ">
               <Star className="w-[16px] h-[16px] text-[#F8B133] fill-[#F8B133]" />
-              <span className="text-lg font-medium text-textColor">{product.rating}</span>
+              <span className="text-lg font-medium text-textColor">{product.overall_rating}</span>
             </div>
           </div>
 
           {/* Location */}
           <p className=" text-dolphin mt-[15px]">
-            {product.restaurant ?? product.business_name} • {product.distance ?? product.distance} km
+            {product.business_name ?? product.business_name} • {product.distance_km ?? product.distance_km} km
           </p>
 
           {/* Pickup Time */}
@@ -82,10 +82,10 @@ export const SurpriseBagCard = ({
           {/* Pricing */}
           <div className="flex items-center gap-2 mt-[36px]">
             <span className="text-[16px] text-dolphin font-medium mt-1 line-through">
-              {formatPrice(product.originalPrice ?? product.original_price)}
+              {formatPrice(product.price ?? product.price)}
             </span>
             <span className="text-[22px] font-semibold text-mainColor">
-              {formatPrice(product.currentPrice ?? product.price_in_app)}
+              {formatPrice(product.price_in_app ?? product.price_in_app)}
             </span>
           </div>
         </div>

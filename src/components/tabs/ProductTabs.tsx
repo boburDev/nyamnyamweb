@@ -19,7 +19,7 @@ export const ProductTabs = () => {
   const { data: category } = useGetCategory(locale);
   const { data: product } = useGetSupriseBag({ locale, slug: activeTab });
 
-  console.log(product);
+  console.log("chgfghfhgfh", product);
 
   return (
     <section className="mt-[124px] relative">
@@ -86,6 +86,14 @@ export const ProductTabs = () => {
                           Tushlik uchun surprise baglar
                         </h1>
                         <ProductSwiper product={product?.afternoon} />
+                      </div>
+                    )}
+                     {product?.evening?.length > 0 && (
+                      <div>
+                        <h1 className="page-title mb-10">
+                          Kechki payit uchun surprise baglar
+                        </h1>
+                        <ProductSwiper product={product?.evening} />
                       </div>
                     )}
                   </div>

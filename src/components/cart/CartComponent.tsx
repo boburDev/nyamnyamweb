@@ -36,7 +36,8 @@ type ItemLike = CartUIItem | (ProductData & { quantity: number });
 const getItemImage = (item: ItemLike): string => {
   const img =
     ("image" in item ? item.image : undefined) ||
-    ("cover_image" in item ? item.cover_image : undefined);
+    ("cover_image" in item ? item.cover_image : undefined) ||
+    ("surprise_bag_image" in item ? (item as any).surprise_bag_image : undefined);
   return img && String(img).trim() !== "" ? String(img) : "/productimg.png";
 };
 
@@ -51,6 +52,7 @@ const getItemTitle = (item: ItemLike): string => {
 const getItemRestaurant = (item: ItemLike): string => {
   if ("restaurant" in item && item.restaurant) return item.restaurant;
   if ("business_name" in item && item.business_name) return item.business_name;
+  if ("branch_name" in item && (item as any).branch_name) return (item as any).branch_name as string;
   return "";
 };
 
@@ -98,7 +100,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { mutate: updateCartQty } = useUpdateCart();
   const { mutate: deleteCartItem } = useDeleteCartItem();
   const items: ItemLike[] | undefined = isAuth
-    ? (data?.items as ItemLike[] | undefined)
+    ? ((data?.cart_items as unknown) as ItemLike[] | undefined)
     : (cartStore as unknown as ItemLike[]);
   const t = useTranslations("cart");
 
