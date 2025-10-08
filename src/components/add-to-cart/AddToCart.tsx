@@ -7,6 +7,10 @@ import useCartStore from "@/context/cartStore";
 import { Product } from "@/api/product";
 import { showToast } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "@/api/user";
+import { useAddToCart } from "@/hooks";
+import { getCart } from "@/api";
 
 interface AddToCartProps {
     product: Product;
@@ -25,25 +29,50 @@ const AddToCart: React.FC<AddToCartProps> = ({
 }) => {
     const { addToCart, isInCart } = useCartStore();
     const router = useRouter();
+    const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUsers });
+    const isAuth = Boolean(user);
+    const { mutate: addToCartApi } = useAddToCart();
+    const { data: cartData } = useQuery({
+        queryKey: ["cart"],
+        queryFn: getCart,
+        enabled: isAuth,
+    });
 
     const handleAddToCart = () => {
-        // If already in cart, redirect to cart page
-        if (isInCart(product.id)) {
+        // Check if item is in cart (local store for guest, server for auth)
+        const inLocalCart = isInCart(product.id);
+        const inServerCart = isAuth && cartData?.items?.some((item: any) => String(item?.surprise_bag ?? item?.id) === String(product.id));
+        
+        if (inLocalCart || inServerCart) {
             router.push("/cart");
             return;
         }
 
-        // Add to cart and show success message
-        addToCart(product);
-        showToast({
-            title: "Savatga qo'shildi",
-            type: "success",
-            href: "/cart",
-            hrefName: "Savatga o'tish",
-        });
+        if (isAuth) {
+            // Add to cart via API for authenticated users
+            addToCartApi([{ id: product.id, quantity: 1 }], {
+                onSuccess: () => {
+                    showToast({
+                        title: "Savatga qo'shildi",
+                        type: "success",
+                        href: "/cart",
+                        hrefName: "Savatga o'tish",
+                    });
+                },
+            });
+        } else {
+            // Add to local store for guest users
+            addToCart(product);
+            showToast({
+                title: "Savatga qo'shildi",
+                type: "success",
+                href: "/cart",
+                hrefName: "Savatga o'tish",
+            });
+        }
     };
 
-    const isInCartState = isInCart(product.id);
+    const isInCartState = isInCart(product.id) || (isAuth && cartData?.items?.some((item: any) => String(item?.surprise_bag ?? item?.id) === String(product.id)));
 
     const sizeClasses = {
         sm: "h-8 px-3 text-sm",

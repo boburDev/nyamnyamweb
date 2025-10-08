@@ -52,8 +52,8 @@ export const Cart = () => {
                   {/* Product Image */}
                   <div className="relative w-20 h-20 flex-shrink-0">
                     <Image
-                      src={item.image ?? item.cover_image}
-                      alt={item.name ?? item.title}
+                      src={item.image ?? item.cover_image ?? '/productimg.png'}
+                      alt={item.name ?? item.title ?? 'Mahsulot rasmi'}
                       fill
                       className="object-cover rounded-lg"
                     />

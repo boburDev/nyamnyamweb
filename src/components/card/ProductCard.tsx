@@ -7,15 +7,16 @@ import { Link } from "@/i18n/navigation";
 import { AddToCart, FavouriteButton } from "../add-to-cart";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
+import { useRouter } from "next/navigation";
 
 interface Item {
   id: string;
-  cover_image: string;
-  title: string;
-  business_name: string;
-  branch_name: string;
-  price_in_app: number;
-  currency: string;
+  cover_image?: string;
+  title?: string;
+  business_name?: string;
+  branch_name?: string;
+  price_in_app?: number;
+  currency?: string;
   rating?: number;
   stock?: number;
   distance?: number;
@@ -27,14 +28,15 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
+    const router = useRouter();
   return (
     <div className="px-[5.5px]">
       <div className="bg-white rounded-[25px] border border-gray-100">
         {/* Product Image */}
         <div className="relative h-[200px]">
           <Image
-            src={item.cover_image}
-            alt={item.title}
+            src={item.cover_image ?? '/productimg.png'}
+            alt={item.title ?? 'Mahsulot rasmi'}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover rounded-t-[25px]"
@@ -105,7 +107,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             {/* Action Buttons */}
             <div className="flex gap-2">
               <AddToCart product={item} className="flex-1" />
-              <Link href={`/product/${item.id}`}>
+              <Link href='' className="flex-1" onClick={(e) => {
+                  e.preventDefault();
+                  router.push(`/surprise-bag/${item.id}`);
+                }}>
                 <Button
                   className="w-full h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors"
                 >

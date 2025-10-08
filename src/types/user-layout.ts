@@ -27,6 +27,7 @@ export interface CartData {
   title: string;
   count: number;
   price: number;
+  price_in_app: number;
   start_time: string;
   end_time: string;
   distance_km: number;

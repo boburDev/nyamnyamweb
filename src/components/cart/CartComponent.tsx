@@ -39,7 +39,7 @@ const getItemImage = (item: ItemLike): string => {
 };
 
 const getItemTitle = (item: ItemLike): string => {
-  return ("name" in item && item.name) ? item.name : ("title" in item ? item.title : "");
+  return ("name" in item && item.name) ? item.name : ("title" in item ? item.title ?? "" : "");
 };
 
 const getItemRestaurant = (item: ItemLike): string => {
@@ -105,7 +105,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
         const res = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, total: getTotalPrice() }),
+          body: JSON.stringify({ items, total: getDisplayTotal() }),
         });
         const data = await res.json();
         if (data.success) {
@@ -122,6 +122,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     }
   };
 
+  console.log("Cart items:", items);
+  
   const handleUpdateQuantity = (
     id: string,
     quantity: number,
@@ -232,11 +234,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             className="object-cover rounded-xl"
                           />
 
-                          {item?.stock && item?.stock <= 5 && (
+                          {/* {item?.stock && item?.stock <= 5 && (
                             <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
                               {item?.stock} ta qoldi
                             </div>
-                          )}
+                          )} */}
                         </div>
 
                         {/* Product Details */}
@@ -257,7 +259,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             </Button>
                           </div>
                           <p className="text-dolphin">
-                            {getItemRestaurant(item)} • {item?.distance} km
+                            {getItemRestaurant(item)} • {"distance" in item && typeof item.distance === 'number' ? item.distance : ''} km
                           </p>
 
                           <div className="flex justify-between">

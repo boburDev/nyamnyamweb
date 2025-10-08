@@ -55,6 +55,8 @@ export const ProductTabs = () => {
       </div>
     ),
   };
+  console.log("ProductTabs render - activeTab:", activeTab, "product data:", product);
+  
 
   return (
     <section className="mt-[124px] relative">

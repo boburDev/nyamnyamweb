@@ -2,6 +2,7 @@ import { SURPRISE_BAG_ALL } from "@/constants";
 import axios from "axios";
 
 
+
 export const getSupriseBagAll = async ({
   locale,
   slug,
@@ -55,5 +56,24 @@ export const getSurpriseBagByCategory = async ({
   } catch (error) {
     console.error("Error fetching surprise bags by category:", error);
     return [];
+  }
+};
+
+export const getSurpriseBagById = async ({
+  id,
+  locale,
+}: {
+  id: string;
+  locale: string;
+}) => {
+  try {
+    const url = `${SURPRISE_BAG_ALL}/${id}`;
+    const res = await axios.get(url, {
+      headers: { "Accept-Language": locale },
+    });
+    return res.data.data || null;
+  } catch (error) {
+    console.error("Error fetching surprise bag by ID:", error);
+    return null;
   }
 };

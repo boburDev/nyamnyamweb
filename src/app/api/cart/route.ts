@@ -164,7 +164,7 @@ export async function GET() {
       restaurant: item.branch_name,
       distance: item.distance_km,
       originalPrice: item.price,
-      currentPrice: item.subtotal,
+      currentPrice: item.price_in_app,
       quantity: item.quantity,
       count: item.count,
       start_time: item.start_time,

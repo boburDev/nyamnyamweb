@@ -1,14 +1,37 @@
+import axios from "axios";
+
 export async function getCart() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/proxy/cart`);
+  const res = await fetch(`/api/proxy/cart`, {
+    credentials: "include",
+  });
   if (!res.ok) throw new Error("Cart olishda xatolik");
-  return res.json();
+  const raw = await res.json();
+  // Backend through proxy returns { success, status, data: { cart_items, cart_total } }
+  const data = raw?.data ?? raw;
+  const cartItems = data?.cart_items || [];
+  const cartTotal = data?.cart_total || 0;
+  const mappedCartItems = cartItems.map((item: any) => ({
+    id: item.id,
+    name: item.title,
+    image: item.surprise_bag_image,
+    restaurant: item.branch_name,
+    distance: item.distance_km,
+    originalPrice: item.price,
+    currentPrice: item.price_in_app,
+    quantity: item.quantity,
+    count: item.count,
+    start_time: item.start_time,
+    end_time: item.end_time,
+    surprise_bag: item.surprise_bag,
+  }));
+  return { success: true, items: mappedCartItems, total: cartTotal };
 }
 
 export const addToCart = async (
   items: Array<{ id: string; quantity: number }>
 ) => {
   try {
-    const res = await axios.post(`/api/cart`, {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`, {
       items,
     });
     return res.data;
@@ -28,7 +51,6 @@ export const addToCart = async (
     throw new Error((error as Error)?.message || "Xato yuz berdi");
   }
 };
-import axios from "axios";
 
 export const deleteCartAll = async () => {
   try {
@@ -55,7 +77,7 @@ export const updateCart = async ({
   id: string;
 }) => {
   try {
-    const res = await axios.patch(`/api/cart`, {
+    const res = await axios.patch(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`, {
       id,
       surprise_bag,
       quantity,
@@ -79,7 +101,7 @@ export const updateCart = async ({
 
 export const deleteCartItem = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`/api/cart`, { data: { id } });
+    const res = await axios.delete(`/api/proxy/cart/${id}`);
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {

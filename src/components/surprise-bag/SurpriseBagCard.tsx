@@ -44,8 +44,8 @@ export const SurpriseBagCard = ({
         {/* Product Image */}
         <div className="relative w-[237px] h-[166px] flex-shrink-0">
           <Image
-            src={product.image ?? product.cover_image}
-            alt={product.name ?? product.title}
+            src={product.image ?? product.cover_image ?? '/productimg.png'}
+            alt={product.name ?? product.title ?? 'Mahsulot rasmi'}
             fill
             className="rounded-lg object-cover"
           />

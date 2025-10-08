@@ -2,27 +2,30 @@ import { getAllProducts, getProductsByCategoryId } from "@/data/product-data";
 
 export interface Product {
     id: string;
-    cover_image: string;
-    title: string;
-    business_name: string;
-    branch_name: string;
-    price_in_app: number;
-    currency: string;
+    // canonical fields used by newer API
+    cover_image?: string;
+    title?: string;
+    business_name?: string;
+    branch_name?: string;
+    price_in_app?: number;
+    price?: number;
+    currency?: string;
     rating?: number;
-    stock?: number;
     distance?: number;
-    original_price?: number;
-    // Category reference (from legacy data)
     categoryId?: number;
-    // Compatibility / legacy fields (optional)
+    coords?: number[];
+    original_price?: number;
+
+    // legacy aliases kept for backward compatibility with many components
     name?: string;
     image?: string;
     restaurant?: string;
     currentPrice?: number;
     originalPrice?: number;
-    coords?: number[];
     isInCart?: boolean;
-    // UI helper
+    stock?: number;
+
+    // UI helpers
     isBookmarked?: boolean;
 }
 

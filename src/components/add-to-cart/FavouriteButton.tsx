@@ -6,6 +6,10 @@ import useFavouriteStore from "@/context/favouriteStore";
 import { Product } from "@/api/product";
 import { showToast } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "@/api/user";
+import { useAddFavourites } from "@/hooks";
+import { getFavourites } from "@/api/favourite";
 
 interface FavouriteButtonProps {
     product: Product;
@@ -21,25 +25,50 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
 }) => {
     const { addToFavourites, isFavourite } = useFavouriteStore();
     const router = useRouter();
+    const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUsers });
+    const isAuth = Boolean(user);
+    const { mutate: addFavouritesApi } = useAddFavourites();
+    const { data: favData } = useQuery({
+        queryKey: ["favourites"],
+        queryFn: getFavourites,
+        enabled: isAuth,
+    });
 
     const handleFavourite = () => {
-        // If already in favourites, redirect to favourites page
-        if (isFavourite(product.id)) {
+        // Check if item is in favourites (local store for guest, server for auth)
+        const inLocalFav = isFavourite(product.id);
+        const inServerFav = isAuth && favData?.data?.some((item: any) => String(item.id) === String(product.id) || String(item.surprise_bag) === String(product.id));
+        
+        if (inLocalFav || inServerFav) {
             router.push("/favourite");
             return;
         }
 
-        // Add to favourites and show success message
-        addToFavourites(product);
-        showToast({
-            title: "Saqlangan mahsulotlarga qo'shildi",
-            type: "success",
-            href: "/favourite",
-            hrefName: "Saqlangan mahsulotlar",
-        });
+        if (isAuth) {
+            // Add to favourites via API for authenticated users
+            addFavouritesApi([product.id], {
+                onSuccess: () => {
+                    showToast({
+                        title: "Saqlangan mahsulotlarga qo'shildi",
+                        type: "success",
+                        href: "/favourite",
+                        hrefName: "Saqlangan mahsulotlar",
+                    });
+                },
+            });
+        } else {
+            // Add to local store for guest users
+            addToFavourites(product);
+            showToast({
+                title: "Saqlangan mahsulotlarga qo'shildi",
+                type: "success",
+                href: "/favourite",
+                hrefName: "Saqlangan mahsulotlar",
+            });
+        }
     };
 
-    const isFavouriteState = isFavourite(product.id);
+    const isFavouriteState = isFavourite(product.id) || (isAuth && favData?.data?.some((item: any) => String(item.id) === String(product.id) || String(item.surprise_bag) === String(product.id)));
 
     return (
         <button

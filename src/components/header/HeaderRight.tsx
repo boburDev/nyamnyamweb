@@ -24,7 +24,11 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
     queryFn: getCart,
     enabled: auth,
   });
-  const items = auth ? data : cartStore;
+  // Derived counts and totals for both modes
+  const serverCount = (data?.items?.length as number) || 0;
+  const serverTotal = (data?.total as number) || 0;
+  const guestCount = getUniqueItemsCount();
+  const guestTotal = getTotalPrice();
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -44,12 +48,12 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               <div className="flex gap-4 py-3">
                 <CartIcon />
                 <span>
-                  {isClient ? getTotalPrice().toLocaleString() : "0"} UZS
+                  {isClient ? serverTotal.toLocaleString() : "0"} UZS
                 </span>
               </div>
-              {isClient && getUniqueItemsCount() > 0 && (
+              {isClient && serverCount > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
-                  {getUniqueItemsCount()}
+                  {serverCount}
                 </div>
               )}
             </Link>
@@ -74,10 +78,13 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               <div className="flex items-center gap-2">
                 <CartIcon />
                 <span>Savat</span>
+                {isClient && guestTotal > 0 && (
+                  <span className="text-[11px] text-dolphin">{guestTotal.toLocaleString()} UZS</span>
+                )}
               </div>
-              {isClient && items?.length > 0 && (
+              {isClient && guestCount > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
-                  {items?.length}
+                  {guestCount}
                 </div>
               )}
             </Link>

@@ -1,5 +1,5 @@
 "use client";
-import { CheckIcon, LanguageIcon } from "@/assets/icons";
+import { LanguageIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -34,12 +34,12 @@ export const LanguageMenu = () => {
             <DropdownMenuItem
               key={item.value}
               className={`bg-white text-sm rounded-[5px] cursor-pointer font-poppins focus:bg-mainColor/5 items-center px-[5px] h-[32px] justify-between ${
-                item.value === locale ? "text-black" : "text-dolphin"
+                item.value === locale ? "text-black bg-mainColor/10" : "text-dolphin"
               }`}
               onClick={() => changeLanguage(item.value)}
             >
               {item.name}
-              {item.value === locale && <CheckIcon />}
+              {/* {item.value === locale && <CheckIcon />} */}
             </DropdownMenuItem>
           ))}
         </div>

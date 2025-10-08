@@ -36,8 +36,8 @@ const AllProductsComponent = ({ selectedCategoryId }: AllProductsComponentProps)
               {/* Product Image */}
               <div className="relative">
                 <Image
-                  src={product.image ?? product.cover_image}
-                  alt={product.name ?? product.title}
+                  src={product.image ?? product.cover_image ?? '/productimg.png'}
+                  alt={product.name ?? product.title ?? 'Mahsulot rasmi'}
                   loading="lazy"
                   width={300}
                   height={200}

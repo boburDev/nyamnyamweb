@@ -138,7 +138,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
                         distance: item.distance,
                         rating: item.rating || 0,
                         stock: undefined
-                      } as Product}
+                      } as unknown as Product}
                     />
                   </div>
                 </div>
@@ -188,8 +188,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
                           restaurant: item.restaurant,
                           distance: item.distance,
                           rating: item.rating || 0,
-                          stock: undefined
-                        } as Product}
+                        } as unknown as Product}
                         className="flex-1"
                       />
                       <Button className="flex-1 h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
