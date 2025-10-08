@@ -5,14 +5,13 @@ import Image from "next/image";
 import { Star, Dot } from "lucide-react";
 import { Button } from "../ui/button";
 import useFavouriteStore from "@/context/favouriteStore";
-import { Product } from "@/api/product";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
 import { ProductSkeletons } from "../loader";
 import { useFavouritesQuery } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api/user";
-import { CartData } from "@/types";
+import { CartData, ProductData } from "@/types";
 import { AddToCart, FavouriteButton } from "../add-to-cart";
 import { useAuthStatus } from "@/hooks/auth-status";
 
@@ -138,7 +137,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
                         distance: item.distance,
                         rating: item.rating || 0,
                         stock: undefined,
-                      } as unknown as Product
+                      } as unknown as ProductData
                     }
                   />
                 </div>
@@ -191,7 +190,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
                           restaurant: item.restaurant,
                           distance: item.distance,
                           rating: item.rating || 0,
-                        } as unknown as Product
+                        } as unknown as ProductData
                       }
                       className="flex-1"
                     />
