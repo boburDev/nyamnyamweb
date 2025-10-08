@@ -7,10 +7,10 @@ import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
 import { showToast } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
-import { getUsers } from "@/api/user";
 import { useAddToCart } from "@/hooks";
 import { getCart } from "@/api";
 import { ProductData } from "@/types";
+import { useAuthStatus } from "@/hooks/auth-status";
 
 interface AddToCartProps {
   product: ProductData;
@@ -30,21 +30,16 @@ const AddToCart: React.FC<AddToCartProps> = ({
   const { addToCart, isInCart } = useCartStore();
   const router = useRouter();
   const queryClient = useQueryClient();
-  
-  const { data: user } = useQuery({ 
-    queryKey: ["user"], 
-    queryFn: getUsers 
-  });
-  
-  const isAuth = Boolean(user);
-  
+  const { isAuthenticated: isAuth } = useAuthStatus();
+
   const { mutate: addToCartApi } = useAddToCart();
-  
+
   const { data: cartData } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
     enabled: isAuth,
   });
+  console.log("cartData", isAuth);
 
   const handleAddToCart = () => {
     const inLocalCart = isInCart(product.id);

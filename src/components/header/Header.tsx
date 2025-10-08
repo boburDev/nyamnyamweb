@@ -5,6 +5,7 @@ import HeaderRight from "./HeaderRight";
 import { getAuthStatus } from "@/lib/auth";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Providers from "../provider/Provider";
+import { getCart } from "@/api";
 
 export const Header = async () => {
   const isAuth = await getAuthStatus();
@@ -12,11 +13,7 @@ export const Header = async () => {
   if (isAuth) {
     await queryClient.prefetchQuery({
       queryKey: ["cart"],
-      queryFn: async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`);
-        if (!res.ok) throw new Error("Serverdan savatni olishda xatolik");
-        return res.json();
-      },
+      queryFn: getCart,
     });
   }
   return (
