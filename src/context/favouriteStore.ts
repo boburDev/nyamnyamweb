@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { cookieStorage } from "@/lib";
-import { CartData } from "@/types";
+import { ProductData } from "@/types";
 
 interface FavouriteStore {
-  items: CartData[];
+  items: ProductData[];
   initialized: boolean;
 
-  addToFavourites: (product: CartData) => void;
+  addToFavourites: (product: ProductData) => void;
   removeFromFavourites: (productId: string) => void;
-  toggleFavourite: (product: CartData) => void;
+  toggleFavourite: (product: ProductData) => void;
   clearFavourites: () => void;
   isFavourite: (productId: string) => boolean;
   getFavouriteCount: () => number;
@@ -21,7 +21,7 @@ const useFavouriteStore = create<FavouriteStore>()(
       items: [],
       initialized: false,
 
-      addToFavourites: (product: CartData) => {
+      addToFavourites: (product: ProductData) => {
         const { items } = get();
         const existingItem = items.find((item) => item.id === product.id);
 
@@ -39,7 +39,7 @@ const useFavouriteStore = create<FavouriteStore>()(
         });
       },
 
-      toggleFavourite: (product: CartData) => {
+      toggleFavourite: (product: ProductData) => {
         const { isFavourite } = get();
 
         if (isFavourite(product.id)) {

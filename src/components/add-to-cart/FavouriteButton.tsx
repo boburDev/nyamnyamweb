@@ -3,17 +3,16 @@
 import React from "react";
 import { Heart } from "lucide-react";
 import useFavouriteStore from "@/context/favouriteStore";
-import { Product } from "@/api/product";
 import { showToast } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "@/api/user";
 import { useAddFavourites } from "@/hooks";
 import { getFavourites } from "@/api/favourite";
 import { useAuthStatus } from "@/hooks/auth-status";
+import { ProductData } from "@/types";
 
 interface FavouriteButtonProps {
-  product: Product;
+  product: ProductData;
   className?: string;
   size?: "sm" | "md" | "lg";
   variant?: "default" | "outline" | "ghost";
@@ -28,7 +27,7 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   const router = useRouter();
   const { isAuthenticated: isAuth } = useAuthStatus();
   const { mutate: addFavouritesApi } = useAddFavourites();
-  const { data: favData } = useQuery({
+  const { data: favData } = useQuery<{ success: boolean; data: ProductData[] }>({
     queryKey: ["favourites"],
     queryFn: getFavourites,
     enabled: isAuth,
@@ -40,9 +39,7 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
     const inServerFav =
       isAuth &&
       favData?.data?.some(
-        (item: any) =>
-          String(item.id) === String(product.id) ||
-          String(item.surprise_bag) === String(product.id)
+        (item: ProductData) => String(item.id) === String(product.id)
       );
 
     if (inLocalFav || inServerFav) {
@@ -78,9 +75,7 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
     isFavourite(product.id) ||
     (isAuth &&
       favData?.data?.some(
-        (item: any) =>
-          String(item.id) === String(product.id) ||
-          String(item.surprise_bag) === String(product.id)
+        (item: ProductData) => String(item.id) === String(product.id)
       ));
 
   return (

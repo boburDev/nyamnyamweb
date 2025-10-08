@@ -40,7 +40,6 @@ const AddToCart: React.FC<AddToCartProps> = ({
     queryFn: getCart,
     enabled: isAuth,
   });
-  console.log("cartData", isAuth);
 
   const handleAddToCart = () => {
     const inLocalCart = isInCart(product.id);
@@ -87,7 +86,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
     isInCart(product.id) ||
     (isAuth &&
         cartData?.cart_items?.some(
-        (item: any) => String(item?.id) === String(product.id)
+        (item: ProductData) => String(item?.id) === String(product.id)
       ));
 
   const sizeClasses = {

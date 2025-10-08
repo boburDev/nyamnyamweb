@@ -11,6 +11,7 @@ import {
 import { Share } from "lucide-react"
 import { Button } from "../ui/button"
 import { DialogClose } from "@radix-ui/react-dialog"
+import Image from "next/image"
 
 interface QrCodeModalProps {
     open: boolean
@@ -24,7 +25,7 @@ export const QrCodeModal = ({open, setOpen}:QrCodeModalProps) => {
       <DialogHeader>
         <DialogTitle className="font-semibold text-4xl">QR Kod</DialogTitle>
       </DialogHeader>
-      <img src={qrCode.src} alt="" />
+      <Image src={qrCode.src} alt="" />
       <p className="text-[20px] text-mainColor py-[8.5px] px-[11px] bg-completedColor rounded-[20px]">515515</p>
     <DialogFooter>
        <DialogClose asChild>

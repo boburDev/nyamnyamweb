@@ -19,7 +19,6 @@ export const ProductTabs = () => {
   const { data: category } = useGetCategory(locale);
   const { data: product } = useGetSupriseBag({ locale, slug: activeTab });
 
-  console.log("chgfghfhgfh", product);
 
   return (
     <section className="mt-[124px] relative">

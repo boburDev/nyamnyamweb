@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { CalendarDays, Clock, ScanQrCode } from 'lucide-react';
 import { Button } from '../ui/button';
 import { QrCodeModal } from '../modal';
 import { format } from 'date-fns';
+import Image from 'next/image';
 
 interface Props {
     open:boolean,
@@ -33,7 +35,7 @@ export const OrderAccordion = ({open , setOpen, orders}:Props) => {
                     className="flex justify-between pt-5 border border-plasterColor mt-3 rounded-[30px] p-[30px]"
                   >
                     <div className="flex gap-[30px]">
-                      <img
+                      <Image
                         src={product.image}
                         className="w-[253px] h-[183px] rounded-[20px]"
                         alt={product.name}

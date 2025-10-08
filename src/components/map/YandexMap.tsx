@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Product } from "@/api/product";
 import {
   YMaps,
   Map,
@@ -11,9 +10,10 @@ import {
 } from "@pbe/react-yandex-maps";
 import React, { useEffect, useState } from "react";
 import MemoizedPlacemark from "./YPlace";
+import { ProductData } from "@/types";
 
 interface YandexMapProps {
-  products: Product[];
+  products: ProductData[];
   hoveredId: string | null;
   activeId: string | null;
   mapRef: React.RefObject<any>;
@@ -55,8 +55,8 @@ const YandexMap = ({
   useEffect(() => {
     if (activeId && mapRef.current) {
       const product = products.find((p) => p.id === activeId);
-      if (product && product.coords && product.coords.length === 2) {
-        mapRef.current.setCenter(product.coords, 14, { duration: 500 });
+      if (product && product.lat && product.lon) {
+        mapRef.current.setCenter([product.lat, product.lon], 14, { duration: 500 });
       }
     }
   }, [activeId, products, mapRef]);

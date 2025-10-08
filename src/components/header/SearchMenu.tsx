@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, Map, X, ChevronRight } from "lucide-react";
 import MyImage from "../../assets/images/Frame.png";
 import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 
 const foundProducts = [
   {
@@ -141,7 +142,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
                             handleNavigationClick()
                           }}
                         >
-                          <img src={item.image.src} alt={item.name} className="w-[36px] h-[36px] object-cover rounded-lg" />
+                          <Image src={item.image.src} alt={item.name} width={36} height={36} className="object-cover rounded-lg" />
                           <div className="flex-1">
                             <div className="font-semibold text-sm text-textColor">{item.name}</div>
                             <div className="text-[10px] text-dolphin">{item.location}</div>

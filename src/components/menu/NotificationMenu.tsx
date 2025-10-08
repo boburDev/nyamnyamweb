@@ -11,7 +11,6 @@ import { Button } from "../ui/button";
 import { notificationData } from "@/data";
 import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
-import Link from "next/link";
 
 export const NotificationMenu = () => {
   return (

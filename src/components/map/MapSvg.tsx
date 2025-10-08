@@ -1,7 +1,7 @@
-import { Product } from "@/api/product";
+import { ProductData } from "@/types";
 
 export const createCustomMarkerSVG = (
-  product: Product,
+  product: ProductData,
   isHighlighted: boolean,
   isActive: boolean
 ) => {
@@ -16,7 +16,7 @@ export const createCustomMarkerSVG = (
   }
 
   const formattedRating =
-    typeof product.rating === "number" ? product.rating.toFixed(1) : "0.0";
+    typeof product.overall_rating === "number" ? product.overall_rating.toFixed(1) : "0.0";
 
   const parsePrice = (price?: string | number): number => {
     if (typeof price === "number") return price;
@@ -25,8 +25,8 @@ export const createCustomMarkerSVG = (
     return 0;
   };
 
-  const originalPrice = parsePrice(product.originalPrice ?? product.original_price);
-  const currentPrice = parsePrice(product.currentPrice ?? product.price_in_app);
+  const originalPrice = parsePrice(product.price ?? product.price);
+  const currentPrice = parsePrice(product.price_in_app ?? product.price_in_app);
 
   const discountPercent =
     originalPrice > 0
