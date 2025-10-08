@@ -2,13 +2,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { showError } from "@/components/toast/Toast";
 import { AxiosError } from "axios";
 import { deleteCartAll, updateCart, deleteCartItem, addToCart } from "@/api";
+import { useRouter } from "@/i18n/navigation";
 
 const useDeleteCartAll = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   return useMutation({
     mutationFn: deleteCartAll,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
+      router.refresh();
     },
     onError: (error: Error | AxiosError) => {
       const errorMessage =
@@ -76,11 +79,13 @@ const useDeleteCartItem = () => {
 
 const useAddToCart = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   return useMutation({
     mutationFn: (items: Array<{ id: string; quantity: number }>) =>
       addToCart(items),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
+      router.refresh();
     },
     onError: (err: Error | AxiosError) => {
       let errorMessage = "Xato yuz berdi";

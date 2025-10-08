@@ -3,10 +3,10 @@ import axios from "axios";
 export async function getCart() {
   const res = await fetch(`/api/proxy/cart`, {
     credentials: "include",
+    cache: "no-store",
   });
   if (!res.ok) throw new Error("Cart olishda xatolik");
   const raw = await res.json();
-  // Backend through proxy returns { success, status, data: { cart_items, cart_total } }
   const data = raw?.data ?? raw;
   const cartItems = data?.cart_items || [];
   const cartTotal = data?.cart_total || 0;
@@ -31,9 +31,12 @@ export const addToCart = async (
   items: Array<{ id: string; quantity: number }>
 ) => {
   try {
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`, {
-      items,
-    });
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/cart`,
+      {
+        items,
+      }
+    );
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -77,15 +80,17 @@ export const updateCart = async ({
   id: string;
 }) => {
   try {
-    const res = await axios.patch(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`, {
-      id,
-      surprise_bag,
-      quantity,
-    });
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/cart`,
+      {
+        id,
+        surprise_bag,
+        quantity,
+      }
+    );
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
-      // Agar server bizning Next.js API yoki bevosita backenddan custom backend message qaytgan bo'lsa shu maydonlarni tekshiramiz
       const data = error.response.data;
       const errorMessage =
         data?.backend ||

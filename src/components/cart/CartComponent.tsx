@@ -12,10 +12,10 @@ import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { ProductSkeletons, SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
-import { Product } from "@/api/product";
 import { getCart } from "@/api";
 import { useDeleteCartAll, useUpdateCart, useDeleteCartItem } from "@/hooks";
 import { showToast } from "../toast/Toast";
+import { ProductData } from "@/types";
 
 type CartUIItem = {
   id: string;
@@ -31,15 +31,21 @@ type CartUIItem = {
   surprise_bag?: string;
 };
 
-type ItemLike = CartUIItem | (Product & { quantity: number });
+type ItemLike = CartUIItem | (ProductData & { quantity: number });
 
 const getItemImage = (item: ItemLike): string => {
-  const img = ("image" in item ? item.image : undefined) || ("cover_image" in item ? item.cover_image : undefined);
+  const img =
+    ("image" in item ? item.image : undefined) ||
+    ("cover_image" in item ? item.cover_image : undefined);
   return img && String(img).trim() !== "" ? String(img) : "/productimg.png";
 };
 
 const getItemTitle = (item: ItemLike): string => {
-  return ("name" in item && item.name) ? item.name : ("title" in item ? item.title ?? "" : "");
+  return "name" in item && item.name
+    ? item.name
+    : "title" in item
+    ? item.title ?? ""
+    : "";
 };
 
 const getItemRestaurant = (item: ItemLike): string => {
@@ -49,22 +55,33 @@ const getItemRestaurant = (item: ItemLike): string => {
 };
 
 const getItemOriginalPrice = (item: ItemLike): number | undefined => {
-  const val = ("originalPrice" in item ? item.originalPrice : undefined) ?? ("original_price" in item ? item.original_price : undefined);
+  const val =
+    ("originalPrice" in item ? item.originalPrice : undefined) ??
+    ("original_price" in item ? item.original_price : undefined);
   if (val == null) return undefined;
   if (typeof val === "number") return val;
-  const parsed = parseFloat(String(val).replace(/[^\d.,-]/g, "").replace(",", "."));
+  const parsed = parseFloat(
+    String(val)
+      .replace(/[^\d.,-]/g, "")
+      .replace(",", ".")
+  );
   return Number.isNaN(parsed) ? undefined : parsed;
 };
 
 const getItemCurrentPrice = (item: ItemLike): number => {
-  const raw = ("currentPrice" in item ? item.currentPrice : undefined) ?? ("price_in_app" in item ? item.price_in_app : undefined);
+  const raw =
+    ("currentPrice" in item ? item.currentPrice : undefined) ??
+    ("price_in_app" in item ? item.price_in_app : undefined);
   if (typeof raw === "number") return raw;
-  const parsed = parseFloat(String(raw ?? 0).replace(/[^\d.,-]/g, "").replace(",", "."));
+  const parsed = parseFloat(
+    String(raw ?? 0)
+      .replace(/[^\d.,-]/g, "")
+      .replace(",", ".")
+  );
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
-  // removed old toNumeric; using typed helpers below
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const removeItem = useCartStore((s) => s.removeFromCart);
@@ -81,8 +98,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { mutate: updateCartQty } = useUpdateCart();
   const { mutate: deleteCartItem } = useDeleteCartItem();
   const items: ItemLike[] | undefined = isAuth
-    ? ((data?.items as ItemLike[] | undefined))
-    : ((cartStore as unknown as ItemLike[]));
+    ? (data?.items as ItemLike[] | undefined)
+    : (cartStore as unknown as ItemLike[]);
   const t = useTranslations("cart");
 
   const getDisplayTotal = () => {
@@ -123,7 +140,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   };
 
   console.log("Cart items:", items);
-  
+
   const handleUpdateQuantity = (
     id: string,
     quantity: number,
@@ -131,11 +148,15 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   ) => {
     if (quantity < 1) return;
 
-    const currentItem = items?.find((i: ItemLike) => i && "id" in i && i.id === id);
+    const currentItem = items?.find(
+      (i: ItemLike) => i && "id" in i && i.id === id
+    );
     const getServerMax = (it?: ItemLike): number => {
       if (!it) return 30;
-      if ("count" in it && typeof it.count === "number" && it.count > 0) return it.count;
-      if ("stock" in it && typeof it.stock === "number" && it.stock > 0) return it.stock;
+      if ("count" in it && typeof it.count === "number" && it.count > 0)
+        return it.count;
+      if ("stock" in it && typeof it.stock === "number" && it.stock > 0)
+        return it.stock;
       return 30;
     };
     const serverMax = getServerMax(currentItem);
@@ -154,7 +175,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     } else {
       const sb = (() => {
         if (typeof surprise_bag === "string") return surprise_bag;
-        if (currentItem && "surprise_bag" in currentItem) return (currentItem as CartUIItem).surprise_bag ?? "";
+        if (currentItem && "surprise_bag" in currentItem)
+          return (currentItem as CartUIItem).surprise_bag ?? "";
         return "";
       })();
       updateCartQty({ id, quantity, surprise_bag: sb });
@@ -249,9 +271,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             </h3>
                             {/* ❌ Trash delete */}
                             <Button
-                              onClick={() =>
-                                handleRemoveItem(item?.id,)
-                              }
+                              onClick={() => handleRemoveItem(item?.id)}
                               className="w-[38px] h-[38px] rounded-full bg-hoverColor"
                               variant={"ghost"}
                             >
@@ -259,7 +279,12 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             </Button>
                           </div>
                           <p className="text-dolphin">
-                            {getItemRestaurant(item)} • {"distance" in item && typeof item.distance === 'number' ? item.distance : ''} km
+                            {getItemRestaurant(item)} •{" "}
+                            {"distance" in item &&
+                            typeof item.distance === "number"
+                              ? item.distance
+                              : ""}{" "}
+                            km
                           </p>
 
                           <div className="flex justify-between">
@@ -280,7 +305,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                     handleUpdateQuantity(
                                       item?.id,
                                       item?.quantity - 1,
-                                      "surprise_bag" in item ? (item as CartUIItem).surprise_bag : undefined
+                                      "surprise_bag" in item
+                                        ? (item as CartUIItem).surprise_bag
+                                        : undefined
                                     )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
@@ -295,7 +322,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                     handleUpdateQuantity(
                                       item?.id,
                                       item?.quantity + 1,
-                                      "surprise_bag" in item ? (item as CartUIItem).surprise_bag : undefined
+                                      "surprise_bag" in item
+                                        ? (item as CartUIItem).surprise_bag
+                                        : undefined
                                     )
                                   }
                                   className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
@@ -375,7 +404,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div className="flex items-center justify-between text-mainColor">
                     <span className="text-xl font-medium ">Jami:</span>
                     <span className="text-xl font-medium ">
-                      {(isAuth ? getDisplayTotal() : getTotalPrice()).toLocaleString("uz-UZ")} UZS
+                      {(isAuth
+                        ? getDisplayTotal()
+                        : getTotalPrice()
+                      ).toLocaleString("uz-UZ")}{" "}
+                      UZS
                     </span>
                   </div>
                 </div>

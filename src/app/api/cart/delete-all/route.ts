@@ -1,5 +1,6 @@
 import { ACCESS_TOKEN } from "@/constants";
 import axios from "axios";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -7,17 +8,14 @@ export async function DELETE() {
   const cookieStore = await cookies();
   const accesToken = cookieStore.get(ACCESS_TOKEN)?.value;
   try {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_API_URL}/cart/delete_all/`,
-      {
-        headers: {
-          Authorization: `Bearer ${accesToken}`,
-        },
-      }
-    );
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cart/delete_all/`, {
+      headers: {
+        Authorization: `Bearer ${accesToken}`,
+      },
+    });
     const response = NextResponse.json({ status: 200 });
+    revalidatePath("/");
     return response;
-    
   } catch (e: unknown) {
     let status = 500;
     let msg = "Login Failed";

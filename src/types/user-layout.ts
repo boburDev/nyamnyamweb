@@ -17,6 +17,24 @@ export interface Banner {
   cover_image: string;
   url: string;
 }
+export interface ProductData {
+  id: string;
+  business_name: string;
+  count: number;
+  cover_image: string;
+  branch_name: string;
+  lat?: string;
+  lon?: string;
+  title: string;
+  size_name?: string;
+  price: number;
+  price_in_app: number;
+  currency: string;
+  start_time?: string;
+  end_time?: string;
+  distance_km?: number;
+  overall_rating?: null | number;
+}
 export interface CartData {
   id: string;
   surprise_bag: string;

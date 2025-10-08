@@ -15,7 +15,7 @@ const useGetSupriseBag = ({
   return useQuery({
     queryKey: ["surprise-bag", locale, slug, lat, lon],
     queryFn: () => getSupriseBagAll({ locale, slug, lat, lon }),
-    enabled: !!locale, // faqat locale mavjud bo‘lsa fetch qiladi
+    enabled: !!locale, 
   });
 };
 

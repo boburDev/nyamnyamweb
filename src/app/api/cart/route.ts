@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { ACCESS_TOKEN, GET_CART, POST_CART } from "@/constants";
+import { ACCESS_TOKEN, POST_CART } from "@/constants";
 import { CartData } from "@/types";
+import { revalidatePath } from "next/cache";
 
 async function checkAuth() {
   const cookieStore = await cookies();
@@ -103,6 +104,7 @@ export async function POST(req: Request) {
         items: mappedItems,
       }),
     });
+    revalidatePath("/");
 
     if (!response.ok) {
       return NextResponse.json(
@@ -120,65 +122,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Cart POST error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 }
-    );
-  }
-}
-export async function GET() {
-  try {
-    const { isAuthenticated, token } = await checkAuth();
-
-    if (!isAuthenticated) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized: No access token" },
-        { status: 401 }
-      );
-    }
-
-    const response = await fetch(GET_CART, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { success: false, message: "Failed to fetch cart" },
-        { status: response.status }
-      );
-    }
-
-    const cartData = await response.json();
-
-    const cartItems = cartData?.data?.cart_items || [];
-    const cartTotal = cartData?.data?.cart_total || 0;
-
-    const mappedCartItems: CartData[] = cartItems.map((item: CartData) => ({
-      id: item.id,
-      name: item.title,
-      image: item.surprise_bag_image,
-      restaurant: item.branch_name,
-      distance: item.distance_km,
-      originalPrice: item.price,
-      currentPrice: item.price_in_app,
-      quantity: item.quantity,
-      count: item.count,
-      start_time: item.start_time,
-      end_time: item.end_time,
-      surprise_bag: item.surprise_bag,
-    }));
-
-    return NextResponse.json({
-      success: true,
-      items: mappedCartItems,
-      total: cartTotal,
-    });
-  } catch (error) {
-    console.error("Cart GET error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

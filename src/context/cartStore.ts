@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { cookieStorage } from "@/lib";
-import { Product } from "@/api/product";
+import { ProductData } from "@/types";
 
-export interface CartItem extends Product {
+export interface CartItem extends ProductData {
   id: string;
   quantity: number;
   surprise_bag?: string;
@@ -14,7 +14,7 @@ interface CartStore {
   isOpen: boolean;
 
   // Actions
-  addToCart: (product: Product) => void;
+  addToCart: (product: ProductData) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   toggleCart: () => void;
@@ -32,13 +32,13 @@ const useCartStore = create<CartStore>()(
       items: [],
       isOpen: false,
 
-      addToCart: (product: Product) => {
+      addToCart: (product: ProductData) => {
         const { items } = get();
         const existingItem = items.find((item) => item.id === product.id);
 
         if (existingItem) {
           // Check if we can add more items based on stock
-          if (product.stock && existingItem.quantity >= product.stock) {
+          if (product.count && existingItem.quantity >= product.count) {
             return; // Don't add more if stock limit reached
           }
           // If item exists, increase quantity
@@ -74,7 +74,7 @@ const useCartStore = create<CartStore>()(
         const item = items.find((item) => item.id === productId);
 
         // Check stock limit if product has stock information
-        if (item && item.stock && quantity > item.stock) {
+        if (item && item.count && quantity > item.count) {
           return; // Don't update if quantity exceeds stock
         }
 
@@ -119,7 +119,7 @@ const useCartStore = create<CartStore>()(
         return items.reduce((total, item) => {
           // Extract numeric value from price string, handling different formats
           // Remove all non-numeric characters except dots and commas
-          const cleanPrice = String(item.currentPrice).replace(/[^\d.,]/g, "");
+          const cleanPrice = String(item.price).replace(/[^\d.,]/g, "");
 
           // Handle different price formats
           let price = 0;

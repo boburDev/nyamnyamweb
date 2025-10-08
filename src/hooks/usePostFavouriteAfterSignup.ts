@@ -1,33 +1,50 @@
 import { useMutation } from "@tanstack/react-query";
-import { buildFavouriteRequestBody } from "@/api/product";
 
 interface PostFavouriteData {
-    // Accept array of ids or product-like objects
-    items: Array<string | number | { id?: string | number; surprise_bag?: string | number }>;
+  items: Array<
+    string | number | { id?: string | number; surprise_bag?: string | number }
+  >;
 }
 
+const buildFavouriteRequestBody = (
+  favouriteItems: Array<
+    string | number | { id?: string | number; surprise_bag?: string | number }
+  >
+) => {
+  return {
+    items: favouriteItems.map((item) => ({
+      surprise_bag:
+        typeof item === "string" || typeof item === "number"
+          ? item
+          : item.surprise_bag ?? item.id,
+    })),
+  };
+};
+
 const postFavouriteAfterSignup = async (data: PostFavouriteData) => {
-    console.log("Frontend sending favourite data:", buildFavouriteRequestBody(data.items)); // Debug log
-    const response = await fetch(`/api/favourite/post-favorite-after-signup`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buildFavouriteRequestBody(data.items)),
-    });
+  const body = buildFavouriteRequestBody(data.items);
+  console.log("Frontend sending favourite data:", body); 
 
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to post favourite items");
-    }
+  const response = await fetch(`/api/favourite/post-favorite-after-signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 
-    return response.json();
+  if (!response.ok) {
+    const errorData = await response
+      .json()
+      .catch(() => ({} as { message?: string }));
+    throw new Error(errorData.message || "Failed to post favourite items");
+  }
+
+  return response.json();
 };
 
 export const usePostFavouriteAfterSignup = () => {
-    return useMutation({
-        mutationFn: postFavouriteAfterSignup,
-    });
+  return useMutation({
+    mutationFn: postFavouriteAfterSignup,
+  });
 };
-
-

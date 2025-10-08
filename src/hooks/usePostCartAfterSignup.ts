@@ -1,30 +1,41 @@
 import { useMutation } from "@tanstack/react-query";
 import { CartItem } from "@/context/cartStore";
-import { buildRequestBody } from "@/api/product";
+
 interface PostCartData {
-    items: CartItem[];
+  items: CartItem[];
 }
 
+const buildRequestBody = (cartItems: { id: string; quantity: number }[]) => {
+  return {
+    items: cartItems.map((item) => ({
+      surprise_bag: item.id,
+      quantity: item.quantity,
+    })),
+  };
+};
+
 const postCartAfterSignup = async (data: PostCartData) => {
-    console.log("Frontend sending cart data:", buildRequestBody(data.items)); // Debug log
-    const response = await fetch(`/api/cart/post-after-signup`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(buildRequestBody(data.items)),
-    });
+  const body = buildRequestBody(data.items);
+  console.log("Frontend sending cart data:", body);
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to post cart items");
-    }
+  const response = await fetch(`/api/cart/post-after-signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 
-    return response.json();
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to post cart items");
+  }
+
+  return response.json();
 };
 
 export const usePostCartAfterSignup = () => {
-    return useMutation({
-        mutationFn: postCartAfterSignup,
-    });
+  return useMutation({
+    mutationFn: postCartAfterSignup,
+  });
 };
