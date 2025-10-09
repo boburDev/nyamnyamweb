@@ -52,14 +52,14 @@ export default function VerifyPage() {
     });
   };
   return (
-    <div className="w-[390px] mx-auto">
+    <div className="max-w-[358px] w-full mx-auto">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">
           <ArrowBackIcon />
         </button>
         <h2 className="auth-title">{t("title")}</h2>
-        <p className="text-dolphin text-sm mb-[5px] max-w-[369px]">
+        <p className="text-dolphin text-sm mb-[5px]">
           {t("desc-1")}
           {locale === "uz"
             ? ` ${maskedTo} ${isEmail ? t("email") : t("number")} `
@@ -79,7 +79,7 @@ export default function VerifyPage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-[15px]">
+          <InputOTPGroup className="gap-2 md:gap-[15px] justify-center ">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <InputOTPSlot
                 key={i}
@@ -94,7 +94,7 @@ export default function VerifyPage() {
                     e.preventDefault();
                   }
                 }}
-                className="w-[55px] h-[55px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor text-[30px] border"
+                className="w-[40px] h-[40px] text-[24px] xs:w-[49px] xs:h-[49px] md:w-[53px] md:h-[53px] md:text-[30px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor border"
               />
             ))}
           </InputOTPGroup>

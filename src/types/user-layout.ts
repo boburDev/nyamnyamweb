@@ -32,7 +32,7 @@ export interface ProductData {
   currency: string;
   start_time?: string;
   end_time?: string;
-  distance_km?: number;
+  distance?: string;
   overall_rating?: null | number;
 }
 export interface CartData {
@@ -48,7 +48,7 @@ export interface CartData {
   price_in_app: number;
   start_time: string;
   end_time: string;
-  distance_km: number;
+  distance: number;
 }
 export interface Cart {
   cart_total: number;

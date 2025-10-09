@@ -46,7 +46,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
       surprise_bag_image: string;
       title: string;
       branch_name: string;
-      distance_km?: number | string;
+      distance?: number | string;
       price?: number | string;
       price_in_app?: number | string;
     };
@@ -55,7 +55,7 @@ const FavouriteCart = ({ isLoading = false }: Props) => {
       image: fd.surprise_bag_image,
       name: fd.title,
       restaurant: fd.branch_name,
-      distance: Number(fd.distance_km ?? 0),
+      distance: Number(fd.distance ?? 0),
       currentPrice: Number(fd.price_in_app ?? 0),
       originalPrice: Number(fd.price ?? 0),
     };
