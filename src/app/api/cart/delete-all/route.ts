@@ -1,6 +1,5 @@
 import { ACCESS_TOKEN } from "@/constants";
 import axios from "axios";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -14,7 +13,6 @@ export async function DELETE() {
       },
     });
     const response = NextResponse.json({ status: 200 });
-    revalidatePath("/");
     return response;
   } catch (e: unknown) {
     let status = 500;

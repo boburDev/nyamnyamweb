@@ -19,7 +19,6 @@ export const ProductTabs = () => {
   const { data: category } = useGetCategory(locale);
   const { data: product } = useGetSupriseBag({ locale, slug: activeTab });
 
-
   return (
     <section className="mt-[124px] relative">
       <Container>
@@ -71,6 +70,7 @@ export const ProductTabs = () => {
                         <ProductSwiper product={product?.new} />
                       </div>
                     )}
+                    {/* morning card */}
                     {product?.morning?.length > 0 && (
                       <div>
                         <h1 className="page-title mb-10">
@@ -79,6 +79,7 @@ export const ProductTabs = () => {
                         <ProductSwiper product={product?.morning} />
                       </div>
                     )}
+                    {/* afternoon card */}
                     {product?.afternoon?.length > 0 && (
                       <div>
                         <h1 className="page-title mb-10">
@@ -87,12 +88,22 @@ export const ProductTabs = () => {
                         <ProductSwiper product={product?.afternoon} />
                       </div>
                     )}
-                     {product?.evening?.length > 0 && (
+                    {/* evening card */}
+                    {product?.evening?.length > 0 && (
                       <div>
                         <h1 className="page-title mb-10">
-                          Kechki payit uchun surprise baglar
+                          Kechki surprise baglar
                         </h1>
                         <ProductSwiper product={product?.evening} />
+                      </div>
+                    )}
+                    {/* tomorrow */}
+                    {product?.tomorrow?.length > 0 && (
+                      <div>
+                        <h1 className="page-title mb-10">
+                          Ertangi surprise baglar
+                        </h1>
+                        <ProductSwiper product={product?.tomorrow} />
                       </div>
                     )}
                   </div>

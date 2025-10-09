@@ -16,7 +16,6 @@ export async function GET() {
       return NextResponse.json({ authenticated: true }, { status: 200 });
     }
 
-    // Access bo'lmasa, backendga refresh so'rov yuboramiz
     const refreshRes = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token/`,
       {
@@ -34,7 +33,6 @@ export async function GET() {
     }
 
     const json = await refreshRes.json();
-    // Sizning API 'data.access_token' qaytargani uchun shunga moslab olamiz
     const newAT = json?.data?.access_token ?? json?.access ?? null;
     const newRT = json?.data?.refresh_token ?? json?.refresh ?? null;
 
