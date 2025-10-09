@@ -1,26 +1,31 @@
 "use client";
 
+import { getQueryClient } from "@/lib/react-query";
 import {
   HydrationBoundary,
-  QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { useState } from "react";
+import { ReactNode } from "react";
 
-export default function Providers({
+export function Providers({
   children,
   dehydratedState,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   dehydratedState?: unknown;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const queryClient = getQueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydratedState as import("@tanstack/react-query").DehydratedState | null | undefined}>
+      <HydrationBoundary
+        state={
+          dehydratedState as import("@tanstack/react-query").DehydratedState
+        }
+      >
         {children}
       </HydrationBoundary>
     </QueryClientProvider>
   );
 }
+export default Providers;

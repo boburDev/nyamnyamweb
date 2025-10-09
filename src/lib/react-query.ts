@@ -4,7 +4,7 @@ export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000,
+        staleTime: 60 * 1000, // 1 minute
         gcTime: 5 * 60 * 1000,
         retry: false,
         refetchOnMount: false,
@@ -19,9 +19,11 @@ let browserQueryClient: QueryClient | undefined = undefined;
 
 export function getQueryClient() {
   if (isServer) {
+    // Serverda har safar yangi client
     return makeQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
   }
+
+  // Clientda esa bitta global instance
+  if (!browserQueryClient) browserQueryClient = makeQueryClient();
+  return browserQueryClient;
 }
