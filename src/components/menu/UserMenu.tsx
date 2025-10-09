@@ -14,11 +14,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { userMenu } from "@/data";
 import { useTranslations } from "next-intl";
-import { useAuthStore } from "@/context/store";
 export const UserMenu = () => {
   const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
-  const clearAuth = useAuthStore((s) => s.clearAuth);
   const qc = useQueryClient();
   const t = useTranslations("UserMenu");
   const { data: userData } = useQuery({
@@ -39,7 +37,6 @@ export const UserMenu = () => {
       console.error("Logout request failed", e);
     }
 
-    clearAuth();
     qc.clear();
     router.refresh();
   };
