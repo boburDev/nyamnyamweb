@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
+import { revalidatePath } from "next/cache";
 
 export async function GET(
   req: Request,
@@ -13,8 +14,9 @@ export async function GET(
     const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
     const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
 
-    console.log("🌍 Target URL:", targetUrl);
-
+    if (!accessToken && !refreshToken) {
+      revalidatePath("/", "layout");
+    }
     const mainHeaders: Record<string, string> = {};
     if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
 
@@ -44,6 +46,7 @@ export async function GET(
         console.error(
           "❌ Refresh token invalid or expired -> redirect to /signin"
         );
+        revalidatePath("/", "layout");
         const logoutResponse = NextResponse.redirect(
           new URL("/signin", req.url)
         );

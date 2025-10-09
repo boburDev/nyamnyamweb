@@ -8,8 +8,8 @@ export function useAuthStatus() {
     queryKey: ["authStatus"],
     queryFn: getAuthStatusClient,
 
-    staleTime: 5 * 60 * 1000, // 5 daqiqa
-    gcTime: 10 * 60 * 1000, // 10 daqiqa
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
   const isAuthenticated = data?.isAuthenticated || false;

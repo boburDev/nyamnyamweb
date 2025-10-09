@@ -10,13 +10,16 @@ import { Button } from "../ui/button";
 import { ProfileLogout, UserProfile } from "@/assets/icons";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { userMenu } from "@/data";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/context/store";
 export const UserMenu = () => {
   const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
+  const qc = useQueryClient();
   const t = useTranslations("UserMenu");
   const { data: userData } = useQuery({
     queryKey: ["user"],
@@ -27,10 +30,18 @@ export const UserMenu = () => {
     router.push(path);
   };
   const handleLogout = async () => {
-    const res = await fetch("/api/auth/logout", { method: "POST" });
-    if (res.ok) {
-      router.refresh();
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (e) {
+      console.error("Logout request failed", e);
     }
+
+    clearAuth();
+    qc.clear();
+    router.refresh();
   };
 
   return (
