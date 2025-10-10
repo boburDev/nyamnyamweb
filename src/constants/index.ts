@@ -19,5 +19,4 @@ export const POST_CART = `${DOMAIN}/cart/bulk_upsert/`;
 export const DELETE_CART = `${DOMAIN}/cart/delete_all/`;
 export const FAVORITE = `${DOMAIN}/favourites/`;
 export const POST_FAVORITE = `${FAVORITE}create_all/`;
-export const DELETE_FAVORITE = `${FAVORITE}remove_all/`;
 export const SURPRISE_BAG_ALL = `${DOMAIN}/surprise-bag/`;

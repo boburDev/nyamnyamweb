@@ -27,7 +27,6 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        console.log("API received favourite data:", body); // Debug log
         const { items } = body;
 
         if (!items || !Array.isArray(items) || items.length === 0) {
@@ -41,7 +40,6 @@ export async function POST(req: Request) {
         // Just pass them directly to the backend
         const requestBody = { items };
 
-        console.log("Sending to backend:", JSON.stringify(requestBody, null, 2)); // Debug log
 
         const response = await fetch(
             POST_FAVORITE,
@@ -55,8 +53,6 @@ export async function POST(req: Request) {
             }
         );
 
-        console.log("Post favourite", POST_FAVORITE);
-        console.log("Response here: ", response);
 
         if (!response.ok) {
             const errorData = await response.text();

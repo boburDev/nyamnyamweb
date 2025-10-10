@@ -56,7 +56,6 @@ export default function SigninPage() {
             { items: cartItems },
             {
               onSuccess: () => {
-                console.log("Cart items posted successfully after signin");
                 clearCart();
               },
               onError: (error) => {
@@ -74,7 +73,6 @@ export default function SigninPage() {
             { items: favouriteItems.map((item) => item.id) },
             {
               onSuccess: () => {
-                console.log("Favourite items posted successfully after signin");
                 clearFavourites(); // Clear local favourites after successful post
               },
               onError: (error) => {

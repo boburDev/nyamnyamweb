@@ -15,7 +15,7 @@ export default async function middleware(request: NextRequest) {
   const isProtectedRoute =
     pathname.includes("/order") ||
     pathname.includes("/profile") ||
-    pathname.includes("/favourite");
+    pathname.includes("/favourites");
 
   const isAuthRoute =
     pathname.includes("/signin") ||

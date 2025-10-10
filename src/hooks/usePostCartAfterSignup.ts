@@ -16,7 +16,6 @@ const buildRequestBody = (cartItems: { id: string; quantity: number }[]) => {
 
 const postCartAfterSignup = async (data: PostCartData) => {
   const body = buildRequestBody(data.items);
-  console.log("Frontend sending cart data:", body);
 
   const response = await fetch(`/api/cart/post-after-signup`, {
     method: "POST",

@@ -33,9 +33,9 @@ export interface ProductData {
   currency: string;
   start_time?: string;
   end_time?: string;
-  distance_km?: string;
+  distance?: string;
   overall_rating?: null | number;
-  similar_data?: ProductData[];
+  surprise_bag?: string
 }
 export interface CartData {
   id: string;

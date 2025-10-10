@@ -15,7 +15,6 @@ export async function GET(
 
   if ((!access || !refresh) && url.pathname.includes("/callback/")) {
     const tail = url.pathname.split("/callback/")[1] ?? "";
-    console.log("🔍 parsing tail from pathname:", tail);
     if (tail) {
       try {
         const p = new URLSearchParams(tail);

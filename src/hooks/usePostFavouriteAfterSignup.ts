@@ -23,7 +23,6 @@ const buildFavouriteRequestBody = (
 
 const postFavouriteAfterSignup = async (data: PostFavouriteData) => {
   const body = buildFavouriteRequestBody(data.items);
-  console.log("Frontend sending favourite data:", body); 
 
   const response = await fetch(`/api/favourite/post-favorite-after-signup`, {
     method: "POST",

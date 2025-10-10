@@ -141,7 +141,6 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     }
   };
 
-  console.log("Cart items:", items);
 
   const handleUpdateQuantity = (
     id: string,
