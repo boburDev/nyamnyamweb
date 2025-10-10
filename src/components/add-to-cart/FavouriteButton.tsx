@@ -27,11 +27,13 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   const router = useRouter();
   const { isAuthenticated: isAuth } = useAuthStatus();
   const { mutate: addFavouritesApi } = useAddFavourites();
-  const { data: favData } = useQuery<{ success: boolean; data: ProductData[] }>({
-    queryKey: ["favourites"],
-    queryFn: getFavourites,
-    enabled: isAuth,
-  });
+  const { data: favData } = useQuery<{ success: boolean; data: ProductData[] }>(
+    {
+      queryKey: ["favourites"],
+      queryFn: getFavourites,
+      enabled: isAuth,
+    }
+  );
 
   const handleFavourite = () => {
     // Check if item is in favourites (local store for guest, server for auth)
@@ -49,16 +51,19 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
 
     if (isAuth) {
       // Add to favourites via API for authenticated users
-      addFavouritesApi([product.id], {
-        onSuccess: () => {
-          showToast({
-            title: "Saqlangan mahsulotlarga qo'shildi",
-            type: "success",
-            href: "/favourite",
-            hrefName: "Saqlangan mahsulotlar",
-          });
-        },
-      });
+      addFavouritesApi(
+        { id: product.id },
+        {
+          onSuccess: () => {
+            showToast({
+              title: "Saqlangan mahsulotlarga qo'shildi",
+              type: "success",
+              href: "/favourite",
+              hrefName: "Saqlangan mahsulotlar",
+            });
+          },
+        }
+      );
     } else {
       // Add to local store for guest users
       addToFavourites(product);
