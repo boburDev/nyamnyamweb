@@ -93,7 +93,7 @@ export const updateCart = async ({
 
 export const deleteCartItem = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`/api/proxy/cart/${id}`);
+    const res = await axios.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart/${id}`);
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {

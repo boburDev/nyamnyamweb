@@ -62,7 +62,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
           setJustAdded(true);
           await queryClient.invalidateQueries({ queryKey: ["cart"] });
           showToast({
-            title: "Savatga qo'shildi",
+            title: `${product.title} savatga qo'shildi`,
             type: "success",
             href: "/cart",
             hrefName: "Savatga o'tish",

@@ -43,7 +43,7 @@ const MemoizedPlacemark = memo(
                   <h3 style="font-weight:500;font-size:20px;color:#2F2F2F;margin:0;">${product.title ?? product.title}</h3>
                   <span style="color:#6A6E78;font-size:14px;">⭐ ${product.overall_rating ?? 0}</span>
                 </div>
-                <p style="margin:4px 0;color:#6A6E78;font-size:14px;">${product.business_name ?? product.business_name} • ${product.distance_km ?? 0} km</p>
+                <p style="margin:4px 0;color:#6A6E78;font-size:14px;">${product.business_name ?? product.business_name} • ${product.distance ?? 0} km</p>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:15px;">
                   <span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${product.price ?? product.price ?? ""}</span>
                   <span style="font-weight:600;color:#4FB477;font-size:18px;">${product.price_in_app ?? product.price_in_app ?? 0}</span>

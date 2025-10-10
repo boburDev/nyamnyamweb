@@ -68,10 +68,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <span className="font-medium">{product.branch_name}</span>
               </>
             )}
-            {product.distance_km && (
+            {product.distance && (
               <>
                 <Dot className="w-4 h-4" />
-                <span className="font-medium">{product.distance_km} km</span>
+                <span className="font-medium">{product.distance} km</span>
               </>
             )}
           </div>
