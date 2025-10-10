@@ -6,7 +6,7 @@ import useFavouriteStore from "@/context/favouriteStore";
 import { showToast } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useAddFavourites } from "@/hooks";
+import { useAddFavourites, useRemoveFavourites } from "@/hooks";
 import { getFavourites } from "@/api/favourite";
 import { useAuthStatus } from "@/hooks/auth-status";
 import { ProductData } from "@/types";
@@ -27,6 +27,7 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   const router = useRouter();
   const { isAuthenticated: isAuth } = useAuthStatus();
   const { mutate: addFavouritesApi } = useAddFavourites();
+  const { mutate: removeFavouriteApi } = useRemoveFavourites();
   const { data: favData } = useQuery<{ success: boolean; data: ProductData[] }>(
     {
       queryKey: ["favourites"],
@@ -36,21 +37,29 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   );
 
   const handleFavourite = () => {
-    // Check if item is in favourites (local store for guest, server for auth)
     const inLocalFav = isFavourite(product.id);
     const inServerFav =
       isAuth &&
       favData?.data?.some(
-        (item: ProductData) => String(item.id) === String(product.id)
+        (item: ProductData) => String(item.surprise_bag) === String(product.id)
       );
-
-    if (inLocalFav || inServerFav) {
-      router.push("/favourite");
-      return;
+  
+    const isFav = inLocalFav || inServerFav;
+  
+    if (isFav) {
+      if (isAuth) {
+        removeFavouriteApi({ id: product.id });
+      } else {
+        useFavouriteStore.getState().removeFromFavourites(product.id);
+      }
+      showToast({
+        title: "Mahsulot saqlanganlardan olib tashlandi",
+        type: "info",
+      });
+      return; 
     }
-
+  
     if (isAuth) {
-      // Add to favourites via API for authenticated users
       addFavouritesApi(
         { id: product.id },
         {
@@ -58,29 +67,29 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
             showToast({
               title: "Saqlangan mahsulotlarga qo'shildi",
               type: "success",
-              href: "/favourite",
+              href: "/favourites",
               hrefName: "Saqlangan mahsulotlar",
             });
           },
         }
       );
     } else {
-      // Add to local store for guest users
       addToFavourites(product);
       showToast({
         title: "Saqlangan mahsulotlarga qo'shildi",
         type: "success",
-        href: "/favourite",
+        href: "/favourites",
         hrefName: "Saqlangan mahsulotlar",
       });
     }
   };
+  
 
   const isFavouriteState =
     isFavourite(product.id) ||
     (isAuth &&
       favData?.data?.some(
-        (item: ProductData) => String(item.id) === String(product.id)
+        (item: ProductData) => String(item.surprise_bag) === String(product.id)
       ));
 
   return (
@@ -90,12 +99,11 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
                 backdrop-blur-[45px] bg-mainColor/20 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full
             
       `}
-      // variant={variant}
+    // variant={variant}
     >
       <Heart
-        className={`w-6 h-6 rounded-full ${
-          isFavouriteState ? " fill-white" : ""
-        } `}
+        className={`w-6 h-6 rounded-full ${isFavouriteState ? " fill-white" : ""
+          } `}
       />
       {showText && (
         <span className="ml-2">

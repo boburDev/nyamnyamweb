@@ -45,9 +45,9 @@ const AddToCart: React.FC<AddToCartProps> = ({
     const inLocalCart = isInCart(product.id);
     const inServerCart =
       isAuth &&
-      cartData?.items?.some(
+      cartData?.cart_items?.some(
         (item: ProductData) =>
-          String(item?.id ?? item?.id) === String(product.id)
+          String(item?.id ?? item?.surprise_bag) === String(product.id)
       );
 
     if (inLocalCart || inServerCart) {
@@ -86,7 +86,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
     isInCart(product.id) ||
     (isAuth &&
         cartData?.cart_items?.some(
-        (item: ProductData) => String(item?.id) === String(product.id)
+        (item: ProductData) => String(item?.surprise_bag) === String(product.id)
       ));
 
   const sizeClasses = {

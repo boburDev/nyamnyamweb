@@ -24,10 +24,8 @@ export async function POST(req: Request) {
         { status: 401 }
       );
     }
-    console.log("Body here: ", req);
 
     const body = await req.json();
-    console.log("API received cart data:", body); // Debug log
     const { items } = body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -45,9 +43,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify(body),
     });
-    console.log("Post cart", POST_CART);
 
-    console.log("Response here: ", response);
 
     if (!response.ok) {
       const errorData = await response.text();

@@ -42,16 +42,11 @@ export const addFavourites = async ({ id }: { id: string }) => {
   }
 };
 
-export const removeFavourites = async (ids?: Array<string | number>) => {
+export const removeFavourite = async ({ id }: { id: string }) => {
   try {
-    // If ids provided, send as query params, otherwise remove all
-    const query =
-      ids && ids.length
-        ? `?${ids
-            .map((id) => `id=${encodeURIComponent(String(id))}`)
-            .join("&")}`
-        : "";
-    const res = await axios.delete(`/api/proxy/favourites${query}`);
+    const res = await axios.delete(`/api/favourite`, {
+      id,
+    });
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -69,3 +64,5 @@ export const removeFavourites = async (ids?: Array<string | number>) => {
     throw new Error((error as Error)?.message || "Xato yuz berdi");
   }
 };
+
+
