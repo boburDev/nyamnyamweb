@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-const PriceFormatter = ({ amount, className }: Props) => {
+export const PriceFormatter = ({ amount, className }: Props) => {
   if (amount === undefined || amount === null) {
     return null;
   }

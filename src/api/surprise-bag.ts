@@ -34,7 +34,7 @@ export const getSupriseBagAll = async ({
 };
 
 export async function getSurpriseBagsByCategory({
-  catalog, 
+  catalog,
   type,
   locale,
 }: {
@@ -53,7 +53,7 @@ export async function getSurpriseBagsByCategory({
         "Accept-Language": locale ?? "en",
       },
     });
-    
+
     return res.data?.data ?? [];
   } catch (err) {
     console.error("getSurpriseBagsByCategory error:", err);
@@ -62,22 +62,15 @@ export async function getSurpriseBagsByCategory({
 }
 
 export const getSurpriseBagSingle = async ({
-  catalog,
-  type,
+  id,
   locale,
 }: {
-  catalog?: string;
-  type: string;
+  id: string;
   locale: string;
 }) => {
   try {
-    const params = {
-      ...(catalog && { catalog: catalog }),
-      type,
-    };
-    const res = await axios.get(SURPRISE_BAG_ALL, {
+    const res = await axios.get(`${SURPRISE_BAG_ALL}${id}/`, {
       headers: { "Accept-Language": locale },
-      params,
     });
     return res.data.data || null;
   } catch (error) {

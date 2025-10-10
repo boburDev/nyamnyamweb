@@ -12,6 +12,7 @@ export * from "./ArrowBackIcon";
 export * from "./EditIcon";
 export * from "./FavouriteIcon";
 export * from "./ArrowRightIcon";
+export * from "./SavedIcon";
 // payment icon
 export * from "./ClickIcon";
 export * from "./PaymeIcon";
