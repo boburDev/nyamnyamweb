@@ -43,14 +43,14 @@ export async function getSurpriseBagsByCategory({
   locale?: string;
 }) {
   try {
-    const params: Record<string, string> = {};
-    if (catalog) params.slug = catalog;
-    if (type) params.type = type;
-
+    const params = {
+      ...(catalog && { catalog }),
+      type,
+    };
     const res = await axios.get(SURPRISE_BAG_ALL, {
       params,
       headers: {
-        "Accept-Language": locale ?? "en",
+        "Accept-Language": locale,
       },
     });
 
