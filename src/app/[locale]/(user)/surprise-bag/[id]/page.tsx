@@ -1,11 +1,13 @@
+import Image from "next/image";
+import { Map, StarIcon } from "lucide-react";
 import { getSurpriseBagSingle } from "@/api";
-import { SavedIcon } from "@/assets/icons";
+import { CartIcon, SavedIcon } from "@/assets/icons";
 import { Container } from "@/components/container";
 import { PriceFormatter } from "@/components/price-format";
 import { ProductData } from "@/types";
 import { formatTimeRangeInTz } from "@/utils/time";
-import { Map, StarIcon } from "lucide-react";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ProductCard } from "@/components/card";
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -18,7 +20,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
   return (
     <div className="py-20">
       <Container>
-        <div className="bg-white p-5 rounded-[20px] flex gap-5">
+        <div className="bg-white p-5 rounded-[20px] flex gap-5 mb-10">
           <div className="relative w-[350px] shrink-0">
             <Image
               src={product?.cover_image}
@@ -77,13 +79,34 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               <span className="ml-1 text-textColor">{range}</span>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex">
-                <PriceFormatter amount={product?.price} />
+              <div className="flex items-center gap-5">
+                <PriceFormatter
+                  amount={product?.price}
+                  className="line-through text-dolphin text-lg font-normal"
+                  summ={false}
+                />
+                <PriceFormatter
+                  amount={product?.price_in_app}
+                  className="font-semibold text-2xl"
+                />
                 <p></p>
               </div>
+              <Button className="!px-[25px] !py-[10px]">
+                <CartIcon /> Savatga qo’shish
+              </Button>
             </div>
           </div>
         </div>
+        {product &&
+          product?.similar_data &&
+          product?.similar_data?.length > 0 && (
+            <div>
+              <h3 className="page-title mb-10">Boshqa super boxlar</h3>
+              {product?.similar_data?.map((item) => (
+                <ProductCard key={item.id} product={item} />
+              ))}
+            </div>
+          )}
       </Container>
     </div>
   );

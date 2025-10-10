@@ -1,33 +1,37 @@
 import { cn } from "@/lib/utils";
 
 interface Props {
-  amount?: number;
+  amount?: number | null;
   className?: string;
+  summ?: boolean; // endi optional, default true
 }
 
-export const PriceFormatter = ({ amount, className }: Props) => {
-  if (amount === undefined || amount === null) {
+export const PriceFormatter = ({ amount, className, summ = true }: Props) => {
+  if (amount === undefined || amount === null || Number.isNaN(Number(amount))) {
     return null;
   }
 
   const currency = "so'm";
-  const formatted = amount
-    .toLocaleString("ru-RU", {
-      useGrouping: true,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-    .replace(/\u00A0/g, " ");
-  const formattedWithoutCurrency = formatted.replace(currency, "");
-  const [integerPart, fractionPart] = formattedWithoutCurrency.split(",");
+
+  // format: grouping + exactly 2 decimals (we'll hide ",00" later)
+  const formatted = new Intl.NumberFormat("ru-RU", {
+    useGrouping: true,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+    .format(Number(amount))
+    .replace(/\u00A0/g, " "); // NBSP -> regular space
+
+  // ru-RU uses comma as decimal separator
+  const [integerPart, fractionPart] = formatted.split(",");
 
   return (
     <span className={cn("font-semibold text-mainColor text-lg", className)}>
       {integerPart}
       {fractionPart && fractionPart !== "00" && (
-        <span className="text-xs ">,{fractionPart}</span>
+        <span className="text-xs">,{fractionPart}</span>
       )}{" "}
-      {currency}
+      {summ ? currency : null}
     </span>
   );
 };
