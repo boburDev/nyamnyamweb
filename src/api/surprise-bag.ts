@@ -1,8 +1,6 @@
 import { SURPRISE_BAG_ALL } from "@/constants";
 import axios from "axios";
 
-
-
 export const getSupriseBagAll = async ({
   locale,
   slug,
@@ -17,14 +15,11 @@ export const getSupriseBagAll = async ({
   try {
     const params = new URLSearchParams();
 
-    // 🎯 faqat category "all" bo‘lmasa qo‘shiladi
     if (slug !== "all") params.append("category", slug);
 
-    // 📍 lat / lon mavjud bo‘lsa qo‘shamiz
     if (lat) params.append("lat", lat.toString());
     if (lon) params.append("lon", lon.toString());
 
-    // ✅ yakuniy URL: /surprise-bag/?lat=111.11&lon=3333.333
     const url = `${SURPRISE_BAG_ALL}?${params.toString()}`;
 
     const res = await axios.get(url, {
@@ -38,42 +33,55 @@ export const getSupriseBagAll = async ({
   }
 };
 
-
-
-export const getSurpriseBagByCategory = async ({
+export async function getSurpriseBagsByCategory({
+  catalog, 
+  type,
   locale,
-  slug,
 }: {
-  locale: string;
-  slug: string;
-}) => {
+  catalog?: string;
+  type?: string;
+  locale?: string;
+}) {
   try {
+    const params: Record<string, string> = {};
+    if (catalog) params.slug = catalog;
+    if (type) params.type = type;
+
     const res = await axios.get(SURPRISE_BAG_ALL, {
-      params: { category: slug },
-      headers: { "Accept-Language": locale },
+      params,
+      headers: {
+        "Accept-Language": locale ?? "en",
+      },
     });
-    return res.data.data || [];
-  } catch (error) {
-    console.error("Error fetching surprise bags by category:", error);
+    
+    return res.data?.data ?? [];
+  } catch (err) {
+    console.error("getSurpriseBagsByCategory error:", err);
     return [];
   }
-};
+}
 
-export const getSurpriseBagById = async ({
-  id,
+export const getSurpriseBagSingle = async ({
+  catalog,
+  type,
   locale,
 }: {
-  id: string;
+  catalog?: string;
+  type: string;
   locale: string;
 }) => {
   try {
-    const url = `${SURPRISE_BAG_ALL}/${id}`;
-    const res = await axios.get(url, {
+    const params = {
+      ...(catalog && { catalog: catalog }),
+      type,
+    };
+    const res = await axios.get(SURPRISE_BAG_ALL, {
       headers: { "Accept-Language": locale },
+      params,
     });
     return res.data.data || null;
   } catch (error) {
-    console.error("Error fetching surprise bag by ID:", error);
+    console.error("Error fetching surprise bag by id:", error);
     return null;
   }
 };

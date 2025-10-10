@@ -1,7 +1,7 @@
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import CartComponent from "@/components/cart/CartComponent";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();

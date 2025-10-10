@@ -27,7 +27,6 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
     refetchOnWindowFocus: false,
   });  
   
-  // Derived counts and totals for both modes
   const serverCount = (data?.cart_items?.length as number) || 0;
   const serverTotal = (data?.cart_total as number) || 0;
   useEffect(() => {

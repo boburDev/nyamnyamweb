@@ -3,7 +3,7 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 
 import { useGetCategory } from "@/hooks";
@@ -12,12 +12,22 @@ import { Container } from "../container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { CategoryData } from "@/types";
 import { ProductSwiper } from "../swiper";
+import { SurpriseHeader } from "../surprise-bag";
 
 export const ProductTabs = () => {
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState("all");
   const { data: category } = useGetCategory(locale);
   const { data: product } = useGetSupriseBag({ locale, slug: activeTab });
+
+  const currentCatalog = useMemo(() => {
+    if (activeTab === "all") return null;
+    return (
+      category?.find((cat: CategoryData) => cat.slug === activeTab)?.slug ||
+      null
+    );
+  }, [activeTab, category]);
+  console.log(currentCatalog);
 
   return (
     <section className="mt-[124px] relative">
@@ -56,54 +66,85 @@ export const ProductTabs = () => {
                       {/* popular card */}
                       {product?.popular?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Mashhur brend surprise baglari
-                          </h1>
+                          <SurpriseHeader
+                            title="Mashhur surprise baglar"
+                            catalog={currentCatalog}
+                            type="popular"
+                            length={product?.popular?.length}
+                          />
+
                           <ProductSwiper product={product?.popular} />
+                        </div>
+                      )}
+                      {product?.recommended?.length > 0 && (
+                        <div>
+                          <SurpriseHeader
+                            title="Tavsiya etilgan surprise baglar"
+                            catalog={currentCatalog}
+                            type="recommended"
+                            length={product?.recommended?.length}
+                          />
+
+                          <ProductSwiper product={product?.recommended} />
                         </div>
                       )}
                       {/* new card */}
                       {product?.new?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Yangi surprise baglar
-                          </h1>
+                          <SurpriseHeader
+                            title="Yangi surprise baglar"
+                            catalog={currentCatalog}
+                            type="new"
+                            length={product?.new?.length}
+                          />
                           <ProductSwiper product={product?.new} />
                         </div>
                       )}
                       {/* morning card */}
                       {product?.morning?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Ertalabki surprise baglar
-                          </h1>
+                          <SurpriseHeader
+                            title="Ertalabki surprise baglar"
+                            catalog={currentCatalog}
+                            type="new"
+                            length={product?.morning?.length}
+                          />
                           <ProductSwiper product={product?.morning} />
                         </div>
                       )}
                       {/* afternoon card */}
                       {product?.afternoon?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Tushlik uchun surprise baglar
-                          </h1>
+                          <SurpriseHeader
+                            title="Tushlik uchun surprise baglar"
+                            catalog={currentCatalog}
+                            type="new"
+                            length={product?.afternoon?.length}
+                          />
                           <ProductSwiper product={product?.afternoon} />
                         </div>
                       )}
                       {/* evening card */}
                       {product?.evening?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Kechki surprise baglar
-                          </h1>
+                          <SurpriseHeader
+                            title="Kechki surprise baglar"
+                            catalog={currentCatalog}
+                            type="new"
+                            length={product?.evening?.length}
+                          />
                           <ProductSwiper product={product?.evening} />
                         </div>
                       )}
                       {/* tomorrow */}
                       {product?.tomorrow?.length > 0 && (
                         <div>
-                          <h1 className="page-title mb-10">
-                            Ertangi surprise baglar
-                          </h1>
+                          <SurpriseHeader
+                            title=" Ertangi surprise baglar"
+                            catalog={currentCatalog}
+                            type="tomorrow"
+                            length={product?.tomorrow?.length}
+                          />
                           <ProductSwiper product={product?.tomorrow} />
                         </div>
                       )}
