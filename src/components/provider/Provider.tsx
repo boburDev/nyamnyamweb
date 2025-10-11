@@ -1,11 +1,8 @@
 "use client";
 
+import { ReactNode, useState } from "react";
+import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
 import { getQueryClient } from "@/lib/react-query";
-import {
-  HydrationBoundary,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactNode } from "react";
 
 export function Providers({
   children,
@@ -14,7 +11,7 @@ export function Providers({
   children: ReactNode;
   dehydratedState?: unknown;
 }) {
-  const queryClient = getQueryClient();
+  const [queryClient] = useState(() => getQueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
