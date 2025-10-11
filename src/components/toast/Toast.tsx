@@ -2,7 +2,6 @@
 
 import type React from "react"
 
-import Link from "next/link"
 import toast, { type Toast } from "react-hot-toast"
 import { X } from "lucide-react"
 import { SuccesIcon } from "@/assets/icons"
@@ -10,6 +9,7 @@ import { WarningIcon } from "@/assets/icons"
 import { InfoIcon } from "@/assets/icons"
 import { ErrorIcon } from "@/assets/icons"
 import type { ToastType } from "@/types"
+import { Link } from "@/i18n/navigation"
 
 interface ToastProps {
   title: string

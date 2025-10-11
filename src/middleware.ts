@@ -13,9 +13,7 @@ export default async function middleware(request: NextRequest) {
   const token = request.cookies.get(REFRESH_TOKEN);
 
   const isProtectedRoute =
-    pathname.includes("/order") ||
-    pathname.includes("/profile") ||
-    pathname.includes("/favourites");
+    pathname.includes("/order") || pathname.includes("/profile");
 
   const isAuthRoute =
     pathname.includes("/signin") ||
