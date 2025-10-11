@@ -21,7 +21,7 @@ export const getFavourites = async () => {
 
 export const addFavourites = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.post(`/api/favourite`, {
+    const res = await axios.post(`/api/favourites`, {
       id,
     });
     return res.data;
@@ -44,8 +44,10 @@ export const addFavourites = async ({ id }: { id: string }) => {
 
 export const removeFavourite = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`/api/favourite`, {
-      id,
+    const res = await axios.delete(`/api/favourites`, {
+      data: {
+        id,
+      },
     });
     return res.data;
   } catch (error: unknown) {

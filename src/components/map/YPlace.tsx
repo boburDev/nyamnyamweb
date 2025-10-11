@@ -3,6 +3,32 @@ import { memo, useMemo } from "react";
 import { createCustomMarkerSVG } from "./MapSvg";
 import { ProductData } from "@/types";
 
+// tolerant coordinate parser
+const parseCoord = (val: any): number => {
+  if (val === null || val === undefined) return NaN;
+  if (typeof val === "number") return val;
+  if (typeof val === "string") {
+    // replace comma with dot, remove non-numeric except . and -
+    const cleaned = val.trim().replace(",", ".").replace(/[^\d.-]/g, "");
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  return NaN;
+};
+
+const toLatin = (input?: string) => {
+  if (!input) return "";
+  const map: Record<string, string> = {
+    // ... (sizin oldingi translit xaritasi shu yerda bo'lsa yetarli)
+    // For brevity reuse previous map or keep as-is
+  };
+  // keep simple: if not provided, return original
+  return input
+    .split("")
+    .map((ch) => map[ch] ?? ch)
+    .join("");
+};
+
 const MemoizedPlacemark = memo(
   ({
     product,
@@ -17,6 +43,36 @@ const MemoizedPlacemark = memo(
     setHoveredId?: (id: string | null) => void;
     handlePlacemarkClick: (id: string) => void;
   }) => {
+    // support different possible keys
+    const latNum = useMemo(
+      () =>
+        parseCoord(
+          product.lat ??
+            product.lat ??
+            product.lat ??
+            (product as any).coords?.lat ??
+            (product as any).latitude
+        ),
+      [product.lat, product.lat]
+    );
+    const lonNum = useMemo(
+      () =>
+        parseCoord(
+          product.lon ??
+            product.lon ??
+            product.lon ??
+            (product as any).coords?.lon ??
+            (product as any).longitude
+        ),
+      [product.lon, product.lon]
+    );
+
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      // helpful debug when coordinates missing/invalid
+      // console.warn(`Placemark skipped for ${product.id} — invalid coords:`, product.lat, product.lon);
+      return null;
+    }
+
     const options = useMemo(
       () => ({
         iconLayout: "default#image",
@@ -33,20 +89,20 @@ const MemoizedPlacemark = memo(
 
     const properties = useMemo(
       () => ({
-        hintContent: product.title ?? product.title,
+        hintContent: toLatin(product.title ?? ""),
         balloonContentBody: `
           <div style="width:360px;">
             <div style="display:flex;gap:12px;align-items:center;">
-              <img src="${product.cover_image ?? product.cover_image ?? "/placeholder.svg"}" style="width:108px;height:107px;object-fit:cover;border-radius:8px;"/>
+              <img src="${product.cover_image ?? "/placeholder.svg"}" style="width:108px;height:107px;object-fit:cover;border-radius:8px;"/>
               <div style="flex:1;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;">
-                  <h3 style="font-weight:500;font-size:20px;color:#2F2F2F;margin:0;">${product.title ?? product.title}</h3>
+                  <h3 style="font-weight:500;font-size:20px;color:#2F2F2F;margin:0;">${toLatin(product.title ?? "")}</h3>
                   <span style="color:#6A6E78;font-size:14px;">⭐ ${product.overall_rating ?? 0}</span>
                 </div>
-                <p style="margin:4px 0;color:#6A6E78;font-size:14px;">${product.business_name ?? product.business_name} • ${product.distance ?? 0} km</p>
+                <p style="margin:4px 0;color:#6A6E78;font-size:14px;">${toLatin(product.business_name ?? "")} • ${product.distance ?? 0} km</p>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:15px;">
-                  <span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${product.price ?? product.price ?? ""}</span>
-                  <span style="font-weight:600;color:#4FB477;font-size:18px;">${product.price_in_app ?? product.price_in_app ?? 0}</span>
+                  <span style="text-decoration:line-through;color:#9CA3AF;font-size:14px;">${product.price ?? ""}</span>
+                  <span style="font-weight:600;color:#4FB477;font-size:18px;">${product.price_in_app ?? 0}</span>
                 </div>
               </div>
             </div>
@@ -59,7 +115,7 @@ const MemoizedPlacemark = memo(
     return (
       <Placemark
         key={product.id}
-        geometry={product.lat && product.lon ? [product.lat, product.lon] : [0, 0]}
+        geometry={[latNum, lonNum]}
         options={options}
         properties={properties}
         onMouseEnter={() => setHoveredId?.(product.id)}

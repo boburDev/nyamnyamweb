@@ -1,13 +1,16 @@
+
 import Image from "next/image";
 import { Map, StarIcon } from "lucide-react";
 import { getSurpriseBagSingle } from "@/api";
-import { CartIcon, SavedIcon } from "@/assets/icons";
 import { Container } from "@/components/container";
 import { PriceFormatter } from "@/components/price-format";
 import { ProductData } from "@/types";
 import { formatTimeRangeInTz } from "@/utils/time";
-import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/card";
+import { FavouriteButton } from "@/components/add-to-cart";
+import AddToSingle from "@/components/add-to-cart/AddToSingle";
+import { NavigateToMapBtn } from "@/components/button";
+import { Link } from "@/i18n/navigation";
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -27,7 +30,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               alt={product?.title}
               width={350}
               height={308}
-              className="w-[350px] h-[308px] rounded-[12px]"
+              className="w-[350px] h-[308px] rounded-[12px] object-cover"
               priority
             />
             <span className="absolute top-5 left-5 py-2 px-[14.5px] bg-mainColor/50 rounded-[15px] backdrop-blur-[45px] font-medium text-sm text-white">
@@ -39,9 +42,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               <h2 className="font-medium text-2xl text-textColor">
                 {product?.title}
               </h2>
-              <span>
-                <SavedIcon />
-              </span>
+              <FavouriteButton product={product} />
             </div>
             <div className="flex items-center justify-between mb-[23px]">
               <p className="text-textColor text-base">
@@ -49,7 +50,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               </p>
               {!product?.overall_rating && (
                 <span>
-                  <StarIcon size={14} className="text-yellow-300" />{" "}
+                  <StarIcon size={20} className="text-accordionText fill-accordionText" />{" "}
                   {product?.overall_rating}
                 </span>
               )}
@@ -64,14 +65,17 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
                 </p>
                 <span className="w-1 h-1 rounded-full bg-dolphin mx-[10px]"></span>
                 <span className="text-dolphin text-[17px] font-normal">
-                  {Number(product?.distance_km).toFixed(1)} km
+                  {Number(product?.distance).toFixed(1)} km
                 </span>
               </div>
               <div className="flex items-center">
-                <button className="ml-[10px] text-mainColor text-[17px] font-normal flex gap-[10px] items-center mb-5">
+                <Link
+                  href={`/surprise-bag/${product.id}/map`}
+                  className="ml-[10px] text-mainColor text-[17px] font-normal flex gap-[10px] items-center mb-5"
+                >
                   <Map className="w-5 h-5 text-mainColor" />
                   Xaritada ko’rish
-                </button>
+                </Link>
               </div>
             </div>
             <div className="flex mb-5">
@@ -91,9 +95,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
                 />
                 <p></p>
               </div>
-              <Button className="!px-[25px] !py-[10px]">
-                <CartIcon /> Savatga qo’shish
-              </Button>
+              <AddToSingle product={product} />
             </div>
           </div>
         </div>
