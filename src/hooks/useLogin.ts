@@ -15,6 +15,7 @@ export const useLogin = (locale: string) => {
     mutationFn: async (data: LoginForm) => {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "Accept-Language": locale,

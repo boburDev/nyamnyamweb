@@ -27,11 +27,13 @@ import { usePostFavouriteAfterSignup } from "@/hooks/usePostFavouriteAfterSignup
 import { PasswordInput } from "@/components/form";
 import useCartStore from "@/context/cartStore";
 import useFavouriteStore from "@/context/favouriteStore";
+import { useQueryClient } from "@tanstack/react-query";
 export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("sign-in");
   const tValidation = useTranslations("validation");
+  const queryClient = useQueryClient();
 
   const form = useForm<LoginForm & FieldValues>({
     mode: "onTouched",
@@ -47,7 +49,6 @@ export default function SigninPage() {
   const { mutate: postFavouriteAfterSignup } = usePostFavouriteAfterSignup();
   const { items: cartItems, clearCart } = useCartStore();
   const { items: favouriteItems, clearFavourites } = useFavouriteStore();
-
   const onSubmit = (data: LoginForm) => {
     loginMutate(data, {
       onSuccess: () => {
@@ -87,8 +88,9 @@ export default function SigninPage() {
         }
 
         showSuccess("Muvaffaqiyatli kirdingiz");
-        router.refresh();
+        queryClient.invalidateQueries({ queryKey: ["user"] });
         router.push("/");
+        router.refresh();
       },
       onError: (error) => {
         showError(error.message);
