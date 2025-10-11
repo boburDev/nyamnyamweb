@@ -1,4 +1,5 @@
 import { getSurpriseBagsByCategory } from "@/api";
+import SurpriseClient from "@/components/surprise-bag/SurpriseClient";
 import { QueryClient } from "@tanstack/react-query";
 interface Props {
   params: Promise<{ locale: string }>;
@@ -15,7 +16,7 @@ const SurpriseBagPage = async ({ params, searchParams }: Props) => {
   });
   return (
     <div>
-      SurpriseBagPage {catalog} va {type} va {locale}
+      <SurpriseClient catalog={catalog} type={type} locale={locale} />
     </div>
   );
 };
