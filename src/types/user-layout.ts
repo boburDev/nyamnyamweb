@@ -22,6 +22,7 @@ export interface ProductData {
   business_name: string;
   count: number;
   description: string;
+  similar_data?: ProductData[];
   cover_image: string;
   branch_name: string;
   lat?: string;

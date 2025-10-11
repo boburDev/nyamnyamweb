@@ -102,9 +102,11 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
           product?.similar_data?.length > 0 && (
             <div>
               <h3 className="page-title mb-10">Boshqa super boxlar</h3>
-              {product?.similar_data?.map((item) => (
-                <ProductCard key={item.id} product={item} />
-              ))}
+              <div className="grid grid-cols-3 gap-5">
+                {product?.similar_data?.map((item) => (
+                  <ProductCard key={item.id} product={item} />
+                ))}
+              </div>
             </div>
           )}
       </Container>
