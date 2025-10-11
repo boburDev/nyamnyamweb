@@ -23,6 +23,7 @@ export interface ProductData {
   count: number;
   description: string;
   similar_data?: ProductData[];
+  distance_km?: string;
   cover_image: string;
   branch_name: string;
   lat?: string;
