@@ -12,7 +12,7 @@ const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
 });
 
-interface Props {
+interface Props { 
   params: { id: string; locale: string };
 }
 
