@@ -37,7 +37,6 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   const handleFavourite = () => {
     const inLocalFav = isFavourite(product.id);
 
-    // Auth bo'lsa serverdagi favourite-larni tekshiramiz
     const matchedFavourite = favData?.data?.find(
       (item: ProductData) =>
         String(item.surprise_bag) === String(product.id)

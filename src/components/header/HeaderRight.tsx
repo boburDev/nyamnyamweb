@@ -15,17 +15,15 @@ import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
-  // Subscribe to cart store values using selectors so component re-renders on updates
   const guestCount = useCartStore((s) => s.items.length);
   const [isClient, setIsClient] = useState(false);
-
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
     enabled: auth,
     refetchOnWindowFocus: false,
-  });  
-  
+  });
+
   const serverCount = (data?.cart_items?.length as number) || 0;
   const serverTotal = (data?.cart_total as number) || 0;
   useEffect(() => {
@@ -46,9 +44,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
             <Link href="/cart">
               <div className="flex gap-4 py-3">
                 <CartIcon />
-                <span>
-                  {isClient ? serverTotal.toLocaleString() : "0"} UZS
-                </span>
+                <span>{isClient ? serverTotal.toLocaleString() : "0"} UZS</span>
               </div>
               {isClient && serverCount > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -61,12 +57,14 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
         </div>
       ) : (
         <div className="flex gap-4 items-center">
-          <Button
-            variant="secondary"
-            className="w-[174px] h-12 px-5 font-medium text-sm"
-          >
-            Biznes uchun kirish
-          </Button>
+          <Link href={"https://business.azera.uz"} target="_blank">
+            <Button
+              variant="secondary"
+              className="w-[174px] h-12 px-5 font-medium text-sm"
+            >
+              Biznes uchun kirish
+            </Button>
+          </Link>
 
           {/* Cart Button for non-authenticated users */}
           <Button

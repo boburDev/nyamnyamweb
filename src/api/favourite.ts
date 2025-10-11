@@ -24,7 +24,7 @@ export const addFavourites = async ({ id }: { id: string }) => {
     const res = await axios.post(`/api/favourites`, {
       id,
     });
-    return res.data;
+    return res.data.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       const data = error.response.data as
