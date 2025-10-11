@@ -14,8 +14,8 @@ import { useGetCategory } from "@/hooks";
 import { useGetSupriseBag } from "@/hooks/suprise-bag";
 import { useLocale } from "next-intl";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { CategoryData } from "@/types";
-import { Product } from "@/api/product";
+import { CategoryData, ProductData } from "@/types";
+import { useSearchParams } from "next/navigation";
 
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
@@ -32,6 +32,18 @@ const MapClient = () => {
   const [mapCenter, setMapCenter] = useState<[number, number]>([41.311151, 69.279737]);
   const [mapZoom, setMapZoom] = useState<number>(12);
   const { data: category } = useGetCategory(locale);
+
+  const params = useSearchParams();
+  const lat = parseFloat(params.get("lat") || "0");
+  const lon = parseFloat(params.get("lon") || "0");
+  const id = params.get("id");
+
+  useEffect(() => {
+    if (lat && lon && mapRef.current) {
+      mapRef.current.setCenter([lat, lon], 15, { duration: 600 });
+    }
+  }, [lat, lon]);
+
 
   // 🧭 User location
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
@@ -67,15 +79,15 @@ const MapClient = () => {
     lon: userLocation?.lon,
   });
   // Flatten all products from different sections into a single array with unique products
-  const products: Product[] = React.useMemo(() => {
+  const products: ProductData[] = React.useMemo(() => {
     if (!surpriseBagData) return [];
 
-    const allProducts: Product[] = [];
+    const allProducts: ProductData[] = [];
     const productIds = new Set<string>();
 
     // Add popular products
     if (Array.isArray(surpriseBagData.popular)) {
-      surpriseBagData.popular.forEach((product: Product) => {
+      surpriseBagData.popular.forEach((product: ProductData) => {
         if (!productIds.has(product.id)) {
           productIds.add(product.id);
           allProducts.push(product);
@@ -85,7 +97,7 @@ const MapClient = () => {
 
     // Add recommended products
     if (Array.isArray(surpriseBagData.recommended)) {
-      surpriseBagData.recommended.forEach((product: Product) => {
+      surpriseBagData.recommended.forEach((product: ProductData) => {
         if (!productIds.has(product.id)) {
           productIds.add(product.id);
           allProducts.push(product);
@@ -96,7 +108,7 @@ const MapClient = () => {
     // Add other category products
     Object.entries(surpriseBagData).forEach(([key, items]) => {
       if (key !== "popular" && key !== "recommended" && Array.isArray(items)) {
-        items.forEach((product: Product) => {
+        items.forEach((product: ProductData) => {
           if (!productIds.has(product.id)) {
             productIds.add(product.id);
             allProducts.push(product);
@@ -121,8 +133,8 @@ const MapClient = () => {
     if (product) {
       setActiveId(id);
       // If product has coords, pan to them
-      if (product.coords && product.coords.length === 2) {
-        mapRef.current?.panTo(product.coords as [number, number], { duration: 300 });
+      if (product.lat && product.lon) {
+        mapRef.current?.panTo([product.lat, product.lon], { duration: 300 });
       }
     }
   };
@@ -130,8 +142,8 @@ const MapClient = () => {
   const handlePlacemarkClick = (id: string) => {
     setActiveId(id);
     const product = products.find((p) => p.id === id);
-    if (product && product.coords && product.coords.length === 2) {
-      mapRef.current?.panTo(product.coords as [number, number], { duration: 300 });
+    if (product && product.lat && product.lon) {
+      mapRef.current?.panTo([product.lat, product.lon], { duration: 300 });
     }
   };
 
@@ -253,7 +265,7 @@ const MapClient = () => {
               activeId={activeId}
               mapRef={mapRef}
               handlePlacemarkClick={handlePlacemarkClick}
-              setActiveId={setActiveId}
+              // setActiveId={setActiveId}
               setHoveredId={setHoveredId}
             />
 

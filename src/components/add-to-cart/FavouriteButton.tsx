@@ -38,30 +38,38 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
 
   const handleFavourite = () => {
     const inLocalFav = isFavourite(product.id);
-    const inServerFav =
-      isAuth &&
-      favData?.data?.some(
-        (item: ProductData) => String(item.surprise_bag) === String(product.id)
-      );
-  
+
+    // Auth bo'lsa serverdagi favourite-larni tekshiramiz
+    const matchedFavourite = favData?.data?.find(
+      (item: ProductData) =>
+        String(item.surprise_bag) === String(product.id)
+    );
+
+    const inServerFav = Boolean(matchedFavourite);
     const isFav = inLocalFav || inServerFav;
-  
+
     if (isFav) {
       if (isAuth) {
-        removeFavouriteApi({ id: product.id });
+        // ❗️To‘g‘ri id yuborish kerak
+        if (matchedFavourite?.id) {
+          removeFavouriteApi({ id: matchedFavourite.id });
+        } else {
+          console.warn("Favourite id topilmadi");
+        }
       } else {
         useFavouriteStore.getState().removeFromFavourites(product.id);
       }
+
       showToast({
         title: "Mahsulot saqlanganlardan olib tashlandi",
         type: "info",
       });
-      return; 
+      return;
     }
-  
+
     if (isAuth) {
       addFavouritesApi(
-        { id: product.id },
+        { id: product.id }, // yoki product.surprise_bag, agar backend shuni kutsa
         {
           onSuccess: () => {
             showToast({
@@ -83,7 +91,8 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
       });
     }
   };
-  
+
+
 
   const isFavouriteState =
     isFavourite(product.id) ||
