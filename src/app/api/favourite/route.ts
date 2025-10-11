@@ -32,7 +32,6 @@ export async function POST(req: Request) {
     return new NextResponse(text, { status: response.status });
   }
 }
-
 export async function DELETE(req: Request) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
@@ -44,9 +43,10 @@ export async function DELETE(req: Request) {
     );
   }
   const body = await req.json();
+console.log("body",body.id);
 
-  const response = await fetch(`${DOMAIN}/favourites/${body.id}/`, {
-    method: "DELETE",
+  const response = await fetch(`${DOMAIN}/favourites/${JSON.stringify(body.id)}`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
