@@ -9,7 +9,6 @@ import { formatTimeRangeInTz } from "@/utils/time";
 import { ProductCard } from "@/components/card";
 import { FavouriteButton } from "@/components/add-to-cart";
 import AddToSingle from "@/components/add-to-cart/AddToSingle";
-import { NavigateToMapBtn } from "@/components/button";
 import { Link } from "@/i18n/navigation";
 
 interface Props {

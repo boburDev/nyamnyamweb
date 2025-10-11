@@ -4,7 +4,7 @@ import { createCustomMarkerSVG } from "./MapSvg";
 import { ProductData } from "@/types";
 
 // tolerant coordinate parser
-const parseCoord = (val: any): number => {
+const parseCoord = (val: unknown): number => {
   if (val === null || val === undefined) return NaN;
   if (typeof val === "number") return val;
   if (typeof val === "string") {
@@ -44,34 +44,30 @@ const MemoizedPlacemark = memo(
     handlePlacemarkClick: (id: string) => void;
   }) => {
     // support different possible keys
-    const latNum = useMemo(
-      () =>
-        parseCoord(
-          product.lat ??
-            product.lat ??
-            product.lat ??
-            (product as any).coords?.lat ??
-            (product as any).latitude
-        ),
-      [product.lat, product.lat]
-    );
-    const lonNum = useMemo(
-      () =>
-        parseCoord(
-          product.lon ??
-            product.lon ??
-            product.lon ??
-            (product as any).coords?.lon ??
-            (product as any).longitude
-        ),
-      [product.lon, product.lon]
-    );
+    // helper to safely access nested properties on unknown objects without using `any`
+    const getNested = (obj: unknown, path: string[]) =>
+      path.reduce<unknown | undefined>((acc, key) => {
+        if (acc && typeof acc === "object" && key in (acc as Record<string, unknown>)) {
+          return (acc as Record<string, unknown>)[key];
+        }
+        return undefined;
+      }, obj);
 
-    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
-      // helpful debug when coordinates missing/invalid
-      // console.warn(`Placemark skipped for ${product.id} — invalid coords:`, product.lat, product.lon);
-      return null;
-    }
+    const latNum = useMemo(() => {
+      const val =
+        product.lat ??
+        getNested(product, ["coords", "lat"]) ??
+        getNested(product, ["latitude"]);
+      return parseCoord(val);
+    }, [product]);
+
+    const lonNum = useMemo(() => {
+      const val =
+        product.lon ??
+        getNested(product, ["coords", "lon"]) ??
+        getNested(product, ["longitude"]);
+      return parseCoord(val);
+    }, [product]);
 
     const options = useMemo(
       () => ({
@@ -111,6 +107,12 @@ const MemoizedPlacemark = memo(
       }),
       [product]
     );
+
+    if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) {
+      // helpful debug when coordinates missing/invalid
+      // console.warn(`Placemark skipped for ${product.id} — invalid coords:`, product.lat, product.lon);
+      return null;
+    }
 
     return (
       <Placemark

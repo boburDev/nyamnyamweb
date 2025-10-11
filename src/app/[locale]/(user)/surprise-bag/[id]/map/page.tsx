@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -13,13 +14,20 @@ const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
 });
 
+interface SurpriseBag {
+  id: string;
+  long?: number | string;
+  lon?: number | string;
+  [key: string]: unknown;
+}
+
 interface Props {
   params: { id: string; locale: string };
 }
 
 const SurpriseBagMapPage = ({ params }: Props) => {
   const { id, locale } = params;
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<SurpriseBag | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +74,7 @@ console.log(product);
 
       {/* 🗺️ Yandex Map */}
       <YandexMap
-        products={[product]}
+        products={[product as any]}
         hoveredId={product.id}
         activeId={product.id}
         mapRef={{ current: null }}

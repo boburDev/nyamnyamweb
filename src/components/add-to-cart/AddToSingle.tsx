@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShoppingCart } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
@@ -23,12 +22,9 @@ interface AddToCartProps {
 
 const AddToSingle: React.FC<AddToCartProps> = ({
   product,
-  className = "",
-  size = "md",
   variant = "default",
-  showText = false,
 }) => {
-  const [justAdded, setJustAdded] = useState(false);
+  const [_justAdded, setJustAdded] = useState(false);
   const { addToCart, isInCart } = useCartStore();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -82,25 +78,8 @@ const AddToSingle: React.FC<AddToCartProps> = ({
     }
   };
 
-  const isInCartState =
-    justAdded ||
-    isInCart(product.id) ||
-    (isAuth &&
-        cartData?.cart_items?.some(
-        (item: ProductData) => String(item?.surprise_bag) === String(product.id)
-      ));
 
-  const sizeClasses = {
-    sm: "h-8 px-3 text-sm",
-    md: "h-10 px-4",
-    lg: "h-12 px-6 text-lg",
-  };
 
-  const iconSizes = {
-    sm: "w-3 h-3",
-    md: "w-4 h-4",
-    lg: "w-5 h-5",
-  };
 
   return (
     <Button

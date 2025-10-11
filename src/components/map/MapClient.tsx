@@ -36,7 +36,6 @@ const MapClient = () => {
   const params = useSearchParams();
   const lat = parseFloat(params.get("lat") || "0");
   const lon = parseFloat(params.get("lon") || "0");
-  const id = params.get("id");
 
   useEffect(() => {
     if (lat && lon && mapRef.current) {

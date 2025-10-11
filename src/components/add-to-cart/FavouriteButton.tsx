@@ -4,7 +4,6 @@ import React from "react";
 import { Heart } from "lucide-react";
 import useFavouriteStore from "@/context/favouriteStore";
 import { showToast } from "../toast/Toast";
-import { useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useAddFavourites, useRemoveFavourites } from "@/hooks";
 import { getFavourites } from "@/api/favourite";
@@ -24,7 +23,6 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   showText = false,
 }) => {
   const { addToFavourites, isFavourite } = useFavouriteStore();
-  const router = useRouter();
   const { isAuthenticated: isAuth } = useAuthStatus();
   const { mutate: addFavouritesApi } = useAddFavourites();
   const { mutate: removeFavouriteApi } = useRemoveFavourites();
