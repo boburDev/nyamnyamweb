@@ -3,11 +3,10 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
 
 export async function GET(
   req: Request,
-  { params }: { params: { locale: string } }
+  { params }: { params: Promise<{ locale: string }> }
 ) {
-  const locale = params?.locale ?? "uz";
+  const { locale } = await params;
   const url = new URL(req.url);
-
 
   let access = url.searchParams.get("access") ?? undefined;
   let refresh = url.searchParams.get("refresh") ?? undefined;
@@ -27,9 +26,11 @@ export async function GET(
     }
   }
 
-
   if (!access || !refresh) {
-    console.error("❌ Tokens not found (server cannot read hash fragments). Full URL:", url.toString());
+    console.error(
+      "❌ Tokens not found (server cannot read hash fragments). Full URL:",
+      url.toString()
+    );
     return NextResponse.json({ error: "Tokens not found" }, { status: 400 });
   }
 

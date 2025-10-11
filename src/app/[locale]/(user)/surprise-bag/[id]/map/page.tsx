@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { getSurpriseBagSingle } from "@/api";
 import { Container } from "@/components/container";
+import { ProductData } from "@/types";
 
 // 🗺️ SSRsiz import
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
@@ -74,7 +74,7 @@ console.log(product);
 
       {/* 🗺️ Yandex Map */}
       <YandexMap
-        products={[product as any]}
+        products={[product as unknown as ProductData]}
         hoveredId={product.id}
         activeId={product.id}
         mapRef={{ current: null }}
