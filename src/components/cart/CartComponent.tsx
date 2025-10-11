@@ -285,7 +285,6 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             typeof item.distance === "number"
                               ? item.distance
                               : ""}{" "}
-                            km
                           </p>
 
                           <div className="flex justify-between">

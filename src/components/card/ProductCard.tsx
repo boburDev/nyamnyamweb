@@ -71,7 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.distance && (
               <>
                 <Dot className="w-4 h-4" />
-                <span className="font-medium">{product.distance} km</span>
+                <span className="font-medium">{product.distance}</span>
               </>
             )}
           </div>

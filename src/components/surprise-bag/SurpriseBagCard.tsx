@@ -71,7 +71,7 @@ export const SurpriseBagCard = ({
 
           {/* Location */}
           <p className=" text-dolphin mt-[15px]">
-            {product.business_name ?? product.business_name} • {product.distance ?? product.distance} km
+            {product.business_name ?? product.business_name} • {product.distance ?? product.distance}
           </p>
 
           {/* Pickup Time */}

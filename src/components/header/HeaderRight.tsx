@@ -17,7 +17,6 @@ import { getCart } from "@/api";
 const HeaderRight = ({ auth }: { auth: boolean }) => {
   // Subscribe to cart store values using selectors so component re-renders on updates
   const guestCount = useCartStore((s) => s.items.length);
-  const guestTotal = useCartStore((s) => s.getTotalPrice());
   const [isClient, setIsClient] = useState(false);
 
   const { data } = useQuery({
@@ -78,9 +77,6 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               <div className="flex items-center gap-2">
                 <CartIcon />
                 <span>Savat</span>
-                {isClient && guestTotal > 0 && (
-                  <span className="text-[11px] text-dolphin">{guestTotal.toLocaleString()} UZS</span>
-                )}
               </div>
               {isClient && guestCount > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">

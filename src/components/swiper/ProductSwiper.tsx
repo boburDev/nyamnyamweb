@@ -16,12 +16,14 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
     speed: 500,
     slidesToShow,
     slidesToScroll: 1,
+    swipeToSlide: true, 
+    draggable: true,
     beforeChange: (_: number, next: number) => setCurrentSlide(next),
     nextArrow: (
-      <NextArrow onClick={() => {}} currentSlide={currentSlide} total={0} />
+      <NextArrow onClick={() => { }} currentSlide={currentSlide} total={0} />
     ),
     prevArrow: (
-      <PrevArrow onClick={() => {}} currentSlide={currentSlide} total={0} />
+      <PrevArrow onClick={() => { }} currentSlide={currentSlide} total={0} />
     ),
     responsive: [
       {
@@ -51,14 +53,14 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
             ...slickSettings,
             nextArrow: (
               <NextArrow
-                onClick={() => {}}
+                onClick={() => { }}
                 currentSlide={currentSlide}
                 total={product?.length}
               />
             ),
             prevArrow: (
               <PrevArrow
-                onClick={() => {}}
+                onClick={() => { }}
                 currentSlide={currentSlide}
                 total={product?.length}
               />

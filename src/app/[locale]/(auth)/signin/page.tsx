@@ -74,14 +74,13 @@ export default function SigninPage() {
             { items: favouriteItems.map((item) => item.id) },
             {
               onSuccess: () => {
-                clearFavourites(); // Clear local favourites after successful post
+                clearFavourites(); 
               },
               onError: (error) => {
                 console.error(
                   "Failed to post favourite items after signin:",
                   error
                 );
-                // Don't show error to user, just log it
               },
             }
           );
