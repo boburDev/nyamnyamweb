@@ -8,11 +8,12 @@ import Link from "next/link";
 import { getSurpriseBagSingle } from "@/api";
 import { Container } from "@/components/container";
 
+// 🗺️ SSRsiz import
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
 });
 
-interface Props { 
+interface Props {
   params: { id: string; locale: string };
 }
 
@@ -24,7 +25,14 @@ const SurpriseBagMapPage = ({ params }: Props) => {
     const fetchData = async () => {
       try {
         const data = await getSurpriseBagSingle({ id, locale });
-        setProduct(data);
+
+        // 🧠 YandexMap uchun `long` → `lon` qilib o‘zgartiramiz
+        const fixedData = {
+          ...data,
+          lon: data.long,
+        };
+
+        setProduct(fixedData);
       } catch (err) {
         console.error("SurpriseBagMapPage error:", err);
       }
@@ -34,7 +42,7 @@ const SurpriseBagMapPage = ({ params }: Props) => {
 
   if (!product) {
     return (
-      <Container className=" ">
+      <Container className="py-20">
         <p className="text-center text-lg text-dolphin">Mahsulot topilmadi 😕</p>
       </Container>
     );
@@ -43,6 +51,7 @@ console.log(product);
 
   return (
     <div className="relative w-full h-screen">
+      {/* 🔙 Orqaga tugma */}
       <div className="absolute top-5 left-5 z-50">
         <Link href={`/${locale}/surprise-bag/${product.id}`}>
           <Button
@@ -55,6 +64,7 @@ console.log(product);
         </Link>
       </div>
 
+      {/* 🗺️ Yandex Map */}
       <YandexMap
         products={[product]}
         hoveredId={product.id}
