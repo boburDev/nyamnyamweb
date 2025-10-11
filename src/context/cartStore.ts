@@ -137,7 +137,6 @@ const useCartStore = create<CartStore>()(
               price = parseFloat(cleanPrice.replace(/\./g, "")) || 0;
             }
           } else {
-            // No separators, just parse as integer
             price = parseFloat(cleanPrice) || 0;
           }
 

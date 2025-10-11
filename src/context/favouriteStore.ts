@@ -51,6 +51,7 @@ const useFavouriteStore = create<FavouriteStore>()(
 
       clearFavourites: () => {
         set({ items: [] });
+        cookieStorage.removeItem("nyam-web-favourites");
       },
 
       isFavourite: (productId: string) => {

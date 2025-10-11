@@ -1,4 +1,4 @@
-import { SURPRISE_BAG_ALL } from "@/constants";
+import { SURPRISE_BAG_ALL, SURPRISE_BAG_ALL_CATEGORY } from "@/constants";
 import axios from "axios";
 
 export const getSupriseBagAll = async ({
@@ -44,10 +44,10 @@ export async function getSurpriseBagsByCategory({
 }) {
   try {
     const params = {
-      ...(catalog && { catalog }),
+      ...(catalog && { slug: catalog }),
       type,
     };
-    const res = await axios.get(SURPRISE_BAG_ALL, {
+    const res = await axios.get(SURPRISE_BAG_ALL_CATEGORY, {
       params,
       headers: {
         "Accept-Language": locale,

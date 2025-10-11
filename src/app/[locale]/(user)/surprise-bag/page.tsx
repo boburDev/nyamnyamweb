@@ -1,4 +1,5 @@
 import { getSurpriseBagsByCategory } from "@/api";
+import { getCategories } from "@/api/category";
 import SurpriseClient from "@/components/surprise-bag/SurpriseClient";
 import { QueryClient } from "@tanstack/react-query";
 interface Props {
@@ -8,11 +9,16 @@ interface Props {
 const SurpriseBagPage = async ({ params, searchParams }: Props) => {
   const queryClient = new QueryClient();
   const { locale } = await params;
-  const { catalog, type } = searchParams;
+  const sp = await searchParams;
+  const { catalog, type } = sp;
 
   await queryClient.prefetchQuery({
     queryKey: ["surprise-bag"],
     queryFn: () => getSurpriseBagsByCategory({ catalog, type, locale }),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["category"],
+    queryFn: () => getCategories(locale),
   });
   return (
     <div>

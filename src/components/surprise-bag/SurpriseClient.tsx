@@ -2,13 +2,12 @@
 
 import { getSurpriseBagsByCategory } from "@/api";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Container } from "../container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { CategoryData } from "@/types";
+import { CategoryData, ProductData } from "@/types";
 import { useGetCategory } from "@/hooks";
-import SurpriseHeader from "./SurpriseHeader";
-import { ProductSwiper } from "../swiper";
+import { ProductCard } from "../card";
 interface Props {
   catalog?: string;
   type: string;
@@ -17,22 +16,25 @@ interface Props {
 const SurpriseClient = ({ catalog, type, locale }: Props) => {
   const [activeTab, setActiveTab] = useState<string>(catalog || "all");
   const { data: product } = useQuery({
-    queryKey: ["surprise-bag"],
-    queryFn: () => getSurpriseBagsByCategory({ catalog, type, locale }),
+    queryKey: ["surprise-bag", activeTab, type, locale],
+    queryFn: () =>
+      getSurpriseBagsByCategory({
+        catalog: activeTab === "all" ? undefined : activeTab,
+        type,
+        locale,
+      }),
   });
+
   const { data: category } = useGetCategory(locale);
+  console.log(category);
+
   console.log(product);
-  const currentCatalog = useMemo(() => {
-    if (activeTab === "all") return null;
-    return (
-      category?.find((cat: CategoryData) => cat.slug === activeTab)?.slug ||
-      null
-    );
-  }, [activeTab, category]);
+
   return (
-    <div>
+    <div className="py-[122px]">
       <Container>
-        {product?.length > 0 && (
+        <h3 className="page-title mb-10">Super boxlar</h3>
+        {category?.length > 0 && (
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
@@ -62,92 +64,10 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
               ["all", ...category.map((c: CategoryData) => c.slug)].map(
                 (slug) => (
                   <TabsContent key={slug} value={slug}>
-                    <div className="space-y-[78px]">
-                      {/* popular card */}
-                      {product?.popular?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Mashhur surprise baglar"
-                            catalog={currentCatalog}
-                            type="popular"
-                            length={product?.popular?.length}
-                          />
-
-                          <ProductSwiper product={product?.popular} />
-                        </div>
-                      )}
-                      {product?.recommended?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Tavsiya etilgan surprise baglar"
-                            catalog={currentCatalog}
-                            type="recommended"
-                            length={product?.recommended?.length}
-                          />
-
-                          <ProductSwiper product={product?.recommended} />
-                        </div>
-                      )}
-                      {/* new card */}
-                      {product?.new?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Yangi surprise baglar"
-                            catalog={currentCatalog}
-                            type="new"
-                            length={product?.new?.length}
-                          />
-                          <ProductSwiper product={product?.new} />
-                        </div>
-                      )}
-                      {/* morning card */}
-                      {product?.morning?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Ertalabki surprise baglar"
-                            catalog={currentCatalog}
-                            type="new"
-                            length={product?.morning?.length}
-                          />
-                          <ProductSwiper product={product?.morning} />
-                        </div>
-                      )}
-                      {/* afternoon card */}
-                      {product?.afternoon?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Tushlik uchun surprise baglar"
-                            catalog={currentCatalog}
-                            type="new"
-                            length={product?.afternoon?.length}
-                          />
-                          <ProductSwiper product={product?.afternoon} />
-                        </div>
-                      )}
-                      {/* evening card */}
-                      {product?.evening?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title="Kechki surprise baglar"
-                            catalog={currentCatalog}
-                            type="new"
-                            length={product?.evening?.length}
-                          />
-                          <ProductSwiper product={product?.evening} />
-                        </div>
-                      )}
-                      {/* tomorrow */}
-                      {product?.tomorrow?.length > 0 && (
-                        <div>
-                          <SurpriseHeader
-                            title=" Ertangi surprise baglar"
-                            catalog={currentCatalog}
-                            type="tomorrow"
-                            length={product?.tomorrow?.length}
-                          />
-                          <ProductSwiper product={product?.tomorrow} />
-                        </div>
-                      )}
+                    <div className="grid grid-cols-3 gap-x-[19px] gap-y-[50px]">
+                      {product?.map((item: ProductData) => (
+                        <ProductCard product={item} key={item.id} />
+                      ))}
                     </div>
                   </TabsContent>
                 )

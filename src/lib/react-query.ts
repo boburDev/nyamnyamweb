@@ -1,25 +1,30 @@
-// lib/react-query.ts
-import { QueryClient } from "@tanstack/react-query";
 
-let queryClient: QueryClient | null = null;
+import { isServer, QueryClient } from "@tanstack/react-query";
+
+export function makeQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
+        refetchOnMount: true,
+        staleTime: 0,
+      },
+      mutations: {
+        retry: false,
+      },
+    },
+  });
+}
+
+let browserQueryClient: QueryClient | undefined = undefined;
 
 export function getQueryClient() {
-  if (!queryClient) {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-          refetchOnWindowFocus: false,
-          refetchOnReconnect: true,
-          refetchOnMount: true,
-          staleTime: 0,
-        },
-        mutations: {
-          retry: false,
-        },
-      },
-    });
+  if (isServer) {
+    return makeQueryClient();
   }
 
-  return queryClient;
+  if (!browserQueryClient) browserQueryClient = makeQueryClient();
+  return browserQueryClient;
 }
