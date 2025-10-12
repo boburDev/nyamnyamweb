@@ -25,7 +25,6 @@ export const getCategories = async (locale: string) => {
         respData?.message ||
         JSON.stringify(respData) ||
         axiosErr.message;
-      console.log("Axios error message:", backendMsg);
 
       throw new Error(backendMsg);
     }

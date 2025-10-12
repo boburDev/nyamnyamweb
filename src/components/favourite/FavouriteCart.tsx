@@ -6,7 +6,7 @@ import { ProductData } from "@/types";
 
 const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
   const favourite = useFavouriteStore((s) => s.items);
-  const { data: favData } = useFavouritesQuery(isAuth);
+  const { data: favData } = useFavouritesQuery(isAuth);  
   const items: ProductData[] = isAuth
     ? favData && Array.isArray(favData.data)
       ? favData.data

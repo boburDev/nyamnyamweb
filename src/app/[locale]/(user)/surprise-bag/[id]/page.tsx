@@ -17,7 +17,6 @@ interface Props {
 const SurpriseBagSinglePage = async ({ params }: Props) => {
   const { id, locale } = await params;
   const product: ProductData = await getSurpriseBagSingle({ id, locale });
-  console.log(product);
   const range = formatTimeRangeInTz(product?.start_time, product?.end_time);
   return (
     <div className="py-20">

@@ -22,7 +22,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Product Image */}
         <div className="relative h-[200px]">
           <Image
-            src={product.cover_image ?? "/productimg.png"}
+            src={product.cover_image || product.surprise_bag_image || "/images/placeholder.png"}
             alt={product.title ?? "Mahsulot rasmi"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -38,7 +38,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {/* Favourite Button */}
           <div className="absolute top-3 right-3">
-            <FavouriteButton product={product} size="md" />
+            <FavouriteButton product={product} />
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.distance && (
               <>
                 <Dot className="w-4 h-4" />
-                <span className="font-medium">{product.distance}</span>
+                <span className="font-medium">{product.distance || product.distance_km}</span>
               </>
             )}
           </div>

@@ -18,7 +18,6 @@ export default function UserLocation() {
       (position) => {
         const { latitude, longitude } = position.coords;
         setLocation({ lat: latitude, lon: longitude });
-        console.log("📍 Foydalanuvchi joylashuvi:", latitude, longitude);
       },
       (err) => {
         switch (err.code) {
@@ -40,8 +39,8 @@ export default function UserLocation() {
 
   if (error) {
     return (
-      <div className="text-red-500 text-sm p-2">
-        {error}
+      <div className="hidden">
+        {/* {error} */}
       </div>
     );
   }

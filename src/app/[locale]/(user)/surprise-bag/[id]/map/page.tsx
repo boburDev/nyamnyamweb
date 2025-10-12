@@ -55,7 +55,6 @@ const SurpriseBagMapPage = ({ params }: Props) => {
       </Container>
     );
   }
-console.log(product);
 
   return (
     <div className="relative w-full h-screen">

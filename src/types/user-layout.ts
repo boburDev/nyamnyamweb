@@ -38,6 +38,7 @@ export interface ProductData {
   distance?: string;
   overall_rating?: null | number;
   surprise_bag?: string
+  surprise_bag_image?: string;
 }
 export interface CartData {
   id: string;

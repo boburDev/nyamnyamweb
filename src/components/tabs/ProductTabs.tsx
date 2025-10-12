@@ -27,7 +27,6 @@ export const ProductTabs = () => {
       null
     );
   }, [activeTab, category]);
-  console.log(currentCatalog);
 
   return (
     <section className="mt-[124px] relative">

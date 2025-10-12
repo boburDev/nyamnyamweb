@@ -26,9 +26,7 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
   });
 
   const { data: category } = useGetCategory(locale);
-  console.log(category);
 
-  console.log(product);
 
   return (
     <div className="py-[122px]">

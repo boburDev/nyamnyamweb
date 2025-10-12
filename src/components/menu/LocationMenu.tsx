@@ -7,7 +7,6 @@ export const LocationMenu = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // 🗺️ Foydalanuvchi joylashuvini olish
   useEffect(() => {
     const fetchLocation = async () => {
       if (!navigator.geolocation) return;
@@ -18,28 +17,45 @@ export const LocationMenu = () => {
           const { latitude, longitude } = position.coords;
 
           try {
-            // 🧭 Reverse geocoding — koordinatadan manzil olish
+            // 🧭 Reverse geocoding
             const res = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
             const data = await res.json();
 
-            const city =
-              data?.address?.city ||
-              data?.address?.town ||
-              data?.address?.village ||
-              data?.address?.state ||
-              "Noma’lum joy";
+            const address = data?.address || {};
 
-            setSelected(city);
+            // 🔹 Shahar nomi
+            const city =
+              address.city ||
+              address.town ||
+              address.village ||
+              address.county ||
+              address.state ||
+              "";
+
+            // 🔹 Ko‘cha nomi
+            const street =
+              address.road ||
+              address.neighbourhood ||
+              address.suburb ||
+              address.quarter ||
+              "";
+
+            // 🔹 Birlashtirilgan manzil
+            const locationText = [street, city].filter(Boolean).join(", ");
+
+            setSelected(locationText || "Manzil topilmadi");
           } catch (error) {
             console.error("Manzilni aniqlashda xatolik:", error);
+            setSelected("Manzil topilmadi");
           } finally {
             setLoading(false);
           }
         },
         (error) => {
           console.warn("Joylashuvni olishda xatolik:", error);
+          setSelected("Joylashuvni olishga ruxsat berilmadi");
           setLoading(false);
         }
       );
@@ -49,23 +65,21 @@ export const LocationMenu = () => {
   }, []);
 
   return (
-  
-        <Button
-          variant={"outline"}
-          className="w-[170px] h-12 flex justify-start gap-[15px] font-medium text-sm focus-visible:ring-0"
-        >
-          <span>
-            <LocationIcon />
-          </span>
-          <span className="overflow-hidden line-clamp-2 whitespace-pre-line">
-            {loading
-              ? "Yuklanmoqda..."
-              : selected
-              ? selected
-              : "Manzilni tanlash"}
-          </span>
-        </Button>
-     
+    <Button
+      variant={"outline"}
+      className="w-[200px] h-12 flex justify-start gap-[12px] font-medium text-sm focus-visible:ring-0"
+    >
+      <span>
+        <LocationIcon />
+      </span>
+      <span className="overflow-hidden text-left line-clamp-2">
+        {loading
+          ? "Yuklanmoqda..."
+          : selected
+          ? selected
+          : "Manzilni aniqlash"}
+      </span>
+    </Button>
   );
 };
 

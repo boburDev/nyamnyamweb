@@ -100,7 +100,6 @@ export async function POST(req: Request) {
   });
 
   const text = await response.text();
-  console.log("API response:", text);
 
   try {
     return NextResponse.json(JSON.parse(text), { status: response.status });
@@ -204,7 +203,6 @@ export async function DELETE(req: Request) {
   });
 
   const text = await response.text();
-  console.log("API response:", text);
 
   try {
     return NextResponse.json(JSON.parse(text), { status: response.status });
