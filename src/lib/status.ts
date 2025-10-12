@@ -3,7 +3,7 @@ export async function getAuthStatusClient(): Promise<{
 }> {
   const res = await fetch("/api/auth/status", {
     method: "GET",
-    cache: "no-store",
+    credentials: "include",
   });
 
   if (!res.ok) {

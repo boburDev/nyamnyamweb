@@ -1,13 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addFavourites,
-  getFavourites,
-  removeFavourite,
-} from "@/api/favourite";
+import { addFavourites, getFavourites, removeFavourite } from "@/api/favourite";
 import { showError } from "@/components/toast/Toast";
 import { AxiosError } from "axios";
 
-export const useFavouritesQuery = (enabled: boolean) =>
+export const useFavouritesQuery = (enabled?: boolean) =>
   useQuery({
     queryKey: ["favourites"],
     queryFn: getFavourites,
@@ -42,7 +38,7 @@ export const useAddFavourites = () => {
 export const useRemoveFavourites = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id }: { id: string }) => removeFavourite({ id }),
+    mutationFn: (vars: { id: string }) => removeFavourite(vars),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["favourites"] });
     },

@@ -1,18 +1,21 @@
 import axios from "axios";
 
 export async function getCart() {
-  const res = await fetch(`/api/proxy/cart`, {
-    credentials: "include",
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`/api/proxy/cart`, {
+      credentials: "include",
+      cache: "no-store",
+    });
 
-  if (!res.ok) throw new Error("Cart olishda xatolik");
+    if (!res.ok) throw new Error("Cart olishda xatolik");
 
-  const raw = await res.json();
-  return raw?.data ?? raw;
+    const raw = await res.json();
+    return raw?.data ?? raw;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
-
-
 
 export const addToCart = async (
   items: Array<{ id: string; quantity: number }>
@@ -93,7 +96,9 @@ export const updateCart = async ({
 
 export const deleteCartItem = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart/${id}`);
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/cart/${id}`
+    );
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
