@@ -11,7 +11,7 @@ export default async function CartPage() {
     await queryClient.prefetchQuery({
       queryKey: ["cart"],
       queryFn: async () => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/cart`);
+        const res = await fetch(`/api/cart`);
         if (!res.ok) throw new Error("Serverdan savatni olishda xatolik");
         return res.json();
       },

@@ -40,7 +40,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
     queryFn: getCart,
     enabled: isAuth,
   });
-
+  
   const handleAddToCart = () => {
     const inLocalCart = isInCart(product.id);
     const inServerCart =
@@ -58,7 +58,6 @@ const AddToCart: React.FC<AddToCartProps> = ({
     if (isAuth) {
       addToCartApi([{ id: product.id, quantity: 1 }], {
         onSuccess: async () => {
-          // Optimistically mark as added so button becomes active immediately
           setJustAdded(true);
           await queryClient.invalidateQueries({ queryKey: ["cart"] });
           showToast({

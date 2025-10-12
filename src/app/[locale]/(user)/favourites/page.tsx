@@ -15,12 +15,7 @@ export default async function FavouritePage() {
     });
   }
   return (
-    <Container className=" mt-[76px] pb-[45px]">
-      <div className="mb-10">
-        <h1 className="text-4xl font-medium text-textColor">
-          Saqlangan mahsulotlar
-        </h1>
-      </div>
+    <Container>
       <Providers dehydratedState={dehydrate(queryClient)}>
         <FavouriteCart isAuth={isAuth} />
       </Providers>

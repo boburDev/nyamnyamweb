@@ -1,24 +1,25 @@
+import { ProductData } from "@/types";
 import axios from "axios";
 
-export const getFavourites = async () => {
-  const res = await fetch(`/api/proxy/favourites`, {
-    credentials: "include",
-  });
-  if (!res.ok) throw new Error("Favourites olishda xatolik");
-  const raw = await res.json();
-  // Normalize to { success: true, data: [] }
-  const list = Array.isArray(raw)
-    ? raw
-    : Array.isArray(raw?.data)
-    ? raw.data
-    : Array.isArray(raw?.items)
-    ? raw.items
-    : Array.isArray(raw?.data?.items)
-    ? raw.data.items
-    : [];
-  return { success: true, data: list };
-};
+export async function getFavourites() {
+  try {
+    const res = await fetch(`/api/proxy/favourites`, {
+      credentials: "include",
+      cache: "no-store",
+    });
 
+    if (!res.ok) throw new Error("Favourites olishda xatolik");
+
+    const raw = await res.json();
+
+    const finalData = raw?.data ?? (Array.isArray(raw) ? raw : []);
+
+    return finalData as ProductData[];
+  } catch (error) {
+    console.log(error);
+    return []; // 🔑 Xatolik bo'lsa, har doim bo'sh array qaytaring (undefined o'rniga)
+  }
+}
 export const addFavourites = async ({ id }: { id: string }) => {
   try {
     const res = await axios.post(`/api/favourites`, {
@@ -44,11 +45,7 @@ export const addFavourites = async ({ id }: { id: string }) => {
 
 export const removeFavourite = async ({ id }: { id: string }) => {
   try {
-    const res = await axios.delete(`/api/favourites`, {
-      data: {
-        id,
-      },
-    });
+    const res = await axios.delete(`/api/favourites/${id}`);
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -66,5 +63,3 @@ export const removeFavourite = async ({ id }: { id: string }) => {
     throw new Error((error as Error)?.message || "Xato yuz berdi");
   }
 };
-
-

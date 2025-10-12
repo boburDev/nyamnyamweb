@@ -8,7 +8,6 @@ import UserLocation from "@/components/user-location/UserLocation";
 export default async function Home() {
   const queryClient = new QueryClient();
 
-  // Prefetch banners
   await queryClient.prefetchQuery({
     queryKey: ["banners"],
     queryFn: getBanners,
