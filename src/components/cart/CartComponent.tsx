@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { Minus, Plus, ShoppingCart, Trash } from "lucide-react";
+import { Minus, Plus, ShoppingCart, StarIcon, TrashIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
 import { Container } from "../container";
@@ -13,83 +13,27 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { ProductSkeletons, SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
 import { getCart } from "@/api";
-import { useDeleteCartAll, useUpdateCart, useDeleteCartItem } from "@/hooks";
+import {
+  useDeleteCartAll,
+  useUpdateCart,
+  useDeleteCartItem,
+  useCreateOrder,
+} from "@/hooks";
 import { showToast } from "../toast/Toast";
-import { ProductData } from "@/types";
-
-type CartUIItem = {
-  id: string;
-  name: string;
-  image: string;
-  restaurant: string;
-  distance: number;
-  originalPrice: number | string;
-  currentPrice: number | string;
-  quantity: number;
-  count?: number;
-  stock?: number;
-  surprise_bag?: string;
-};
-
-type ItemLike = CartUIItem | (ProductData & { quantity: number });
-
-const getItemImage = (item: ItemLike): string => {
-  const img =
-    ("image" in item ? item.image : undefined) ||
-    ("cover_image" in item ? item.cover_image : undefined) ||
-    ("surprise_bag_image" in item ? (item).surprise_bag_image : undefined);
-  return img && String(img).trim() !== "" ? String(img) : "/productimg.png";
-};
-
-const getItemTitle = (item: ItemLike): string => {
-  return "name" in item && item.name
-    ? item.name
-    : "title" in item
-    ? item.title ?? ""
-    : "";
-};
-
-const getItemRestaurant = (item: ItemLike): string => {
-  if ("restaurant" in item && item.restaurant) return item.restaurant;
-  if ("business_name" in item && item.business_name) return item.business_name;
-  if ("branch_name" in item && (item).branch_name) return (item).branch_name as string;
-  return "";
-};
-
-const getItemOriginalPrice = (item: ItemLike): number | undefined => {
-  const val =
-    ("originalPrice" in item ? item.originalPrice : undefined) ??
-    ("original_price" in item ? item.original_price : undefined);
-  if (val == null) return undefined;
-  if (typeof val === "number") return val;
-  const parsed = parseFloat(
-    String(val)
-      .replace(/[^\d.,-]/g, "")
-      .replace(",", ".")
-  );
-  return Number.isNaN(parsed) ? undefined : parsed;
-};
-
-const getItemCurrentPrice = (item: ItemLike): number => {
-  const raw =
-    ("currentPrice" in item ? item.currentPrice : undefined) ??
-    ("price_in_app" in item ? item.price_in_app : undefined);
-  if (typeof raw === "number") return raw;
-  const parsed = parseFloat(
-    String(raw ?? 0)
-      .replace(/[^\d.,-]/g, "")
-      .replace(",", ".")
-  );
-  return Number.isNaN(parsed) ? 0 : parsed;
-};
+import { OrderPayload, ProductData } from "@/types";
+import { Separator } from "../ui/separator";
+import { PriceFormatter } from "../price-format";
+import { paymentIcons } from "@/data";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
+  const [error, setError] = useState<string | null>(null);
   const removeItem = useCartStore((s) => s.removeFromCart);
-  const [loading, setLoading] = useState(false);
+  const locale = useLocale();
   const { updateQuantity, getTotalPrice } = useCartStore();
   const cartStore = useCartStore((s) => s.items);
+  const [payment, setPayment] = useState<string | null>(null);
   const router = useRouter();
   const { data, isLoading } = useQuery({
     queryKey: ["cart"],
@@ -99,48 +43,44 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();
   const { mutate: deleteCartItem } = useDeleteCartItem();
-  const items: ItemLike[] | undefined = isAuth
-    ? ((data?.cart_items as unknown) as ItemLike[] | undefined)
-    : (cartStore as unknown as ItemLike[]);
+  const { mutate: createOrder, isPending: loading } = useCreateOrder();
+
+  const cartData = data ?? { cart_items: [], cart_total: 0 };
+  const items = isAuth ? cartData?.cart_items ?? [] : cartStore;
   const t = useTranslations("cart");
-
-  const getDisplayTotal = () => {
-    if (!items) return 0;
-    try {
-      return items.reduce((sum, it: ItemLike) => {
-        const price = getItemCurrentPrice(it);
-        const qty = typeof it.quantity === "number" ? it.quantity : 1;
-        return sum + price * qty;
-      }, 0);
-    } catch {
-      return 0;
-    }
-  };
-
-  const handleCheckout = async () => {
-    if (isAuth) {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items, total: getDisplayTotal() }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          router.push("/checkout");
-          deleteCart();
-        }
-      } catch (error) {
-        console.error("Checkout error:", error);
-      } finally {
-        setLoading(false);
-      }
-    } else {
+  const totalPrice = isAuth ? cartData?.cart_total : getTotalPrice();
+  const handleCheckout = () => {
+    if (!isAuth) {
       router.push("/signin");
+      return;
     }
-  };
+    if (!payment) {
+      setError("To'lov turi tanlang");
+      return;
+    }
+    const payload: OrderPayload = {
+      order_items: items.map((item: ProductData) => ({
+        title: item.title,
+        count: item.quantity,
+        price: item.price_in_app,
+        surprise_bag: item.id,
+        start_time: item.start_time || "",
+        end_time: item.end_time || "",
+        weekday: item.weekday ?? 0,
+      })),
+      total_price: totalPrice,
+      payment_method: payment || "",
+    };
 
+    createOrder(
+      { data: payload, locale },
+      {
+        onSuccess: () => {
+          router.push("/order");
+        },
+      }
+    );
+  };
 
   const handleUpdateQuantity = (
     id: string,
@@ -150,9 +90,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     if (quantity < 1) return;
 
     const currentItem = items?.find(
-      (i: ItemLike) => i && "id" in i && i.id === id
+      (i: ProductData) => i && "id" in i && i.id === id
     );
-    const getServerMax = (it?: ItemLike): number => {
+    const getServerMax = (it: ProductData): number => {
       if (!it) return 30;
       if ("count" in it && typeof it.count === "number" && it.count > 0)
         return it.count;
@@ -177,7 +117,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       const sb = (() => {
         if (typeof surprise_bag === "string") return surprise_bag;
         if (currentItem && "surprise_bag" in currentItem)
-          return (currentItem as CartUIItem).surprise_bag ?? "";
+          return currentItem.surprise_bag ?? "";
         return "";
       })();
       updateCartQty({ id, quantity, surprise_bag: sb });
@@ -233,16 +173,16 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     <>
       <Container className="mb-[150px] mt-[76px]">
         <div className="">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left Section - Cart Items */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-7">
               <div className="">
                 <div className="flex items-center justify-between mb-10">
                   <h1 className="text-4xl font-medium text-textColor">Savat</h1>
                 </div>
 
                 <div className="space-y-4">
-                  {items?.map((item) => (
+                  {items?.map((item: ProductData) => (
                     <div
                       key={item?.id}
                       className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
@@ -251,49 +191,59 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         {/* Product Image */}
                         <div className="relative w-[217px] h-[147px] flex-shrink-0">
                           <Image
-                            src={getItemImage(item)}
-                            alt={getItemTitle(item) || "Mahsulot rasmi"}
+                            src={item.surprise_bag_image}
+                            alt={item?.title}
                             fill
                             className="object-cover rounded-xl"
                           />
 
-                          {/* {item?.stock && item?.stock <= 5 && (
+                          {item?.count && item?.count <= 5 && (
                             <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
-                              {item?.stock} ta qoldi
+                              {item?.count} ta qoldi
                             </div>
-                          )} */}
+                          )}
                         </div>
 
                         {/* Product Details */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <h3 className="font-medium text-textColor text-xl mb-[10px]">
-                              {getItemTitle(item)}
+                              {item?.title}
                             </h3>
-                            {/* ❌ Trash delete */}
                             <Button
                               onClick={() => handleRemoveItem(item?.id)}
-                              className="w-[38px] h-[38px] rounded-full bg-hoverColor"
+                              className="w-[38px] h-[38px] rounded-full bg-hoverColor text-[#9A9DA5] hover:text-dangerColor"
                               variant={"ghost"}
                             >
-                              <Trash className="w-5 h-5 text-[#9A9DA5]" />
+                              <TrashIcon className="w-5 h-5 " />
                             </Button>
                           </div>
-                          <p className="text-dolphin">
-                            {getItemRestaurant(item)} •{" "}
-                            {"distance" in item &&
-                            typeof item.distance === "number"
-                              ? item.distance
-                              : ""}{" "}
-                          </p>
+                          <div className="flex gap-2 items-center">
+                            {!items?.overall_rating && (
+                              <div className="flex gap-1 items-center">
+                                <span>
+                                  <StarIcon
+                                    size={20}
+                                    className="text-accordionText fill-accordionText"
+                                  />
+                                </span>
+                                <span className="font-medium text-lg text-textColor">
+                                  {items?.overall_rating} 5.0
+                                </span>
+                              </div>
+                            )}
+                            <p className="text-dolphin">
+                              {item.branch_name} • {item?.distance}
+                            </p>
+                          </div>
 
                           <div className="flex justify-between">
                             <div className="flex items-center gap-2 mt-[53px]">
                               <span className="text-gray-400 line-through text-sm">
-                                {formatPrice(getItemOriginalPrice(item))}
+                                {formatPrice(item.price)}
                               </span>
                               <span className="text-mainColor font-medium text-xl">
-                                {formatPrice(getItemCurrentPrice(item))}
+                                {formatPrice(item.price_in_app)}
                               </span>
                             </div>
 
@@ -306,7 +256,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                       item?.id,
                                       item?.quantity - 1,
                                       "surprise_bag" in item
-                                        ? (item as CartUIItem).surprise_bag
+                                        ? item.surprise_bag
                                         : undefined
                                     )
                                   }
@@ -323,7 +273,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                       item?.id,
                                       item?.quantity + 1,
                                       "surprise_bag" in item
-                                        ? (item as CartUIItem).surprise_bag
+                                        ? item.surprise_bag
                                         : undefined
                                     )
                                   }
@@ -343,8 +293,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
             </div>
 
             {/* Right Section */}
-            <div className="lg:col-span-2 mt-20">
-              <div className="bg-white rounded-2xl shadow-sm px-5 py-[15px] sticky top-4">
+            <div className="lg:col-span-5 mt-20">
+              <div className="bg-white rounded-2xl shadow-sm px-5 py-[15px] sticky top-4 ">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-[26px] font-medium text-textColor">
                     To'lov tafsiloti
@@ -357,66 +307,52 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   </button>
                 </div>
 
-                {/* Items Summary */}
-                <div className="flex flex-col gap-[15px] mb-6">
-                  {items?.map((item) => (
-                    <div
-                      key={item?.id}
-                      className="grid grid-cols-4 border-b border-gray-200 pb-[15px]"
-                    >
-                      <div className="relative col-span-1 w-[100px] h-[67px] flex-shrink-0">
-                        <Image
-                          src={getItemImage(item)}
-                          alt={getItemTitle(item)}
-                          fill
-                          className="object-cover rounded-lg"
+                <div className="flex flex-col gap-[18px]">
+                  {items?.map((item: ProductData, idx: number) => (
+                    <div key={idx} className="flex justify-between">
+                      <div>
+                        <p className="text-dolphin text-lg">
+                          {item.title} box x {item.quantity}
+                        </p>
+                      </div>
+                      <span>
+                        <PriceFormatter
+                          amount={item.price_in_app * item.quantity}
+                          className="font-medium text-textColor"
                         />
-                      </div>
-                      <div className="flex flex-col col-span-3 gap-[13px]">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-textColor text-lg truncate">
-                            {getItemTitle(item)}
-                          </p>
-                          <p className="text-dolphin font-medium text-sm flex items-end justify-end">
-                            Miqdor: {item?.quantity}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-dolphin text-lg truncate max-w-[130px]">
-                            {getItemRestaurant(item)}
-                          </p>
-                          <div className="flex items-center gap-2">
-                            <p className="text-dolphin line-through text-xs mt-1">
-                              {formatPrice(getItemOriginalPrice(item))}
-                            </p>
-                            <p className="text-textColor font-medium">
-                              {formatPrice(getItemCurrentPrice(item))}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                      </span>
                     </div>
                   ))}
                 </div>
-
-                {/* Total */}
-                <div className=" mb-[65px]">
-                  <div className="flex items-center justify-between text-mainColor">
-                    <span className="text-xl font-medium ">Jami:</span>
-                    <span className="text-xl font-medium ">
-                      {(isAuth
-                        ? getDisplayTotal()
-                        : getTotalPrice()
-                      ).toLocaleString("uz-UZ")}{" "}
-                      UZS
-                    </span>
+                <Separator className="mt-[30px] mb-[15px] bg-plasterColor" />
+                <div className="flex justify-between items-center">
+                  <p className="font-medium text-2xl text-mainColor">Jami:</p>
+                  <PriceFormatter amount={totalPrice} className="text-2xl" />
+                </div>
+                <Separator className="mb-5 mt-[15px] bg-plasterColor" />
+                <div>
+                  <div className="flex justify-between ">
+                    {paymentIcons.map(({ icon: Icon, name }, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setPayment(name)}
+                        className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${
+                          payment === name
+                            ? "border-mainColor"
+                            : "border-plasterColor"
+                        }`}
+                      >
+                        {Icon && <Icon />}
+                      </button>
+                    ))}
                   </div>
+                  {error && <p className="text-red-500 mt-2">{error}</p>}
                 </div>
 
                 <Button
                   disabled={items?.length === 0 || loading}
                   onClick={handleCheckout}
-                  className="w-full h-12 text-white font-medium text-xl rounded-xl"
+                  className="w-full h-12 text-white font-medium text-xl rounded-xl mt-20"
                 >
                   {loading ? <SubmitLoader /> : "To'lovga o'tish"}
                 </Button>

@@ -11,7 +11,6 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
   const favourite = useFavouriteStore((s) => s.items);
   const { data: favData } = useFavouritesQuery(isAuth);
   const items: ProductData[] = isAuth ? favData ?? [] : favourite;
-  console.log(items);
 
   return (
     <div>
@@ -25,7 +24,7 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
           <div className="grid grid-cols-3 gap-5">
             {items &&
               items.map((item: ProductData) => (
-                <ProductCard key={item?.id} product={item} saved={true} />
+                <ProductCard key={item?.id} product={item} />
               ))}
           </div>
         </div>
@@ -35,7 +34,7 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
             <div className="flex flex-col items-center justify-center pt-[127px]">
               <Heart size={113} className="text-[#BCBEC3]" />
               <h2 className="text-[30px] font-semibold text-textColor mt-5">
-                Sevimli mahsulotlarda  hech narsa yo‘q
+                Sevimli mahsulotlarda hech narsa yo‘q
               </h2>
               <p className="text-dolphin mt-[15px]">
                 Surprise baglarni tanlab, savatingizni to‘ldiring.

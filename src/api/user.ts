@@ -22,20 +22,25 @@ export async function getUsers() {
 }
 
 export async function updateUser(data: UserData, locale: string) {
-  const res = await fetch("/api/update-profile", {
-    method: "PATCH",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept-Language": locale,
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const payload = {
+      ...data,
+      locale,
+    };
+    const res = await fetch("/api/update-profile", {
+      method: "PATCH",
+      credentials: "include",
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Failed to update user");
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(errorText || "Failed to update user");
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
   }
-
-  return res.json();
 }

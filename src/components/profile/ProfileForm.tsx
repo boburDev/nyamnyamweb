@@ -32,7 +32,8 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isSubmitting },
+    getValues,
+    formState: { isDirty, isSubmitting, dirtyFields },
   } = useForm<UserData>({
     defaultValues: {
       first_name: user?.first_name || "",
@@ -43,8 +44,19 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
       password: "",
     },
   });
-  const onSubmit = (data: UserData) => {
-    updateUser(data, {
+  const onSubmit = () => {
+    const allValues = getValues();
+    const payload: Partial<UserData> = {};
+    (Object.keys(dirtyFields) as (keyof UserData)[]).forEach((key) => {
+      let val = allValues[key];
+      if (key === "birth_date" && typeof val === "undefined") {
+        val = "";
+      }
+      if (val !== undefined) {
+        payload[key] = val;
+      }
+    });
+    updateUser(payload as UserData, {
       onSuccess: () => {
         showSuccess(t("updated"));
         setEditMode(false);

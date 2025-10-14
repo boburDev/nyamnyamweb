@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Star, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { AddToCart, FavouriteButton } from "../add-to-cart";
+import { AddToCart, AddToFavourites } from "../add-to-cart";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
 import { useRouter } from "next/navigation";
@@ -12,13 +12,9 @@ import { ProductData } from "@/types";
 
 interface ProductCardProps {
   product: ProductData;
-  saved?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  saved = false,
-}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const router = useRouter();
   return (
     <div>
@@ -46,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Favourite Button */}
           <div className="absolute top-3 right-3">
-            <FavouriteButton product={product} saved={saved}/>
+            <AddToFavourites product={product} />
           </div>
         </div>
 

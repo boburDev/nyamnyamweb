@@ -8,21 +8,27 @@ import {
 
 export type PaymeIcons = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  name: string;
 }
 export const paymentIcons: PaymeIcons[] = [
   {
     icon: ClickIcon,
+    name: "click",
   },
   {
     icon: PaymeIcon,
+    name: "payme",
   },
   {
     icon: UzumIcon,
+    name: "uzum",
   },
   {
     icon: PaynetIcon,
+    name: "paynet",
   },
   {
     icon: UzcardIcon,
+    name: "uzcard",
   },
 ];

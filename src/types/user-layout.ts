@@ -26,6 +26,7 @@ export interface ProductData {
   distance_km?: string;
   cover_image: string;
   branch_name: string;
+  quantity: number;
   lat?: string;
   lon?: string;
   title: string;
@@ -37,8 +38,9 @@ export interface ProductData {
   end_time?: string;
   distance?: string;
   overall_rating?: null | number;
-  surprise_bag?: string
-  surprise_bag_image?: string;
+  surprise_bag?: string;
+  surprise_bag_image: string;
+  weekday: number;
 }
 export interface CartData {
   id: string;
@@ -58,4 +60,20 @@ export interface CartData {
 export interface Cart {
   cart_total: number;
   cart_items: CartData[];
+}
+
+export interface OrderItem {
+  title: string;
+  count: number;
+  price: number;
+  surprise_bag: string;
+  start_time: string;
+  end_time: string;
+  weekday: number;
+}
+
+export interface OrderPayload {
+  order_items: OrderItem[];
+  total_price: number;
+  payment_method: string;
 }

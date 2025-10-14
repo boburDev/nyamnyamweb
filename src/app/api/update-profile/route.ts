@@ -20,7 +20,8 @@ export async function PATCH(req: Request) {
       delete body[key];
     }
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { locale, email, phone_number, ...rest } = body;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/update-me/`,
     {
@@ -28,8 +29,9 @@ export async function PATCH(req: Request) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
+        "Accept-Language": locale,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(rest),
     }
   );
 

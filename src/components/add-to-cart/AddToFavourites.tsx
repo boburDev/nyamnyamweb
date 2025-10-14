@@ -11,22 +11,17 @@ import {
 } from "@/hooks";
 import { useAuthStatus } from "@/hooks/auth-status";
 import { ProductData } from "@/types";
-import { isFavouriteInList } from "@/utils";
+import { isProductInList } from "@/utils";
 
-interface FavouriteButtonProps {
+interface Props {
   product: ProductData;
   className?: string;
   size?: "sm" | "md" | "lg";
   variant?: "default" | "outline" | "ghost";
   showText?: boolean;
-  saved?: boolean;
 }
 
-const FavouriteButton: React.FC<FavouriteButtonProps> = ({
-  product,
-  showText = false,
-  saved = false,
-}) => {
+export const AddToFavourites = ({ product, showText = false }: Props) => {
   const addToFavourites = useFavouriteStore((s) => s.addToFavourites);
   const items = useFavouriteStore((s) => s.items);
   const deleteFavourite = useFavouriteStore((s) => s.removeFromFavourites);
@@ -36,18 +31,13 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   const { data: favData } = useFavouritesQuery(isAuth);
   const favouriteData = isAuth ? favData ?? [] : items;
 
-  const checkFav = favData?.find((item) => item.surprise_bag === product.id);
-  console.log("checkFav", checkFav);
-
-  const isFavourite = isFavouriteInList(favouriteData, product, saved);
-
-  console.log("favdata", favData);
+  const isFavourite = isProductInList(favouriteData, product);
 
   const handleFavourite = () => {
     if (isAuth) {
       if (isFavourite) {
         removeFavouriteApi({
-          id: saved ? product.id : checkFav?.id ?? product.id,
+          id: product.id,
         });
         showToast({
           title: "Mahsulot saqlanganlardan olib tashlandi",
@@ -106,4 +96,4 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({
   );
 };
 
-export default FavouriteButton;
+export default AddToFavourites;

@@ -17,7 +17,7 @@ export async function getFavourites() {
     return finalData as ProductData[];
   } catch (error) {
     console.log(error);
-    return []; // 🔑 Xatolik bo'lsa, har doim bo'sh array qaytaring (undefined o'rniga)
+    return [];
   }
 }
 export const addFavourites = async ({ id }: { id: string }) => {
