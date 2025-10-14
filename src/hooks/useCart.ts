@@ -53,7 +53,7 @@ const useUpdateCart = () => {
   });
 };
 
-const useDeleteCartItem = () => {
+const   useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id }: { id: string }) => deleteCartItem({ id }),

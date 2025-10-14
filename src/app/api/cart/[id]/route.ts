@@ -1,84 +1,48 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { ACCESS_TOKEN } from "@/constants";
+import { ACCESS_TOKEN, GET_CART } from "@/constants";
+import axios from "axios";
 
-async function checkAuth() {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get(ACCESS_TOKEN)?.value ?? null;
-  if (!accessToken) return { isAuthenticated: false, token: null };
-  return { isAuthenticated: true, token: accessToken };
+interface Props {
+  params: { id: string };
 }
+export async function DELETE(req: Request, { params }: Props) {
+  const { id } = params;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { isAuthenticated, token } = await checkAuth();
-    if (!isAuthenticated) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized: No access token" },
-        { status: 401 }
-      );
-    }
-
-    const id = params.id;
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "Cart item ID is required" },
-        { status: 400 }
-      );
-    }
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/cart/${id}/`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const raw = await response.text();
-    type BackendResponse = { error_message?: string; message?: string } | string;
-    let backendData: BackendResponse;
-    try {
-      backendData = JSON.parse(raw);
-    } catch {
-      backendData = raw;
-    }
-
-    if (!response.ok) {
-      let errorMessage = "Failed to delete cart item";
-      if (typeof backendData === "object" && backendData !== null) {
-        const obj = backendData as { error_message?: string; message?: string };
-        errorMessage =
-          obj.error_message || obj.message || JSON.stringify(backendData) || errorMessage;
-      } else if (typeof backendData === "string" && backendData) {
-        errorMessage = backendData;
-      }
-
-      return NextResponse.json(
-        {
-          success: false,
-          error_message: errorMessage,
-        },
-        { status: response.status }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: "Cart item deleted successfully",
-      data: backendData,
-    });
-  } catch (error) {
-    console.error("Cart DELETE error:", error);
+  if (!accessToken) {
     return NextResponse.json(
-      { success: false, error_message: "Internal server error" },
-      { status: 500 }
+      {
+        success: false,
+        message: "Unauthorized",
+      },
+      { status: 401 }
     );
+  }
+  const url = `${GET_CART}${id}/`;
+  console.log("DELETE", url);
+
+  try {
+    const resp = await axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return NextResponse.json(resp.data, { status: resp.status });
+  } catch (err: unknown) {
+    let status = 500;
+    let msg = "Delete failed";
+    if (axios.isAxiosError(err) && err.response) {
+      status = err.response.status ?? 500;
+      interface ErrorResponseData {
+        error_message?: string;
+        message?: string;
+        detail?: string;
+      }
+      const d = err.response.data as ErrorResponseData;
+      msg = d?.error_message || d?.message || d?.detail || "Delete failed";
+    }
+    return NextResponse.json({ error: msg }, { status });
   }
 }

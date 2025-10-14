@@ -7,9 +7,9 @@ import { PriceFormatter } from "@/components/price-format";
 import { ProductData } from "@/types";
 import { formatTimeRangeInTz } from "@/utils/time";
 import { ProductCard } from "@/components/card";
-import { FavouriteButton } from "@/components/add-to-cart";
 import AddToSingle from "@/components/add-to-cart/AddToSingle";
 import { Link } from "@/i18n/navigation";
+import { AddToFavourites } from "@/components/add-to-cart";
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -40,7 +40,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               <h2 className="font-medium text-2xl text-textColor">
                 {product?.title}
               </h2>
-              <FavouriteButton product={product} />
+              <AddToFavourites product={product} />
             </div>
             <div className="flex items-center justify-between mb-[23px]">
               <p className="text-textColor text-base">
