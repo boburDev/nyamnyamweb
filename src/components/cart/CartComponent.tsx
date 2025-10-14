@@ -26,6 +26,7 @@ import { PriceFormatter } from "../price-format";
 import { paymentIcons } from "@/data";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
+  const t = useTranslations("cart");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +48,6 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
   const cartData = data ?? { cart_items: [], cart_total: 0 };
   const items = isAuth ? cartData?.cart_items ?? [] : cartStore;
-  const t = useTranslations("cart");
   const totalPrice = isAuth ? cartData?.cart_total : getTotalPrice();
   const handleCheckout = () => {
     if (!isAuth) {
@@ -335,7 +335,10 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     {paymentIcons.map(({ icon: Icon, name }, index) => (
                       <button
                         key={index}
-                        onClick={() => setPayment(name)}
+                        onClick={() => {
+                          setPayment(name)
+                          setError("")
+                        }}
                         className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${
                           payment === name
                             ? "border-mainColor"

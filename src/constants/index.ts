@@ -1,3 +1,4 @@
+export const APP = process.env.NEXT_PUBLIC_APP_URL;
 export const ACCESS_TOKEN = "NYAM_ACCESS_TOKEN";
 export const REFRESH_TOKEN = "NYAM_REFRESH_TOKEN";
 export const DOMAIN = process.env.NEXT_PUBLIC_API_URL;

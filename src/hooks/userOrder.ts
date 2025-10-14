@@ -1,6 +1,6 @@
 import { showError } from "@/components/toast/Toast";
 import { OrderPayload } from "@/types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 interface Props {
@@ -8,6 +8,15 @@ interface Props {
   locale?: string;
 }
 
+const getOrder = async ()=> {
+  try {
+    const res = await axios.get("/api/proxy/order/my_last_orders");
+    return res.data.data;
+  } catch (err) {
+    console.log("❌ Order yaratishda xato:", err);
+    throw err;
+  }
+}
 const createOrder = async ({ data, locale }: Props) => {
   try {
     const res = await axios.post("/api/order", data, {
@@ -22,6 +31,13 @@ const createOrder = async ({ data, locale }: Props) => {
   }
 };
 
+
+export const useGetOrder = () => {
+  return useQuery({
+    queryKey: ["order"],
+    queryFn: getOrder,
+  });
+}
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
 

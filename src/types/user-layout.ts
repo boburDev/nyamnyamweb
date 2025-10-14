@@ -77,3 +77,8 @@ export interface OrderPayload {
   total_price: number;
   payment_method: string;
 }
+
+export interface ErrorData {
+  error_message: string;
+  message?: string;
+}

@@ -41,7 +41,6 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
       birth_date: user?.birth_date || "",
       phone_number: user?.phone_number || "",
       email: user?.email || "",
-      password: "",
     },
   });
   const onSubmit = () => {
@@ -135,17 +134,6 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
               placeholder="example@mail.com"
               readOnly
               className="text-textColor border-mounSnow cursor-pointer rounded-[12px] h-12 py-[11px] px-[15px]"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="flex flex-col gap-2 min-w-[255px]">
-            <label className="profile-label">{t("password")}</label>
-            <Input
-              type="password"
-              {...register("password")}
-              placeholder="**********"
-              className="text-textColor h-12 rounded-[12px] border-mounSnow py-[11px] px-[15px]"
             />
           </div>
 

@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { Star, Dot } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { AddToCart, AddToFavourites } from "../add-to-cart";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
-import { useRouter } from "next/navigation";
 import { ProductData } from "@/types";
 
 interface ProductCardProps {

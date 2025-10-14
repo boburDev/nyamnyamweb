@@ -7,9 +7,14 @@ import { ScanQrCode } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { OrdersData } from "@/data";
+import { useGetOrder } from "@/hooks";
 
 export default function OrderPage() {
   const [open, setOpen] = useState(false);
+  const { data } = useGetOrder();
+  console.log(data);
+  
+
   return (
     <Container>
       <div className="pt-[150px]">
