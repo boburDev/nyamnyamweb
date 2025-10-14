@@ -4,10 +4,10 @@ import { ACCESS_TOKEN, FAVORITE } from "@/constants";
 import axios from "axios";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 export async function DELETE(req: Request, { params }: Props) {
-  const { id } = params;
+  const { id } = await params;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
 

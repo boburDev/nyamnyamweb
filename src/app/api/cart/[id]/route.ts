@@ -2,24 +2,21 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ACCESS_TOKEN, GET_CART } from "@/constants";
 import axios from "axios";
-
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 export async function DELETE(req: Request, { params }: Props) {
-  const { id } = params;
+  const { id } = await params;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
 
   if (!accessToken) {
     return NextResponse.json(
-      {
-        success: false,
-        message: "Unauthorized",
-      },
+      { success: false, message: "Unauthorized" },
       { status: 401 }
     );
   }
+
   const url = `${GET_CART}${id}/`;
   console.log("DELETE", url);
 
@@ -35,12 +32,11 @@ export async function DELETE(req: Request, { params }: Props) {
     let msg = "Delete failed";
     if (axios.isAxiosError(err) && err.response) {
       status = err.response.status ?? 500;
-      interface ErrorResponseData {
+      const d = err.response.data as {
         error_message?: string;
         message?: string;
         detail?: string;
-      }
-      const d = err.response.data as ErrorResponseData;
+      };
       msg = d?.error_message || d?.message || d?.detail || "Delete failed";
     }
     return NextResponse.json({ error: msg }, { status });
