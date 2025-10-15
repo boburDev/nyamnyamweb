@@ -90,8 +90,8 @@ const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => {
-        set({ items: [] });
         cookieStorage.removeItem("nyam-web-cart");
+        set({ items: [] });
       },
 
       isInCart: (productId: string) => {

@@ -74,7 +74,7 @@ export default function SigninPage() {
             { items: favouriteItems.map((item) => item.id) },
             {
               onSuccess: () => {
-                clearFavourites(); 
+                clearFavourites();
               },
               onError: (error) => {
                 console.error(
@@ -84,6 +84,8 @@ export default function SigninPage() {
               },
             }
           );
+        } else {
+          clearFavourites();
         }
 
         showSuccess("Muvaffaqiyatli kirdingiz");

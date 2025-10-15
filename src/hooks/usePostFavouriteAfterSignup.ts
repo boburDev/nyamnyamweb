@@ -24,7 +24,7 @@ const buildFavouriteRequestBody = (
 const postFavouriteAfterSignup = async (data: PostFavouriteData) => {
   const body = buildFavouriteRequestBody(data.items);
 
-  const response = await fetch(`/api/favourite/post-favorite-after-signup`, {
+  const response = await fetch(`/api/favourites/create-all`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
