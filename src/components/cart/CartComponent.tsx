@@ -19,7 +19,7 @@ import {
   useDeleteCartItem,
   useCreateOrder,
 } from "@/hooks";
-import { showToast } from "../toast/Toast";
+import { showSuccess, showToast } from "../toast/Toast";
 import { OrderPayload, ProductData } from "@/types";
 import { Separator } from "../ui/separator";
 import { PriceFormatter } from "../price-format";
@@ -76,6 +76,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
       { data: payload, locale },
       {
         onSuccess: () => {
+          showSuccess("Buyurtma muvaffaqiyatli yaratildi");
           router.push("/order");
         },
       }
@@ -336,8 +337,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       <button
                         key={index}
                         onClick={() => {
-                          setPayment(name)
-                          setError("")
+                          setPayment(name);
+                          setError("");
                         }}
                         className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${
                           payment === name
