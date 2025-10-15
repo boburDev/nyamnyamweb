@@ -33,8 +33,8 @@ export async function GET(
     );
     return NextResponse.json({ error: "Tokens not found" }, { status: 400 });
   }
-  const redirectBaseUrl = process.env.NEXT_PUBLIC_APP_URL;
-  const res = NextResponse.redirect(new URL(`/${lang}`, redirectBaseUrl));
+  const redirectBaseUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const res = NextResponse.redirect(new URL(`/${lang}`, redirectBaseUrl));
 
   res.cookies.set(ACCESS_TOKEN, access, {
     httpOnly: true,
