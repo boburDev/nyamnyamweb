@@ -49,49 +49,44 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Product Details */}
         <div className="p-5">
           {/* Rating and Name */}
-          <div className="flex items-center gap-2 mb-3">
-            {product.overall_rating && (
+
+          <p className="text-textColor font-medium text-lg line-clamp-1 mb-4">
+            {product.title}
+          </p>
+
+          {/* Business name + Branch + Distance */}
+          <div className="flex justify-between items-center mb-[19px]">
+            <div className="flex items-center gap-1  text-dolphin text-sm">
+              {product.branch_name && (
+                <span className="font-medium">{product.branch_name}</span>
+              )}
+              {product.distance && (
+                <>
+                  <Dot className="w-4 h-4" />
+                  <span className="font-medium">{product.distance}</span>
+                </>
+              )}
+            </div>
+            {(product?.overall_rating ?? 0) >= 0 && (
               <div className="flex items-center gap-1">
                 <Star fill="#F8B133" stroke="#F8B133" className="w-4 h-4" />
                 <span className="text-textColor font-medium text-sm">
-                  {product.overall_rating}
+                  {product.overall_rating ?? 0}
                 </span>
               </div>
-            )}
-            <span className="text-textColor font-medium text-lg line-clamp-1">
-              {product.title}
-            </span>
-          </div>
-
-          {/* Business name + Branch + Distance */}
-          <div className="flex items-center gap-1 mb-3 text-dolphin text-sm">
-            <span className="font-medium">{product.business_name}</span>
-            {product.branch_name && (
-              <>
-                <Dot className="w-4 h-4" />
-                <span className="font-medium">{product.branch_name}</span>
-              </>
-            )}
-            {product.distance && (
-              <>
-                <Dot className="w-4 h-4" />
-                <span className="font-medium">
-                  {product.distance || product.distance_km}
-                </span>
-              </>
             )}
           </div>
 
           {/* Price + Buttons */}
           <div className="flex gap-[10px] justify-between items-center">
             {/* Price */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-end gap-2">
               <PriceFormatter
                 amount={product.price_in_app}
-                className="text-lg text-mainColor font-semibold"
+                className="text-[22px] text-mainColor font-semibold"
               />
               {product.price && (
-                <span className="text-dolphin w-[70px] truncate line-through text-sm flex-shrink-0">
+                <span className="text-dolphin  line-through text-sm leading-[21px]">
                   {formatPrice(product.price)}
                 </span>
               )}

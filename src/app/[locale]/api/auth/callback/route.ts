@@ -33,20 +33,20 @@ export async function GET(
     );
     return NextResponse.json({ error: "Tokens not found" }, { status: 400 });
   }
-
-  const secureFlag = process.env.NODE_ENV === "production";
+  const isLocalhost = req.url.includes("localhost");
+  const secureFlag = !isLocalhost && process.env.NODE_ENV === "production";
 
   const res = NextResponse.redirect(new URL(`/${lang}`, req.url));
 
   res.cookies.set(ACCESS_TOKEN, access, {
-    // httpOnly: true,
+    httpOnly: true,
     secure: secureFlag,
     path: "/",
     sameSite: "lax",
   });
 
   res.cookies.set(REFRESH_TOKEN, refresh, {
-    // httpOnly: true,
+    httpOnly: true,
     secure: secureFlag,
     path: "/",
     sameSite: "lax",

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 interface Props {
   amount?: number | null;
   className?: string;
-  summ?: boolean; // endi optional, default true
+  summ?: boolean; 
 }
 
 export const PriceFormatter = ({ amount, className, summ = true }: Props) => {
@@ -13,16 +13,14 @@ export const PriceFormatter = ({ amount, className, summ = true }: Props) => {
 
   const currency = "so'm";
 
-  // format: grouping + exactly 2 decimals (we'll hide ",00" later)
   const formatted = new Intl.NumberFormat("ru-RU", {
     useGrouping: true,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })
     .format(Number(amount))
-    .replace(/\u00A0/g, " "); // NBSP -> regular space
+    .replace(/\u00A0/g, " "); 
 
-  // ru-RU uses comma as decimal separator
   const [integerPart, fractionPart] = formatted.split(",");
 
   return (

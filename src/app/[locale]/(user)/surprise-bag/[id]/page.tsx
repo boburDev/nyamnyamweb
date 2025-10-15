@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { Map, StarIcon } from "lucide-react";
 import { getSurpriseBagSingle } from "@/api";
@@ -10,6 +9,7 @@ import { ProductCard } from "@/components/card";
 import AddToSingle from "@/components/add-to-cart/AddToSingle";
 import { Link } from "@/i18n/navigation";
 import { AddToFavourites } from "@/components/add-to-cart";
+import { formatPrice } from "@/utils/price-format";
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -18,6 +18,8 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
   const { id, locale } = await params;
   const product: ProductData = await getSurpriseBagSingle({ id, locale });
   const range = formatTimeRangeInTz(product?.start_time, product?.end_time);
+  console.log(product);
+
   return (
     <div className="py-20">
       <Container>
@@ -48,7 +50,10 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               </p>
               {!product?.overall_rating && (
                 <span>
-                  <StarIcon size={20} className="text-accordionText fill-accordionText" />{" "}
+                  <StarIcon
+                    size={20}
+                    className="text-accordionText fill-accordionText"
+                  />{" "}
                   {product?.overall_rating}
                 </span>
               )}
@@ -63,7 +68,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
                 </p>
                 <span className="w-1 h-1 rounded-full bg-dolphin mx-[10px]"></span>
                 <span className="text-dolphin text-[17px] font-normal">
-                  {Number(product?.distance).toFixed(1)} km
+                  {product?.distance}
                 </span>
               </div>
               <div className="flex items-center">
@@ -82,11 +87,9 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-5">
-                <PriceFormatter
-                  amount={product?.price}
-                  className="line-through text-dolphin text-lg font-normal"
-                  summ={false}
-                />
+                <span className="line-through text-dolphin text-lg font-normal">
+                  {formatPrice(product.price)}
+                </span>
                 <PriceFormatter
                   amount={product?.price_in_app}
                   className="font-semibold text-2xl"
