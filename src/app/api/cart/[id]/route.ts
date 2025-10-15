@@ -18,7 +18,6 @@ export async function DELETE(req: Request, { params }: Props) {
   }
 
   const url = `${GET_CART}${id}/`;
-  console.log("DELETE", url);
 
   try {
     const resp = await axios.delete(url, {

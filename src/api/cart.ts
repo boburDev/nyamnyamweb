@@ -94,7 +94,7 @@ export const updateCart = async ({
   }
 };
 
-export const deleteCartItem = async ({ id }: { id: string }) => {
+export const deleteCartItem = async (id: string) => {
   try {
     const res = await axios.delete(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/cart/${id}`

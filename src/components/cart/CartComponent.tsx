@@ -49,6 +49,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const cartData = data ?? { cart_items: [], cart_total: 0 };
   const items = isAuth ? cartData?.cart_items ?? [] : cartStore;
   const totalPrice = isAuth ? cartData?.cart_total : getTotalPrice();
+  console.log(items);
+  
   const handleCheckout = () => {
     if (!isAuth) {
       router.push("/signin");
@@ -129,7 +131,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     if (!isAuth) {
       removeItem(id);
     } else {
-      deleteCartItem({ id });
+      deleteCartItem(id);
     }
   };
 
@@ -192,7 +194,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         {/* Product Image */}
                         <div className="relative w-[217px] h-[147px] flex-shrink-0">
                           <Image
-                            src={item.surprise_bag_image}
+                            src={item?.surprise_bag_image || item?.cover_image}
                             alt={item?.title}
                             fill
                             className="object-cover rounded-xl"

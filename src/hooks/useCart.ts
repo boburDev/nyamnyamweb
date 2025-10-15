@@ -56,7 +56,7 @@ const useUpdateCart = () => {
 const   useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id }: { id: string }) => deleteCartItem({ id }),
+    mutationFn: (id: string) => deleteCartItem(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
