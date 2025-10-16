@@ -1,9 +1,32 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { showError } from "@/components/toast/Toast";
 import { AxiosError } from "axios";
-import { deleteCartAll, updateCart, deleteCartItem, addToCart } from "@/api";
+import {
+  deleteCartAll,
+  updateCart,
+  deleteCartItem,
+  addToCart,
+  getCart,
+} from "@/api";
 import { useRouter } from "@/i18n/navigation";
 
+export const useGetCart = ({
+  enabled,
+  lat,
+  lon,
+}: {
+  enabled?: boolean;
+  lat?: number;
+  lon?: number;
+}) =>
+  useQuery({
+    queryKey: ["cart", lat, lon],
+    queryFn: async ({ queryKey }) => {
+      const [, lat, lon] = queryKey as [string, number?, number?];
+      return getCart({ lat, lon });
+    },
+    enabled,
+  });
 const useDeleteCartAll = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -53,7 +76,7 @@ const useUpdateCart = () => {
   });
 };
 
-const   useDeleteCartItem = () => {
+const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteCartItem(id),

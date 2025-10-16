@@ -1,15 +1,13 @@
 import axios from "axios";
 
-export async function getCart() {
+export async function getCart({ lat, lon }: { lat?: number; lon?: number }) {
   try {
-    const res = await fetch(`/api/proxy/cart`, {
-      credentials: "include",
-      cache: "no-store",
+    const params = { lat, lon };
+    const res = await axios(`/api/proxy/cart`, {
+      withCredentials: true,
+      params,
     });
-
-    if (!res.ok) throw new Error("Cart olishda xatolik");
-
-    const raw = await res.json();
+    const raw = await res.data;
     return raw?.data ?? raw;
   } catch (error) {
     console.log(error);

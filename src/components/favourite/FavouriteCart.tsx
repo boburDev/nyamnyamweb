@@ -6,10 +6,15 @@ import { ProductData } from "@/types";
 import { Link } from "@/i18n/navigation";
 import { Button } from "../ui/button";
 import { Heart } from "lucide-react";
+import { useLocationStore } from "@/context/userStore";
 
 const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
+  const coords = useLocationStore((s) => s.coords);
   const favourite = useFavouriteStore((s) => s.items);
-  const { data: favData } = useFavouritesQuery(isAuth);
+  const { data: favData } = useFavouritesQuery({
+    lat: coords?.lat,
+    lon: coords?.lon,
+  });
   const items: ProductData[] = isAuth ? favData ?? [] : favourite;
 
   return (

@@ -2,6 +2,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import CartComponent from "@/components/cart/CartComponent";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
+import { getCart } from "@/api";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();
@@ -9,11 +10,10 @@ export default async function CartPage() {
 
   if (isAuth) {
     await queryClient.prefetchQuery({
-      queryKey: ["cart"],
-      queryFn: async () => {
-        const res = await fetch(`/api/cart`);
-        if (!res.ok) throw new Error("Serverdan savatni olishda xatolik");
-        return res.json();
+      queryKey: ["favourites", null, null],
+      queryFn: async ({ queryKey }) => {
+        const [, lat, lon] = queryKey as [string, number | null, number | null];
+        return getCart({ lat: lat ?? undefined, lon: lon ?? undefined });
       },
     });
   }

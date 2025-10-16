@@ -7,12 +7,19 @@ export async function GET(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
 ) {
+  const { searchParams } = new URL(req.url);
+  const lat = searchParams.get("lat");
+  const lon = searchParams.get("lon");
   try {
     const { path } = await context.params;
     const cookieStore = await cookies();
     let accessToken = cookieStore.get(ACCESS_TOKEN)?.value ?? null;
     const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
-    const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
+    let targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
+    if (lat && lon) {
+      const query = new URLSearchParams({ lat, lon });
+      targetUrl += `?${query.toString()}`;
+    }
 
     if (!accessToken && !refreshToken) {
       revalidatePath("/", "layout");

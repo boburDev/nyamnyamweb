@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, ShoppingCart, StarIcon, TrashIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import useCartStore from "@/context/cartStore";
@@ -12,21 +11,23 @@ import { ConfirmModal } from "../modal";
 import { Link, useRouter } from "@/i18n/navigation";
 import { ProductSkeletons, SubmitLoader } from "../loader";
 import { formatPrice } from "@/utils/price-format";
-import { getCart } from "@/api";
 import {
   useDeleteCartAll,
   useUpdateCart,
   useDeleteCartItem,
   useCreateOrder,
+  useGetCart,
 } from "@/hooks";
 import { showSuccess, showToast } from "../toast/Toast";
 import { OrderPayload, ProductData } from "@/types";
 import { Separator } from "../ui/separator";
 import { PriceFormatter } from "../price-format";
 import { paymentIcons } from "@/data";
+import { useLocationStore } from "@/context/userStore";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const t = useTranslations("cart");
+  const coords = useLocationStore((s) => s.coords);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const deleteCart = useCartStore((s) => s.clearCart);
   const [error, setError] = useState<string | null>(null);
@@ -36,10 +37,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const cartStore = useCartStore((s) => s.items);
   const [payment, setPayment] = useState<string | null>(null);
   const router = useRouter();
-  const { data, isLoading } = useQuery({
-    queryKey: ["cart"],
-    queryFn: getCart,
-    enabled: isAuth,
+  const { data, isLoading } = useGetCart({
+    lat: coords?.lat,
+    lon: coords?.lon,
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();
@@ -49,7 +49,6 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const cartData = data ?? { cart_items: [], cart_total: 0 };
   const items = isAuth ? cartData?.cart_items ?? [] : cartStore;
   const totalPrice = isAuth ? cartData?.cart_total : getTotalPrice();
-  console.log(items);
 
   const handleCheckout = () => {
     if (!isAuth) {

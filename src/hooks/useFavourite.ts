@@ -3,10 +3,21 @@ import { addFavourites, getFavourites, removeFavourite } from "@/api/favourite";
 import { showError } from "@/components/toast/Toast";
 import { AxiosError } from "axios";
 
-export const useFavouritesQuery = (enabled?: boolean) =>
+export const useFavouritesQuery = ({
+  enabled,
+  lat,
+  lon,
+}: {
+  enabled?: boolean;
+  lat?: number;
+  lon?: number;
+}) =>
   useQuery({
-    queryKey: ["favourites"],
-    queryFn: getFavourites,
+    queryKey: ["favourites", lat, lon],
+    queryFn: async ({ queryKey }) => {
+      const [, lat, lon] = queryKey as [string, number?, number?];
+      return getFavourites({ lat, lon });
+    },
     enabled,
   });
 
