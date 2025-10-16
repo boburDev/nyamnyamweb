@@ -22,21 +22,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Product Image */}
         <div className="relative h-[200px]">
           <Image
-            src={
-              product.cover_image ||
-              product.surprise_bag_image ||
-              "/images/placeholder.png"
-            }
-            alt={product.title ?? "Mahsulot rasmi"}
+            src={product?.cover_image}
+            alt={product?.title ?? "Mahsulot rasmi"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover rounded-t-[25px]"
           />
 
           {/* Stock Badge */}
-          {product.count && product.count <= 5 && (
+          {product?.count && product?.count <= 5 && (
             <div className="absolute top-3 left-3 bg-mainColor/20 rounded-full px-[14px] py-2 text-sm font-medium text-white backdrop-blur-[45px]">
-              {product.count} ta qoldi
+              {product?.count} ta qoldi
             </div>
           )}
 
@@ -51,19 +47,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Rating and Name */}
 
           <p className="text-textColor font-medium text-lg line-clamp-1 mb-4">
-            {product.title}
+            {product?.title}
           </p>
 
           {/* Business name + Branch + Distance */}
           <div className="flex justify-between items-center mb-[19px]">
             <div className="flex items-center gap-1  text-dolphin text-sm">
-              {product.branch_name && (
-                <span className="font-medium">{product.branch_name}</span>
+              {product?.branch_name && (
+                <span className="font-medium">{product?.branch_name}</span>
               )}
-              {product.distance && (
+              {product?.distance && (
                 <>
                   <Dot className="w-4 h-4" />
-                  <span className="font-medium">{product.distance}</span>
+                  <span className="font-medium">{product?.distance}</span>
                 </>
               )}
             </div>
@@ -71,7 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <div className="flex items-center gap-1">
                 <Star fill="#F8B133" stroke="#F8B133" className="w-4 h-4" />
                 <span className="text-textColor font-medium text-sm">
-                  {product.overall_rating ?? 0}
+                  {product?.overall_rating ?? 0}
                 </span>
               </div>
             )}
@@ -82,12 +78,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {/* Price */}
             <div className="flex items-end gap-2">
               <PriceFormatter
-                amount={product.price_in_app}
+                amount={product?.price_in_app}
                 className="text-[22px] text-mainColor font-semibold"
               />
-              {product.price && (
+              {product?.price && (
                 <span className="text-dolphin  line-through text-sm leading-[21px]">
-                  {formatPrice(product.price)}
+                  {formatPrice(product?.price)}
                 </span>
               )}
             </div>
@@ -100,7 +96,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 className="flex-1"
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/surprise-bag/${product.id}`);
+                  router.push(`/surprise-bag/${product?.id}`);
                 }}
               >
                 <Button className="w-full h-10 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">

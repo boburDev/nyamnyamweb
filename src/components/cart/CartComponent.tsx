@@ -50,7 +50,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const items = isAuth ? cartData?.cart_items ?? [] : cartStore;
   const totalPrice = isAuth ? cartData?.cart_total : getTotalPrice();
   console.log(items);
-  
+
   const handleCheckout = () => {
     if (!isAuth) {
       router.push("/signin");
@@ -194,7 +194,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                         {/* Product Image */}
                         <div className="relative w-[217px] h-[147px] flex-shrink-0">
                           <Image
-                            src={item?.surprise_bag_image || item?.cover_image}
+                            src={item?.cover_image}
                             alt={item?.title}
                             fill
                             className="object-cover rounded-xl"
@@ -236,17 +236,17 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                               </div>
                             )}
                             <p className="text-dolphin">
-                              {item.branch_name} • {item?.distance}
+                              {item?.branch_name} • {item?.distance}
                             </p>
                           </div>
 
                           <div className="flex justify-between">
                             <div className="flex items-center gap-2 mt-[53px]">
                               <span className="text-gray-400 line-through text-sm">
-                                {formatPrice(item.price)}
+                                {formatPrice(item?.price)}
                               </span>
                               <span className="text-mainColor font-medium text-xl">
-                                {formatPrice(item.price_in_app)}
+                                {formatPrice(item?.price_in_app)}
                               </span>
                             </div>
 
@@ -259,7 +259,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                       item?.id,
                                       item?.quantity - 1,
                                       "surprise_bag" in item
-                                        ? item.surprise_bag
+                                        ? item?.surprise_bag
                                         : undefined
                                     )
                                   }
@@ -276,7 +276,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                       item?.id,
                                       item?.quantity + 1,
                                       "surprise_bag" in item
-                                        ? item.surprise_bag
+                                        ? item?.surprise_bag
                                         : undefined
                                     )
                                   }
@@ -315,12 +315,12 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     <div key={idx} className="flex justify-between">
                       <div>
                         <p className="text-dolphin text-lg">
-                          {item.title} box x {item.quantity}
+                          {item?.title} box x {item?.quantity}
                         </p>
                       </div>
                       <span>
                         <PriceFormatter
-                          amount={item.price_in_app * item.quantity}
+                          amount={item?.price_in_app * item?.quantity}
                           className="font-medium text-textColor"
                         />
                       </span>
