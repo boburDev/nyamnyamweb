@@ -2,34 +2,10 @@ import { Container } from "@/components/container"
 import { Calendar, Clock } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation"
+import { getNotificationByIdServer, type AppNotification } from "@/api/notification";
 
-interface Notification {
-  id: number;
-  name: string;
-  desc: string;
-  createdAt: string;
-}
-
-async function getNotification(id: string): Promise<Notification | null> {
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/notification?id=${id}`, {
-      cache: 'no-store'
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
-      throw new Error('Failed to fetch notification');
-    }
-
-    const data = await response.json();
-    return data.notification || null;
-  } catch (error) {
-    console.error('Error fetching notification:', error);
-    return null;
-  }
+async function loadNotification(id: string): Promise<AppNotification | null> {
+  return await getNotificationByIdServer(id);
 }
 
 interface NotificationDetailPageProps {
@@ -41,21 +17,22 @@ interface NotificationDetailPageProps {
 
 const NotificationDetailPage = async ({ params }: NotificationDetailPageProps) => {
   const t = await getTranslations('notification')
-  const notification = await getNotification(params.id);
+  const notification = await loadNotification(params.id);
 
-  
-  const date = new Date( );
-  if (!date) {
+
+  // Use notification created_at for date/time
+  const created = notification ? new Date(notification.created_at) : null;
+  if (!created) {
     notFound();
   }
 
-  const formattedDate = date.toLocaleDateString("uz-UZ", {
+  const formattedDate = created.toLocaleDateString("uz-UZ", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   });
 
-  const formattedTime = date.toLocaleTimeString("uz-UZ", {
+  const formattedTime = created.toLocaleTimeString("uz-UZ", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -75,12 +52,12 @@ const NotificationDetailPage = async ({ params }: NotificationDetailPageProps) =
         <div className="bg-white border border-plasterColor rounded-[20px] p-[30px]">
           <div className="mb-6">
             <h1 className="font-medium text-2xl text-textColor mb-[17px]">
-              {notification.name}
+              {notification.title}
             </h1>
           </div>
           <div className="prose max-w-none">
             <p className="text-[16px] leading-7 text-dolphin whitespace-pre-wrap">
-              {notification.desc}
+              {notification.description}
             </p>
           </div>
           <div className="mt-[29px] flex items-end justify-end">

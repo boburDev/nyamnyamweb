@@ -200,6 +200,7 @@
     "section-4": "Announcements and promotions",
     "section-5": "Surprise box alerts",
     "section-6-title": "Daily reminder",
+    "noNotifications": "No notifications found",
     "section-6-desc": "Select the days you want to receive a daily reminder.",
     "week-days": {
       "monday": "Monday",

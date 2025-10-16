@@ -1,4 +1,6 @@
-import {  
+"use client";
+
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -8,11 +10,39 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
-import { notificationData } from "@/data";
+import { getNotifications, type AppNotification } from "@/api/notification";
 import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export const NotificationMenu = () => {
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true);
+        const data = await getNotifications();
+        setNotifications(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+        setError("Bildirishnomalar yuklanmadi");
+        setNotifications([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  // Count unread notifications
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,8 +51,8 @@ export const NotificationMenu = () => {
           className="w-12 h-12 font-medium text-sm focus-visible:ring-0"
         >
           <div className="relative">
-            <NotificationIcon className="size-6"/>
-            {notificationData.length > 0 && (
+            <NotificationIcon className="size-6" />
+            {unreadCount > 0 && (
               <span className="absolute top-[2px] right-[2px] w-[5px] h-[5px] bg-dangerColor rounded-full"></span>
             )}
           </div>
@@ -34,36 +64,73 @@ export const NotificationMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-col gap-[15px]">
-          {notificationData.map((item, index) => {
-            const date = new Date(item.createdAt);
-            if (!isValid(date)) {
-              console.error(
-                `Invalid date for item at index ${index}:`,
-                item.createdAt
+          {loading ? (
+            <div className="text-center py-4 text-gray-500">
+              Yuklanmoqda...
+            </div>
+          ) : error ? (
+            <div className="text-center py-4 text-red-500">
+              {error}
+            </div>
+          ) : notifications.length === 0 ? (
+            <div className="text-center py-4 text-gray-500">
+              Bildirishnomalar yo'q
+            </div>
+          ) : (
+            notifications.slice(0, 5).map((item) => {
+              const date = new Date(item.created_at);
+              if (!isValid(date)) {
+                console.error(
+                  `Invalid date for notification ${item.id}:`,
+                  item.created_at
+                );
+                return null;
+              }
+
+              const sana = format(date, "d MMMM yyyy", { locale: uz });
+              const vaqt = format(date, "HH:mm");
+
+              return (
+                <DropdownMenuItem
+                  key={item.id}
+                  className="bg-borderColor focus:bg-borderColor"
+                  asChild
+                >
+                  <Link href={`/notification/${item.id}`}>
+                    <div className="flex flex-col gap-[10px] w-full">
+                      <h4 className={`font-medium ${!item.is_read ? 'text-textColor' : 'text-gray-600'}`}>
+                        {item.title}
+                      </h4>
+                      <p className="text-sm text-gray-600 line-clamp-2">
+                        {item.description}
+                      </p>
+                      <div className="flex justify-between items-center text-sm text-gray-600">
+                        <span>{sana}</span>
+                        <span>{vaqt}</span>
+                      </div>
+                      {!item.is_read && (
+                        <div className="w-2 h-2 bg-mainColor rounded-full self-end"></div>
+                      )}
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
               );
-              return null; 
-            }
-
-            const sana = format(date, "d MMMM yyyy", { locale: uz });
-            const vaqt = format(date, "HH:mm");
-
-            return (
-              <DropdownMenuItem
-                key={index}
-                className="bg-borderColor focus:bg-borderColor"
-              >
-                <div className="flex flex-col gap-[10px]">
-                  <h4>{item.name}</h4>
-                  <p>{item.desc}</p>
-                  <div className="flex justify-between items-center text-sm text-gray-600">
-                    <span>{sana}</span>
-                    <span>{vaqt}</span>
-                  </div>
-                </div>
-              </DropdownMenuItem>
-            );
-          })}
+            })
+          )}
         </div>
+        {notifications.length > 5 && (
+          <>
+            <DropdownMenuSeparator />
+            <div className="text-center py-2">
+              <Link
+                href="/notification"
+                className="text-mainColor text-sm hover:underline"
+              >
+                Barcha bildirishnomalarni ko'rish
+              </Link>
+            </div>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

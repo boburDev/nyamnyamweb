@@ -19,10 +19,10 @@ interface OrderItem {
   original_price: number;
   count: number;
   business_branch: string;
-  start_time: string; // ex: "18:00:00"
-  end_time: string; // ex: "18:30:00"
+  start_time: string;
+  end_time: string;
   qr_code_img: string;
-  pickup_date: string; // ex: "2025-10-15"
+  pickup_date: string;
 }
 
 interface Order {
@@ -44,7 +44,7 @@ interface Props {
 export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
   const [qrCode, setQrCode] = useState<string>("");
   console.log(qrCode);
-  
+
   return (
     <Accordion
       type="single"
@@ -73,12 +73,12 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
             <div>
               <div className="w-full h-[1px] bg-plasterColor mt-[25px]"></div>
               {item.order_items.map((product, idx) => {
-                const startDateTime = product.pickup_date
-                  ? new Date(`${product.pickup_date}T${product.start_time}`)
-                  : null;
-                const endDateTime = product.pickup_date
-                  ? new Date(`${product.pickup_date}T${product.end_time}`)
-                  : null;
+                // const startDateTime = product.pickup_date
+                //   ? new Date(`${product.pickup_date}T${product.start_time}`)
+                //   : null;
+                // const endDateTime = product.pickup_date
+                //   ? new Date(`${product.pickup_date}T${product.end_time}`)
+                //   : null;
 
                 return (
                   <div
@@ -88,16 +88,39 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                     <div className="flex gap-[30px]">
                       <Image
                         src={product.qr_code_img}
-                        width={250}
+                        width={220}
                         height={180}
                         className="w-[253px] h-[183px] rounded-[20px] object-cover"
                         alt={product.title}
                       />
                       <div>
-                        <h3 className="font-medium text-[22px] text-textColor">
-                          {product.title}
-                        </h3>
-                        <h4 className="text-lg text-dolphin">
+                        <div className="flex jus">
+                          <h3 className="font-medium text-[22px] text-textColor">
+                            {product.title}
+                          </h3>
+                          {
+                            product.status === 'pending' && (
+                              <span className="bg-accordionText/10 text-accordionText px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                To'lov kutmoqda
+                              </span>
+                            )
+                          }
+                          {
+                            product.status === 'success' && (
+                              <span className="bg-statusBg text-mainColor px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                Olib ketish mumkin
+                              </span>
+                            )
+                          }
+                          {
+                            product.status === 'expired' && (
+                              <span className="bg-statusRed text-red-600 px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                Buyurtma muddati o'tgan
+                              </span>
+                            )
+                          }
+                        </div>
+                        <h4 className="text-lg text-dolphin mt-[11px]">
                           {product.business_branch}
                         </h4>
                         <h5 className="text-[16px] text-dolphin">
@@ -114,8 +137,12 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                       </div>
                     </div>
                     <div className="flex flex-col justify-between">
-                      <div>
-                        <h4 className="text-lg text-dolphin pt-[25px]">
+                      {/* <div className="bg-hoverColor rounded-[15px] flex px-5 py-[9px] gap-[10px]">
+                        <div className="flex gap-[5px]">
+                          <CalendarDays size={16} />
+                          {item.order_items[0]?.pickup_date}
+                        </div>
+                        <h4 className="">
                           {startDateTime && !isNaN(startDateTime.getTime())
                             ? format(startDateTime, "HH:mm")
                             : "--:--"}{" "}
@@ -124,7 +151,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                             ? format(endDateTime, "HH:mm")
                             : "--:--"}
                         </h4>
-                      </div>
+                      </div> */}
                       <Button
                         onClick={() => {
                           setQrCode(product.qr_code_img);
