@@ -11,7 +11,8 @@ export interface CartItem extends ProductData {
 interface CartStore {
   items: CartItem[];
   isOpen: boolean;
-
+  hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   addToCart: (product: ProductData) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -29,7 +30,8 @@ const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       isOpen: false,
-
+      hasHydrated: false,
+      setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
       addToCart: (product: ProductData) => {
         const { items } = get();
         const existingItem = items.find((item) => item.id === product.id);
@@ -134,6 +136,9 @@ const useCartStore = create<CartStore>()(
     {
       name: "nyam-web-cart",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

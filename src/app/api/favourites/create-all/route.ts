@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ACCESS_TOKEN, POST_FAVORITE } from "@/constants";
+import axios from "axios";
 
 async function checkAuth() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
+
+  console.log("🍪 Access token:", accessToken ? "found" : "not found");
 
   if (!accessToken) {
     return { isAuthenticated: false, token: null };
@@ -14,10 +17,14 @@ async function checkAuth() {
 }
 
 export async function POST(req: Request) {
+  console.log("📩 Incoming POST request to /api/favourites");
+
   try {
     const { isAuthenticated, token } = await checkAuth();
+    console.log("🔑 Auth status:", isAuthenticated);
 
     if (!isAuthenticated) {
+      console.warn("⚠️ No access token in cookies");
       return NextResponse.json(
         { success: false, message: "Unauthorized: No access token" },
         { status: 401 }
@@ -25,9 +32,11 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { items } = body;
+    console.log("📦 Request body:", body);
 
+    const { items } = body;
     if (!items || !Array.isArray(items) || items.length === 0) {
+      console.warn("⚠️ Empty or invalid favourites list");
       return NextResponse.json(
         { success: false, message: "No favourite items to post" },
         { status: 400 }
@@ -35,38 +44,39 @@ export async function POST(req: Request) {
     }
 
     const requestBody = { items };
-    console.log("📦 Favourites request body:", requestBody);
+    console.log("🚀 Sending to backend:", POST_FAVORITE, requestBody);
 
-    const response = await fetch(POST_FAVORITE, {
-      method: "POST",
+    // ✅ axios config to‘g‘rilandi
+    const response = await axios.post(POST_FAVORITE, requestBody, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(requestBody),
     });
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error("Favourites POST error:", errorData);
-      return NextResponse.json(
-        { success: false, message: "Failed to post favourite items" },
-        { status: response.status }
-      );
-    }
-
-    const result = await response.json();
+    console.log("✅ Response status:", response.status);
+    console.log("📥 Response data:", response.data);
 
     return NextResponse.json({
       success: true,
       message: "Favourite items posted successfully",
-      data: result,
+      data: response.data,
     });
-  } catch (error) {
-    console.error("Favourites POST after signup error:", error);
-    return NextResponse.json(
-      { success: false, message: "Internal server error" },
-      { status: 500 }
-    );
+  } catch (e: unknown) {
+    console.error("❌ Error posting favourites:", e);
+
+    let status = 500;
+    let msg = "Login Failed";
+
+    if (axios.isAxiosError(e) && e.response) {
+      status = e.response.status ?? 500;
+      const data = e.response.data;
+      msg = data?.error_message || data?.message || data?.detail || "Login Failed";
+
+      console.error("🔍 Backend error:", msg);
+      console.error("📄 Full response:", data);
+    }
+
+    return NextResponse.json({ error: msg }, { status });
   }
 }

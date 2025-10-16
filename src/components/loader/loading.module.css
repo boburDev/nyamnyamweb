@@ -10,3 +10,47 @@
     transform: translateX(100%);
   }
 }
+
+.logoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none;
+  animation: fadeOutOverlay 0.5s ease-in-out 1.8s forwards;
+}
+
+.logoContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: scaleUpDown 1.5s ease-in-out infinite;
+}
+
+.logoIcon {
+  width: 120px;
+  height: 120px;
+}
+
+@keyframes scaleUpDown {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes fadeOutOverlay {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

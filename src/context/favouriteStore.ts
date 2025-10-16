@@ -5,7 +5,8 @@ import { ProductData } from "@/types";
 interface FavouriteStore {
   items: ProductData[];
   initialized: boolean;
-
+  hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   addToFavourites: (product: ProductData) => void;
   removeFromFavourites: (productId: string) => void;
   toggleFavourite: (product: ProductData) => void;
@@ -19,7 +20,8 @@ const useFavouriteStore = create<FavouriteStore>()(
     (set, get) => ({
       items: [],
       initialized: false,
-
+      hasHydrated: false,
+      setHasHydrated: (state: boolean) => set({ hasHydrated: state }),
       addToFavourites: (product: ProductData) => {
         const { items } = get();
         const existingItem = items.find((item) => item.id === product.id);
@@ -66,6 +68,9 @@ const useFavouriteStore = create<FavouriteStore>()(
     {
       name: "nyam-web-favourites",
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
