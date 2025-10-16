@@ -48,7 +48,7 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
               <p className="text-textColor text-base">
                 {product?.business_name}
               </p>
-              {!product?.overall_rating && (
+              {(product?.overall_rating ?? 0) > 0 && (
                 <span>
                   <StarIcon
                     size={20}

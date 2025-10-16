@@ -63,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </>
               )}
             </div>
-            {(product?.overall_rating ?? 0) >= 0 && (
+            {(product?.overall_rating ?? 0) > 0 && (
               <div className="flex items-center gap-1">
                 <Star fill="#F8B133" stroke="#F8B133" className="w-4 h-4" />
                 <span className="text-textColor font-medium text-sm">
