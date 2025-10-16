@@ -1,9 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addFavourites, getFavourites, removeFavourite } from "@/api/favourite";
+import { addFavourites, getFavourites, getFavouritesLatLon, removeFavourite } from "@/api/favourite";
 import { showError } from "@/components/toast/Toast";
 import { AxiosError } from "axios";
 
-export const useFavouritesQuery = ({
+export const useFavouritesQuery = (enabled?: boolean) =>
+  useQuery({
+    queryKey: ["favourites"],
+    queryFn: getFavourites,
+    enabled,
+  });
+export const useFavouritesQueryLatLon = ({
   enabled,
   lat,
   lon,
@@ -16,7 +22,7 @@ export const useFavouritesQuery = ({
     queryKey: ["favourites", lat, lon],
     queryFn: async ({ queryKey }) => {
       const [, lat, lon] = queryKey as [string, number?, number?];
-      return getFavourites({ lat, lon });
+      return getFavouritesLatLon({ lat, lon });
     },
     enabled,
   });

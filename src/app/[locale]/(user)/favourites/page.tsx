@@ -1,4 +1,4 @@
-import { getFavourites } from "@/api/favourite";
+import { getFavouritesLatLon } from "@/api/favourite";
 import { Container } from "@/components/container";
 import FavouriteCart from "@/components/favourite/FavouriteCart";
 import Providers from "@/components/provider/Provider";
@@ -14,7 +14,10 @@ export default async function FavouritePage() {
       queryKey: ["favourites", null, null],
       queryFn: async ({ queryKey }) => {
         const [, lat, lon] = queryKey as [string, number | null, number | null];
-        return getFavourites({ lat: lat ?? undefined, lon: lon ?? undefined });
+        return getFavouritesLatLon({
+          lat: lat ?? undefined,
+          lon: lon ?? undefined,
+        });
       },
     });
   }

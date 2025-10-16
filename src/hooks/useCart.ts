@@ -6,7 +6,7 @@ import {
   updateCart,
   deleteCartItem,
   addToCart,
-  getCart,
+  getCartLatLon,
 } from "@/api";
 import { useRouter } from "@/i18n/navigation";
 
@@ -23,7 +23,7 @@ export const useGetCart = ({
     queryKey: ["cart", lat, lon],
     queryFn: async ({ queryKey }) => {
       const [, lat, lon] = queryKey as [string, number?, number?];
-      return getCart({ lat, lon });
+      return getCartLatLon({ lat, lon });
     },
     enabled,
   });

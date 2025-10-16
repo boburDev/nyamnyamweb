@@ -2,7 +2,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import CartComponent from "@/components/cart/CartComponent";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
-import { getCart } from "@/api";
+import { getCartLatLon } from "@/api";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();
@@ -13,7 +13,7 @@ export default async function CartPage() {
       queryKey: ["favourites", null, null],
       queryFn: async ({ queryKey }) => {
         const [, lat, lon] = queryKey as [string, number | null, number | null];
-        return getCart({ lat: lat ?? undefined, lon: lon ?? undefined });
+        return getCartLatLon({ lat: lat ?? undefined, lon: lon ?? undefined });
       },
     });
   }

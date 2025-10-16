@@ -1,7 +1,26 @@
 import { ProductData } from "@/types";
 import axios from "axios";
 
-export async function getFavourites({
+export async function getFavourites() {
+  try {
+    const res = await fetch(`/api/proxy/favourites`, {
+      credentials: "include",
+      cache: "no-store",
+    });
+
+    if (!res.ok) throw new Error("Favourites olishda xatolik");
+
+    const raw = await res.json();
+
+    const finalData = raw?.data ?? (Array.isArray(raw) ? raw : []);
+
+    return finalData as ProductData[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+export async function getFavouritesLatLon({
   lat,
   lon,
 }: {
@@ -25,6 +44,7 @@ export async function getFavourites({
     return [];
   }
 }
+
 export const addFavourites = async ({ id }: { id: string }) => {
   try {
     const res = await axios.post(`/api/favourites`, {

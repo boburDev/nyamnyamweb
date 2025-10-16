@@ -64,13 +64,19 @@ export async function getSurpriseBagsByCategory({
 export const getSurpriseBagSingle = async ({
   id,
   locale,
+  lat,
+  lon,
 }: {
   id: string;
   locale: string;
+  lat?: number;
+  lon?: number;
 }) => {
   try {
+    const params = { lat, lon };
     const res = await axios.get(`${SURPRISE_BAG_ALL}${id}/`, {
       headers: { "Accept-Language": locale },
+      params,
     });
     return res.data.data || null;
   } catch (error) {

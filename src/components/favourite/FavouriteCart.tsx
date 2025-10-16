@@ -1,6 +1,6 @@
 "use client";
 import useFavouriteStore from "@/context/favouriteStore";
-import { useFavouritesQuery } from "@/hooks";
+import { useFavouritesQueryLatLon } from "@/hooks";
 import { ProductCard } from "../card";
 import { ProductData } from "@/types";
 import { Link } from "@/i18n/navigation";
@@ -11,7 +11,7 @@ import { useLocationStore } from "@/context/userStore";
 const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
   const coords = useLocationStore((s) => s.coords);
   const favourite = useFavouriteStore((s) => s.items);
-  const { data: favData } = useFavouritesQuery({
+  const { data: favData } = useFavouritesQueryLatLon({
     lat: coords?.lat,
     lon: coords?.lon,
   });
