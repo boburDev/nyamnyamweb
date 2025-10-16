@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUser } from "@/api/user";
 import { UserData } from "@/types";
+import { showError } from "@/components/toast/Toast";
 
 export function useUpdateUser(locale: string) {
   const queryClient = useQueryClient();
@@ -9,6 +10,9 @@ export function useUpdateUser(locale: string) {
     mutationFn: (data: UserData) => updateUser(data, locale),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: (error) => {
+      showError(error.message);
     },
   });
 }

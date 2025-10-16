@@ -6,6 +6,7 @@ import { getAuthStatus } from "@/lib/auth";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Providers from "../provider/Provider";
 import { getCart } from "@/api";
+import { LogoIcon } from "@/assets/icons";
 
 export const Header = async () => {
   const isAuth = await getAuthStatus();
@@ -22,7 +23,7 @@ export const Header = async () => {
         {/* logo */}
         <div className="flex-0">
           <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
-            Logo
+            <LogoIcon />
           </Link>
         </div>
         {/*search */}

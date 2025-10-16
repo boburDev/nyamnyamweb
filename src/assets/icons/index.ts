@@ -13,6 +13,7 @@ export * from "./EditIcon";
 export * from "./FavouriteIcon";
 export * from "./ArrowRightIcon";
 export * from "./SavedIcon";
+export * from "./LogoIcon";
 // payment icon
 export * from "./ClickIcon";
 export * from "./PaymeIcon";

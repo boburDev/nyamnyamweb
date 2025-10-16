@@ -33,6 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressContentEditableWarning>
+      <head>
+        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon" />
+      </head>
       <body className={`${poppins.variable} antialiased`}>
         <NextIntlClientProvider>
           <Providers>{children}</Providers>

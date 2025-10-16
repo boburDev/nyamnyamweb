@@ -35,8 +35,10 @@ export async function updateUser(data: UserData, locale: string) {
     });
 
     if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(errorText || "Failed to update user");
+      const errorResponse = await res.json();
+      const errorMessage =
+        errorResponse?.error_message || errorResponse?.message;
+      throw new Error(errorMessage);
     }
     return res.json();
   } catch (error) {
