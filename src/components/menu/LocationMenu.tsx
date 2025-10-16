@@ -1,11 +1,13 @@
 "use client";
+
 import { Button } from "../ui/button";
 import { LocationIcon } from "@/assets/icons";
-import { useEffect, useState } from "react";
+import { useLocationStore } from "@/context/userStore";
+import { useEffect } from "react";
 
 export const LocationMenu = () => {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const { address, loading, setCoords, setAddress, setLoading } =
+    useLocationStore();
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -16,69 +18,61 @@ export const LocationMenu = () => {
         async (position) => {
           const { latitude, longitude } = position.coords;
 
+          setCoords({ lat: latitude, lon: longitude });
+
           try {
-            // 🧭 Reverse geocoding
             const res = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
             const data = await res.json();
+            const addressData = data?.address || {};
 
-            const address = data?.address || {};
-
-            // 🔹 Shahar nomi
             const city =
-              address.city ||
-              address.town ||
-              address.village ||
-              address.county ||
-              address.state ||
+              addressData.city ||
+              addressData.town ||
+              addressData.village ||
+              addressData.county ||
+              addressData.state ||
               "";
 
-            // 🔹 Ko‘cha nomi
             const street =
-              address.road ||
-              address.neighbourhood ||
-              address.suburb ||
-              address.quarter ||
+              addressData.road ||
+              addressData.neighbourhood ||
+              addressData.suburb ||
+              addressData.quarter ||
               "";
 
-            // 🔹 Birlashtirilgan manzil
             const locationText = [street, city].filter(Boolean).join(", ");
-
-            setSelected(locationText || "Manzil topilmadi");
+            setAddress(locationText || "Manzil topilmadi");
           } catch (error) {
             console.error("Manzilni aniqlashda xatolik:", error);
-            setSelected("Manzil topilmadi");
+            setAddress("Manzil topilmadi");
           } finally {
             setLoading(false);
           }
         },
         (error) => {
           console.warn("Joylashuvni olishda xatolik:", error);
-          setSelected("Joylashuvni olishga ruxsat berilmadi");
+          setAddress("Joylashuvni olishga ruxsat berilmadi");
           setLoading(false);
         }
       );
     };
 
     fetchLocation();
-  }, []);
+  }, [setCoords, setAddress, setLoading]);
 
   return (
     <Button
-      variant={"outline"}
-      className="w-[200px] h-12 flex justify-start gap-[12px] font-medium text-sm focus-visible:ring-0"
+      variant="outline"
+      className="w-[250px] h-12 flex flex-col items-start justify-center font-medium text-sm focus-visible:ring-0 px-3 py-2"
     >
-      <span>
+      <div className="flex items-center gap-2">
         <LocationIcon />
-      </span>
-      <span className="overflow-hidden text-left line-clamp-2">
-        {loading
-          ? "Yuklanmoqda..."
-          : selected
-          ? selected
-          : "Manzilni aniqlash"}
-      </span>
+        <span className="overflow-hidden text-left line-clamp-2">
+          {loading ? "Yuklanmoqda..." : address ? address : "Manzilni aniqlash"}
+        </span>
+      </div>
     </Button>
   );
 };

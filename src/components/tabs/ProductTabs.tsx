@@ -13,12 +13,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { CategoryData } from "@/types";
 import { ProductSwiper } from "../swiper";
 import { SurpriseHeader } from "../surprise-bag";
+import { useLocationStore } from "@/context/userStore";
 
 export const ProductTabs = () => {
   const locale = useLocale();
+  const coords = useLocationStore((s) => s.coords);
   const [activeTab, setActiveTab] = useState("all");
   const { data: category } = useGetCategory(locale);
-  const { data: product } = useGetSupriseBag({ locale, slug: activeTab });
+  const { data: product } = useGetSupriseBag({
+    locale,
+    slug: activeTab,
+    lat: coords?.lat,
+    lon: coords?.lon,
+  });
 
   const currentCatalog = useMemo(() => {
     if (activeTab === "all") return null;

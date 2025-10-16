@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { cookieStorage } from "@/lib";
 import { ProductData } from "@/types";
 
 interface FavouriteStore {
@@ -50,7 +49,7 @@ const useFavouriteStore = create<FavouriteStore>()(
       },
 
       clearFavourites: () => {
-        cookieStorage.removeItem("nyam-web-favourites");
+        localStorage.removeItem("nyam-web-favourites");
         set({ items: [] });
       },
 
@@ -66,7 +65,7 @@ const useFavouriteStore = create<FavouriteStore>()(
     }),
     {
       name: "nyam-web-favourites",
-      storage: createJSONStorage(() => cookieStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

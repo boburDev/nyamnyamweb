@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { cookieStorage } from "@/lib";
 import { ProductData } from "@/types";
 
 export interface CartItem extends ProductData {
@@ -13,7 +12,6 @@ interface CartStore {
   items: CartItem[];
   isOpen: boolean;
 
-  // Actions
   addToCart: (product: ProductData) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -37,11 +35,9 @@ const useCartStore = create<CartStore>()(
         const existingItem = items.find((item) => item.id === product.id);
 
         if (existingItem) {
-          // Check if we can add more items based on stock
           if (product.count && existingItem.quantity >= product.count) {
-            return; // Don't add more if stock limit reached
+            return;
           }
-          // If item exists, increase quantity
           set({
             items: items.map((item) =>
               item.id === product.id
@@ -50,7 +46,6 @@ const useCartStore = create<CartStore>()(
             ),
           });
         } else {
-          // Add new item with quantity 1
           set({
             items: [...items, { ...product, quantity: 1 }],
           });
@@ -73,9 +68,8 @@ const useCartStore = create<CartStore>()(
         const { items } = get();
         const item = items.find((item) => item.id === productId);
 
-        // Check stock limit if product has stock information
         if (item && item.count && quantity > item.count) {
-          return; // Don't update if quantity exceeds stock
+          return;
         }
 
         set({
@@ -90,7 +84,7 @@ const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => {
-        cookieStorage.removeItem("nyam-web-cart");
+        localStorage.removeItem("nyam-web-cart");
         set({ items: [] });
       },
 
@@ -117,23 +111,16 @@ const useCartStore = create<CartStore>()(
       getTotalPrice: () => {
         const { items } = get();
         return items.reduce((total, item) => {
-          // Extract numeric value from price string, handling different formats
-          // Remove all non-numeric characters except dots and commas
           const cleanPrice = String(item.price).replace(/[^\d.,]/g, "");
 
-          // Handle different price formats
           let price = 0;
           if (cleanPrice.includes(",")) {
-            // If comma exists, treat it as decimal separator (e.g., "12,50")
             price = parseFloat(cleanPrice.replace(",", ".")) || 0;
           } else if (cleanPrice.includes(".")) {
-            // If only dot exists, check if it's likely a thousands separator
             const parts = cleanPrice.split(".");
             if (parts.length === 2 && parts[1].length <= 2) {
-              // Likely decimal (e.g., "12.50")
               price = parseFloat(cleanPrice) || 0;
             } else {
-              // Likely thousands separator (e.g., "12.000")
               price = parseFloat(cleanPrice.replace(/\./g, "")) || 0;
             }
           } else {
@@ -146,7 +133,7 @@ const useCartStore = create<CartStore>()(
     }),
     {
       name: "nyam-web-cart",
-      storage: createJSONStorage(() => cookieStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
