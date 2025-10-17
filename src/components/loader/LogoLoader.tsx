@@ -19,7 +19,7 @@ const LogoLoader = () => {
   return (
     <div className={styles.logoOverlay}>
       <div className="logoContent">
-        <LogoIcon className="logoIcon" />
+        <LogoIcon className="logoIcon h-10 xl:h-auto" />
       </div>
     </div>
   );

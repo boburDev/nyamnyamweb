@@ -149,8 +149,10 @@
     "title": "Buyurtmalarim",
     "accordion-title": "Buyurtma soni:",
     "cards": {
-      "progress-badge": "In progress",
+      "order-time": "Olib ketish vaqti: ",
+      "canceled-badge": "Bekor qilingan",
       "taken-away-badge": "Olib ketildi",
+      "waiting-badge": "To'lov kutmoqda",
       "qr-code": "QR kod",
       "order-quantity": "Buyurtma miqdori:",
       "ta": "ta"
