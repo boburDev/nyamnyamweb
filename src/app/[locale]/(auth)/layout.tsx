@@ -1,3 +1,4 @@
+import { LogoIcon } from "@/assets/icons";
 import { authImage } from "@/assets/images";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
@@ -11,8 +12,8 @@ export default function AuthLayout({
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="hidden lg:block overflow-hidden h-screen relative">
         <div className="absolute top-4 left-4 z-10">
-          <Link href="/" className="font-medium text-white text-[40px]">
-            Logo
+          <Link href="/" >
+            <LogoIcon className="h-10 xl:h-auto"/>
           </Link>
         </div>
         <Image
