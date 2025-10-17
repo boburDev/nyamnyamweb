@@ -9,7 +9,6 @@ import { CalendarDays, Clock, ScanQrCode } from "lucide-react";
 import { Button } from "../ui/button";
 import { QrCodeModal } from "../modal";
 import Image from "next/image";
-import { format } from "date-fns";
 import { useState } from "react";
 
 interface OrderItem {
