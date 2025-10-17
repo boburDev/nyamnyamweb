@@ -84,3 +84,13 @@ export const getSurpriseBagSingle = async ({
     return null;
   }
 };
+
+export const surpriseSearch = async (search: string) => {
+  try {
+    const res = await axios.get(`${SURPRISE_BAG_ALL}?search=${search}`);
+    return res.data.data || [];
+  } catch (error) {
+    console.error("Error fetching surprise bag by id:", error);
+    return [];
+  }
+};

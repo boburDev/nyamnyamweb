@@ -18,7 +18,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const router = useRouter();
   return (
     <div>
-      <div className="bg-white rounded-[25px] border border-gray-100">
+      <div className="bg-white rounded-[25px] overflow-hidden border border-gray-100">
         {/* Product Image */}
         <div className="relative h-[200px]">
           <Image
