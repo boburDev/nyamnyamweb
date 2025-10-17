@@ -3,7 +3,7 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 
 import { useGetCategory } from "@/hooks";
@@ -14,10 +14,12 @@ import { CategoryData } from "@/types";
 import { ProductSwiper } from "../swiper";
 import { SurpriseHeader } from "../surprise-bag";
 import { useLocationStore } from "@/context/userStore";
+import { DataLoader } from "../loader";
 
 export const ProductTabs = () => {
   const locale = useLocale();
   const coords = useLocationStore((s) => s.coords);
+  const [client, setClient] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const { data: category } = useGetCategory(locale);
   const { data: product } = useGetSupriseBag({
@@ -27,6 +29,10 @@ export const ProductTabs = () => {
     lon: coords?.lon,
   });
 
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
   const currentCatalog = useMemo(() => {
     if (activeTab === "all") return null;
     return (
@@ -34,7 +40,7 @@ export const ProductTabs = () => {
       null
     );
   }, [activeTab, category]);
-
+  if (!client) return <DataLoader />;
   return (
     <section className="mt-[124px] relative">
       <Container>

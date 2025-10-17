@@ -13,17 +13,15 @@ export const getSupriseBagAll = async ({
   lon?: number;
 }) => {
   try {
-    const params = new URLSearchParams();
+    const params = {
+      ...(slug !== "all" && { slug }),
+      ...(lat && { lat }),
+      ...(lon && { lon }),
+    };
 
-    if (slug !== "all") params.append("category", slug);
-
-    if (lat) params.append("lat", lat.toString());
-    if (lon) params.append("lon", lon.toString());
-
-    const url = `${SURPRISE_BAG_ALL}?${params.toString()}`;
-
-    const res = await axios.get(url, {
+    const res = await axios.get(SURPRISE_BAG_ALL, {
       headers: { "Accept-Language": locale },
+      params,
     });
 
     return res.data.data || [];
