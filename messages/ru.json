@@ -149,8 +149,10 @@
     "title": "Мои заказы",
     "accordion-title": "Количество заказов:",
     "cards": {
-      "progress-badge": "В процессе",
+      "order-time": "Время получения:",
+      "canceled-badge": "Отменен",
       "taken-away-badge": "Забран",
+      "waiting-badge": "Ожидание оплаты",
       "qr-code": "QR-код",
       "order-quantity": "Количество заказа:",
       "ta": "шт"

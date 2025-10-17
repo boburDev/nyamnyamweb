@@ -11,7 +11,7 @@ export const Footer = () => {
         <div className="flex items-center gap-[63px]">
           <div className="w-[433px] gap-[21px] flex flex-col">
             <Link href={"/"}>
-              <LogoIcon />
+              <LogoIcon className="h-10 xl:h-auto" />
             </Link>
             <p className="text-sm leading-[25px] text-white">
               SaveMeal – bu oziq-ovqat isrofiga qarshi kurashuvchi platforma.

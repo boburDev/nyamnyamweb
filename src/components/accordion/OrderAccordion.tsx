@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { QrCodeModal } from "../modal";
 import Image from "next/image";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface OrderItem {
   status: string;
@@ -17,7 +18,9 @@ interface OrderItem {
   price: number;
   original_price: number;
   count: number;
-  business_branch: string;
+  business_branch_name: string;
+  overall_rating: number;
+  surprise_bag_img: string;
   start_time: string;
   end_time: string;
   qr_code_img: string;
@@ -42,8 +45,7 @@ interface Props {
 
 export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
   const [qrCode, setQrCode] = useState<string>("");
-  console.log(qrCode);
-
+  const t = useTranslations("my-orders.cards");
   return (
     <Accordion
       type="single"
@@ -82,61 +84,79 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                 return (
                   <div
                     key={idx}
-                    className="flex justify-between pt-5 border border-plasterColor mt-3 rounded-[30px] p-[30px]"
+                    className="flex pt-5 border border-plasterColor mt-3 rounded-[30px] p-[30px]"
                   >
-                    <div className="flex gap-[30px]">
                       <Image
-                        src={product.qr_code_img}
+                        src={product.surprise_bag_img}
                         width={220}
                         height={180}
                         className="w-[253px] h-[183px] rounded-[20px] object-cover"
                         alt={product.title}
                       />
-                      <div>
-                        <div className="flex jus">
+                      <div className="w-full ml-5">
+                        <div className="flex justify-between w-full items-center">
                           <h3 className="font-medium text-[22px] text-textColor">
                             {product.title}
                           </h3>
-                          {
-                            product.status === 'pending' && (
-                              <span className="bg-accordionText/10 text-accordionText px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                To'lov kutmoqda
-                              </span>
-                            )
-                          }
-                          {
-                            product.status === 'success' && (
-                              <span className="bg-statusBg text-mainColor px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                Olib ketish mumkin
-                              </span>
-                            )
-                          }
-                          {
-                            product.status === 'expired' && (
-                              <span className="bg-statusRed text-red-600 px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                Buyurtma muddati o'tgan
-                              </span>
-                            )
-                          }
-                        </div>
-                        <h4 className="text-lg text-dolphin mt-[11px]">
-                          {product.business_branch}
-                        </h4>
-                        <h5 className="text-[16px] text-dolphin">
-                          Buyurtma miqdori: {product.count} ta
-                        </h5>
-                        <div className="flex items-center gap-[10px] pt-[20px]">
-                          <p className="text-[15px] line-through text-dolphin">
-                            {product.original_price?.toLocaleString()} so‘m
+                          <p>
+                            {
+                              item.payment_status === 'success' && (
+                                <span className="bg-statusBg text-mainColor px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                  {t("taken-away-badge")}
+                                </span>
+                              )
+                            }
+                            {
+                              item.payment_status === 'cancel' && (
+                                <span className="bg-statusRed text-red-600 px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                  {t("canceled-badge")}
+                                </span>
+                              )
+                            }
+                            {
+                              item.payment_status === 'waiting' && (
+                                <span className="bg-accordionText/10 text-accordionText px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                  {t("waiting-badge")}
+                                </span>
+                              )
+                            }
                           </p>
-                          <h4 className="font-semibold text-[22px] text-mainColor">
-                            {product.price?.toLocaleString()} so‘m
-                          </h4>
+                        </div>
+                        <h4 className="text-lg text-dolphin mt-2">
+                          {product.business_branch_name}
+                        </h4>
+                        <div className="flex justify-between items-center mt-[25px]">
+                          <h5 className="text-[16px] text-dolphin">
+                            {t("order-quantity")}  {product.count} {t("ta")}
+                          </h5>
+                          <p className="font-medium text-base text-dolphin">
+                           <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time} - {product.end_time}
+                          </p>
+                        </div>
+                        <div className="flex justify-between items-center pt-[25px]">
+                          <div className="flex items-center gap-[10px] ">
+                            <h4 className="font-semibold text-[22px] text-mainColor">
+                              {product.price?.toLocaleString()} so‘m
+                            </h4>
+                            <p className="text-[15px] line-through text-dolphin mt-1">
+                              {product.original_price?.toLocaleString()} so‘m
+                            </p>
+                          </div>
+                          <Button
+                            onClick={() => {
+                              setQrCode(product.qr_code_img);
+                              setOpen(true);
+                            }}
+                            className="!bg-plasterColor"
+                            variant={"outline"}
+                          >
+                            <ScanQrCode size={20} />
+                            QR kod
+                          </Button>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      {/* <div className="bg-hoverColor rounded-[15px] flex px-5 py-[9px] gap-[10px]">
+                    {/* <div className="flex flex-col justify-between">
+                      <div className="bg-hoverColor rounded-[15px] flex px-5 py-[9px] gap-[10px]">
                         <div className="flex gap-[5px]">
                           <CalendarDays size={16} />
                           {item.order_items[0]?.pickup_date}
@@ -150,19 +170,8 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                             ? format(endDateTime, "HH:mm")
                             : "--:--"}
                         </h4>
-                      </div> */}
-                      <Button
-                        onClick={() => {
-                          setQrCode(product.qr_code_img);
-                          setOpen(true);
-                        }}
-                        className="!bg-plasterColor"
-                        variant={"outline"}
-                      >
-                        <ScanQrCode size={20} />
-                        QR kod
-                      </Button>
-                    </div>
+                      </div>
+                    </div> */}
                   </div>
                 );
               })}

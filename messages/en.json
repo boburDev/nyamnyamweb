@@ -149,8 +149,10 @@
     "title": "My orders",
     "accordion-title": "Number of orders:",
     "cards": {
-      "progress-badge": "In progress",
+      "canceled-badge": "Canceled",
+      "order-time": "Pickup time:",
       "taken-away-badge": "Picked up",
+      "waiting-badge": "Waiting for payment",
       "qr-code": "QR code",
       "order-quantity": "Order quantity:",
       "ta": "pcs"

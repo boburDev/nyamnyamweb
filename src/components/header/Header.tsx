@@ -23,7 +23,7 @@ export const Header = async () => {
         {/* logo */}
         <div className="flex-0">
           <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
-            <LogoIcon />
+            <LogoIcon className="h-10 xl:h-auto" />
           </Link>
         </div>
         {/*search */}

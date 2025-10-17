@@ -75,13 +75,20 @@ export const NotificationPageClient = () => {
                         notifications.map((notification) => (
                             <div
                                 key={notification.id}
-                                className={` ${notification.is_read ? "bg-white" : "bg-mainColor/10"} block border border-plasterColor rounded-[20px] p-6 hover:border-mainColor group transition-all duration-300`}
+                                className={` ${notification.is_read ? "" : "!border-mainColor"} block border border-plasterColor rounded-[20px] p-6 hover:border-mainColor group transition-all duration-300`}
                             >
                                 <div className="flex justify-between items-start">
                                     <div className="flex-1">
-                                        <h3 className="font-medium text-2xl text-textColor mb-[15px]">
-                                            {notification.title}
-                                        </h3>
+                                        <div className="flex justify-between">
+                                            <h3 className="font-medium text-2xl text-textColor mb-[15px]">
+                                                {notification.title}
+                                            </h3>
+                                            {
+                                                !notification.is_read && (
+                                                    <span className="bg-mainColor text-white text-xs w-7 h-7 flex items-center justify-center rounded-full">1</span>
+                                                )
+                                            }
+                                        </div>
                                         <p className="text-sm text-dolphin mb-[15px] line-clamp-2 group-hover:text-textColor transition-all duration-300">
                                             {notification.description}
                                         </p>
