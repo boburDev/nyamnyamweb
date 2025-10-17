@@ -9,12 +9,6 @@ interface Props {
 
 const SurpriseBagSinglePage = async ({ params }: Props) => {
   const { id, locale } = await params;
-  console.log("📦 Server page got id:", id, "locale:", locale);
-
-  if (!id) {
-    // agar id topilmasa — fallback
-    return <div>ID topilmadi</div>;
-  }
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
@@ -27,7 +21,6 @@ const SurpriseBagSinglePage = async ({ params }: Props) => {
         number | null,
         number | null
       ];
-      console.log("📡 Prefetch fn bagId:", bagId, "lat:", lat, "lon:", lon);
       return getSurpriseBagSingle({
         id: bagId,
         locale: bagLocale,

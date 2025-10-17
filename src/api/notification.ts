@@ -1,4 +1,3 @@
-// Notification types - matching backend response structure
 export interface AppNotification {
     id: string;
     type: string;
@@ -7,13 +6,11 @@ export interface AppNotification {
     receiver_type: "user" | "business";
     title: string;
     description: string;
-    // Legacy fields for backward compatibility
     name?: string;
     desc?: string;
     createdAt?: string;
 }
 
-// Get all notifications using proxy pattern (like cart and favorites) - CLIENT SIDE
 export async function getNotifications(): Promise<AppNotification[]> {
     try {
         const res = await fetch(`/api/proxy/notification`, {
@@ -24,7 +21,6 @@ export async function getNotifications(): Promise<AppNotification[]> {
         if (!res.ok) throw new Error("Notifications olishda xatolik");
 
         const raw = await res.json();
-        // Backend returns { "data": [...] } structure
         const list = (raw?.data ?? raw ?? []) as AppNotification[];
         return Array.isArray(list) ? list : [];
     } catch (error) {
@@ -33,10 +29,8 @@ export async function getNotifications(): Promise<AppNotification[]> {
     }
 }
 
-// Server-side version for use in server components
 export async function getNotificationsServer(): Promise<AppNotification[]> {
     try {
-        // Import cookies dynamically since this runs on server
         const { cookies } = await import("next/headers");
         const { ACCESS_TOKEN, REFRESH_TOKEN } = await import("@/constants");
 
@@ -57,7 +51,6 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
             cache: "no-store"
         });
 
-        // Handle token refresh if needed
         if (response.status === 401 && refreshToken) {
             console.warn("⚠️ Access token expired, attempting refresh...");
 
@@ -83,7 +76,6 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
                 return [];
             }
 
-            // Retry with new token
             response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {
                 headers: { "Authorization": `Bearer ${newAT}` },
                 cache: "no-store"
@@ -96,7 +88,6 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
         }
 
         const raw = await response.json();
-        // Backend returns { "data": [...] } structure
         const list = (raw?.data ?? raw ?? []) as AppNotification[];
         return Array.isArray(list) ? list : [];
     } catch (error) {
@@ -105,7 +96,6 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
     }
 }
 
-// Get notification by ID using proxy pattern - CLIENT SIDE
 export async function getNotificationById(id: string | number): Promise<AppNotification | null> {
     try {
         const res = await fetch(`/api/proxy/notification/${id}`, {
@@ -119,7 +109,6 @@ export async function getNotificationById(id: string | number): Promise<AppNotif
         }
 
         const raw = await res.json();
-        // Backend returns { "data": {...} } structure for single item
         const notification = (raw?.data ?? raw) as AppNotification | null;
         return notification ?? null;
     } catch (error) {
@@ -128,10 +117,8 @@ export async function getNotificationById(id: string | number): Promise<AppNotif
     }
 }
 
-// Server-side version for use in server components
 export async function getNotificationByIdServer(id: string | number): Promise<AppNotification | null> {
     try {
-        // Import cookies dynamically since this runs on server
         const { cookies } = await import("next/headers");
         const { ACCESS_TOKEN, REFRESH_TOKEN } = await import("@/constants");
 
@@ -152,7 +139,6 @@ export async function getNotificationByIdServer(id: string | number): Promise<Ap
             cache: "no-store"
         });
 
-        // Handle token refresh if needed
         if (response.status === 401 && refreshToken) {
             console.warn("⚠️ Access token expired, attempting refresh...");
 
@@ -178,7 +164,6 @@ export async function getNotificationByIdServer(id: string | number): Promise<Ap
                 return null;
             }
 
-            // Retry with new token
             response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification/${id}`, {
                 headers: { "Authorization": `Bearer ${newAT}` },
                 cache: "no-store"
@@ -192,7 +177,6 @@ export async function getNotificationByIdServer(id: string | number): Promise<Ap
         }
 
         const raw = await response.json();
-        // Backend returns { "data": {...} } structure for single item
         const notification = (raw?.data ?? raw) as AppNotification | null;
         return notification ?? null;
     } catch (error) {

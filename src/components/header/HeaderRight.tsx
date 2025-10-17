@@ -34,7 +34,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
     <div className="flex items-center gap-4 ml-10 shrink-0">
       <LocationMenu />
       <div className="flex gap-2">
-        <NotificationMenu />
+        {auth && <NotificationMenu />}
         <LanguageMenu />
       </div>
 
