@@ -1,3 +1,14 @@
+// Notification types that should trigger refetch
+export const NOTIFICATION_TYPES_TO_REFETCH = [
+    "order_created",
+    "order_status_changed",
+    "payment_status_changed",
+    "order_completed",
+    "order_rejected"
+] as const;
+
+export type NotificationTypeToRefetch = typeof NOTIFICATION_TYPES_TO_REFETCH[number];
+
 export interface AppNotification {
     id: string;
     type: string;

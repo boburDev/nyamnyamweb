@@ -10,35 +10,38 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
-import { getNotifications, type AppNotification } from "@/api/notification";
+import { getNotifications } from "@/api/notification";
 import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "@/api";
+import { useNotificationWebSocket } from "@/hooks";
 
 export const NotificationMenu = () => {
-  const [notifications, setNotifications] = useState<AppNotification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Get user data to extract user ID
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUsers,
+    retry: false,
+  });
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        setLoading(true);
-        const data = await getNotifications();
-        setNotifications(data);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching notifications:", err);
-        setError("Bildirishnomalar yuklanmadi");
-        setNotifications([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Use React Query for notifications
+  const {
+    data: notifications = [],
+    isLoading: loading,
+    error,
+  } = useQuery({
+    queryKey: ["notification"],
+    queryFn: getNotifications,
+    retry: false,
+  });
 
-    fetchNotifications();
-  }, []);
+  // Initialize WebSocket connection for real-time notifications
+  useNotificationWebSocket({
+    userId: userData?.id || null,
+    enabled: !!userData?.id,
+  });
 
   // Count unread notifications
   const unreadCount = notifications.filter(n => !n.is_read).length;
@@ -70,7 +73,7 @@ export const NotificationMenu = () => {
             </div>
           ) : error ? (
             <div className="text-center py-4 text-red-500">
-              {error}
+              Bildirishnomalar yuklanmadi
             </div>
           ) : notifications.length === 0 ? (
             <div className="text-center py-4 text-gray-500">

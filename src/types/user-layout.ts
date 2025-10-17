@@ -6,6 +6,7 @@ export interface CategoryData {
   title: string;
 }
 export interface UserData {
+  id: string;
   birth_date: string;
   email: string;
   first_name: string;

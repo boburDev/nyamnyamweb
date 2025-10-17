@@ -12,3 +12,4 @@ export * from "./category";
 export * from "./suprise-bag";
 export * from "./useSliderArrows";
 export * from "./userOrder";
+export * from "./useNotificationWebSocket";
