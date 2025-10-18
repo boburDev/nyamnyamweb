@@ -18,17 +18,38 @@ import EmptyCart from "./EmptyCart";
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const t = useTranslations("cart");
   // cart-helper
-  const { items, toggleConfirm, totalPrice, handleConfirm, isLoading, confirmOpen, handleDelete,
-    error, setPayment, payment, handleUpdateQuantity,
+  const {
+    items,
+    toggleConfirm,
+    totalPrice,
+    handleConfirm,
+    isLoading,
+    confirmOpen,
+    handleDelete,
+    error,
+    setPayment,
+    payment,
+    handleUpdateQuantity,
     handleCheckout,
-    isPending,setError
+    isPending,
+    setError,
   } = useHelpCart({ auth: isAuth });
+console.log(items);
 
   return (
     <div>
-      {items?.length > 0 ? (
-        <>
-          <Container className="mb-[150px] mt-[76px]">
+      <Container className="mb-[150px] mt-[76px]">
+        {isLoading || items === undefined ? (
+          <div className="grid grid-cols-12 gap-8">
+            <div className="col-span-7">
+              <ProductSkeletons />
+            </div>
+            <div className="col-span-5">
+              <ProductSkeletons />
+            </div>
+          </div>
+        ) : items?.length > 0 ? (
+          <>
             <div className="">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Left Section - Cart Items */}
@@ -41,116 +62,112 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     </div>
 
                     <div className="space-y-4">
-                      {isLoading ? (
-                        <ProductSkeletons count={3} />
-                      ) : (
-                        items?.map((item: ProductData) => (
-                          <div
-                            key={item?.id}
-                            className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
-                          >
-                            <div className="flex gap-4">
-                              {/* Product Image */}
-                              <div className="relative w-[217px] h-[147px] flex-shrink-0">
-                                <Image
-                                  src={item?.cover_image}
-                                  alt={item?.title}
-                                  fill
-                                  className="object-cover rounded-xl"
-                                />
+                      {items?.map((item: ProductData) => (
+                        <div
+                          key={item?.id}
+                          className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
+                        >
+                          <div className="flex gap-4">
+                            {/* Product Image */}
+                            <div className="relative w-[217px] h-[147px] flex-shrink-0">
+                              <Image
+                                src={item?.cover_image}
+                                alt={item?.title}
+                                fill
+                                className="object-cover rounded-xl"
+                              />
 
-                                {item?.count && item?.count <= 5 && (
-                                  <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
-                                    {item?.count} ta qoldi
+                              {item?.count && item?.count <= 5 && (
+                                <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
+                                  {item?.count} ta qoldi
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Product Details */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <h3 className="font-medium text-textColor text-xl mb-[10px]">
+                                  {item?.title}
+                                </h3>
+                                <Button
+                                  onClick={() => handleDelete(item?.id)}
+                                  className="w-[38px] h-[38px] rounded-full bg-hoverColor text-[#9A9DA5] hover:text-dangerColor"
+                                  variant={"ghost"}
+                                >
+                                  <TrashIcon className="w-5 h-5 " />
+                                </Button>
+                              </div>
+                              <div className="flex gap-2 items-center">
+                                {!items?.overall_rating && (
+                                  <div className="flex gap-1 items-center">
+                                    <span>
+                                      <StarIcon
+                                        size={20}
+                                        className="text-accordionText fill-accordionText"
+                                      />
+                                    </span>
+                                    <span className="font-medium text-lg text-textColor">
+                                      {items?.overall_rating} 5.0
+                                    </span>
                                   </div>
                                 )}
+                                <p className="text-dolphin">
+                                  {item?.branch_name} • {item?.distance}
+                                </p>
                               </div>
 
-                              {/* Product Details */}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between">
-                                  <h3 className="font-medium text-textColor text-xl mb-[10px]">
-                                    {item?.title}
-                                  </h3>
-                                  <Button
-                                    onClick={() => handleDelete(item?.id)}
-                                    className="w-[38px] h-[38px] rounded-full bg-hoverColor text-[#9A9DA5] hover:text-dangerColor"
-                                    variant={"ghost"}
-                                  >
-                                    <TrashIcon className="w-5 h-5 " />
-                                  </Button>
-                                </div>
-                                <div className="flex gap-2 items-center">
-                                  {!items?.overall_rating && (
-                                    <div className="flex gap-1 items-center">
-                                      <span>
-                                        <StarIcon
-                                          size={20}
-                                          className="text-accordionText fill-accordionText"
-                                        />
-                                      </span>
-                                      <span className="font-medium text-lg text-textColor">
-                                        {items?.overall_rating} 5.0
-                                      </span>
-                                    </div>
-                                  )}
-                                  <p className="text-dolphin">
-                                    {item?.branch_name} • {item?.distance}
-                                  </p>
+                              <div className="flex justify-between">
+                                <div className="flex items-center gap-2 mt-[53px]">
+                                  <span className="text-gray-400 line-through text-sm">
+                                    {formatPrice(item?.price)}
+                                  </span>
+                                  <span className="text-mainColor font-medium text-xl">
+                                    {formatPrice(item?.price_in_app)}
+                                  </span>
                                 </div>
 
-                                <div className="flex justify-between">
-                                  <div className="flex items-center gap-2 mt-[53px]">
-                                    <span className="text-gray-400 line-through text-sm">
-                                      {formatPrice(item?.price)}
+                                {/* Quantity Controls */}
+                                <div className="flex items-center gap-3 mt-10">
+                                  <div className="flex items-center bg-plasterColor rounded-full p-[2px] pr-[2.5px] py-[1px]">
+                                    <button
+                                      onClick={() =>
+                                        handleUpdateQuantity(
+                                          item?.id,
+                                          item?.quantity - 1,
+                                          "surprise_bag" in item
+                                            ? item?.surprise_bag
+                                            : undefined
+                                        )
+                                      }
+                                      className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
+                                    >
+                                      <Minus className="w-4 h-4 text-textColor" />
+                                    </button>
+                                    <span className="px-4 py-2 font-medium text-textColor">
+                                      {item?.quantity}
                                     </span>
-                                    <span className="text-mainColor font-medium text-xl">
-                                      {formatPrice(item?.price_in_app)}
-                                    </span>
-                                  </div>
-
-                                  {/* Quantity Controls */}
-                                  <div className="flex items-center gap-3 mt-10">
-                                    <div className="flex items-center bg-plasterColor rounded-full p-[2px] pr-[2.5px] py-[1px]">
-                                      <button
-                                        onClick={() =>
-                                          handleUpdateQuantity(
-                                            item?.id,
-                                            item?.quantity - 1,
-                                            "surprise_bag" in item
-                                              ? item?.surprise_bag
-                                              : undefined
-                                          )
-                                        }
-                                        className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
-                                      >
-                                        <Minus className="w-4 h-4 text-textColor" />
-                                      </button>
-                                      <span className="px-4 py-2 font-medium text-textColor">
-                                        {item?.quantity}
-                                      </span>
-                                      <button
-                                        onClick={() =>
-                                          handleUpdateQuantity(
-                                            item?.id,
-                                            item?.quantity + 1,
-                                            "surprise_bag" in item
-                                              ? item?.surprise_bag
-                                              : undefined
-                                          )
-                                        }
-                                        className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
-                                      >
-                                        <Plus className="w-4 h-4 text-textColor" />
-                                      </button>
-                                    </div>
+                                    <button
+                                      onClick={() =>
+                                        handleUpdateQuantity(
+                                          item?.id,
+                                          item?.quantity + 1,
+                                          "surprise_bag" in item
+                                            ? item?.surprise_bag
+                                            : undefined
+                                        )
+                                      }
+                                      className="p-[10px] hover:bg-gray-300 bg-white rounded-full transition-colors"
+                                    >
+                                      <Plus className="w-4 h-4 text-textColor" />
+                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        ))
-                      )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -231,17 +248,17 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                 </div>
               </div>
             </div>
-          </Container>
-          <ConfirmModal
-            open={confirmOpen}
-            message={t("deleteAll")}
-            onConfirm={handleConfirm}
-            onCancel={toggleConfirm}
-          />
-        </>
-      ) : (
-        <EmptyCart />
-      )}
+            <ConfirmModal
+              open={confirmOpen}
+              message={t("deleteAll")}
+              onConfirm={handleConfirm}
+              onCancel={toggleConfirm}
+            />
+          </>
+        ) : (
+          <EmptyCart />
+        )}
+      </Container>
     </div>
   );
 };

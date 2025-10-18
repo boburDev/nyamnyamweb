@@ -26,11 +26,22 @@ export async function getCartLatLon({
   locale: string;
 }) {
   try {
-    const params = { lat, lon, locale };
-    const res = await axios(`/api/proxy/cart`, {
-      withCredentials: true,
-      params,
-    });
+    const params: { [key: string]: string | number } = {};
+    if (lat) {
+      params.lat = lat;
+    }
+    if (lon) {
+      params.lon = lon;
+    }
+    params.locale = locale;
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/proxy/cart`,
+      {
+        withCredentials: true,
+
+        params,
+      }
+    );
     const raw = await res.data;
     return raw?.data ?? raw;
   } catch (error) {

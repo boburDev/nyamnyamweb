@@ -13,11 +13,11 @@ import { showSuccess, showWarning } from "@/components/toast/Toast";
 import { useCreateOrder } from "./userOrder";
 import { useRouter } from "@/i18n/navigation";
 
-export const useHelpCart = ({auth}: {auth: boolean}) => {
+export const useHelpCart = ({ auth }: { auth: boolean }) => {
   // state store
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [payment, setPayment] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const coords = useLocationStore((s) => s.coords);
   const storeCart = useCartStore((s) => s.items);
   const deleteCartStore = useCartStore((s) => s.removeFromCart);
@@ -37,11 +37,15 @@ export const useHelpCart = ({auth}: {auth: boolean}) => {
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: deleteCartApi } = useDeleteCartItem();
   const { mutate: updateCartQty } = useUpdateCart();
-    const { mutate: createOrder, isPending } = useCreateOrder();
+  const { mutate: createOrder, isPending } = useCreateOrder();
   // data function
-  const cartData = apiCart ?? { cart_items: [], cart_total: 0 };
-  const items = auth ? cartData?.cart_items ?? [] : storeCart;
-  const totalPrice = auth ? cartData?.cart_total : getTotalPrice();
+  const items = auth
+    ? apiCart === undefined
+      ? undefined
+      : apiCart.cart_items
+    : storeCart;
+
+  const totalPrice = auth ? apiCart?.cart_total ?? 0 : getTotalPrice();
 
   const handleConfirm = () => {
     if (auth) {
@@ -144,6 +148,6 @@ export const useHelpCart = ({auth}: {auth: boolean}) => {
     setPayment,
     payment,
     isPending,
-    setError
+    setError,
   };
 };
