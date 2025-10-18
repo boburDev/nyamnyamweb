@@ -12,8 +12,17 @@ export default async function CartPage() {
     await queryClient.prefetchQuery({
       queryKey: ["favourites", null, null],
       queryFn: async ({ queryKey }) => {
-        const [, lat, lon] = queryKey as [string, number | null, number | null];
-        return getCartLatLon({ lat: lat ?? undefined, lon: lon ?? undefined });
+        const [, lat, lon, locale] = queryKey as [
+          string,
+          number | null,
+          number | null | undefined,
+          string
+        ];
+        return getCartLatLon({
+          lat: lat ?? undefined,
+          lon: lon ?? undefined,
+          locale,
+        });
       },
     });
   }

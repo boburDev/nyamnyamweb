@@ -10,6 +10,7 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const lat = searchParams.get("lat");
   const lon = searchParams.get("lon");
+  const locale = searchParams.get("locale");
   try {
     const { path } = await context.params;
     const cookieStore = await cookies();
@@ -26,6 +27,7 @@ export async function GET(
     }
     const mainHeaders: Record<string, string> = {};
     if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
+    if(locale) mainHeaders["Accept-Language"] = locale
 
     let response = await fetch(targetUrl, { headers: mainHeaders });
     console.log("📡 Main response status:", response.status);

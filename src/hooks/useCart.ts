@@ -14,16 +14,18 @@ export const useGetCart = ({
   enabled,
   lat,
   lon,
+  locale,
 }: {
   enabled?: boolean;
   lat?: number;
   lon?: number;
+  locale: string;
 }) =>
   useQuery({
-    queryKey: ["cart", lat, lon],
+    queryKey: ["cart", lat, lon, locale],
     queryFn: async ({ queryKey }) => {
       const [, lat, lon] = queryKey as [string, number?, number?];
-      return getCartLatLon({ lat, lon });
+      return getCartLatLon({ lat, lon, locale });
     },
     enabled,
   });

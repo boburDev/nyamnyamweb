@@ -40,6 +40,8 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const { data, isLoading } = useGetCart({
     lat: coords?.lat,
     lon: coords?.lon,
+    locale
+    
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: updateCartQty } = useUpdateCart();

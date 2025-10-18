@@ -19,12 +19,14 @@ export async function getCart() {
 export async function getCartLatLon({
   lat,
   lon,
+  locale,
 }: {
   lat?: number;
   lon?: number;
+  locale: string;
 }) {
   try {
-    const params = { lat, lon };
+    const params = { lat, lon, locale };
     const res = await axios(`/api/proxy/cart`, {
       withCredentials: true,
       params,
