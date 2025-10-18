@@ -8,9 +8,16 @@ interface Props {
   locale?: string;
 }
 
-const getOrder = async ()=> {
+const getOrder = async (locale?: string) => {
   try {
-    const res = await axios.get("/api/proxy/order/my_last_orders");
+    const params = new URLSearchParams();
+    if (locale) {
+      params.append('locale', locale);
+    }
+
+    const url = `/api/proxy/order/my_last_orders${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await axios.get(url);
     return res.data.data;
   } catch (err) {
     console.log("❌ Order yaratishda xato:", err);
@@ -19,11 +26,14 @@ const getOrder = async ()=> {
 }
 const createOrder = async ({ data, locale }: Props) => {
   try {
-    const res = await axios.post("/api/order", data, {
-      headers: {
-        "Accept-Language": locale,
-      },
-    });
+    const params = new URLSearchParams();
+    if (locale) {
+      params.append('locale', locale);
+    }
+
+    const url = `/api/order${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await axios.post(url, data);
     return res.data;
   } catch (err) {
     console.log("❌ Order yaratishda xato:", err);
@@ -32,10 +42,10 @@ const createOrder = async ({ data, locale }: Props) => {
 };
 
 
-export const useGetOrder = () => {
+export const useGetOrder = (locale?: string) => {
   return useQuery({
-    queryKey: ["order"],
-    queryFn: getOrder,
+    queryKey: ["order", locale],
+    queryFn: () => getOrder(locale),
   });
 }
 export const useCreateOrder = () => {

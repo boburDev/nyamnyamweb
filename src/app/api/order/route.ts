@@ -18,6 +18,10 @@ export async function POST(req: Request) {
   const body = await req.json();
   console.log("📦 Order request body:", body);
 
+  // Extract locale from query parameters
+  const { searchParams } = new URL(req.url);
+  const locale = searchParams.get("locale");
+
   interface ErrorResponse {
     error_message?: string;
     message?: string;
@@ -25,12 +29,17 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(ORDER, body, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    // Add locale header if provided
+    if (locale) {
+      headers["Accept-Language"] = locale;
+    }
+
+    const response = await axios.post(ORDER, body, { headers });
 
     const result = response.data;
     console.log("✅ Backend javobi:", result);

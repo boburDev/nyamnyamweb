@@ -4,9 +4,11 @@ import FavouriteCart from "@/components/favourite/FavouriteCart";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { getLocale } from "next-intl/server";
 
 export default async function FavouritePage() {
   const isAuth = await getAuthStatus();
+  const locale = await getLocale();
   const queryClient = new QueryClient();
 
   if (isAuth) {
@@ -17,6 +19,7 @@ export default async function FavouritePage() {
         return getFavouritesLatLon({
           lat: lat ?? undefined,
           lon: lon ?? undefined,
+          locale: locale ?? undefined,
         });
       },
     });

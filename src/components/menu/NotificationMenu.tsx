@@ -10,15 +10,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NotificationIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
-import { getNotifications } from "@/api/notification";
 import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api";
-import { useNotificationWebSocket } from "@/hooks";
+import { useNotificationWebSocket, useNotifications } from "@/hooks";
+import { useLocale } from "next-intl";
 
 export const NotificationMenu = () => {
+  const locale = useLocale();
+
   // Get user data to extract user ID
   const { data: userData } = useQuery({
     queryKey: ["user"],
@@ -26,16 +28,12 @@ export const NotificationMenu = () => {
     retry: false,
   });
 
-  // Use React Query for notifications
+  // Use React Query for notifications with locale
   const {
     data: notifications = [],
     isLoading: loading,
     error,
-  } = useQuery({
-    queryKey: ["notification"],
-    queryFn: getNotifications,
-    retry: false,
-  });
+  } = useNotifications(locale);
 
   // Initialize WebSocket connection for real-time notifications
   useNotificationWebSocket({

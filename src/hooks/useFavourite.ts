@@ -13,18 +13,20 @@ export const useFavouritesQueryLatLon = ({
   enabled,
   lat,
   lon,
+  locale,
 }: {
   enabled?: boolean;
   lat?: number;
   lon?: number;
+  locale: string;
 }) =>
   useQuery({
-    queryKey: ["favourites", lat, lon],
+    queryKey: ["favourites", lat, lon, locale],
     queryFn: async ({ queryKey }) => {
       const [, lat, lon] = queryKey as [string, number?, number?];
-      return getFavouritesLatLon({ lat, lon });
+      return getFavouritesLatLon({ lat, lon, locale });
     },
-    enabled,
+    enabled: enabled && lat !== undefined && lon !== undefined,
   });
 
 export const useAddFavourites = () => {

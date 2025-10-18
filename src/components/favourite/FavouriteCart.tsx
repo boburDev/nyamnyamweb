@@ -8,13 +8,17 @@ import { useFavouritesQueryLatLon } from "@/hooks";
 import { ProductCard } from "../card";
 import { ProductData } from "@/types";
 import { Button } from "../ui/button";
+import { useLocale } from "next-intl";
 
 const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
+  const locale = useLocale();
   const coords = useLocationStore((s) => s.coords);
   const favourite = useFavouriteStore((s) => s.items);
   const { data: favData } = useFavouritesQueryLatLon({
     lat: coords?.lat,
     lon: coords?.lon,
+    locale: locale,
+    enabled: isAuth,
   });
   const items: ProductData[] = isAuth ? favData ?? [] : favourite;
 

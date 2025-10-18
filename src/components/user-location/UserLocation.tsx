@@ -1,55 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLocationService } from "@/hooks/useLocationService";
 
 export default function UserLocation() {
-  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(
-    null
-  );
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setError("Geolocation browser tomonidan qo‘llab-quvvatlanmaydi.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setLocation({ lat: latitude, lon: longitude });
-      },
-      (err) => {
-        switch (err.code) {
-          case err.PERMISSION_DENIED:
-            setError("Foydalanuvchi joylashuvga ruxsat bermadi.");
-            break;
-          case err.POSITION_UNAVAILABLE:
-            setError("Joylashuv ma’lumotlari mavjud emas.");
-            break;
-          case err.TIMEOUT:
-            setError("Joylashuv so‘rovi vaqt tugadi.");
-            break;
-          default:
-            setError("Noma’lum xatolik yuz berdi.");
-        }
-      }
-    );
-  }, []);
-
-  if (error) {
-    return (
-      <div className="hidden">
-        {/* {error} */}
-      </div>
-    );
-  }
+  const { coords } = useLocationService();
 
   return (
     <div className="hidden">
-      {location && (
+      {coords && (
         <span>
-          Lat: {location.lat}, Lon: {location.lon}
+          Lat: {coords.lat}, Lon: {coords.lon}
         </span>
       )}
     </div>

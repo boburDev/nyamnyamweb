@@ -3,10 +3,12 @@ import { OrderAccordion } from "@/components/accordion";
 import { Container } from "@/components/container";
 import { useState } from "react";
 import { useGetOrder } from "@/hooks";
+import { useLocale } from "next-intl";
 
 export default function OrderPage() {
   const [open, setOpen] = useState(false);
-  const { data } = useGetOrder();
+  const locale = useLocale();
+  const { data } = useGetOrder(locale);
   console.log(data);
 
   return (

@@ -5,25 +5,24 @@ import { NotificationSettings } from "@/components/notification";
 import { Calendar, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AppNotification, getNotifications } from "@/api/notification";
+import { useQueryClient } from "@tanstack/react-query";
+import { AppNotification } from "@/api/notification";
 import { DataLoader } from "@/components/loader";
 import { useEffect } from "react";
+import { useNotifications } from "@/hooks";
+import { useLocale } from "next-intl";
 
 export const NotificationPageClient = () => {
     const t = useTranslations("notification");
     const t2 = useTranslations("cards");
     const queryClient = useQueryClient();
+    const locale = useLocale();
 
     const {
         data: notifications = [],
         isLoading,
         error,
-    } = useQuery({
-        queryKey: ["notification"],
-        queryFn: getNotifications,
-        retry: false,
-    });
+    } = useNotifications(locale);
 
     // Mark notification as read when component mounts
     useEffect(() => {

@@ -23,12 +23,14 @@ export async function getFavourites() {
 export async function getFavouritesLatLon({
   lat,
   lon,
+  locale,
 }: {
   lat?: number;
   lon?: number;
+  locale: string;
 }) {
   try {
-    const params = { lat, lon };
+    const params = { lat, lon, locale };
     const res = await axios(`/api/proxy/favourites`, {
       withCredentials: true,
       params,

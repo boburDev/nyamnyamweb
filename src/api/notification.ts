@@ -22,9 +22,16 @@ export interface AppNotification {
     createdAt?: string;
 }
 
-export async function getNotifications(): Promise<AppNotification[]> {
+export async function getNotifications(locale?: string): Promise<AppNotification[]> {
     try {
-        const res = await fetch(`/api/proxy/notification`, {
+        const params = new URLSearchParams();
+        if (locale) {
+            params.append('locale', locale);
+        }
+
+        const url = `/api/proxy/notification${params.toString() ? `?${params.toString()}` : ''}`;
+
+        const res = await fetch(url, {
             credentials: "include",
             cache: "no-store",
         });
@@ -40,7 +47,7 @@ export async function getNotifications(): Promise<AppNotification[]> {
     }
 }
 
-export async function getNotificationsServer(): Promise<AppNotification[]> {
+export async function getNotificationsServer(locale?: string): Promise<AppNotification[]> {
     try {
         const { cookies } = await import("next/headers");
         const { ACCESS_TOKEN, REFRESH_TOKEN } = await import("@/constants");
@@ -54,10 +61,17 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
             return [];
         }
 
+        const params = new URLSearchParams();
+        if (locale) {
+            params.append('locale', locale);
+        }
+
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/notification${params.toString() ? `?${params.toString()}` : ''}`;
+
         const mainHeaders: Record<string, string> = {};
         if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
 
-        let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {
+        let response = await fetch(url, {
             headers: mainHeaders,
             cache: "no-store"
         });
@@ -87,8 +101,10 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
                 return [];
             }
 
-            response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification`, {
-                headers: { "Authorization": `Bearer ${newAT}` },
+            const retryHeaders: Record<string, string> = { "Authorization": `Bearer ${newAT}` };
+
+            response = await fetch(url, {
+                headers: retryHeaders,
                 cache: "no-store"
             });
         }
@@ -107,9 +123,16 @@ export async function getNotificationsServer(): Promise<AppNotification[]> {
     }
 }
 
-export async function getNotificationById(id: string | number): Promise<AppNotification | null> {
+export async function getNotificationById(id: string | number, locale?: string): Promise<AppNotification | null> {
     try {
-        const res = await fetch(`/api/proxy/notification/${id}`, {
+        const params = new URLSearchParams();
+        if (locale) {
+            params.append('locale', locale);
+        }
+
+        const url = `/api/proxy/notification/${id}${params.toString() ? `?${params.toString()}` : ''}`;
+
+        const res = await fetch(url, {
             credentials: "include",
             cache: "no-store",
         });
@@ -128,7 +151,7 @@ export async function getNotificationById(id: string | number): Promise<AppNotif
     }
 }
 
-export async function getNotificationByIdServer(id: string | number): Promise<AppNotification | null> {
+export async function getNotificationByIdServer(id: string | number, locale?: string): Promise<AppNotification | null> {
     try {
         const { cookies } = await import("next/headers");
         const { ACCESS_TOKEN, REFRESH_TOKEN } = await import("@/constants");
@@ -142,10 +165,17 @@ export async function getNotificationByIdServer(id: string | number): Promise<Ap
             return null;
         }
 
+        const params = new URLSearchParams();
+        if (locale) {
+            params.append('locale', locale);
+        }
+
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/notification/${id}${params.toString() ? `?${params.toString()}` : ''}`;
+
         const mainHeaders: Record<string, string> = {};
         if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
 
-        let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification/${id}`, {
+        let response = await fetch(url, {
             headers: mainHeaders,
             cache: "no-store"
         });
@@ -175,8 +205,10 @@ export async function getNotificationByIdServer(id: string | number): Promise<Ap
                 return null;
             }
 
-            response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notification/${id}`, {
-                headers: { "Authorization": `Bearer ${newAT}` },
+            const retryHeaders: Record<string, string> = { "Authorization": `Bearer ${newAT}` };
+
+            response = await fetch(url, {
+                headers: retryHeaders,
                 cache: "no-store"
             });
         }
