@@ -14,7 +14,8 @@ const useGetSupriseBag = ({
 }) => {
   const shouldBeEnabled =
     (lat === undefined && lon === undefined) ||
-    (lat !== undefined && lon !== undefined);
+    (lat !== undefined && lon !== undefined) ||
+    (locale !== undefined && locale !== undefined);
 
   return useQuery({
     queryKey: ["surprise-bag", locale, slug, lat, lon],

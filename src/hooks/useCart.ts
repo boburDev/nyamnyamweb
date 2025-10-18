@@ -27,7 +27,7 @@ export const useGetCart = ({
       const [, lat, lon] = queryKey as [string, number?, number?];
       return getCartLatLon({ lat, lon, locale });
     },
-    enabled,
+    enabled: enabled && lat !== undefined && lon !== undefined,
   });
 const useDeleteCartAll = () => {
   const queryClient = useQueryClient();
