@@ -12,7 +12,10 @@ const useGetSupriseBag = ({
   lat?: number;
   lon?: number;
 }) => {
-  const shouldBeEnabled = !!lat && !!lon;
+  const shouldBeEnabled =
+    (lat === undefined && lon === undefined) ||
+    (lat !== undefined && lon !== undefined);
+
   return useQuery({
     queryKey: ["surprise-bag", locale, slug, lat, lon],
     queryFn: () => getSupriseBagAll({ locale, slug, lat, lon }),
