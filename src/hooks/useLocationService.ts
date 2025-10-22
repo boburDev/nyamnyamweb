@@ -96,10 +96,13 @@ export const useLocationService = () => {
                 fetchLocation();
             }
 
-            // Listen for permission changes
+            // Listen for permission changes - this is key for immediate response
             permissionStatus.onchange = () => {
-                setPermission(permissionStatus.state);
-                if (permissionStatus.state === 'granted' && !coords) {
+                const newState = permissionStatus.state;
+                setPermission(newState);
+
+                // Immediately fetch location when permission changes to granted
+                if (newState === 'granted' && !coords) {
                     fetchLocation();
                 }
             };
