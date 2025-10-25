@@ -70,49 +70,49 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
   };
 
   return (
-    <div className="pt-[19px] px-[30px] border border-plasterColor rounded-[20px] bg-white shadow-sm">
-      <div className="flex justify-between items-center pb-[19px] border-b border-input">
-        <h3 className="font-medium text-[22px] text-textColor">
+    <div className="3xl:pt-[19px] p-5 3xl:px-[30px] border border-plasterColor rounded-[20px] bg-white shadow-sm">
+      <div className="flex justify-between items-center pb-7.5 3xl:pb-[19px] border-b border-input">
+        <h3 className="font-medium text-[18px] 3xl:text-[22px] text-textColor">
           {t("about-title")}
         </h3>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="pt-[34px] pb-[42px]">
-        <div className="flex gap-10 mb-[29px]">
+      <form onSubmit={handleSubmit(onSubmit)} className="pt-7.5 3xl:pt-[34px] 3xl:pb-[42px]">
+        <div className="flex flex-col md:flex-row gap-7.5 3xl:gap-10 mb-[29px]">
           {/* First name */}
-          <div className="flex flex-col gap-2 min-w-[255px]">
+          <div className="flex flex-col 3xl:gap-2 min-w-[230px] lg:min-w-[240px] 3xl:min-w-[255px]">
             <label className="profile-label">{t("first_name")}</label>
             <Input
               {...register("first_name")}
               placeholder={t("first_name")}
-              className="text-textColor rounded-[12px] border-mounSnow h-12 py-[11px] px-[15px]"
+              className="text-textColor rounded-[12px] border-mounSnow h-[42px] 3xl:h-12 py-[11px] px-[15px]"
             />
           </div>
 
           {/* Last name */}
-          <div className="flex flex-col gap-2 min-w-[300px]">
+          <div className="flex flex-col 3xl:gap-2 min-w-[230px] lg:min-w-[240px] 3xl:min-w-[300px]">
             <label className="profile-label">{t("last_name")}</label>
             <Input
               {...register("last_name")}
               placeholder={t("last_name")}
-              className="text-textColor border-mounSnow rounded-[12px] h-12 py-[11px] px-[15px]"
+              className="text-textColor border-mounSnow rounded-[12px] h-[42px] 3xl:h-12 py-[11px] px-[15px]"
             />
           </div>
 
           {/* Birth date */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col 3xl:gap-2">
             <label className="profile-label">{t("birth_date")}</label>
             <Input
               type="date"
               {...register("birth_date")}
-              className="text-textColor rounded-[12px] border-mounSnow h-12 py-[11px] px-[15px]"
+              className="text-textColor rounded-[12px] border-mounSnow h-[42px] 3xl:h-12 py-[11px] px-[15px]"
             />
           </div>
         </div>
 
-        <div className="flex gap-10 items-end">
+        <div className="flex flex-col md:flex-row gap-7.5 3xl:gap-10 md:items-end">
           {/* Phone number */}
-          <div className="flex flex-col gap-2 min-w-[255px]">
+          <div className="flex flex-col 3xl:gap-2 min-w-[230px] lg:min-w-[240px] 3xl:min-w-[255px]">
             <label className="profile-label">{t("phone_number")}</label>
             <PhoneInput
               id="phoneNumber"
@@ -120,12 +120,12 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
               value={phone}
               onChange={setPhone}
               readOnly
-              className="text-textColor border h-12 border-mounSnow py-[11px] px-[15px] rounded-[12px] focus:outline-none cursor-pointer"
+              className="text-textColor border h-[42px] 3xl:h-12 border-mounSnow py-[11px] px-[15px] rounded-[12px] focus:outline-none cursor-pointer"
             />
           </div>
 
           {/* Email */}
-          <div className="flex flex-col gap-2 min-w-[300px]">
+          <div className="flex flex-col 3xl:gap-2 min-w-[230px] lg:min-w-[240px] 3xl:min-w-[300px]">
             <label className="profile-label">{t("email")}</label>
             <Input
               onClick={() => setOpenEmail(true)}
@@ -133,7 +133,7 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
               {...register("email")}
               placeholder="example@mail.com"
               readOnly
-              className="text-textColor border-mounSnow cursor-pointer rounded-[12px] h-12 py-[11px] px-[15px]"
+              className="text-textColor border-mounSnow cursor-pointer rounded-[12px] h-[42px] 3xl:h-12 py-[11px] px-[15px]"
             />
           </div>
 
@@ -141,7 +141,7 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
           <div className="ml-auto">
             <Button
               type="submit"
-              className="w-[176px]"
+              className="!w-[160px] h-[42px] 3xl:!w-[176px]"
               disabled={!isDirty || isSubmitting || isPending}
             >
               {isPending ? <SubmitLoader /> : t("save")}
