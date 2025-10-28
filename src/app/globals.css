@@ -228,10 +228,6 @@ input:-webkit-autofill:active {
     @apply !font-normal !text-textColor;
   }
 
-  .page-title {
-    @apply font-medium text-[36px] text-textColor;
-  }
-
   .profile-label {
     @apply font-normal text-sm text-textColor;
   }

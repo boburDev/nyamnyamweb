@@ -28,16 +28,16 @@ export const SurpriseHeader = ({ title, catalog, type, length }: Props) => {
     }
   };
   return (
-    <div className="flex justify-between items-center  mb-10">
+    <div className="flex justify-between items-end mb-5 xl:mb-10">
       <h1 className="page-title">{title}</h1>
       {length && length > 3 && (
         <button
           onClick={handleGo}
-          className="flex items-center gap-[7px] text-mainColor font-medium text-xl"
+          className="flex items-center gap-[7px] text-mainColor font-medium xl:text-xl"
         >
           Ko'proq ko'rish
           <span>
-            <ArrowRightIcon />
+            <ArrowRightIcon className="size-4 xl:size-6"/>
           </span>
         </button>
       )}

@@ -8,15 +8,13 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
   const { currentSlide, setCurrentSlide, NextArrow, PrevArrow } =
     useSliderArrows();
 
-  const slidesToShow = 3;
-
   const slickSettings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    swipeToSlide: true, 
+    swipeToSlide: true,
     draggable: true,
     beforeChange: (_: number, next: number) => setCurrentSlide(next),
     nextArrow: (
@@ -28,19 +26,26 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2, slidesToScroll: 1 },
+        settings: { slidesToShow: 3, slidesToScroll: 1 },
       },
       {
         breakpoint: 768,
-        settings: { slidesToShow: 1, slidesToScroll: 1 },
+        settings: { slidesToShow: 2, slidesToScroll: 1 },
+      },
+      {
+        breakpoint: 540,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
       },
     ],
     customPaging: () => (
-      <div className="w-[16px] h-[8px] rounded-[5px] bg-[#E0E0E0]" />
+      <div className="w-3 h-1.5 xl:w-[16px] xl:h-[8px] rounded-[5px] bg-[#E0E0E0]" />
     ),
     appendDots: (dots: React.ReactNode) => (
-      <div style={{ marginTop: "20px" }}>
-        <ul className="flex justify-center ">{dots}</ul>
+      <div style={{ paddingBottom: 10 }}>
+        <ul className="flex justify-center [&_li]:w-fit!">{dots}</ul>
       </div>
     ),
   };
@@ -51,6 +56,7 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
         <Slider
           {...{
             ...slickSettings,
+            className: "-mx-[8.5px] xl:-mx-[9.5px]",
             nextArrow: (
               <NextArrow
                 onClick={() => { }}
@@ -67,20 +73,16 @@ export const ProductSwiper = ({ product }: { product: ProductData[] }) => {
             ),
           }}
         >
-          {product?.map((item: ProductData, index: number) => {
-            const isLastVisible =
-              index === currentSlide + slidesToShow - 1 ||
-              index === product.length - 1;
-
+          {product?.map((item: ProductData) => {
             return (
-              <div key={item.id} className={isLastVisible ? "pr-0" : "pr-5"}>
+              <div key={item.id} className="px-[8.5px] xl:px-[9.5px]">
                 <ProductCard product={item} />
               </div>
             );
           })}
         </Slider>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[17px] xl:gap-5">
           {product?.map((item: ProductData) => (
             <ProductCard key={item.id} product={item} />
           ))}
