@@ -178,19 +178,19 @@ const MapClient = () => {
   return (
     <Container className="flex flex-col">
       {/* Header */}
-      <div className="flex-shrink-0 pt-[73px] pb-6">
-        <h1 className="font-medium pb-10 text-4xl text-textColor">
+      <div className="flex-shrink-0 pt-[50px] 3xl:pt-[73px] 3xl:pb-6">
+        <h1 className="font-medium pb-5 3xl:pb-10 text-4xl text-textColor">
           Suprise baglar
         </h1>
 
         {/* Category Tabs */}
-        <div className="flex justify-between items-center">
+        <div className="hidden lg:flex justify-between lg:pb-7.5 items-center">
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
             onValueChange={handleTabChange}
           >
-            <TabsList className="bg-transparent flex gap-[15px] mb-10">
+            <TabsList className="bg-transparent flex gap-[15px]">
               <TabsTrigger
                 key="all"
                 value="all"
@@ -218,11 +218,56 @@ const MapClient = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-[10px]">
-        {/* Product List */}
-        <div className="col-span-1" style={{ scrollbarWidth: "none" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[10px]">
+
+        <div className="order-1 lg:order-2">
+          <div className="sticky top-0">
+            <YandexMap
+              products={products}
+              hoveredId={hoveredId}
+              activeId={activeId}
+              mapRef={mapRef}
+              handlePlacemarkClick={handlePlacemarkClick}
+              setHoveredId={setHoveredId}
+            />
+            <MapControls onRefresh={handleRefreshMap} />
+          </div>
+        </div>
+
+        <div className="lg:hidden flex order-1 py-5 justify-between items-center">
+          <Tabs
+            defaultValue={activeTab}
+            value={activeTab}
+            onValueChange={handleTabChange}
+          >
+            <TabsList className="bg-transparent flex gap-[15px]">
+              <TabsTrigger
+                key="all"
+                value="all"
+                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold  rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-[42px] px-5 capitalize"
+              >
+                Hamma
+              </TabsTrigger>
+              {category?.map((cat: CategoryData) => (
+                <TabsTrigger
+                  key={cat.id}
+                  value={cat.slug}
+                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-[42px] px-5 capitalize"
+                >
+                  {cat.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+          <div className="flex gap-4 ">
+            <SelectComponent value="Saralash turi">
+              <SelectItem value="Saralash turi">Saralash turi</SelectItem>
+            </SelectComponent>
+          </div>
+        </div>
+
+        <div className="order-2 lg:order-1" style={{ scrollbarWidth: "none" }}>
           <div className="flex flex-col gap-[10px] pb-6">
-            {/* Products Section - Only this part refreshes when category changes */}
             <div className="transition-all duration-300 ease-in-out flex flex-col gap-[10px]">
               {currentProducts.map((product, index) => (
                 <SurpriseBagCard
@@ -244,33 +289,13 @@ const MapClient = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-start">
-              {/* Pagination Component */}
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
-                className=""
               />
             </div>
           )}
-        </div>
-
-        {/* Right Panel - Map */}
-        <div>
-          <div className="sticky top-0">
-            <YandexMap
-              products={products}
-              hoveredId={hoveredId}
-              activeId={activeId}
-              mapRef={mapRef}
-              handlePlacemarkClick={handlePlacemarkClick}
-              // setActiveId={setActiveId}
-              setHoveredId={setHoveredId}
-            />
-
-            {/* Map Controls Overlay */}
-            <MapControls onRefresh={handleRefreshMap} />
-          </div>
         </div>
       </div>
     </Container>
