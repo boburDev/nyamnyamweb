@@ -20,36 +20,28 @@ export const BannerSwiper = () => {
     queryFn: getBanners,
   });
 
-  if (isLoading) {
-    return <BannerSkeleton />;
-  }
+  if (isLoading) return <BannerSkeleton />;
 
-  if (error) {
+  if (error)
     return (
-      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] bg-red-100 rounded-2xl">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-red-500">Error loading banners</div>
-        </div>
+      <div className="relative w-full aspect-[16/9] bg-red-100 rounded-2xl flex items-center justify-center">
+        <div className="text-red-500">Error loading banners</div>
       </div>
     );
-  }
 
-  if (!banners || banners.length === 0) {
+  if (!banners || banners.length === 0)
     return (
-      <div className="relative  w-full h-[400px] md:h-[500px] lg:h-[600px] bg-gray-100 rounded-2xl">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-gray-500">No banners available</div>
-        </div>
+      <div className="relative w-full aspect-[16/9] bg-gray-100 rounded-2xl flex items-center justify-center">
+        <div className="text-gray-500">No banners available</div>
       </div>
     );
-  }
 
   const isSingle = banners.length === 1;
 
   const settings = {
     infinite: !isSingle,
     centerMode: !isSingle,
-    centerPadding: isSingle ? "0px" : "20%",
+    centerPadding: isSingle ? "0px" : "60px",
     slidesToShow: 1,
     autoplay: !isSingle,
     autoplaySpeed: 3000,
@@ -66,14 +58,13 @@ export const BannerSwiper = () => {
     ),
   };
 
-
   return (
-    <div className="relative w-full mt-20">
+    <div className="relative w-full mt-10">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
-          <div key={index} className="px-2">
-            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] cursor-pointer">
-              <Link href={banner.url} target="_blank" className="relative block h-full">
+          <div key={index} className="px-1 sm:px-2">
+            <div className="relative w-full aspect-[16/9] cursor-pointer">
+              <Link href={banner.url} target="_blank" className="block h-full w-full max-w-[1220px]! max-h-[746px]!">
                 <Image
                   priority
                   src={banner.cover_image}

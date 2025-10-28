@@ -1,6 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { ProfilePageClient } from "@/components/profile";
+import PageHeader from "@/components/header/PageHeader";
 import Providers from "@/components/provider/Provider";
 
 export default async function ProfilePage() {
@@ -13,6 +14,7 @@ export default async function ProfilePage() {
 
   return (
     <Providers dehydratedState={dehydrate(queryClient)}>
+      <PageHeader title="Profile" />
       <ProfilePageClient />
     </Providers>
   );
