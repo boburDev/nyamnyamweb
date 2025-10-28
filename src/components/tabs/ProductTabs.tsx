@@ -51,11 +51,11 @@ export const ProductTabs = () => {
             onValueChange={(v) => setActiveTab(v)}
           >
             {/* 🔹 Category Tabs */}
-            <TabsList className="bg-transparent flex gap-[15px] mb-10">
+            <TabsList className="bg-transparent flex gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0">
               <TabsTrigger
                 key="all"
                 value="all"
-                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 xl:px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-9.5 xl:h-12 capitalize"
               >
                 Hamma
               </TabsTrigger>
@@ -63,7 +63,7 @@ export const ProductTabs = () => {
                 <TabsTrigger
                   key={cat.id}
                   value={cat.slug}
-                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 xl:px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-9.5 xl:h-12 capitalize"
                 >
                   {cat.title}
                 </TabsTrigger>
@@ -74,7 +74,7 @@ export const ProductTabs = () => {
               ["all", ...category.map((c: CategoryData) => c.slug)].map(
                 (slug) => (
                   <TabsContent key={slug} value={slug}>
-                    <div className="space-y-[78px]">
+                    <div className="space-y-[56px] xl:space-y-[78px]">
                       {/* popular card */}
                       {product?.popular?.length > 0 && (
                         <div>

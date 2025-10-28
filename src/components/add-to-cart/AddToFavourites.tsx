@@ -81,7 +81,7 @@ export const AddToFavourites = ({ product, showText = false }: Props) => {
     <button
       onClick={handleFavourite}
       className={`
-                backdrop-blur-[45px] bg-mainColor/20 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full
+                backdrop-blur-sm bg-mainColor/30 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full
             
       `}
       // variant={variant}
