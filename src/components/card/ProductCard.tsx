@@ -20,7 +20,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div>
       <div className="bg-white rounded-[25px] overflow-hidden border border-gray-100">
         {/* Product Image */}
-        <div className="relative h-[200px]">
+        <div className="relative sm:h-[165px] xl:h-[200px]">
           <Image
             src={product?.cover_image}
             alt={product?.title ?? "Mahsulot rasmi"}
