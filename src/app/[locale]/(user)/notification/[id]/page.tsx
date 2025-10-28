@@ -1,4 +1,6 @@
 import { NotificationDetailClient } from "@/components/notification";
+import PageHeader from "@/components/header/PageHeader";
+import { useTranslations } from "next-intl";
 
 interface NotificationDetailPageProps {
   params: {
@@ -8,7 +10,14 @@ interface NotificationDetailPageProps {
 }
 
 const NotificationDetailPage = ({ params }: NotificationDetailPageProps) => {
-  return <NotificationDetailClient id={params.id} />;
+  const t = useTranslations("notification");
+
+  return (
+    <>
+      <PageHeader title={t("title")} />
+      <NotificationDetailClient id={params.id} />
+    </>
+  );
 };
 
 export default NotificationDetailPage;

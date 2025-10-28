@@ -19,6 +19,7 @@ input:-webkit-autofill:active {
   --color-textColor: #2f2f2f;
   --color-borderColor: #f2f2f2;
   --color-hoverColor: #f9fafb;
+  --color-dateColor: #4B4B4B;
   --color-dolphin: #6a6e78;
   --color-statusBg: #EDF9F1;
   --color-statusRed: #FFEDED;
@@ -238,6 +239,10 @@ input:-webkit-autofill:active {
   .skeleton-puls {
     @apply bg-[#eee] bg-[linear-gradient(90deg,#eee,#f5f5f5,#eee)] bg-[200px_100%] bg-no-repeat inline-block leading-none animate-[skeleton-animation_1.5s_ease-in-out_infinite];
   }
+  .page-title {
+    @apply font-medium text-[28px] xl:text-[36px] text-textColor;
+  }
+
   @keyframes skeleton-animation {
     0% {
       background-position: -200px 0;
