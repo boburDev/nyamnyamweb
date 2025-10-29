@@ -22,14 +22,15 @@ export const useSliderArrows = () => {
         total: number;
     }) => {
         const shouldHideArrow = () => {
-            if (windowWidth <= 768) return total <= 1;
+            if (windowWidth <= 540) return total <= 1.5;
             if (windowWidth <= 1024) return total <= 2;
             return total <= 3;
         };
         if (shouldHideArrow()) return null;
-
+            console.log(total);
+            
         const getMaxSlide = () => {
-            if (windowWidth <= 768) return total - 1;
+            if (windowWidth <= 540) return total - 1.5;
             if (windowWidth <= 1024) return total - 2;
             return total - 3;
         };
@@ -39,7 +40,7 @@ export const useSliderArrows = () => {
             <button
                 onClick={onClick}
                 disabled={isDisabled}
-                className={`absolute right-[5px] xl:right-[-10px] top-1/2 -translate-y-1/2 z-50 p-1.5 xl:p-2 rounded-full transition
+                className={`hidden md:block absolute right-[5px] xl:right-[-10px] top-1/2 -translate-y-1/2 z-50 p-1.5 xl:p-2 rounded-full transition
           ${isDisabled
                         ? "bg-white border border-mainColor cursor-not-allowed"
                         : "bg-mainColor hover:bg-green-600"
@@ -62,7 +63,7 @@ export const useSliderArrows = () => {
         total: number;
     }) => {
         const shouldHideArrow = () => {
-            if (windowWidth <= 768) return total <= 1;
+            if (windowWidth <= 540) return total <= 1.5;
             if (windowWidth <= 1024) return total <= 2;
             return total <= 3;
         };
@@ -73,7 +74,7 @@ export const useSliderArrows = () => {
             <button
                 onClick={onClick}
                 disabled={isDisabled}
-                className={`absolute left-[5px] xl:left-[-10px] top-1/2 -translate-y-1/2 z-50 p-1.5 xl:p-2 rounded-full transition
+                className={`hidden md:block absolute left-[5px] xl:left-[-10px] top-1/2 -translate-y-1/2 z-50 p-1.5 xl:p-2 rounded-full transition
           ${isDisabled
                         ? "bg-white border border-mainColor cursor-not-allowed"
                         : "bg-mainColor hover:bg-green-600"

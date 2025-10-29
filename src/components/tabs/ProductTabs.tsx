@@ -42,20 +42,21 @@ export const ProductTabs = () => {
   }, [activeTab, category]);
   if (!client) return <DataLoader />;
   return (
-    <section className="mt-[124px] relative">
+    <section className="mt-12.5 sm:mt-20 md::mt-[124px] relative">
       <Container>
         {category?.length > 0 && (
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
             onValueChange={(v) => setActiveTab(v)}
+            className="gap-0"
           >
             {/* 🔹 Category Tabs */}
-            <TabsList className="bg-transparent flex gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0 overflow-x-auto w-full h-12 pl-26.5 md:pl-0 md:w-max md:overflow-hidden" style={{scrollbarWidth:"none"}}>
+            <TabsList className="bg-transparent flex gap-2.5 sm:gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0 overflow-x-auto w-full h-12 justify-start md:w-max md:overflow-hidden" style={{ scrollbarWidth: "none" }}>
               <TabsTrigger
                 key="all"
                 value="all"
-                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 xl:px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-9.5 xl:h-12 capitalize"
+                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
               >
                 Hamma
               </TabsTrigger>
@@ -63,7 +64,7 @@ export const ProductTabs = () => {
                 <TabsTrigger
                   key={cat.id}
                   value={cat.slug}
-                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 xl:px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-9.5 xl:h-12 capitalize"
+                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
                 >
                   {cat.title}
                 </TabsTrigger>
@@ -74,7 +75,7 @@ export const ProductTabs = () => {
               ["all", ...category.map((c: CategoryData) => c.slug)].map(
                 (slug) => (
                   <TabsContent key={slug} value={slug}>
-                    <div className="space-y-[56px] xl:space-y-[78px]">
+                    <div className="space-y-9 md:space-y-[56px] xl:space-y-[78px]">
                       {/* popular card */}
                       {product?.popular?.length > 0 && (
                         <div>

@@ -49,17 +49,17 @@ export const BannerSwiper = () => {
     dots: !isSingle,
     arrows: false,
     customPaging: () => (
-      <div className="w-[16px] h-[8px] rounded-[5px] bg-[#E0E0E0]" />
+      <div className="w-3 h-1.5 xl:w-[16px] xl:h-[8px] rounded-[5px] bg-[#E0E0E0]" />
     ),
     appendDots: (dots: React.ReactNode) => (
-      <div style={{ marginTop: "20px" }}>
-        <ul className="flex justify-center gap-2">{dots}</ul>
+      <div>
+        <ul className="flex justify-center md:gap-2 [&_li]:w-fit! [&_li]:mx-0.5! md:[&_li]:mx-0 pb-4.5">{dots}</ul>
       </div>
     ),
   };
 
   return (
-    <div className="relative w-full mt-10">
+    <div className="relative w-full mt-6 sm:mt-10">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">
