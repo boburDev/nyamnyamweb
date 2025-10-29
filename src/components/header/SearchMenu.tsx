@@ -60,7 +60,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
 
   return (
     <div
-      className={`relative w-full ${auth ? "ml-[130px]" : "ml-[58px]"}`}
+      className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-[130px]" : "mt-[18px] md:mt-0 md:ml-[58px]"}`}
       ref={dropdownRef}
     >
       <div className="relative">
@@ -72,7 +72,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
           onFocus={() => {
             if (search.length > 0) setIsOpen(true);
           }}
-          className="border-none bg-white shadow-none h-12 rounded-[15px] py-2 pl-10 pr-12 text-[15px] w-full text-textColor focus:outline-none"
+          className="border-none bg-white shadow-none h-12 rounded-[15px] placeholder:text-base placeholder:font-medium py-2 pl-10 pr-12 text-[15px] w-full text-textColor focus:outline-none"
           placeholder="Qidirish..."
         />
         {search && (

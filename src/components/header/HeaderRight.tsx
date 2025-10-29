@@ -53,7 +53,9 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               )}
             </Link>
           </Button>
+
           <UserMenu />
+          
         </div>
       ) : (
         <div className="flex gap-4 items-center">

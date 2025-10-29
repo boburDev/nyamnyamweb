@@ -1,5 +1,5 @@
-import { InstagramIcon, TelegrammIcon, YouTubeIcon } from "@/assets/icons";
-import { ShoppingCart, House } from 'lucide-react'
+import { InstagramIcon, TelegrammIcon, User, YouTubeIcon } from "@/assets/icons";
+import { ShoppingCart, House, Heart } from 'lucide-react'
 
 export const links = [
     {
@@ -58,13 +58,23 @@ export const links = [
 
 export const FooterData = (t: (key: string) => string) => [
     {
-        name: 'dashboard',
+        name: 'Bosh sahifa',
         path: "/",
         icon: House,
     },
     {
-        name: 'cart',
+        name: 'Cart',
         path: "/cart",
         icon: ShoppingCart,
+    },
+    {
+        name: 'Sevimlilar',
+        path: "/favourites",
+        icon: Heart,
+    },
+    {
+        name: 'Profil',
+        path: "/profile",
+        icon: User,
     },
 ]

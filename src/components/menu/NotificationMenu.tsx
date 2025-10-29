@@ -49,7 +49,7 @@ export const NotificationMenu = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-12 h-12 font-medium text-sm focus-visible:ring-0"
+          className="w-12 h-12 font-medium text-sm focus-visible:ring-0 rounded-full md:rounded-[15px]"
         >
           <div className="relative">
             <NotificationIcon className="size-6" />

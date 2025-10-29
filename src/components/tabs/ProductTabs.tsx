@@ -51,7 +51,7 @@ export const ProductTabs = () => {
             onValueChange={(v) => setActiveTab(v)}
           >
             {/* 🔹 Category Tabs */}
-            <TabsList className="bg-transparent flex gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0">
+            <TabsList className="bg-transparent flex gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0 overflow-x-auto w-full h-12 pl-26.5 md:pl-0 md:w-max md:overflow-hidden" style={{scrollbarWidth:"none"}}>
               <TabsTrigger
                 key="all"
                 value="all"

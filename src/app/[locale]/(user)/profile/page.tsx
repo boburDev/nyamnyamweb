@@ -3,19 +3,30 @@ import { getUsers } from "@/api";
 import { ProfilePageClient } from "@/components/profile";
 import PageHeader from "@/components/header/PageHeader";
 import Providers from "@/components/provider/Provider";
+import ProfilePageServer from "@/components/profile/ProfilePageServer";
+import { getAuthStatus } from "@/lib/auth";
 
 export default async function ProfilePage() {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["user"],
-    queryFn: getUsers,
-  });
+  const isAuth = await getAuthStatus();
+  if (isAuth) {
+    await queryClient.prefetchQuery({
+      queryKey: ["user"],
+      queryFn: getUsers,
+    });
+  }
 
   return (
-    <Providers dehydratedState={dehydrate(queryClient)}>
-      <PageHeader title="Profile" />
-      <ProfilePageClient />
-    </Providers>
+    <>
+
+      {isAuth ? (
+        <Providers dehydratedState={dehydrate(queryClient)}>
+          {/* <PageHeader title="Profile" /> */}
+          <ProfilePageClient />
+        </Providers>
+      ) : (
+        <ProfilePageServer />
+      )}
+    </>
   );
 }

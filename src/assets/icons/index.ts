@@ -43,3 +43,4 @@ export * from "./FacebookIcon";
 export * from "./TelegrammIcon";
 export * from "./YouTubeIcon";
 export * from "./InstagramIcon";
+export * from './User'

@@ -7,6 +7,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Providers from "../provider/Provider";
 import { getCart } from "@/api";
 import { LogoIcon } from "@/assets/icons";
+import { LocationMenu, NotificationMenu } from "../menu";
 
 export const Header = async () => {
   const isAuth = await getAuthStatus();
@@ -18,24 +19,35 @@ export const Header = async () => {
     });
   }
   return (
-    <header className="py-6 ">
-      <Container className="flex justify-between items-center">
-        {/* logo */}
-        <div className="flex-0">
-          <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
-            <LogoIcon className="h-10 xl:h-auto" />
-          </Link>
-        </div>
-        {/*search */}
-        <div className="flex flex-1">
+    <>
+      <header className="py-6 hidden md:block">
+        <Container className="flex justify-between items-center">
+          {/* logo */}
+          <div className="flex-0">
+            <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
+              <LogoIcon className="h-10 xl:h-auto" />
+            </Link>
+          </div>
+          {/*search */}
+          <div className="flex flex-1">
+            <SearchMenu auth={isAuth} />
+          </div>
+          {/* right */}
+          <Providers dehydratedState={dehydrate(queryClient)}>
+            <HeaderRight auth={isAuth} />
+          </Providers>
+        </Container>
+      </header>
+      <header className="md:hidden">
+        <Container>
+          <div className="flex items-center justify-between">
+            <LocationMenu />
+            <NotificationMenu />
+          </div>
           <SearchMenu auth={isAuth} />
-        </div>
-        {/* right */}
-        <Providers dehydratedState={dehydrate(queryClient)}>
-          <HeaderRight auth={isAuth} />
-        </Providers>
-      </Container>
-    </header>
+        </Container>
+      </header>
+    </>
   );
 };
 

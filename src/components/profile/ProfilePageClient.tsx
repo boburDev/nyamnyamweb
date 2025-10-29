@@ -68,8 +68,25 @@ export function ProfilePageClient() {
         </h1>
 
         <div
+          className="cursor-pointer p-5 3xl:p-[30px] hidden md:block border border-plasterColor rounded-[20px] bg-white mb-7.5 md:mb-2.5 3xl:mb-[30px]"
+        >
+          <div className="flex items-center gap-[15px] 3xl:gap-[23px]">
+            <Button
+              variant="outline"
+              className="w-[67px] h-[67px] 3xl:w-[96px] 3xl:h-[96px] !bg-plasterColor rounded-full"
+            >
+              <UserProfile className="size-[39px] 3xl:size-[56px]" />
+            </Button>
+            <p className="flex text-[18px] 3xl:text-2xl font-semibold text-textColor">
+              <span>{user.first_name}</span>
+              {user.last_name && <span className="ml-1">{user.last_name}</span>}
+            </p>
+          </div>
+        </div>
+
+        <div
           onClick={() => setIsOpen((prev) => !prev)}
-          className="cursor-pointer p-5 3xl:p-[30px] border border-plasterColor rounded-[20px] bg-white mb-7.5 md:mb-2.5 3xl:mb-[30px]"
+          className="cursor-pointer p-5 3xl:p-[30px] md:hidden border border-plasterColor rounded-[20px] bg-white mb-7.5 md:mb-2.5 3xl:mb-[30px]"
         >
           <div className="flex items-center gap-[15px] 3xl:gap-[23px]">
             <Button
