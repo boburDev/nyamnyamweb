@@ -51,7 +51,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="p-3 xl:p-5">
           {/* Rating and Name */}
 
-          <p className="text-textColor font-medium text-base xl:text-lg line-clamp-1 mb-2.5 xl:mb-4">
+          <p className="text-textColor font-semibold text-base xl:text-lg line-clamp-1 mb-2.5 xl:mb-4">
             {product?.title}
           </p>
 
