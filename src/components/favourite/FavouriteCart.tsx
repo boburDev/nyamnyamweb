@@ -25,10 +25,11 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
   return (
     <div>
       {items?.length > 0 ? (
-        <div className=" mt-[76px] pb-[45px]">
-          <div className="mb-10">
-            <h1 className="text-4xl font-medium text-textColor">
-              Saqlangan mahsulotlar
+        <div className="mt-7.5 md:mt-[76px] pb-[45px]">
+          <div className="mb-5 md:mb-10">
+            <h1 className="text-textColor">
+              <span className="hidden md:block text-4xl font-medium"> Saqlangan mahsulotlar</span>
+              <span className="md:hidden text-[22px] font-semibold">Saqlanganlar</span>
             </h1>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
