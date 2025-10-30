@@ -14,7 +14,7 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     if (isHiddenPage) return null;
 
     return (
-        <header className="md:hidden">
+        <header className="lg:hidden">
             <Container>
                 <div className="flex items-center justify-between">
                     <LocationMenu />

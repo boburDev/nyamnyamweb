@@ -33,11 +33,11 @@ export const SurpriseHeader = ({ title, catalog, type, length }: Props) => {
       {length && length > 3 && (
         <button
           onClick={handleGo}
-          className="flex items-center sm:gap-[7px] text-mainColor font-medium xl:text-xl"
+          className="flex items-center sm:gap-[7px] text-mainColor font-medium text-[13px] sm:text-base xl:text-xl"
         >
           <span className="hidden md:block">Ko'proq ko'rish</span> <span className="block md:hidden">Barchasi</span>
           <span>
-            <ArrowRightIcon className="size-4 xl:size-6 hidden sm:block"/>
+            <ArrowRightIcon className="size-4 xl:size-6 hidden sm:block" />
           </span>
         </button>
       )}
