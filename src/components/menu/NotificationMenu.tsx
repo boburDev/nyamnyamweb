@@ -59,8 +59,8 @@ export const NotificationMenu = () => {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar">
-        <DropdownMenuLabel className="px-0 py-[9.5px] mb-[15px] font-medium text-textColor text-[30px]">
+      <DropdownMenuContent align="end" className="max-h-[79vh] md:max-h-110 xl:max-h-200 max-w-[92vw] min-w-[92vw] sm:max-w-[400px] sm:min-w-[400px] xl:max-w-[514px] xl:min-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar rounded-[12px]">
+        <DropdownMenuLabel className="px-0 xl:py-[9.5px] sm:mb-[15px] font-medium text-textColor text-xl sm:text-2xl lg:text-[30px]">
           Bildirishnomalar
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -99,15 +99,17 @@ export const NotificationMenu = () => {
                 >
                   <Link href={`/notification/${item.id}`}>
                     <div className="flex flex-col gap-[10px] w-full">
-                      <h4 className={`font-medium ${!item.is_read ? 'text-textColor' : 'text-gray-600'}`}>
+                      <h4 className={`font-medium text-base xl:text-[20px] ${!item.is_read ? 'text-textColor' : 'text-gray-600'}`}>
                         {item.title}
                       </h4>
-                      <p className="text-sm text-gray-600 line-clamp-2">
-                        {item.description}
-                      </p>
-                      <div className="flex justify-between items-center text-sm text-gray-600">
-                        <span>{sana}</span>
-                        <span>{vaqt}</span>
+                      <div className="flex flex-col gap-1 lg:gap-[15px] w-full">
+                        <p className="text-sm text-gray-600 line-clamp-2">
+                          {item.description}
+                        </p>
+                        <div className="flex justify-between items-center text-sm text-gray-600">
+                          <span>{sana}</span>
+                          <span>{vaqt}</span>
+                        </div>
                       </div>
                       {!item.is_read && (
                         <div className="w-2 h-2 bg-mainColor rounded-full self-end"></div>

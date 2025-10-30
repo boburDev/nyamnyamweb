@@ -10,10 +10,10 @@ export default function AuthLayout({
 }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
-      <div className="hidden lg:block overflow-hidden h-screen relative">
+      <div className="hidden lg:block overflow-hidden h-dvh relative">
         <div className="absolute top-4 left-4 z-10">
           <Link href="/" >
-            <LogoIcon className="h-10 xl:h-auto"/>
+            <LogoIcon className="h-10 xl:h-auto" />
           </Link>
         </div>
         <Image
@@ -24,7 +24,7 @@ export default function AuthLayout({
           priority
         />
       </div>
-      <div className="flex flex-col justify-center px-5 sm:px-10 lg:px-20 3xl:px-[182px] h-screen overflow-y-auto py-5">
+      <div className="flex flex-col justify-center px-5 sm:px-10 lg:px-20 3xl:px-[182px] h-dvh overflow-y-auto py-5 sm:w-134 lg:w-full sm:mx-auto lg:mx-0">
         {children}
       </div>
     </div>

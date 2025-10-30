@@ -18,7 +18,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const router = useRouter();
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 w-full h-full block md:hidden rounded-[15px]"
+      <div className="absolute z-7 top-0 left-0 w-full h-full block md:hidden rounded-[15px]"
         onClick={(e) => {
           e.preventDefault();
           router.push(`/surprise-bag/${product?.id}`);
@@ -42,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
 
           {/* Favourite Button */}
-          <div className="absolute top-2.5 right-2.5 xl:top-3 xl:right-3">
+          <div className="absolute z-8 top-2.5 right-2.5 xl:top-3 xl:right-3">
             <AddToFavourites product={product} />
           </div>
         </div>
@@ -94,7 +94,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2">
+            <div className="flex gap-2 relative z-8">
               <AddToCart product={product} className="flex-1 rounded-[12px]" />
               <Link
                 href=""

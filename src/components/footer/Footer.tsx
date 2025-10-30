@@ -21,36 +21,36 @@ export const Footer = () => {
 
   return (
     <>
-      <div className="hidden md:block w-full pt-[39px] mt-[150px] pb-[29px] bg-mainColor rounded-t-[45px]">
+      <div className="hidden md:block w-full pt-7.5 xl:pt-[59px] mt-25 2xl:mt-[150px] pb-[15px] xl:pb-7.5 bg-mainColor rounded-t-[30px] xl:rounded-t-[45px]">
         <Container>
-          <div className="flex items-center gap-[63px]">
-            <div className="w-[433px] gap-[21px] flex flex-col">
+          <div className="flex items-center justify-between">
+            <div className="w-[325px] xl:w-[433px] gap-2.5 xl:gap-[21px] flex flex-col xl:-mt-10">
               <Link href={"/"}>
-                <LogoIcon className="h-10 xl:h-auto" />
+                <LogoIcon />
               </Link>
-              <p className="text-sm leading-[25px] text-white">
+              <p className="text-xs xl:text-sm leading-[25px] text-white">
                 SaveMeal – bu oziq-ovqat isrofiga qarshi kurashuvchi platforma.
                 Yaroqlilik muddati yaqin mahsulotlarni arzon narxda toping.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-[155px] pt-[59px]">
+            <div className="flex gap-10 xl:gap-30 2xl:gap-[150px]">
               {links.map((item, index) => (
-                <div key={index} className=" text-white">
-                  <h3 className="pb-[23px]">{item.title}</h3>
-                  <div className="flex flex-col gap-[10px] text-white w-[167px]">
+                <div key={index} className="text-white">
+                  <h3 className="pb-2.5 xl:pb-[23px] text-sm lg:text-base">{item.title}</h3>
+                  <div className="flex flex-col gap-2 lg:gap-1 xl:gap-[10px] text-white">
                     {item.link?.map((item, index) => (
                       <Link
                         key={index}
                         href="/"
-                        className="text-[14px] leading-[25px]"
+                        className="text-[11px] lg:text-xs xl:text-sm lg:leading-[25px]"
                       >
                         {item.title}
                       </Link>
                     ))}
                   </div>
-                  <div className="flex items-center gap-[20px]">
+                  <div className="flex items-center justify-between">
                     {item.socials?.map((social) => (
-                      <Link key={social.id ?? index} href={social.path}>
+                      <Link key={social.id ?? index} href={social.path} className="[&_svg]:size-7 xl:[&_svg]:size-8">
                         {typeof social.icon === "function"
                           ? social.icon()
                           : social.icon || ""}
@@ -60,7 +60,7 @@ export const Footer = () => {
                   {index === 2 && (
                     <Button
                       variant="secondary"
-                      className="mt-[26px] font-medium text-[12px] w-[140px]"
+                      className="mt-5 xl:mt-[26px] font-medium text-[10px] xl:text-[12px] w-30 xl:w-[140px] !rounded-[10px] xl:!rounded-[12px]"
                     >
                       Biznes uchun kirish
                     </Button>
@@ -69,9 +69,9 @@ export const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col items-center pt-[18px]">
-            <div className="w-full h-[1px] bg-white"></div>
-            <p className="text-[16px] text-white pt-[31px]">
+          <div className="flex flex-col items-center pt-5 xl:pt-[18px]">
+            <div className="w-full h-[1px] bg-white/50 xl:bg-white"></div>
+            <p className="text-xs xl:text-base text-white pt-[15px] xl:pt-[31px]">
               2025 SaveMeal. Barcha huquqlar himoyalangan
             </p>
           </div>
@@ -88,14 +88,14 @@ export const Footer = () => {
               key={index}
               href={path}
               className={classNames(
-                "flex flex-col items-center gap-[5px] font-medium text-[12px] transition-colors duration-300 ease-in-out",
+                "flex flex-col items-center gap-[5px] font-medium text-xs transition-colors duration-300 ease-in-out",
                 isActive ? "text-mainColor" : "text-dolphin hover:text-mainColor"
               )}
             >
               {Icon && (
                 <Icon
                   className={classNames(
-                    "w-4.5 xl:w-6 h-4.5 xl:h-6 flex-shrink-0",
+                    "size-6 flex-shrink-0",
                   )}
                 />
               )}

@@ -14,13 +14,13 @@ export default function AuthBottom({ type = "signin" }: AuthBottomProps) {
   return (
     <div className="mt-[30px]">
       <div className="flex items-center">
-        <Separator className="flex-1  h-[1px] bg-orochimaru" />
-        <span className="mx-[10px] text-base text-iron">{t("or")}</span>
-        <Separator className="flex-1  h-[1px] bg-orochimaru" />
+        <Separator className="flex-1 h-[1px] bg-orochimaru" />
+        <span className="mx-[10px] text-sm lg:text-base text-iron">{t("or")}</span>
+        <Separator className="flex-1 h-[1px] bg-orochimaru" />
       </div>
       <div className="mt-[30px] flex gap-[5px] justify-center">
-        <p className="font-normal text-lg text-textColor">{yesText}</p>
-        <Link href={link} className="font-semibold text-mainColor text-lg">
+        <p className="font-normal lg:text-lg text-textColor">{yesText}</p>
+        <Link href={link} className="font-semibold text-mainColor lg:text-lg">
           {linkText}
         </Link>
       </div>

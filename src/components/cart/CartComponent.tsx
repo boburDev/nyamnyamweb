@@ -34,18 +34,17 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     isPending,
     setError,
   } = useHelpCart({ auth: isAuth });
-console.log(items);
+  console.log(items);
 
   return (
     <div>
-      <Container className="mb-[150px] mt-[76px]">
+      <Container>
         {isLoading || items === undefined ? (
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-7">
-              <ProductSkeletons />
+          <div className="grid sm:grid-cols-12 md:gap-8 mt-10">
+            <div className="sm:col-span-7 flex flex-col gap-y-5">
+              <ProductSkeletons count={3} />
             </div>
-            <div className="col-span-5">
-              <ProductSkeletons />
+            <div className="sm:col-span-5 rounded-2xl skeleton-puls h-110">
             </div>
           </div>
         ) : items?.length > 0 ? (
@@ -224,11 +223,10 @@ console.log(items);
                               setPayment(name);
                               setError("");
                             }}
-                            className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${
-                              payment === name
-                                ? "border-mainColor"
-                                : "border-plasterColor"
-                            }`}
+                            className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${payment === name
+                              ? "border-mainColor"
+                              : "border-plasterColor"
+                              }`}
                           >
                             {Icon && <Icon />}
                           </button>

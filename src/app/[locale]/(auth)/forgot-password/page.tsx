@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
   const t = useTranslations("forgot-password-step")
- const tValidation = useTranslations("validation")
+  const tValidation = useTranslations("validation")
   const form = useForm<ForgotForm>({
     mode: "onTouched",
     resolver: zodResolver(forgotSchema(tValidation)),
@@ -44,8 +44,8 @@ export default function ForgotPasswordPage() {
       onError: (error) => {
         const errorMessage =
           typeof error.response?.data === "object" &&
-          error.response?.data &&
-          "error_message" in error.response.data
+            error.response?.data &&
+            "error_message" in error.response.data
             ? (error.response.data.error_message as string)
             : "Noma'lum xatolik yuz berdi";
         showError(errorMessage);
@@ -57,12 +57,12 @@ export default function ForgotPasswordPage() {
     router.back();
   };
   return (
-    <div className="w-full ">
+    <div className="w-full h-full sm:h-auto flex flex-col pt-12.5 sm:pt-0">
       <h2 className="auth-title ">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-5 w-full"
+          className="space-y-5 w-full h-full sm:h-auto flex flex-col"
           noValidate
         >
           <FormField
@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
               </FormItem>
             )}
           />
-          <div className="flex gap-[27px] mt-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] sm:gap-[27px] mt-auto sm:mt-20">
             <Button
               variant={"outline"}
               onClick={handleBack}

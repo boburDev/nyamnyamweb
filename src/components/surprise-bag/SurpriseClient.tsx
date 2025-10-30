@@ -29,21 +29,22 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
 
 
   return (
-    <div className="py-[122px]">
+    <div className="pt-7.5 lg:pt-12 xl:pt-[122px]">
       <Container>
-        <h3 className="page-title mb-10">Super boxlar</h3>
+        <h3 className="font-medium text-[22px] md:text-[28px] xl:text-[36px] text-textColor mb-5 sm:mb-6.5 xl:mb-10">Super boxlar</h3>
         {category?.length > 0 && (
           <Tabs
             defaultValue={activeTab}
             value={activeTab}
             onValueChange={(v) => setActiveTab(v)}
+            className="gap-0"
           >
             {/* 🔹 Category Tabs */}
-            <TabsList className="bg-transparent flex gap-[15px] mb-10">
+            <TabsList className="bg-transparent flex gap-2.5 sm:gap-3 xl:gap-[15px] mb-7.5 xl:mb-10 p-0 overflow-x-auto w-full h-12 justify-start md:w-max md:overflow-hidden" style={{ scrollbarWidth: "none" }}>
               <TabsTrigger
                 key="all"
                 value="all"
-                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+                className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
               >
                 Hamma
               </TabsTrigger>
@@ -51,7 +52,7 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
                 <TabsTrigger
                   key={el.id}
                   value={el.slug}
-                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
+                  className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
                 >
                   {el.title}
                 </TabsTrigger>
@@ -62,7 +63,7 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
               ["all", ...category.map((c: CategoryData) => c.slug)].map(
                 (slug) => (
                   <TabsContent key={slug} value={slug}>
-                    <div className="grid grid-cols-3 gap-x-[19px] gap-y-[50px]">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 xl:gap-x-[19px] gap-y-10 xl:gap-y-[50px]">
                       {product?.map((item: ProductData) => (
                         <ProductCard product={item} key={item.id} />
                       ))}

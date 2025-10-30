@@ -62,12 +62,12 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div>
+    <div className="w-full h-full sm:h-auto flex flex-col pt-12.5 sm:pt-0">
       <h2 className="auth-title">{t("title")}</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-[30px] w-full"
+          className="flex flex-col gap-[30px] w-full h-full sm:h-auto"
         >
           {/* Parol */}
           <FormField
@@ -101,7 +101,7 @@ export default function ResetPasswordPage() {
               </FormItem>
             )}
           />
-          <div className="flex gap-[27px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] sm:gap-[27px] mt-auto sm:mt-20">
             <Button
               variant={"outline"}
               onClick={handleBack}

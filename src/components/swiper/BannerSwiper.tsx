@@ -59,7 +59,7 @@ export const BannerSwiper = () => {
   };
 
   return (
-    <div className="relative w-full mt-6 sm:mt-10">
+    <div className="relative w-full mt-6 sm:mt-10 max-w-[1560px] mx-auto">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">

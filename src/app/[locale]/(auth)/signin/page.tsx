@@ -152,7 +152,7 @@ export default function SigninPage() {
           <div className="mt-[10px] flex justify-end">
             <Link
               href="/forgot-password"
-              className="font-medium text-mainColor leading-[150%]"
+              className="font-medium text-mainColor leading-[150%] text-sm"
             >
               {t("forgot-pass")}
             </Link>
@@ -160,7 +160,7 @@ export default function SigninPage() {
           <Button
             disabled={!form.formState.isValid || isPending}
             type="submit"
-            className="mt-[10px] w-full h-12 rounded-[10px] font-semibold text-lg"
+            className="mt-5 sm:mt-2.5 w-full h-12 rounded-[10px] font-semibold text-lg"
           >
             {isPending ? <SubmitLoader /> : t("button")}
           </Button>
