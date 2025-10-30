@@ -260,7 +260,7 @@ export default function SignUpCompletePage() {
           />
 
           {/* Tugmalar */}
-          <div className="flex gap-[27px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] sm:gap-[27px] mt-auto sm:mt-20">
             <Button
               variant={"outline"}
               onClick={handleBack}

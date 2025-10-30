@@ -52,7 +52,7 @@ export default function VerifyPage() {
     });
   };
   return (
-    <div className="max-w-[358px] w-full mx-auto">
+    <div className="flex flex-col w-full h-full sm:h-auto">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">
@@ -79,7 +79,7 @@ export default function VerifyPage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-2 md:gap-[15px] justify-center ">
+          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-6 w-full sm:flex">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <InputOTPSlot
                 key={i}
@@ -94,7 +94,7 @@ export default function VerifyPage() {
                     e.preventDefault();
                   }
                 }}
-                className="w-[40px] h-[40px] text-[24px] xs:w-[49px] xs:h-[49px] md:w-[53px] md:h-[53px] md:text-[30px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor border"
+                className="text-[24px] xs:w-full sm:w-[55px] h-[55px] md:text-[30px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor border"
               />
             ))}
           </InputOTPGroup>
@@ -104,9 +104,8 @@ export default function VerifyPage() {
         <button
           onClick={handleResend}
           disabled={timer > 0}
-          className={`text-mainColor font-medium ${
-            timer > 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`text-mainColor font-medium ${timer > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           {t("resell")}
         </button>
@@ -115,7 +114,7 @@ export default function VerifyPage() {
         </span>
       </div>
       {/* button */}
-      <div className="flex  mt-20 gap-[10px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] sm:gap-[27px] mt-auto sm:mt-20">
         <Button
           variant={"outline"}
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"

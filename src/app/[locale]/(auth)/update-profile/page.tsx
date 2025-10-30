@@ -65,14 +65,14 @@ export default function UpdateProfilePage() {
   };
 
   return (
-    <div className="w-[390px] mx-auto">
+    <div className="flex flex-col w-full h-full sm:h-auto">
       {/* top */}
       <div>
         <button onClick={handleBack} className="mb-[10px]">
           <ArrowBackIcon />
         </button>
         <h2 className="auth-title">Tasdiqlash kodi</h2>
-        <p className="text-dolphin text-sm mb-[5px] max-w-[369px]">
+        <p className="text-dolphin text-sm mb-[5px]">
           Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"} 6 xonali kod yubordik.
         </p>
         <p className="text-dolphin text-sm">
@@ -91,7 +91,7 @@ export default function UpdateProfilePage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-3">
+          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-6 w-full sm:flex">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <InputOTPSlot
                 key={i}
@@ -106,7 +106,7 @@ export default function UpdateProfilePage() {
                     e.preventDefault();
                   }
                 }}
-                className="w-[55px] h-[55px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor text-[30px] border"
+                className="text-[24px] xs:w-full sm:w-[55px] h-[55px] md:text-[30px] bg-dustColor/[3%] focus-visible:ring-1 !rounded-[10px] text-textColor border"
               />
             ))}
           </InputOTPGroup>
@@ -128,7 +128,7 @@ export default function UpdateProfilePage() {
       </div>
 
       {/* buttons */}
-      <div className="flex mt-20 gap-[10px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-[15px] sm:gap-[27px] mt-auto sm:mt-20">
         <Button
           variant={"outline"}
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
