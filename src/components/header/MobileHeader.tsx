@@ -10,7 +10,9 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
 
     // Hide header on pages where the URL contains these segments (locale-safe)
     const segments = pathname.split("/").filter(Boolean);
-    const isHiddenPage = segments.includes("profile") || segments.includes("notification");
+    const isHiddenPage = segments.includes("profile")
+        || segments.includes("notification")
+        || segments.includes("cart");
 
     if (isHiddenPage) return null;
 

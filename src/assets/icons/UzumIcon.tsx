@@ -1,7 +1,7 @@
 export const UzumIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width={60}
+      width={44}
       height={22}
       viewBox="0 0 60 22"
       fill="none"

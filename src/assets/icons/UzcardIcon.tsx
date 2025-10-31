@@ -1,7 +1,7 @@
 export const UzcardIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width={78}
+      width={75}
       height={16}
       viewBox="0 0 78 16"
       fill="none"

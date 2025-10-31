@@ -24,11 +24,11 @@ export const paymentIcons: PaymeIcons[] = [
     name: "uzum",
   },
   {
-    icon: PaynetIcon,
-    name: "paynet",
-  },
-  {
     icon: UzcardIcon,
     name: "uzcard",
+  },
+  {
+    icon: PaynetIcon,
+    name: "paynet",
   },
 ];

@@ -1,7 +1,7 @@
 export const ClickIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width={52}
+      width={42}
       height={20}
       viewBox="0 0 52 20"
       fill="none"

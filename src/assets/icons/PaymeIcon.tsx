@@ -1,7 +1,7 @@
 export const PaymeIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width={63}
+      width={50}
       height={20}
       viewBox="0 0 63 20"
       fill="none"

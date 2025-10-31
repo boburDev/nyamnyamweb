@@ -27,7 +27,6 @@ export const useSliderArrows = () => {
             return total <= 3;
         };
         if (shouldHideArrow()) return null;
-            console.log(total);
             
         const getMaxSlide = () => {
             if (windowWidth <= 540) return total - 1.5;

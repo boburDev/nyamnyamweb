@@ -4,6 +4,7 @@ import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
 import { getCartLatLon } from "@/api";
 import { getLocale } from "next-intl/server";
+import { PageHeader } from "@/components/header";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();
@@ -32,6 +33,7 @@ export default async function CartPage() {
 
   return (
     <Providers dehydratedState={dehydrate(queryClient)}>
+      <PageHeader title="Savatcha" />
       <CartComponent isAuth={isAuth} />
     </Providers>
   );

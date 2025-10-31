@@ -29,18 +29,18 @@ export const PageHeader = ({
         <header className="block md:hidden">
             <div className="px-4 py-3">
                 <div className="flex items-center w-full">
-                    <div className="flex items-center w-full  mb-[14px] 3xl:mb-10 relative">
+                    <div className="flex items-center w-full mb-[14px] 3xl:mb-10 relative">
                         {showBackButton && (
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleBackClick}
-                                className="p-2 hover:bg-gray-100"
+                                className="p-2 hover:bg-gray-100 relative z-10"
                             >
                                 <ArrowBackIcon className="size-6" />
                             </Button>
                         )}
-                        <h1 className="font-medium w-full text-center md:text-left text-[28px] 3xl:text-[36px] text-textColor absolute left-1/2 -translate-x-1/2">
+                        <h1 className="font-medium w-full text-center md:text-left text-[20px] md:text-[28px] 3xl:text-[36px] text-textColor absolute z-9 left-1/2 -translate-x-1/2">
                             {title}
                         </h1>
                     </div>
