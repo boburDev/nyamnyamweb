@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Minus, Plus, StarIcon, TrashIcon } from "lucide-react";
+import { Check, Minus, Plus, StarIcon, TrashIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Container } from "../container";
 import { ConfirmModal } from "../modal";
@@ -243,27 +243,46 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   </div>
                 </div>
                 {/* Right Section mobile */}
-                <div className="md:hidden mt-7.5">
+                <div className="md:hidden mt-7.5 pb-17">
                   <div className="relative">
                     <p className="font-medium mb-3">To'lov turi</p>
                     <div className="flex xl:justify-between gap-2 flex-wrap">
-                      {paymentIcons.map(({ icon: Icon2, name }, index) => (
+                      {paymentIcons.map(({ icon: Icon2, name }, i) => (
                         <button
-                          key={index}
+                          key={i}
                           onClick={() => {
                             setPayment(name);
                             setError("");
                           }}
-                          className={`h-[54px] max-w-[95px] px-3 rounded-2xl border-2 inline-flex items-center justify-center flex-shrink-0 hover:border-mainColor duration-300 ease-in-out [&_svg]:h-6 bg-white ${payment === name
+                          className={`h-[54px] max-w-[95px] px-3 rounded-2xl border-2 inline-flex items-center justify-center flex-shrink-0 hover:border-mainColor duration-300 ease-in-out [&_svg]:h-6 bg-white relative ${payment === name
                             ? "border-mainColor"
                             : "border-white"
                             }`}
                         >
+                          {payment === name && <span className="absolute -top-[7px] -right-[7px] size-5 flex items-center justify-center rounded-full bg-mainColor"><Check size={13} color="#fff" /></span>}
                           {Icon2 && <Icon2 />}
                         </button>
                       ))}
                     </div>
                     {error && <p className="text-red-500 mt-2 xl:absolute">{error}</p>}
+                  </div>
+                  <div className="fixed bottom-0 z-99 left-0 w-full rounded-t-[20px] bg-white p-4">
+                    <div className="flex justify-between items-center mt-1 xl:mt-0">
+                      <p className="font-semibold text-lg">
+                        Jami:
+                      </p>
+                      <PriceFormatter
+                        amount={totalPrice}
+                        className="font-semibold text-lg text-textColor"
+                      />
+                    </div>
+                    <Button
+                      disabled={items?.length === 0 || isPending}
+                      onClick={handleCheckout}
+                      className="w-full h-12 text-white font-medium xl:text-xl rounded-[20px] mt-2.5"
+                    >
+                      {isPending ? <SubmitLoader /> : "To'lovga o'tish"}
+                    </Button>
                   </div>
                 </div>
               </div>
