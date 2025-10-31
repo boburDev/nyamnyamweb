@@ -1,6 +1,6 @@
 export const LogoIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <div className="flex items-center gap-1 xl:gap-3">
+    <div className="flex items-center gap-1 xl:gap-3 -mt-[3px]">
       <svg
         width={43}
         height={56}
@@ -32,7 +32,7 @@ export const LogoIcon = (props: React.SVGProps<SVGSVGElement>) => {
           />
         </defs>
       </svg>
-      <h4 style={{ WebkitTextFillColor: "transparent" }} className="text-xl xl:text-2xl 2xl:text-3xl mt-3 font-semibold bg-clip-text bg-[#F58C18] bg-[linear-gradient(60deg,rgba(245,140,24,1)_10%,rgba(90,173,43,1)_90%)]">Azera</h4>
+      <h4 style={{ WebkitTextFillColor: "transparent" }} className="text-xl xl:text-2xl 2xl:text-3xl mt-[6px] font-semibold bg-clip-text bg-[#F58C18] bg-[linear-gradient(60deg,rgba(245,140,24,1)_10%,rgba(90,173,43,1)_90%)]">Azera</h4>
     </div>
   );
 };

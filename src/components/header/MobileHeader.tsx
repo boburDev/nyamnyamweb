@@ -8,13 +8,14 @@ import SearchMenu from "./SearchMenu";
 export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     const pathname = usePathname();
 
-    const hiddenPaths = ["/profile", "/notification"];
-    const isHiddenPage = hiddenPaths.some((path) => pathname.startsWith(path));
+    // Hide header on pages where the URL contains these segments (locale-safe)
+    const segments = pathname.split("/").filter(Boolean);
+    const isHiddenPage = segments.includes("profile") || segments.includes("notification");
 
     if (isHiddenPage) return null;
 
     return (
-        <header className="lg:hidden">
+        <header className="md:hidden">
             <Container>
                 <div className="flex items-center justify-between">
                     <LocationMenu />

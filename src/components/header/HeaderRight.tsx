@@ -31,7 +31,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
   }, []);
 
   return (
-    <div className="flex items-center gap-4 ml-10 shrink-0">
+    <div className="flex items-center gap-2.5 xl:gap-4 ml-2.5 xl:ml-10 shrink-0">
       <LocationMenu />
       <div className="flex gap-2">
         {auth && <NotificationMenu />}
@@ -39,10 +39,10 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
       </div>
 
       {auth ? (
-        <div className="flex items-center gap-4">
-          <Button asChild className="w-[170px] relative">
+        <div className="flex items-center gap-2.5 xl:gap-4">
+          <Button asChild className="max-w-[156px] xl:max-w-[170px] relative h-10.5 xl:h-12">
             <Link href="/cart">
-              <div className="flex gap-4 py-3">
+              <div className="flex gap-[10px] xl:gap-4 py-3">
                 <CartIcon />
                 <span>{isClient ? serverTotal.toLocaleString() : "0"} UZS</span>
               </div>
@@ -58,7 +58,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
           
         </div>
       ) : (
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2.5 xl:gap-4 items-center">
           <Link href={"https://business.azera.uz"} target="_blank">
             <Button
               variant="secondary"

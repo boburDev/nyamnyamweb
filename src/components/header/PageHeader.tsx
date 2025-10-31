@@ -26,10 +26,10 @@ export const PageHeader = ({
     };
 
     return (
-        <header className="block sm:hidden">
-            <div className="px-4 py-3 border-b border-gray-200">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+        <header className="block md:hidden">
+            <div className="px-4 py-3">
+                <div className="flex items-center w-full">
+                    <div className="flex items-center w-full  mb-[14px] 3xl:mb-10 relative">
                         {showBackButton && (
                             <Button
                                 variant="ghost"
@@ -37,10 +37,10 @@ export const PageHeader = ({
                                 onClick={handleBackClick}
                                 className="p-2 hover:bg-gray-100"
                             >
-                                <ArrowBackIcon className="w-5 h-5" />
+                                <ArrowBackIcon className="size-6" />
                             </Button>
                         )}
-                        <h1 className="text-lg font-semibold text-gray-900">
+                        <h1 className="font-medium w-full text-center md:text-left text-[28px] 3xl:text-[36px] text-textColor absolute left-1/2 -translate-x-1/2">
                             {title}
                         </h1>
                     </div>

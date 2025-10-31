@@ -44,11 +44,11 @@ export const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-12 h-12 !bg-plasterColor">
+        <Button variant="outline" className="size-10.5 xl:size-12 rounded-full !bg-plasterColor">
           <UserProfile className="size-6" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-[308px] px-[15px] py-5 border-borderColor custom-scrollbar mr-[67px] rounded-[10px]">
+      <DropdownMenuContent align="end" className="max-w-[308px] px-[15px] py-5 border-borderColor custom-scrollbar rounded-[10px]">
         <DropdownMenuLabel className="p-0 flex items-center gap-[10px] mb-[30px]">
           <Button variant="outline" className="w-12 h-12 !bg-plasterColor">
             <UserProfile className="size-6" />

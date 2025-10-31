@@ -63,14 +63,16 @@ export const NotificationPageClient = () => {
     );
   }
 
- 
+
 
   return (
     <Container>
-      <div className="mt-[76px] pb-[150px]">
-        <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
-        <NotificationTabs onTabChange={()=> {}} />
-        <div className="mt-10 space-y-4 xl:bg-white xl:p-[30px] rounded-[20px] xl:border border-plasterColor">
+      <div className="mt-10 xl:mt-[76px]">
+        <h2 className="font-medium text-4xl text-textColor hidden md:block">{t("title")}</h2>
+        <div className="overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+          <NotificationTabs onTabChange={() => { }} />
+        </div>
+        <div className="mt-7.5 md:mt-10 space-y-4 xl:bg-white xl:p-[30px] rounded-[20px] xl:border border-plasterColor">
           {notifications.length > 0 ? (
             notifications.map((notification) => (
               <Link href={`/notification/${notification.id}`}

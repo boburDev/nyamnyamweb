@@ -23,7 +23,7 @@ export const LanguageMenu = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="h-12 rounded-full w-12 focus-visible:ring-0"
+          className="rounded-full size-10.5 xl:size-12 focus-visible:ring-0"
         >
           <LanguageIcon className="size-6" />
         </Button>

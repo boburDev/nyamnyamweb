@@ -61,9 +61,9 @@ export function ProfilePageClient() {
   if (!user) return null;
 
   return (
-    <div className="py-20">
+    <div className="md:py-20">
       <Container>
-        <h1 className="font-medium text-[28px] 3xl:text-[36px] text-textColor mb-[14px] 3xl:mb-10">
+        <h1 className="font-medium text-center md:text-left text-[28px] 3xl:text-[36px] text-textColor mb-[14px] 3xl:mb-10">
           {t("title")}
         </h1>
 

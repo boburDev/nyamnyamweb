@@ -33,9 +33,9 @@ export const ProfileInfo = ({ t, user, setEditMode }: Props) => {
 
       <div className="pt-[34px] 3xl:pb-[42px]">
         {[0, 1].map((row) => (
-          <div key={row} className="flex flex-col md:flex-row gap-5 3xl:gap-10 mb-5 3xl:mb-20">
+          <div key={row} className="grid grid-cols-3 gap-5 3xl:gap-10 mb-5 3xl:mb-20">
             {filteredData.slice(row * 3, row * 3 + 3).map((key) => (
-              <div key={key} className="flex flex-col 3xl:gap-2 min-w-[255px]">
+              <div key={key} className="flex flex-col 3xl:gap-2 w-full max-w-[255px]">
                 <span className="profile-label">{t(key)}</span>
                 <p className="profile-name">{user?.[key] || "-"}</p>
               </div>

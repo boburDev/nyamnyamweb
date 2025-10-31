@@ -32,7 +32,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
     lat: coords?.lat,
     lon: coords?.lon,
     locale,
-    enabled: auth,
+    enabled: auth && coords?.lat !== undefined && coords?.lon !== undefined,
   });
   const { mutate: deleteCartAll } = useDeleteCartAll();
   const { mutate: deleteCartApi } = useDeleteCartItem();

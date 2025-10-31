@@ -21,7 +21,7 @@ export const Header = async () => {
 
   return (
     <>
-      <header className="py-6 hidden lg:block">
+      <header className="py-6 hidden md:block">
         <Container className="flex justify-between items-center">
           <div className="flex-0">
             <Link href={"/"} className="text-[36px] font-semibold text-mainColor">
