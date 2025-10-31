@@ -67,7 +67,7 @@ export const showToast = ({ title, message, type, href, hrefName }: ToastProps) 
           rounded-xl 
           shadow-lg 
           p-4 
-          min-w-[400px]
+          sm:min-w-[400px]
           max-w-[800px]
           mb-3 
           toast-enter
