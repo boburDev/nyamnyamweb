@@ -34,13 +34,12 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     isPending,
     setError,
   } = useHelpCart({ auth: isAuth });
-  console.log(items);
 
   return (
     <div>
       <Container>
         {isLoading || items === undefined ? (
-          <div className="grid sm:grid-cols-12 md:gap-8 mt-10">
+          <div className="grid sm:grid-cols-12 gap-3 xl:gap-8 mt-10">
             <div className="sm:col-span-7 flex flex-col gap-y-5">
               <ProductSkeletons count={3} />
             </div>
@@ -49,11 +48,11 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
           </div>
         ) : items?.length > 0 ? (
           <>
-            <div className="">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 xl:gap-8">
                 {/* Left Section - Cart Items */}
                 <div className="lg:col-span-7">
-                  <div className="">
+                  <div>
                     <div className="flex items-center justify-between mb-10">
                       <h1 className="text-4xl font-medium text-textColor">
                         Savat
@@ -64,20 +63,20 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       {items?.map((item: ProductData) => (
                         <div
                           key={item?.id}
-                          className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
+                          className="bg-white border border-gray-100 rounded-2xl p-2.5 2xl:p-5 shadow-sm"
                         >
                           <div className="flex gap-4">
                             {/* Product Image */}
-                            <div className="relative w-[217px] h-[147px] flex-shrink-0">
+                            <div className="relative w-[152px] h-[156px] 2xl:w-[217px] 2xl:h-[147px] flex-shrink-0">
                               <Image
                                 src={item?.cover_image}
                                 alt={item?.title}
                                 fill
-                                className="object-cover rounded-xl"
+                                className="object-cover rounded-[12px] xl:roundeed-xl"
                               />
 
-                              {item?.count && item?.count <= 5 && (
-                                <div className="absolute top-[10px] left-[10px] backdrop-blur-[45px] text-white bg-mainColor/20 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
+                              {item?.count && item?.count >= 5 && (
+                                <div className="absolute top-[10px] left-[10px] backdrop-blur-[3px] text-white bg-mainColor/30 text-[13px] px-[10px] py-[3px] rounded-full font-medium">
                                   {item?.count} ta qoldi
                                 </div>
                               )}
@@ -86,7 +85,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             {/* Product Details */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between">
-                                <h3 className="font-medium text-textColor text-xl mb-[10px]">
+                                <h3 className="font-medium text-textColor text-lg 2xl:text-xl mb-[10px]">
                                   {item?.title}
                                 </h3>
                                 <Button
@@ -215,7 +214,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     </div>
                     <Separator className="mb-5 mt-[15px] bg-plasterColor" />
                     <div>
-                      <div className="flex justify-between ">
+                      <div className="flex xl:justify-between gap-1 flex-wrap">
                         {paymentIcons.map(({ icon: Icon, name }, index) => (
                           <button
                             key={index}
@@ -223,7 +222,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                               setPayment(name);
                               setError("");
                             }}
-                            className={`py-[6px] px-[11px] rounded-2xl border  inline-flex items-center justify-center flex-shrink-0 mr-1 last:mr-0 hover:border-mainColor duration-300 ease-in-out ${payment === name
+                            className={`py-[6px] px-[11px] rounded-2xl border inline-flex items-center justify-center flex-shrink-0 hover:border-mainColor duration-300 ease-in-out ${payment === name
                               ? "border-mainColor"
                               : "border-plasterColor"
                               }`}
