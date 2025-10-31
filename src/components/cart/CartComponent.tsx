@@ -14,6 +14,7 @@ import { Separator } from "../ui/separator";
 import { PriceFormatter } from "../price-format";
 import { paymentIcons } from "@/data";
 import EmptyCart from "./EmptyCart";
+import { useEffect, useState } from "react";
 
 const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
   const t = useTranslations("cart");
@@ -34,7 +35,20 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
     isPending,
     setError,
   } = useHelpCart({ auth: isAuth });
+  const [isDesktop, setIsDesktop] = useState(false);
 
+  useEffect(() => {
+    // Boshlang'ich holatni aniqlaymiz
+    setIsDesktop(window.innerWidth >= 768);
+
+    // Resize bo'lganda qayta tekshiramiz
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div>
       <Container>
@@ -214,9 +228,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     <Separator className="mb-[15px] 2xl:mb-5 mt-[15px] bg-plasterColor" />
                     <div className="relative">
                       <div className="flex xl:justify-between gap-x-1 gap-y-2 flex-wrap">
-                        {paymentIcons.map(({ icon: Icon, name }, index) => (
+                        {isDesktop && (paymentIcons.map(({ icon: Icon, name }, index) => (
                           <button
-                            key={index}
+                            key={index + 10}
                             onClick={() => {
                               setPayment(name);
                               setError("");
@@ -228,7 +242,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                           >
                             {Icon && <Icon />}
                           </button>
-                        ))}
+                        )))}
                       </div>
                       {error && <p className="text-red-500 mt-2 xl:absolute">{error}</p>}
                     </div>
@@ -247,9 +261,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div className="relative">
                     <p className="font-medium mb-3">To'lov turi</p>
                     <div className="flex xl:justify-between gap-2 flex-wrap">
-                      {paymentIcons.map(({ icon: Icon2, name }, i) => (
+                      {!isDesktop && (paymentIcons.map(({ icon: Icon, name }, index) => (
                         <button
-                          key={i}
+                          key={index + 20}
                           onClick={() => {
                             setPayment(name);
                             setError("");
@@ -260,9 +274,9 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                             }`}
                         >
                           {payment === name && <span className="absolute -top-[7px] -right-[7px] size-5 flex items-center justify-center rounded-full bg-mainColor"><Check size={13} color="#fff" /></span>}
-                          {Icon2 && <Icon2 />}
+                          {Icon && <Icon />}
                         </button>
-                      ))}
+                      )))}
                     </div>
                     {error && <p className="text-red-500 mt-2 xl:absolute">{error}</p>}
                   </div>

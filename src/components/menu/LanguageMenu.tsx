@@ -28,7 +28,7 @@ export const LanguageMenu = () => {
           <LanguageIcon className="size-6" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="border-borderColor">
+      <DropdownMenuContent className="border-plasterColor">
         <div className="flex flex-col gap-[5px]">
           {langData.map((item) => (
             <DropdownMenuItem

@@ -95,7 +95,7 @@ export const ProductSwiper = ({ product }: ProductSwiperProps) => {
     ),
   };
 
-  const CustomNextArrow = (props: any) => {
+  const CustomNextArrow = (props:  {onClick?: () => void}) => {
     const { onClick } = props;
     return (
       <NextArrow
@@ -106,7 +106,7 @@ export const ProductSwiper = ({ product }: ProductSwiperProps) => {
     );
   };
 
-  const CustomPrevArrow = (props: any) => {
+  const CustomPrevArrow = (props: { onClick?: () => void }) => {
     const { onClick } = props;
     return (
       <PrevArrow

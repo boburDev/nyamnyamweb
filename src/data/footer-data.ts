@@ -56,7 +56,7 @@ export const links = [
 ]
 
 
-export const FooterData = (t: (key: string) => string) => [
+export const FooterData = () => [
     {
         name: 'Bosh sahifa',
         path: "/",

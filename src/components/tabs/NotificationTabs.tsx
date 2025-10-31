@@ -6,13 +6,16 @@ interface NotificationTabsProps {
 
 const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
+
+  const handleTabChange = (tab: "all" | "unread" | "read") => {
+    setActiveTab(tab);
+    onTabChange(tab);
+  };
+
   return (
-    <div className="flex items-center gap-3 mt-[27px] mb-5 sm:hidden">
+    <div className="flex items-center gap-3 md:hidden">
       <button
-        onClick={() => {
-          setActiveTab("all");
-          onTabChange("all");
-        }}
+        onClick={() => handleTabChange("all")}
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "all" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
@@ -20,25 +23,19 @@ const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
       </button>
 
       <button
-        onClick={() => {
-          setActiveTab("unread");
-          onTabChange("unread");
-        }}
+        onClick={() => handleTabChange("unread")}
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "unread" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
-        O‘qilmagan
+        O'qilmagan
       </button>
 
       <button
-        onClick={() => {
-          setActiveTab("read");
-          onTabChange("read");
-        }}
+        onClick={() => handleTabChange("read")}
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "read" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
-        O‘qilgan
+        O'qilgan
       </button>
     </div>
   )

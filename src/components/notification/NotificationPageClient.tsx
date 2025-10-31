@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { AppNotification } from "@/api/notification";
 import { DataLoader } from "@/components/loader";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNotifications } from "@/hooks";
 import { useLocale } from "next-intl";
 import NotificationTabs from "../tabs/NotificationTabs";
@@ -17,11 +17,22 @@ export const NotificationPageClient = () => {
   const t2 = useTranslations("cards");
   const queryClient = useQueryClient();
   const locale = useLocale();
+  const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
   const {
     data: notifications = [],
     isLoading,
     error,
   } = useNotifications(locale);
+
+  const filteredNotifications = useMemo(() => {
+    if (activeTab === "all") {
+      return notifications;
+    } else if (activeTab === "unread") {
+      return notifications.filter((notification) => !notification.is_read);
+    } else {
+      return notifications.filter((notification) => notification.is_read);
+    }
+  }, [notifications, activeTab]);
 
   // Mark notification as read when component mounts
   useEffect(() => {
@@ -41,7 +52,7 @@ export const NotificationPageClient = () => {
     return (
       <Container>
         <div className="mt-[76px] pb-[150px]">
-          <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
+          <h2 className="hidden md:block font-medium text-4xl text-textColor">{t("title")}</h2>
           <div className="mt-10">
             <DataLoader />
           </div>
@@ -67,14 +78,14 @@ export const NotificationPageClient = () => {
 
   return (
     <Container>
-      <div className="mt-10 xl:mt-[76px]">
+      <div className="md:mt-10 xl:mt-[76px]">
         <h2 className="font-medium text-4xl text-textColor hidden md:block">{t("title")}</h2>
         <div className="overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-          <NotificationTabs onTabChange={() => { }} />
+          <NotificationTabs onTabChange={setActiveTab} />
         </div>
         <div className="mt-7.5 md:mt-10 space-y-4 xl:bg-white xl:p-[30px] rounded-[20px] xl:border border-plasterColor">
-          {notifications.length > 0 ? (
-            notifications.map((notification) => (
+          {filteredNotifications.length > 0 ? (
+            filteredNotifications.map((notification) => (
               <Link href={`/notification/${notification.id}`}
                 key={notification.id}
                 className={` ${notification.is_read ? "" : "!border-mainColor"} block border border-plasterColor rounded-[20px] px-4 py-3 xl:p-6 hover:border-mainColor group transition-all duration-300`}

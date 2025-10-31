@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Container } from "../container";
 import { LocationMenu, NotificationMenu } from "../menu";
 import SearchMenu from "./SearchMenu";
+import { LanguageMenuMobile } from "../menu/LanguageMenuMobile";
 
 export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     const pathname = usePathname();
@@ -21,7 +22,10 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
             <Container>
                 <div className="flex items-center justify-between">
                     <LocationMenu />
-                    <NotificationMenu />
+                    <div className="flex items-center gap-[7px]">
+                        <LanguageMenuMobile />
+                        <NotificationMenu />
+                    </div>
                 </div>
                 <SearchMenu auth={isAuth} />
             </Container>

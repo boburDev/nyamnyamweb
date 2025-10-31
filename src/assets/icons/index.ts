@@ -44,3 +44,7 @@ export * from "./TelegrammIcon";
 export * from "./YouTubeIcon";
 export * from "./InstagramIcon";
 export * from './User'
+// language icons
+export * from "./UzbekistonIcon";
+export * from "./RussiaIcon";
+export * from "./UnitedKingdomIcon";

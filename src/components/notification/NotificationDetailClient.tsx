@@ -86,14 +86,14 @@ export const NotificationDetailClient = ({ id }: NotificationDetailClientProps) 
 
   return (
     <Container>
-      <div className="mt-[76px]">
-        <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
+      <div className="md:mt-[76px]">
+        <h2 className="hidden md:block font-medium text-4xl text-textColor">{t("title")}</h2>
       </div>
-      <div className="mt-[30px] pb-[150px]">
+      <div className="md:mt-[30px] md:pb-[150px]">
         {/* Notification Content */}
         <div className="bg-white border border-plasterColor rounded-[20px] px-4 py-3 xl:p-[30px]">
           <div className="xl:mb-6">
-            <h1 className="font-medium text-xs xl:text-2xl text-textColor sm:text-xl xl:mb-[17px]">
+            <h1 className="font-medium text-xs sm:text-sm lg:text-xl xl:text-2xl text-textColor xl:mb-[17px]">
               {notification.title}
             </h1>
           </div>
@@ -103,7 +103,7 @@ export const NotificationDetailClient = ({ id }: NotificationDetailClientProps) 
             </p>
           </div>
           <div className="xl:mt-[29px] flex items-end justify-start xl:justify-end">
-            <div className="flex items-center gap-[10px] text-dateColor text-xs sm:text-base">
+            <div className="flex items-center gap-[10px] text-dateColor text-xs md:text-base">
               <div className="flex items-center space-x-2">
                 <Calendar className="w-4 h-4 hidden sm:block" />
                 <span>{formattedDate.replaceAll("/", ".")}</span>

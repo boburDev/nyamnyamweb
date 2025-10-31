@@ -38,6 +38,7 @@ input:-webkit-autofill:active {
   --color-nitrogenColor: #f3f3f4;
   --color-textMobileHeader: #1E1E1E;
   --breakpoint-xs: 340px;
+  --breakpoint-2xs: 375px;
   --breakpoint-sm: 540px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;

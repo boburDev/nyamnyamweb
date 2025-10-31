@@ -6,13 +6,12 @@ import { Button } from "../ui/button";
 import { LogoIcon } from "@/assets/icons";
 import { Link } from "@/i18n/navigation";
 import { FooterData } from "@/data/footer-data";
-import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 
 export const Footer = () => {
-  const t = useTranslations();
-  const footer = FooterData(t);
+  // const t = useTranslations();
+  const footer = FooterData();
   const pathname = usePathname();
 
   let cleanPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "");

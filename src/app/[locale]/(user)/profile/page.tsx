@@ -5,8 +5,9 @@ import PageHeader from "@/components/header/PageHeader";
 import Providers from "@/components/provider/Provider";
 import ProfilePageServer from "@/components/profile/ProfilePageServer";
 import { getAuthStatus } from "@/lib/auth";
-
+import { getTranslations } from "next-intl/server";
 export default async function ProfilePage() {
+  const t = await getTranslations("profile");
   const queryClient = new QueryClient();
   const isAuth = await getAuthStatus();
   if (isAuth) {
@@ -21,7 +22,7 @@ export default async function ProfilePage() {
 
       {isAuth ? (
         <Providers dehydratedState={dehydrate(queryClient)}>
-          {/* <PageHeader title="Profile" /> */}
+          <PageHeader title={t("title")} />
           <ProfilePageClient />
         </Providers>
       ) : (
