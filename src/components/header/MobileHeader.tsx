@@ -13,7 +13,8 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     const segments = pathname.split("/").filter(Boolean);
     const isHiddenPage = segments.includes("profile")
         || segments.includes("notification")
-        || segments.includes("cart");
+        || segments.includes("cart")
+        || segments.includes("order")
 
     if (isHiddenPage) return null;
 
