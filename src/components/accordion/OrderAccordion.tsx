@@ -86,75 +86,75 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                     key={idx}
                     className="flex pt-5 border border-plasterColor mt-3 rounded-[30px] p-[30px]"
                   >
-                      <Image
-                        src={product.surprise_bag_img}
-                        width={220}
-                        height={180}
-                        className="w-[253px] h-[183px] rounded-[20px] object-cover"
-                        alt={product.title}
-                      />
-                      <div className="w-full ml-5">
-                        <div className="flex justify-between w-full items-center">
-                          <h3 className="font-medium text-[22px] text-textColor">
-                            {product.title}
-                          </h3>
-                          <p>
-                            {
-                              item.payment_status === 'success' && (
-                                <span className="bg-statusBg text-mainColor px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                  {t("taken-away-badge")}
-                                </span>
-                              )
-                            }
-                            {
-                              item.payment_status === 'cancel' && (
-                                <span className="bg-statusRed text-red-600 px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                  {t("canceled-badge")}
-                                </span>
-                              )
-                            }
-                            {
-                              item.payment_status === 'waiting' && (
-                                <span className="bg-accordionText/10 text-accordionText px-[15px] py-[4.5px] rounded-[12px] w-fit">
-                                  {t("waiting-badge")}
-                                </span>
-                              )
-                            }
-                          </p>
-                        </div>
-                        <h4 className="text-lg text-dolphin mt-2">
-                          {product.business_branch_name}
-                        </h4>
-                        <div className="flex justify-between items-center mt-[25px]">
-                          <h5 className="text-[16px] text-dolphin">
-                            {t("order-quantity")}  {product.count} {t("ta")}
-                          </h5>
-                          <p className="font-medium text-base text-dolphin">
-                           <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time} - {product.end_time}
-                          </p>
-                        </div>
-                        <div className="flex justify-between items-center pt-[25px]">
-                          <div className="flex items-center gap-[10px] ">
-                            <h4 className="font-semibold text-[22px] text-mainColor">
-                              {product.price?.toLocaleString()} so‘m
-                            </h4>
-                            <p className="text-[15px] line-through text-dolphin mt-1">
-                              {product.original_price?.toLocaleString()} so‘m
-                            </p>
-                          </div>
-                          <Button
-                            onClick={() => {
-                              setQrCode(product.qr_code_img);
-                              setOpen(true);
-                            }}
-                            className="!bg-plasterColor"
-                            variant={"outline"}
-                          >
-                            <ScanQrCode size={20} />
-                            QR kod
-                          </Button>
-                        </div>
+                    <Image
+                      src={product.surprise_bag_img}
+                      width={220}
+                      height={180}
+                      className="w-[253px] h-[183px] rounded-[20px] object-cover"
+                      alt={product.title}
+                    />
+                    <div className="w-full ml-5">
+                      <div className="flex justify-between w-full items-center">
+                        <h3 className="font-medium text-[22px] text-textColor">
+                          {product.title}
+                        </h3>
+                        <p>
+                          {
+                            item.payment_status === 'success' && (
+                              <span className="bg-statusBg text-mainColor px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                {t("taken-away-badge")}
+                              </span>
+                            )
+                          }
+                          {
+                            item.payment_status === 'cancel' && (
+                              <span className="bg-statusRed text-red-600 px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                {t("canceled-badge")}
+                              </span>
+                            )
+                          }
+                          {
+                            item.payment_status === 'waiting' && (
+                              <span className="bg-accordionText/10 text-accordionText px-[15px] py-[4.5px] rounded-[12px] w-fit">
+                                {t("waiting-badge")}
+                              </span>
+                            )
+                          }
+                        </p>
                       </div>
+                      <h4 className="text-lg text-dolphin mt-2">
+                        {product.business_branch_name}
+                      </h4>
+                      <div className="flex justify-between items-center mt-[25px]">
+                        <h5 className="text-[16px] text-dolphin">
+                          {t("order-quantity")}  {product.count} {t("ta")}
+                        </h5>
+                        <p className="font-medium text-base text-dolphin">
+                          <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time} - {product.end_time}
+                        </p>
+                      </div>
+                      <div className="flex justify-between items-center pt-[25px]">
+                        <div className="flex items-center gap-[10px] ">
+                          <h4 className="font-semibold text-[22px] text-mainColor">
+                            {product.price?.toLocaleString()} so‘m
+                          </h4>
+                          <p className="text-[15px] line-through text-dolphin mt-1">
+                            {product.original_price?.toLocaleString()} so‘m
+                          </p>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setQrCode(product.qr_code_img);
+                            setOpen(true);
+                          }}
+                          className="!bg-plasterColor"
+                          variant={"outline"}
+                        >
+                          <ScanQrCode size={20} />
+                          QR kod
+                        </Button>
+                      </div>
+                    </div>
                     {/* <div className="flex flex-col justify-between">
                       <div className="bg-hoverColor rounded-[15px] flex px-5 py-[9px] gap-[10px]">
                         <div className="flex gap-[5px]">

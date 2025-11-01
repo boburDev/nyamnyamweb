@@ -24,6 +24,23 @@ const getOrder = async (locale?: string) => {
     throw err;
   }
 }
+
+const getOrderHistory = async (locale?: string) => {
+  try {
+    const params = new URLSearchParams();
+    if (locale) {
+      params.append('locale', locale);
+    }
+
+    const url = `/api/proxy/order/my_orders${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await axios.get(url);
+    return res.data.data;
+  } catch (err) {
+    console.log("❌ Order history olishda xato:", err);
+    throw err;
+  }
+}
 const createOrder = async ({ data, locale }: Props) => {
   try {
     const params = new URLSearchParams();
@@ -46,6 +63,13 @@ export const useGetOrder = (locale?: string) => {
   return useQuery({
     queryKey: ["order", locale],
     queryFn: () => getOrder(locale),
+  });
+}
+
+export const useGetOrderHistory = (locale?: string) => {
+  return useQuery({
+    queryKey: ["order-history", locale],
+    queryFn: () => getOrderHistory(locale),
   });
 }
 export const useCreateOrder = () => {

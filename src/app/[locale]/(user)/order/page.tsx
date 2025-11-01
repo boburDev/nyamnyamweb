@@ -1,6 +1,7 @@
 "use client";
 import { OrderAccordion } from "@/components/accordion";
 import { Container } from "@/components/container";
+import { EmptyOrder } from "@/components/order";
 import { useState } from "react";
 import { useGetOrder } from "@/hooks";
 import { useLocale } from "next-intl";
@@ -13,12 +14,16 @@ export default function OrderPage() {
 
   return (
     <Container>
-      {data?.length > 0 && (
-        <div className="pt-[150px]">
-          <h1 className=" font-medium text-4xl mb-4">Buyurtmalarim</h1>
-          <OrderAccordion open={open} setOpen={setOpen} orders={data} />
-        </div>
-      )}
+      <div className="pt-[150px]">
+        {data?.length > 0 ? (
+          <>
+            <h1 className="font-medium text-4xl mb-4">Buyurtmalarim</h1>
+            <OrderAccordion open={open} setOpen={setOpen} orders={data} />
+          </>
+        ) : (
+          <EmptyOrder />
+        )}
+      </div>
     </Container>
   );
 }
