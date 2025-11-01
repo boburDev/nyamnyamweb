@@ -4,7 +4,7 @@ import { Clock } from "lucide-react"
 
 const EmptyOrderHistory = () => {
     return (
-        <div className="bg-gray-50 py-2">
+        <div className="bg-gray-50 py-2 absolute top-1/2 left-1/2 -translate-1/2 md:-translate-0 md:top-0 md:left-0 w-full md:relative">
             <div>
                 <div className="flex flex-col items-center justify-center">
                     <Clock className="size-[60px] sm:size-20 lg:size-[113px] text-dolphin/50" />

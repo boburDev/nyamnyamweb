@@ -14,7 +14,7 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     const isHiddenPage = segments.includes("profile")
         || segments.includes("notification")
         || segments.includes("cart")
-        || segments.includes("order")
+        || segments.includes("order") || segments.includes("order-history")
 
     if (isHiddenPage) return null;
 

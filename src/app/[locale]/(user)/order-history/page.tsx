@@ -3,12 +3,14 @@ import { getOrderHistory } from "@/api/order";
 import { OrderHistoryClient } from "@/components/order-history/OrderHistoryClient";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { PageHeader } from "@/components/header/PageHeader";
 
 export default async function OrderHistoryPage() {
     const queryClient = new QueryClient();
     const locale = await getLocale();
     const isAuth = await getAuthStatus();
+    const t = await getTranslations("UserMenu");
 
     if (isAuth) {
         await queryClient.prefetchQuery({
@@ -19,6 +21,7 @@ export default async function OrderHistoryPage() {
 
     return (
         <Providers dehydratedState={dehydrate(queryClient)}>
+            <PageHeader title={t("order-history")} />
             <OrderHistoryClient />
         </Providers>
     );

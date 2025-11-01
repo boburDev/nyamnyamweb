@@ -27,7 +27,7 @@ export const PageHeader = ({
 
     return (
         <header className="block md:hidden">
-            <div className="px-4 py-3">
+            <div className="pr-4 py-3">
                 <div className="flex items-center w-full">
                     <div className="flex items-center w-full mb-[14px] 3xl:mb-10 relative">
                         {showBackButton && (
