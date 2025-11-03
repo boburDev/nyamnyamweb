@@ -6,7 +6,7 @@ interface MapControlsProps {
 
 export const MapControls = ({ onRefresh }: MapControlsProps) => {
     return (
-        <div className="absolute top-4 right-50 z-20 space-y-3">
+        <div className="absolute top-4 left-4 lg:left-1/2 lg:-translate-x-1/2 z-20 space-y-3">
             {/* Refresh Map Button */}
             <div className="bg-mainColor rounded-full border border-white relative">
                 <button

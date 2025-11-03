@@ -1,25 +1,17 @@
 import { Link } from "@/i18n/navigation"
 import { Container } from "../container"
 import { Button } from "../ui/button"
-import { ArrowBackIcon, UserIcon } from "@/assets/icons"
+import { UserIcon } from "@/assets/icons"
+import { PageHeader } from "../header"
 
 const ProfilePageServer = () => {
     return (
         <Container>
-            <div className="flex items-center">
-                <button
-                    className="p-2 hover:bg-gray-100"
-                >
-                    <ArrowBackIcon className="w-[25px] h-[25px]" />
-                </button>
-                <h1 className="text-xl leading-[24px] font-medium text-textMobileHeader pl-[113px]">
-                    Profile
-                </h1>
-            </div>
+            <PageHeader title="Profile" />
             <div className="bg-white rounded-[15px] p-2.5 mt-7.5">
                 <h1 className="font-semibold text-[18px] text-textColor">Hisobingizga kiring</h1>
                 <h3 className="text-sm text-dolphin pt-[5px]">Mazali ovqatlar va foydali takliflarni qo‘ldan boy bermang</h3>
-                <div className="grid grid-cols-2 gap-2 pt-[15px]">
+                <div className="grid 2xs:grid-cols-2 gap-2 pt-[15px]">
                     <Link href={"https://business.azera.uz"} target="_blank">
                         <Button
                             variant="secondary"

@@ -62,7 +62,7 @@ const YandexMap = ({
   }, [activeId, products, mapRef]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-dvh md:h-[50vh] lg:h-screen">
       <YMaps
         query={{
           apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY || "",

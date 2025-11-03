@@ -16,6 +16,7 @@ import { useLocale } from "next-intl";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { CategoryData, ProductData } from "@/types";
 import { useSearchParams } from "next/navigation";
+import SearchMenu from "../header/SearchMenu";
 
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
   ssr: false,
@@ -221,7 +222,8 @@ const MapClient = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[10px]">
 
         <div className="order-1 lg:order-2">
-          <div className="sticky top-0">
+          <div className="fixed w-full h-dvh left-0 md:sticky z-60 top-0">
+            <SearchMenu className="!fixed md:hidden z-61 top-4 left-4 !w-max" />
             <YandexMap
               products={products}
               hoveredId={hoveredId}
@@ -233,8 +235,8 @@ const MapClient = () => {
             <MapControls onRefresh={handleRefreshMap} />
           </div>
         </div>
-
-        <div className="lg:hidden flex order-1 py-5 justify-between items-center">
+        {/* Tablet category tabs */}
+        <div className="hidden md:flex lg:hidden order-1 py-5 justify-between items-center">
           <Tabs
             defaultValue={activeTab}
             value={activeTab}

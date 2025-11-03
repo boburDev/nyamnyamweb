@@ -12,7 +12,7 @@ type ProductDataMap = {
   [key: string]: ProductData[];
 };
 
-const SearchMenu = ({ auth }: { auth: boolean }) => {
+const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -60,7 +60,7 @@ const SearchMenu = ({ auth }: { auth: boolean }) => {
 
   return (
     <div
-      className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-5 xl:ml-20 2xl:ml-[130px]" : "mt-[18px] md:mt-0 lg:ml-[58px]"}`}
+      className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-5 xl:ml-20 2xl:ml-[130px]" : "mt-[18px] md:mt-0 lg:ml-[58px]"} ${className}`}
       ref={dropdownRef}
     >
       <div className="relative">
