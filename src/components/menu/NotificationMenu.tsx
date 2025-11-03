@@ -12,12 +12,11 @@ import { NotificationIcon } from "@/assets/icons";
 import { Button } from "../ui/button";
 import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api";
 import { useNotificationWebSocket, useNotifications } from "@/hooks";
 import { useLocale } from "next-intl";
-
+import { Link } from "@/i18n/navigation";
 export const NotificationMenu = () => {
   const locale = useLocale();
 

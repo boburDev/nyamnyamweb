@@ -21,7 +21,7 @@ interface Props {
   showText?: boolean;
 }
 
-export const AddToFavourites = ({ product, showText = false }: Props) => {
+export const AddToFavourites = ({ product, showText = false, className }: Props) => {
   const addToFavourites = useFavouriteStore((s) => s.addToFavourites);
   const items = useFavouriteStore((s) => s.items);
   const deleteFavourite = useFavouriteStore((s) => s.removeFromFavourites);
@@ -81,7 +81,7 @@ export const AddToFavourites = ({ product, showText = false }: Props) => {
     <button
       onClick={handleFavourite}
       className={`
-                backdrop-blur-sm bg-mainColor/30 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full
+                backdrop-blur-sm bg-mainColor/30 hover:!bg-mainColor/20 text-white w-[37px] h-[37px] flex items-center justify-center rounded-full ${className}
             
       `}
       // variant={variant}

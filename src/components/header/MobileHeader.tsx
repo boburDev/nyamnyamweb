@@ -9,12 +9,19 @@ import { LanguageMenuMobile } from "../menu/LanguageMenuMobile";
 export function MobileHeader({ isAuth }: { isAuth: boolean }) {
     const pathname = usePathname();
 
-    // Hide header on pages where the URL contains these segments (locale-safe)
     const segments = pathname.split("/").filter(Boolean);
-    const isHiddenPage = segments.includes("profile")
-        || segments.includes("notification")
-        || segments.includes("cart")
-        || segments.includes("order") || segments.includes("order-history")
+
+    const surpriseBagIndex = segments.indexOf("surprise-bag");
+    const isSurpriseBagDetail =
+        surpriseBagIndex !== -1 && segments.length > surpriseBagIndex + 1;
+
+    const isHiddenPage =
+        segments.includes("profile") ||
+        segments.includes("notification") ||
+        segments.includes("cart") ||
+        segments.includes("order") ||
+        segments.includes("order-history") ||
+        isSurpriseBagDetail; 
 
     if (isHiddenPage) return null;
 

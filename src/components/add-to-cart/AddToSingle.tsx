@@ -11,6 +11,7 @@ import { ProductData } from "@/types";
 import { useAuthStatus } from "@/hooks/auth-status";
 import { CartIcon } from "@/assets/icons";
 import { isProductInList } from "@/utils";
+import { cn } from "@/lib/utils";
 
 interface AddToCartProps {
   product: ProductData;
@@ -23,6 +24,7 @@ interface AddToCartProps {
 const AddToSingle: React.FC<AddToCartProps> = ({
   product,
   variant = "default",
+  className,
 }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const items = useCartStore((state) => state.items);
@@ -75,7 +77,7 @@ const AddToSingle: React.FC<AddToCartProps> = ({
   return (
     <Button
       onClick={handleAddToCart}
-      className="!px-[25px] !py-[10px]"
+      className={cn("h-10.5 w-[182px] xl:w-[220px] xl:h-11", className ?? "")}
       variant={variant}
     >
       <CartIcon />

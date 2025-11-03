@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import useCartStore from "@/context/cartStore";
 import useFavouriteStore from "@/context/favouriteStore";
 import { usePostCartAfterSignup } from "@/hooks/usePostCartAfterSignup";
 import { usePostFavouriteAfterSignup } from "@/hooks/usePostFavouriteAfterSignup";
 import { showSuccess } from "../toast/Toast";
+import { useRouter } from "@/i18n/navigation";
 
 export const AuthSyncAfterOAuth = () => {
   const router = useRouter();

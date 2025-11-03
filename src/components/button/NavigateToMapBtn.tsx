@@ -1,7 +1,7 @@
 "use client";
 import { Map } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { ProductData } from "@/types";
+import { useRouter } from "@/i18n/navigation";
 
 export const NavigateToMapBtn = ({ product }: { product: ProductData }) => {
     const router = useRouter();

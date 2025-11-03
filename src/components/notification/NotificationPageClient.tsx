@@ -3,7 +3,6 @@
 import { Container } from "@/components/container";
 import { Calendar, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { AppNotification } from "@/api/notification";
 import { DataLoader } from "@/components/loader";
@@ -11,6 +10,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useNotifications } from "@/hooks";
 import { useLocale } from "next-intl";
 import NotificationTabs from "../tabs/NotificationTabs";
+import { Link } from "@/i18n/navigation";
 
 export const NotificationPageClient = () => {
   const t = useTranslations("notification");
