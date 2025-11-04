@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "../card";
 import { ProductData } from "@/types";
+import SearchMenu from "../header/SearchMenu";
 
 const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
     ssr: false,
@@ -171,72 +172,42 @@ const MapMobile = () => {
     if (isLoading && !products.length)
         return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
 
-    // Calculate header height for map positioning
-    const headerHeight = mobileViewMode === "map" ? "calc(100vh - 240px)" : "auto";
-
     return (
         <div className="md:hidden">
             <Container className="flex flex-col relative">
+                <SearchMenu className="absolute z-31 top-0 left-0" />
                 {/* Header with Search - fixed at top */}
-                <div className=" pt-10 z-50 relative">
+                <div className="py-5 z-31 relative w-max">
 
                     {/* Mobile View Tabs (Map/Card) */}
-                    <div className="pb-4">
+                    <div className="w-max">
                         <Tabs
                             value={mobileViewMode}
                             onValueChange={setMobileViewMode}
                         >
-                            <TabsList className="bg-transparent flex gap-[15px] w-full justify-start p-0">
+                            <TabsList className="bg-transparent flex gap-[15px] w-max justify-start p-0">
                                 <TabsTrigger
                                     value="map"
-                                    className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
+                                    className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-4 py-3.5 shadow-none rounded-[20px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
                                 >
                                     Xarita
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="card"
-                                    className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
+                                    className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-4 py-3.5 shadow-none rounded-[20px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
                                 >
                                     Card
                                 </TabsTrigger>
                             </TabsList>
                         </Tabs>
                     </div>
-
-                    {/* Category Tabs */}
-                    {/* <div className="pb-4">
-                        <Tabs
-                            defaultValue={activeTab}
-                            value={activeTab}
-                            onValueChange={handleTabChange}
-                        >
-                            <TabsList className="bg-transparent flex gap-[15px] overflow-x-auto">
-                                <TabsTrigger
-                                    key="all"
-                                    value="all"
-                                    className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 py-2 rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-10 capitalize whitespace-nowrap"
-                                >
-                                    Hamma
-                                </TabsTrigger>
-                                {category?.map((cat: CategoryData) => (
-                                    <TabsTrigger
-                                        key={cat.id}
-                                        value={cat.slug}
-                                        className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-5 py-2 rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-10 capitalize whitespace-nowrap"
-                                    >
-                                        {cat.title}
-                                    </TabsTrigger>
-                                ))}
-                            </TabsList>
-                        </Tabs>
-                    </div> */}
                 </div>
 
                 {/* Main Content */}
                 <div className="flex-1 relative">
                     {/* Map View - only show when map tab is active */}
                     {mobileViewMode === "map" && (
-                        <div className="fixed inset-x-0 bottom-0 w-full z-30" style={{ top: '240px', height: headerHeight }}>
+                        <div className="fixed top-0 inset-x-0 bottom-0 w-full z-30">
                             <YandexMap
                                 products={products}
                                 hoveredId={hoveredId}
@@ -244,6 +215,7 @@ const MapMobile = () => {
                                 mapRef={mapRef}
                                 handlePlacemarkClick={handlePlacemarkClick}
                                 setHoveredId={setHoveredId}
+                                zoom
                             />
                             {/* <MapControls onRefresh={handleRefreshMap} /> */}
                         </div>

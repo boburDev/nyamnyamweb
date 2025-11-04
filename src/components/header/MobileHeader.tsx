@@ -21,6 +21,7 @@ export function MobileHeader({ isAuth }: { isAuth: boolean }) {
         segments.includes("cart") ||
         segments.includes("order") ||
         segments.includes("order-history") ||
+        segments.includes("map") ||
         isSurpriseBagDetail; 
 
     if (isHiddenPage) return null;

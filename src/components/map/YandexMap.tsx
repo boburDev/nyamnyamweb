@@ -20,6 +20,7 @@ interface YandexMapProps {
   handlePlacemarkClick: (id: string) => void;
   setActiveId?: (id: string | null) => void;
   setHoveredId?: (id: string | null) => void;
+  zoom?: boolean
 }
 
 const YandexMap = ({
@@ -29,6 +30,7 @@ const YandexMap = ({
   mapRef,
   handlePlacemarkClick,
   setHoveredId,
+  zoom
 }: YandexMapProps) => {
   const uzbekistanBounds: [[number, number], [number, number]] = [
     [37.0, 55.0],
@@ -90,9 +92,9 @@ const YandexMap = ({
             minZoom: 8,
           }}
         >
-          <ZoomControl
+          {!zoom && <ZoomControl
             options={{ position: { top: 10, right: 10 }, size: "small" }}
-          />
+          />}
           <GeolocationControl
             options={{
               position: { right: 10, top: 90 },
@@ -121,6 +123,7 @@ const YandexMap = ({
                 hintContent: "Sizning joylashuvingiz",
                 balloonContent: "Hozir bu yerdasiz",
               }}
+
             />
           )}
         </Map>
