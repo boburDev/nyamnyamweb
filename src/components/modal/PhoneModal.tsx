@@ -21,6 +21,7 @@ interface Props {
 
 export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
   const t = useTranslations("profile");
+  const tToast = useTranslations("toast");
   const router = useRouter();
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
@@ -56,9 +57,9 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
     onError: (error) => {
       if (error instanceof AxiosError) {
         const message = error.response?.data?.error_message;
-        showError(message || "Xatolik yuz berdi");
+        showError(message || tToast("error-unknown"));
       } else {
-        showError("Unexpected error");
+        showError(tToast("error-unexpected"));
       }
     },
   });

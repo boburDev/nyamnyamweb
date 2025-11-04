@@ -8,9 +8,11 @@ import { usePostCartAfterSignup } from "@/hooks/usePostCartAfterSignup";
 import { usePostFavouriteAfterSignup } from "@/hooks/usePostFavouriteAfterSignup";
 import { showSuccess } from "../toast/Toast";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export const AuthSyncAfterOAuth = () => {
   const router = useRouter();
+  const t = useTranslations("toast");
   const queryClient = useQueryClient();
 
   const {
@@ -52,7 +54,7 @@ export const AuthSyncAfterOAuth = () => {
           clearFavourites();
         }
 
-        showSuccess("Muvaffaqiyatli tizimga kirdingiz");
+        showSuccess(t("oauth-success"));
         queryClient.invalidateQueries({ queryKey: ["user"] });
         queryClient.invalidateQueries({ queryKey: ["cart"] });
         queryClient.invalidateQueries({ queryKey: ["favourites"] });

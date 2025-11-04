@@ -177,19 +177,23 @@
     "title": "Savat",
     "title-2": "Savatcha",
     "card-count": "ta qoldi",
+    "added": "savatga qo'shildi",
+    "go-to-cart": "Savatga o'tish",
+    "add-to-cart": "Savatga qo'shish",
+    "in-cart": "Savatda",
     "Payment-details": {
-      "title": "To’lov tafsiloti",
-      "delete": "O’chirish",
-      "payment-type": "To’lov turi",
+      "title": "To'lov tafsiloti",
+      "delete": "O'chirish",
+      "payment-type": "To'lov turi",
       "count": "Miqdor:",
       "total": "Jami:",
-      "button": "To’lovga o’tish"
+      "button": "To'lovga o'tish"
     },
     "deleteAll": "Haqiqatan ham barcha narsalarni savatingizdan olib tashlamoqchimisiz?",
     "empty": {
-      "title": "Savatda hozircha hech narsa yo‘q",
-      "desc": "Surprise baglarni tanlab, savatingizni to‘ldiring.",
-      "button": "Surprise baglarni ko’rish"
+      "title": "Savatda hozircha hech narsa yo'q",
+      "desc": "Surprise baglarni tanlab, savatingizni to'ldiring.",
+      "button": "Surprise baglarni ko'rish"
     }
   },
   "my-orders": {
@@ -403,5 +407,22 @@
   "verify-update": {
     "success-email": "Email muvaffaqiyatli yangilandi",
     "success-phone": "Telefon raqam muvaffaqiyatli yangilandi"
+  },
+  "toast": {
+    "code-resent": "Kod qayta yuborildi",
+    "login-success": "Muvaffaqiyatli kirdingiz",
+    "oauth-success": "Muvaffaqiyatli tizimga kirdingiz",
+    "order-created": "Buyurtma muvaffaqiyatli yaratildi",
+    "order-ready": "Buyurtma tayyor",
+    "max-quantity": "Maksimal miqdor {max} tadan oshmasligi kerak!",
+    "error-unknown": "Xatolik yuz berdi",
+    "error-unexpected": "Kutilmagan xatolik",
+    "error-unknown-error": "Noma'lum xatolik yuz berdi",
+    "loading": "Yuklanmoqda...",
+    "not-available": "Hozircha yo'q",
+    "validation": {
+      "email-required": "Email kiritilishi shart",
+      "email-invalid": "To'g'ri email kiriting"
+    }
   }
 }

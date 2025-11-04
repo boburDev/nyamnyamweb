@@ -7,13 +7,14 @@ import {
   useUpdateCart,
 } from "./useCart";
 import { useLocationStore } from "@/context/userStore";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { OrderPayload, ProductData } from "@/types";
 import { showSuccess, showWarning } from "@/components/toast/Toast";
 import { useCreateOrder } from "./userOrder";
 import { useRouter } from "@/i18n/navigation";
 
 export const useHelpCart = ({ auth }: { auth: boolean }) => {
+  const t = useTranslations("toast");
   // state store
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [payment, setPayment] = useState<string | null>(null);
@@ -83,7 +84,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
     const maxAllowed = Math.min(30, serverMax);
 
     if (quantity > maxAllowed) {
-      showWarning(`Maksimal miqdor ${maxAllowed} tadan oshmasligi kerak!`);
+      showWarning(t("max-quantity", { max: maxAllowed }));
       quantity = maxAllowed;
     }
 
@@ -126,7 +127,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
       { data: payload, locale },
       {
         onSuccess: () => {
-          showSuccess("Buyurtma muvaffaqiyatli yaratildi");
+          showSuccess(t("order-created"));
           router.push("/order");
         },
       }

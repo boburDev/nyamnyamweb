@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { ProfileForm, ProfileInfo } from "@/components/profile";
-import { showSuccess } from "@/components/toast/Toast";
+import { showError } from "@/components/toast/Toast";
 import { Container } from "@/components/container";
 import { DataLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
@@ -43,9 +43,9 @@ export function ProfilePageClient() {
       const err = error as Error & { status?: number };
       if (err.status === 401) {
         router.refresh();
-        showSuccess("error", err.message);
+        showError(err.message);
       } else {
-        showSuccess("error", err.message);
+        showError(err.message);
       }
     }
   }, [error, router]);

@@ -76,7 +76,7 @@ export const SurpriseSingleClient = ({
                   priority
                 />
                 <span className="absolute bottom-0 right-0 sm:top-5 sm:left-5 size-fit py-2 px-[14.5px] bg-white sm:bg-mainColor/50 rounded-tl-[15px] sm:rounded-[15px]! backdrop-blur-[45px] font-medium text-sm sm:text-white">
-                  {product?.count} ta qoldi
+                  {product?.count} {t("count")}
                 </span>
               </div>
               {/* Desktop desc */}
@@ -205,7 +205,7 @@ export const SurpriseSingleClient = ({
               product?.similar_data &&
               product?.similar_data?.length > 0 && (
                 <div>
-                  <h3 className="page-title mb-10">Boshqa super boxlar</h3>
+                  <h3 className="page-title mb-10">{t("other-boxes")}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {product?.similar_data?.map((item: ProductData) => (
                       <ProductCard key={item.id} product={item} />

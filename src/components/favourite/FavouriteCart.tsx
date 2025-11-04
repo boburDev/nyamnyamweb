@@ -47,7 +47,7 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
       ) : (
         <div className="bg-gray-50 py-2 fixed top-1/2 left-1/2 -translate-1/2 md:-translate-0 md:top-0 md:left-0 w-full md:relative">
           <div>
-            <div className="flex flex-col items-center justify-center mt-25 2xl:mt-[130px]">
+            <div className="flex flex-col items-center justify-center">
               <Heart className="size-15 sm:size-20 lg:size-[113px] text-dolphin/50" />
               <h2 className="text-[17px] text-center sm:text-2xl lg:text-[30px] font-semibold text-textColor mt-3 lg:mt-5">
                 {t("empty.title")}

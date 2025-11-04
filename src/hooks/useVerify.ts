@@ -2,10 +2,11 @@
 import { showError, showSuccess } from "@/components/toast/Toast";
 import { FORGOT_PASSWORD, SIGNUP } from "@/constants";
 import axios, { AxiosError } from "axios";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export const useVerify = (to: string, reset?: boolean) => {
+  const t = useTranslations("toast");
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(!reset ? 60 : 0);
   const isEmail = to?.includes("@");
@@ -39,7 +40,7 @@ export const useVerify = (to: string, reset?: boolean) => {
     try {
       await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload);
       setCode("");
-      showSuccess("Kod qayta yuborildi");
+      showSuccess(t("code-resent"));
       setTimer(60);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -58,7 +59,7 @@ export const useVerify = (to: string, reset?: boolean) => {
         },
       });
       setCode("");
-      showSuccess("Kod qayta yuborildi");
+      showSuccess(t("code-resent"));
       setTimer(60);
     } catch (error) {
       if (error instanceof AxiosError) {

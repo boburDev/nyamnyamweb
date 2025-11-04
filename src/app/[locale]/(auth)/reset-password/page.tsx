@@ -21,8 +21,9 @@ export default function ResetPasswordPage() {
   const confirm = useAuthStore((s) => s.confirm);
   const deleteConfirm = useAuthStore((s) => s.deleteConfirm);
   const { mutate: resetPassword, isPending } = useResetPassword(locale);
-  const t = useTranslations("forgot-password-step")
-  const tValidation = useTranslations("validation")
+  const t = useTranslations("forgot-password-step");
+  const tToast = useTranslations("toast");
+  const tValidation = useTranslations("validation");
 
   const form = useForm<ResetForm>({
     mode: "onTouched",
@@ -51,7 +52,7 @@ export default function ResetPasswordPage() {
       },
       onError: (error) => {
         const errorMessage =
-          error.response?.data?.error_message || "Noma'lum xatolik yuz berdi";
+          error.response?.data?.error_message || tToast("error-unknown-error");
         showError(errorMessage);
       },
     });

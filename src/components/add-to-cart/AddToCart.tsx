@@ -11,6 +11,7 @@ import { getCart } from "@/api";
 import { ProductData } from "@/types";
 import { useAuthStatus } from "@/hooks/auth-status";
 import { isProductInList } from "@/utils";
+import { useTranslations } from "next-intl";
 
 interface AddToCartProps {
   product: ProductData;
@@ -27,6 +28,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
   variant = "default",
   showText = false,
 }) => {
+  const t = useTranslations("cart");
   const addToCart = useCartStore((state) => state.addToCart);
   const items = useCartStore((state) => state.items);
 
@@ -52,10 +54,10 @@ const AddToCart: React.FC<AddToCartProps> = ({
           onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["cart"] });
             showToast({
-              title: `${product.title} savatga qo'shildi`,
+              title: `${product.title} ${t("added")}`,
               type: "success",
               href: "/cart",
-              hrefName: "Savatga o'tish",
+              hrefName: t("go-to-cart"),
             });
           },
         });
@@ -66,10 +68,10 @@ const AddToCart: React.FC<AddToCartProps> = ({
       } else {
         addToCart(product);
         showToast({
-          title: "Savatga qo'shildi",
+          title: t("added"),
           type: "success",
           href: "/cart",
-          hrefName: "Savatga o'tish",
+          hrefName: t("go-to-cart"),
         });
       }
     }
@@ -93,10 +95,9 @@ const AddToCart: React.FC<AddToCartProps> = ({
       className={`
         ${sizeClasses[size]}
         ${className}
-        ${
-          isAddedToCart
-            ? "bg-mainColor text-white hover:bg-mainColor/90"
-            : "bg-gray-100 !text-mainColor hover:bg-gray-200 hover:!text-white"
+        ${isAddedToCart
+          ? "bg-mainColor text-white hover:bg-mainColor/90"
+          : "bg-gray-100 !text-mainColor hover:bg-gray-200 hover:!text-white"
         }
         transition-colors duration-200
       `}
@@ -104,7 +105,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
     >
       <ShoppingCart className={iconSizes[size]} />
       {showText && (
-        <span className="ml-2">{isAddedToCart ? "Savatda" : "Savatga"}</span>
+        <span className="ml-2">{isAddedToCart ? t("in-cart") : t("add-to-cart")}</span>
       )}
     </Button>
   );

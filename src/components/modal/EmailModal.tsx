@@ -28,6 +28,7 @@ export const EmailModal = ({ open, toggleOpen, email }: Props) => {
   const router = useRouter();
   const setTo = useAuthStore((s) => s.setTo);
   const t = useTranslations("profile");
+  const tToast = useTranslations("toast.validation");
   const locale = useLocale();
   const { mutate: ChangeEmail, isPending } = useChangeEmail(locale);
 
@@ -101,10 +102,10 @@ export const EmailModal = ({ open, toggleOpen, email }: Props) => {
               id="email"
               type="email"
               {...register("email", {
-                required: "Email kiritilishi shart",
+                required: tToast("email-required"),
                 pattern: {
                   value: /\S+@\S+\.\S+/,
-                  message: "To‘g‘ri email kiriting",
+                  message: tToast("email-invalid"),
                 },
               })}
               className="text-textColor border-mounSnow cursor-pointer rounded-[12px] h-12 py-[11px] px-[15px]"

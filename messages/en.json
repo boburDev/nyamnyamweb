@@ -21,7 +21,6 @@
       "reduce food waste"
     ]
   },
-
   "Navbar": {
     "search": {
       "placeholder": "Search",
@@ -178,6 +177,10 @@
     "title": "Cart",
     "title-2": "Cart",
     "card-count": "items left",
+    "added": "added to cart",
+    "go-to-cart": "Go to cart",
+    "add-to-cart": "Add to cart",
+    "in-cart": "In cart",
     "Payment-details": {
       "title": "Payment details",
       "delete": "Delete",
@@ -322,7 +325,6 @@
     "reserved": "All rights reserved.",
     "footer-text": "You are receiving this email because you have joined the SaveMeal platform as a user or creator. This also indicates that you agree to our Terms of Use and Privacy Policy. If you no longer wish to receive emails from us, click the link below to unsubscribe."
   },
-
   "sign-up": {
     "title": "Sign Up",
     "label": "Phone number or Email",
@@ -331,7 +333,6 @@
     "or": "or",
     "already-sign": "Already have an account?",
     "sign-link": "Sign In",
-
     "enter-details": {
       "title": "Enter Your Details",
       "name": "First Name",
@@ -406,5 +407,22 @@
   "verify-update": {
     "success-email": "Email has been successfully updated",
     "success-phone": "Phone number has been successfully updated"
+  },
+  "toast": {
+    "code-resent": "Code resent",
+    "login-success": "Successfully logged in",
+    "oauth-success": "Successfully logged in",
+    "order-created": "Order created successfully",
+    "order-ready": "Order ready",
+    "max-quantity": "Maximum quantity must not exceed {max}!",
+    "error-unknown": "An error occurred",
+    "error-unexpected": "Unexpected error",
+    "error-unknown-error": "Unknown error occurred",
+    "loading": "Loading...",
+    "not-available": "Not available",
+    "validation": {
+      "email-required": "Email is required",
+      "email-invalid": "Enter a valid email"
+    }
   }
 }

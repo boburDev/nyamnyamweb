@@ -12,6 +12,7 @@ import { useAuthStatus } from "@/hooks/auth-status";
 import { CartIcon } from "@/assets/icons";
 import { isProductInList } from "@/utils";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface AddToCartProps {
   product: ProductData;
@@ -26,6 +27,7 @@ const AddToSingle: React.FC<AddToCartProps> = ({
   variant = "default",
   className,
 }) => {
+  const t = useTranslations("cart");
   const addToCart = useCartStore((state) => state.addToCart);
   const items = useCartStore((state) => state.items);
 
@@ -51,10 +53,10 @@ const AddToSingle: React.FC<AddToCartProps> = ({
           onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["cart"] });
             showToast({
-              title: `${product.title} savatga qo'shildi`,
+              title: `${product.title} ${t("added")}`,
               type: "success",
               href: "/cart",
-              hrefName: "Savatga o'tish",
+              hrefName: t("go-to-cart"),
             });
           },
         });
@@ -65,10 +67,10 @@ const AddToSingle: React.FC<AddToCartProps> = ({
       } else {
         addToCart(product);
         showToast({
-          title: "Savatga qo'shildi",
+          title: t("added"),
           type: "success",
           href: "/cart",
-          hrefName: "Savatga o'tish",
+          hrefName: t("go-to-cart"),
         });
       }
     }
@@ -81,7 +83,7 @@ const AddToSingle: React.FC<AddToCartProps> = ({
       variant={variant}
     >
       <CartIcon />
-      {isAddedToCart ? "Savatga o'tish" : "Savatga qo'shish"}
+      {isAddedToCart ? t("go-to-cart") : t("add-to-cart")}
     </Button>
   );
 };

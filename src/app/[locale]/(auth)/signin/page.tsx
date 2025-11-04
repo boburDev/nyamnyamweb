@@ -32,6 +32,7 @@ export default function SigninPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("sign-in");
+  const tToast = useTranslations("toast");
   const tValidation = useTranslations("validation");
   const queryClient = useQueryClient();
 
@@ -88,7 +89,7 @@ export default function SigninPage() {
           clearFavourites();
         }
 
-        showSuccess("Muvaffaqiyatli kirdingiz");
+        showSuccess(tToast("login-success"));
         queryClient.invalidateQueries({ queryKey: ["user"] });
         router.push("/");
         router.refresh();

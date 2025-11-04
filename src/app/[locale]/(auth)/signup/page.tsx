@@ -21,8 +21,9 @@ export default function SignUpPage() {
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
   const setAuthId = useAuthStore((s) => s.setAuthId);
-  const t = useTranslations("sign-up")
-  const tValidation = useTranslations("validation")
+  const t = useTranslations("sign-up");
+  const tToast = useTranslations("toast");
+  const tValidation = useTranslations("validation");
   const { mutate: registerMutate, isPending } = useRegister(locale);
 
   const form = useForm<SignupForm>({
@@ -50,7 +51,7 @@ export default function SignUpPage() {
             error.response?.data &&
             "error_message" in error.response.data
             ? (error.response.data.error_message as string)
-            : "Noma'lum xatolik yuz berdi";
+            : tToast("error-unknown-error");
         showError(errorMessage);
         if (errorMessage === "❌ 1 daqiqada faqat 1 OTP yuboriladi") {
           router.push("/verify");

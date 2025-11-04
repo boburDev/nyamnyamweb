@@ -6,6 +6,7 @@ import Image from "next/image";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatTimeRange } from "@/utils";
 import CheckoutRight from "./CheckoutRight";
+import { useTranslations } from "next-intl";
 
 async function fetchCheckout() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/checkout`, {
@@ -15,13 +16,14 @@ async function fetchCheckout() {
   return res.json();
 }
 const CheckoutClient = () => {
+  const t = useTranslations("toast");
   const { data, isLoading, error } = useQuery({
     queryKey: ["checkout"],
     queryFn: fetchCheckout,
   });
 
-  if (isLoading) return <div>Yuklanmoqda...</div>;
-  if (error || !data) return <div>Xatolik yoki checkout topilmadi</div>;
+  if (isLoading) return <div>{t("loading")}</div>;
+  if (error || !data) return <div>{t("error-unknown")}</div>;
 
   return (
     <div className="grid grid-cols-12 gap-[30px]">
@@ -47,7 +49,7 @@ const CheckoutClient = () => {
                     {item.name}
                   </p>
                   <span className="text-dolphin font-normal text-sm mb-[14px]">
-                    Hozircha yo'q
+                    {t("not-available")}
                   </span>
                   <span className="text-dolphin font-normal text-sm mb-4">
                     {item.restaurant}

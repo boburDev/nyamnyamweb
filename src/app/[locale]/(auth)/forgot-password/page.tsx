@@ -20,8 +20,9 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
   const locale = useLocale();
   const setTo = useAuthStore((s) => s.setTo);
-  const t = useTranslations("forgot-password-step")
-  const tValidation = useTranslations("validation")
+  const t = useTranslations("forgot-password-step");
+  const tToast = useTranslations("toast");
+  const tValidation = useTranslations("validation");
   const form = useForm<ForgotForm>({
     mode: "onTouched",
     resolver: zodResolver(forgotSchema(tValidation)),
@@ -47,7 +48,7 @@ export default function ForgotPasswordPage() {
             error.response?.data &&
             "error_message" in error.response.data
             ? (error.response.data.error_message as string)
-            : "Noma'lum xatolik yuz berdi";
+            : tToast("error-unknown-error");
         showError(errorMessage);
       },
     });
