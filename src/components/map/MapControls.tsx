@@ -1,10 +1,12 @@
 import { RefreshCw } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface MapControlsProps {
     onRefresh: () => void;
 }
 
 export const MapControls = ({ onRefresh }: MapControlsProps) => {
+    const t = useTranslations("map-preview");
     return (
         <div className="absolute top-4 left-4 lg:left-1/2 lg:-translate-x-1/2 z-20 space-y-3">
             {/* Refresh Map Button */}
@@ -14,7 +16,7 @@ export const MapControls = ({ onRefresh }: MapControlsProps) => {
                     className="px-4 py-2 text-white text-[13px] font-medium flex items-center gap-2 hover:bg-mainColor rounded-full transition-colors"
                 >
                     <RefreshCw size={16} />
-                    XARITANI YANGILASH
+                    {t("refresh-map-button")}
                 </button>
             </div>
         </div>

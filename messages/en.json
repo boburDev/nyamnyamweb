@@ -26,7 +26,10 @@
     "search": {
       "placeholder": "Search",
       "found": "Found products",
-      "popular": "Popular searches"
+      "popular": "Popular searches",
+      "view-all": "View all products",
+      "loading": "Loading...",
+      "not-found": "Nothing found"
     },
     "address-modal": {
       "title": "Address",
@@ -62,15 +65,30 @@
     "title": "Surprise Bags",
     "filter": "Sort Type",
     "refresh-map": "Refresh Map",
+    "refresh-map-button": "REFRESH MAP",
     "cards": {
       "count": "left",
       "time": "Pickup time:",
       "between": "between"
-    }
+    },
+    "view-tabs": {
+      "map": "Map",
+      "card": "Card"
+    },
+    "loading": "Loading products...",
+    "loading-address": "Loading address...",
+    "location": {
+      "hint": "Your location",
+      "balloon": "You are here now"
+    },
+    "view-on-map": "View on map",
+    "all": "All",
+    "sort-type": "Sort Type"
   },
   "cards": {
     "count": "items left",
-    "moreButton": "More Details"
+    "moreButton": "More Details",
+    "product-image": "Product image"
   },
   "cards-detail": {
     "count": "items left",
@@ -111,6 +129,10 @@
   },
   "saved-title": {
     "title": "Saved products",
+    "added": "Added to saved products",
+    "removed": "Product removed from saved",
+    "saved": "Saved",
+    "save": "Save",
     "empty": {
       "title": "There are no items in your favorites yet",
       "desc": "Select surprise bags and fill your favorites.",

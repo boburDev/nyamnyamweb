@@ -3,6 +3,7 @@ import Image from "next/image";
 import { DataLoader } from "../loader/DataLoader";
 import { formatPrice } from "@/utils/price-format";
 import { ProductData } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface SurpriseBagCardProps {
   product: ProductData;
@@ -23,8 +24,11 @@ export const SurpriseBagCard = ({
   onLeave,
   onClick,
 }: SurpriseBagCardProps) => {
+  const t = useTranslations("map-preview");
+  const t2 = useTranslations("cards-detail");
+  const t3 = useTranslations("cards");
 
-  if (isLoading) return <DataLoader message="Mahsulot yuklanmoqda..." />
+  if (isLoading) return <DataLoader message={t("loading")} />
 
   return (
     <div
@@ -45,7 +49,7 @@ export const SurpriseBagCard = ({
         <div className="relative w-[237px] h-[166px] flex-shrink-0">
           <Image
             src={product.cover_image ?? product.cover_image ?? '/productimg.png'}
-            alt={product.title ?? product.title ?? 'Mahsulot rasmi'}
+            alt={product.title ?? product.title ?? t3("product-image")}
             fill
             className="rounded-lg object-cover"
           />
@@ -75,9 +79,11 @@ export const SurpriseBagCard = ({
           </p>
 
           {/* Pickup Time */}
-          <p className="text-dolphin text-[13px] mt-5">
-            Olib ketish vaqti: 9:00-23:00 oraligida
-          </p>
+          {product.start_time && product.end_time && (
+            <p className="text-dolphin text-[13px] mt-5">
+              {t2("time")} {product.start_time.slice(0, 5)} - {product.end_time.slice(0, 5)} {t2("between")}
+            </p>
+          )}
 
           {/* Pricing */}
           <div className="flex items-center gap-2 mt-[36px]">

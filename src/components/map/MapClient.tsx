@@ -5,14 +5,12 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useRef, useState } from "react";
 import { DataLoader } from "../loader";
 import { Container } from "../container";
-import SelectComponent from "../select/Select";
-import { SelectItem } from "../ui/select";
 import { SurpriseBagCard } from "../surprise-bag/SurpriseBagCard";
 import { Pagination } from "../ui/pagination";
 import { MapControls } from "./MapControls";
 import { useGetCategory } from "@/hooks";
 import { useGetSupriseBag } from "@/hooks/suprise-bag";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { CategoryData, ProductData } from "@/types";
 import { useSearchParams } from "next/navigation";
@@ -23,6 +21,7 @@ const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
 
 const MapClient = () => {
   const locale = useLocale()
+  const t = useTranslations("map-preview");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("all");
@@ -174,13 +173,13 @@ const MapClient = () => {
 
   // Show loading only for initial load, not for category changes
   if (isLoading && !products.length)
-    return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
+    return <DataLoader message={t("loading")} />;
   return (
     <Container className="flex flex-col">
       {/* Header */}
       <div className="flex-shrink-0 pt-[50px] 3xl:pt-[73px] 3xl:pb-6">
         <h1 className="font-medium pb-5 3xl:pb-10 text-4xl text-textColor">
-          Suprise baglar
+          {t("title")}
         </h1>
 
         {/* Category Tabs */}
@@ -196,7 +195,7 @@ const MapClient = () => {
                 value="all"
                 className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[25px] py-[10.5px] rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize"
               >
-                Hamma
+                {t("all")}
               </TabsTrigger>
               {category?.map((cat: CategoryData) => (
                 <TabsTrigger
@@ -209,11 +208,11 @@ const MapClient = () => {
               ))}
             </TabsList>
           </Tabs>
-          <div className="flex items-center gap-4">
-            <SelectComponent value="Saralash turi">
-              <SelectItem value="Saralash turi">Saralash turi</SelectItem>
+          {/* <div className="flex items-center gap-4">
+            <SelectComponent value={t("sort-type")}>
+              <SelectItem value={t("sort-type")}>{t("sort-type")}</SelectItem>
             </SelectComponent>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -246,7 +245,7 @@ const MapClient = () => {
                 value="all"
                 className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold  rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-[42px] px-5 capitalize"
               >
-                Hamma
+                {t("all")}
               </TabsTrigger>
               {category?.map((cat: CategoryData) => (
                 <TabsTrigger
@@ -259,11 +258,11 @@ const MapClient = () => {
               ))}
             </TabsList>
           </Tabs>
-          <div className="flex gap-4 ">
-            <SelectComponent value="Saralash turi">
-              <SelectItem value="Saralash turi">Saralash turi</SelectItem>
+          {/* <div className="flex gap-4 ">
+            <SelectComponent value={t("sort-type")}>
+              <SelectItem value={t("sort-type")}>{t("sort-type")}</SelectItem>
             </SelectComponent>
-          </div>
+          </div> */}
         </div>
 
         <div className="order-2 lg:order-1" style={{ scrollbarWidth: "none" }}>

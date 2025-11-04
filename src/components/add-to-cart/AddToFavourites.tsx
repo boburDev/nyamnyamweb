@@ -12,6 +12,7 @@ import {
 import { useAuthStatus } from "@/hooks/auth-status";
 import { ProductData } from "@/types";
 import { isProductInList } from "@/utils";
+import { useTranslations } from "next-intl";
 
 interface Props {
   product: ProductData;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const AddToFavourites = ({ product, showText = false, className }: Props) => {
+  const t = useTranslations("saved-title");
   const addToFavourites = useFavouriteStore((s) => s.addToFavourites);
   const items = useFavouriteStore((s) => s.items);
   const deleteFavourite = useFavouriteStore((s) => s.removeFromFavourites);
@@ -40,7 +42,7 @@ export const AddToFavourites = ({ product, showText = false, className }: Props)
           id: product.id,
         });
         showToast({
-          title: "Mahsulot saqlanganlardan olib tashlandi",
+          title: t("removed"),
           type: "info",
         });
       } else {
@@ -49,10 +51,10 @@ export const AddToFavourites = ({ product, showText = false, className }: Props)
           {
             onSuccess: () => {
               showToast({
-                title: "Saqlangan mahsulotlarga qo'shildi",
+                title: t("added"),
                 type: "success",
                 href: "/favourites",
-                hrefName: "Saqlangan mahsulotlar",
+                hrefName: t("title"),
               });
             },
           }
@@ -62,16 +64,16 @@ export const AddToFavourites = ({ product, showText = false, className }: Props)
       if (isFavourite) {
         deleteFavourite(product.id);
         showToast({
-          title: "Mahsulot saqlanganlardan olib tashlandi",
+          title: t("removed"),
           type: "info",
         });
       } else {
         addToFavourites(product);
         showToast({
-          title: "Saqlangan mahsulotlarga qo'shildi",
+          title: t("added"),
           type: "success",
           href: "/favourites",
-          hrefName: "Saqlangan mahsulotlar",
+          hrefName: t("title"),
         });
       }
     }
@@ -90,7 +92,7 @@ export const AddToFavourites = ({ product, showText = false, className }: Props)
         className={`w-6 h-6 rounded-full ${isFavourite ? " fill-white" : ""} `}
       />
       {showText && (
-        <span className="ml-2">{isFavourite ? "Saqlangan" : "Saqlash"}</span>
+        <span className="ml-2">{isFavourite ? t("saved") : t("save")}</span>
       )}
     </button>
   );

@@ -8,6 +8,7 @@ import { AddToCart, AddToFavourites } from "../add-to-cart";
 import PriceFormatter from "../price-format/PriceFormatter";
 import { formatPrice } from "@/utils/price-format";
 import { ProductData } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface ProductCardProps {
   product: ProductData;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const router = useRouter();
+  const t = useTranslations("cards");
   return (
     <div className="relative">
       <div className="absolute z-7 top-0 left-0 w-full h-full block md:hidden rounded-[15px]"
@@ -27,7 +29,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="relative h-[165px] xl:h-[200px]">
           <Image
             src={product?.cover_image}
-            alt={product?.title ?? "Mahsulot rasmi"}
+            alt={product?.title ?? t("product-image")}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover rounded-[15px] xl:rounded-[20px]"
@@ -36,7 +38,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Stock Badge */}
           {product?.count && product?.count <= 5 && (
             <div className="absolute top-2.5 left-2.5 xl:top-3 xl:left-3 bg-mainColor/30 rounded-[10px] xl:rounded-full px-2.5 xl:px-[14px] py-[5px] xl:py-2 text-[10px] xl:text-sm font-medium text-white backdrop-blur-sm">
-              {product?.count} ta qoldi
+              {product?.count} {t("count")}
             </div>
           )}
 
@@ -104,7 +106,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }}
               >
                 <Button className="w-full h-10 px-3 3xl:px-5 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">
-                  Batafsil
+                  {t("moreButton")}
                 </Button>
               </Link>
             </div>

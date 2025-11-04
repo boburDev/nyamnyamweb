@@ -7,7 +7,7 @@ import { DataLoader } from "../loader";
 import { Container } from "../container";
 import { Pagination } from "../ui/pagination";
 import { useGetSupriseBag } from "@/hooks/suprise-bag";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "../card";
@@ -20,6 +20,7 @@ const YandexMap = dynamic(() => import("@/components/map/YandexMap"), {
 
 const MapMobile = () => {
     const locale = useLocale();
+    const t = useTranslations("map-preview");
     const [hoveredId, setHoveredId] = useState<string | null>(null);
     const [activeId, setActiveId] = useState<string | null>(null);
     const [activeTab, _setActiveTab] = useState<string>("all");
@@ -170,10 +171,10 @@ const MapMobile = () => {
 
     // Show loading only for initial load, not for category changes
     if (isLoading && !products.length)
-        return <DataLoader message="Mahsulotlar yuklanmoqda..." />;
+        return <DataLoader message={t("loading")} />;
 
     return (
-        <div className="md:hidden">
+        <div>
             <Container className="flex flex-col relative">
                 <SearchMenu className="absolute z-31 top-0 left-0" />
                 {/* Header with Search - fixed at top */}
@@ -190,13 +191,13 @@ const MapMobile = () => {
                                     value="map"
                                     className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-4 py-3.5 shadow-none rounded-[20px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
                                 >
-                                    Xarita
+                                    {t("view-tabs.map")}
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="card"
                                     className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-4 py-3.5 shadow-none rounded-[20px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor h-12 capitalize flex-1"
                                 >
-                                    Card
+                                    {t("view-tabs.card")}
                                 </TabsTrigger>
                             </TabsList>
                         </Tabs>

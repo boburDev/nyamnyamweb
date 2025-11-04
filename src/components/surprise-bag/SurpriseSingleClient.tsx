@@ -16,6 +16,7 @@ import { ProductData } from "@/types";
 import { DataLoader } from "../loader";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
 
 export const SurpriseSingleClient = ({
   id,
@@ -25,6 +26,7 @@ export const SurpriseSingleClient = ({
   locale: string;
 }) => {
   const router = useRouter();
+  const t = useTranslations("cards-detail");
   const coords = useLocationStore((s) => s.coords);
   const [client, setClient] = useState(false);
   const { data: product, isLoading } = useQuery({
@@ -118,12 +120,12 @@ export const SurpriseSingleClient = ({
                       className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5"
                     >
                       <Map className="w-5 h-5 text-mainColor" />
-                      Xaritada ko’rish
+                      {t("map")}
                     </Link>
                   </div>
                 </div>
                 <div className="flex mb-3 xl:mb-5">
-                  <p className="text-mainColor">Olib ketish vaqti:</p>
+                  <p className="text-mainColor">{t("time")}</p>
                   <span className="ml-1 text-textColor">{range}</span>
                 </div>
                 <div className="flex items-center justify-between">

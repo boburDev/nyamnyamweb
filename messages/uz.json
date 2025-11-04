@@ -21,12 +21,14 @@
       "isrofgarchilikni oldini olish"
     ]
   },
-
   "Navbar": {
     "search": {
       "placeholder": "Qidirish",
       "found": "Topilgan mahsulotlar",
-      "popular": "Ommabop qidiruvlar"
+      "popular": "Ommabop qidiruvlar",
+      "view-all": "Hamma mahsulotlarni ko'rish",
+      "loading": "Yuklanmoqda...",
+      "not-found": "Hech narsa topilmadi"
     },
     "address-modal": {
       "title": "Manzil",
@@ -62,15 +64,30 @@
     "title": "Suprise baglar",
     "filter": "Saralash turi",
     "refresh-map": "Xaritani yangilash",
+    "refresh-map-button": "XARITANI YANGILASH",
     "cards": {
       "count": "ta qoldi",
       "time": "Olib ketish vaqti:",
-      "between": "oralig’ida"
-    }
+      "between": "oralig'ida"
+    },
+    "view-tabs": {
+      "map": "Xarita",
+      "card": "Karta"
+    },
+    "loading": "Mahsulotlar yuklanmoqda...",
+    "loading-address": "Manzil yuklanmoqda...",
+    "location": {
+      "hint": "Sizning joylashuvingiz",
+      "balloon": "Hozir bu yerdasiz"
+    },
+    "view-on-map": "Xaritada ko'rish",
+    "all": "Hamma",
+    "sort-type": "Saralash turi"
   },
   "cards": {
     "count": "ta qoldi",
-    "moreButton": "Batafsil"
+    "moreButton": "Batafsil",
+    "product-image": "Mahsulot rasmi"
   },
   "cards-detail": {
     "count": "ta qoldi",
@@ -111,10 +128,14 @@
   },
   "saved-title": {
     "title": "Saqlangan mahsulotlar",
+    "added": "Saqlangan mahsulotlarga qo'shildi",
+    "removed": "Mahsulot saqlanganlardan olib tashlandi",
+    "saved": "Saqlangan",
+    "save": "Saqlash",
     "empty": {
-      "title": "Sevimli mahsulotlarda hech narsa yo‘q",
-      "desc": "Surprise baglarni tanlab, savatingizni to‘ldiring.",
-      "button": "Surprise baglarni ko’rish"
+      "title": "Sevimli mahsulotlarda hech narsa yo'q",
+      "desc": "Surprise baglarni tanlab, savatingizni to'ldiring.",
+      "button": "Surprise baglarni ko'rish"
     }
   },
   "orders-history": {
@@ -300,7 +321,6 @@
     "reserved": "Barcha huquqlar himoyalangan.",
     "footer-text": "Siz SaveMeal platformasiga foydalanuvchi yoki ijodkor sifatida qo‘shilganingiz uchun ushbu xatni oldingiz. Bu shuningdek, siz bizning Foydalanish shartlari va Maxfiylik siyosatimizga rozi ekanligingizni bildiradi. Agar endi bizdan xat olishni istamasangiz, obunani bekor qilish uchun quyidagi havolani bosing."
   },
-
   "sign-up": {
     "title": "Ro'yxatdan o'tish",
     "label": "Telefon raqam yoki Email",
@@ -309,7 +329,6 @@
     "or": "yoki",
     "already-sign": "Hisobingiz bormi?",
     "sign-link": "Kirish",
-
     "enter-details": {
       "title": "Ma’lumotlaringizni kiriting",
       "name": "Ism",

@@ -14,7 +14,7 @@ type ProductDataMap = {
 };
 
 const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string }) => {
-  const t = useTranslations("Navbar.search")
+  const t = useTranslations("Navbar.search");
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -94,7 +94,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
         <div className="absolute top-full left-0 right-0 mt-2 bg-white shadow-lg rounded-[15px] border border-gray-100 z-50 overflow-y-auto max-h-[70vh]">
           <div className="p-4">
             {isLoading ? (
-              <p className="text-center text-dolphin">Yuklanmoqda...</p>
+              <p className="text-center text-dolphin">{t("loading")}</p>
             ) : allProducts.length > 0 ? (
               <>
                 <Link
@@ -107,14 +107,14 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
                       <Map className="w-5 h-5 text-mainColor" />
                     </div>
                     <h3 className="font-medium text-textColor">
-                      Hamma mahsulotlarni ko‘rish
+                      {t("view-all")}
                     </h3>
                   </div>
                   <ChevronRight className="w-5 h-5 text-mainColor" />
                 </Link>
 
                 <h3 className="text-xs font-medium text-dolphin my-4">
-                  Topilgan mahsulotlar
+                  {t("found")}
                 </h3>
                 <div className="space-y-2">
                   {allProducts.map((item, idx) => (
@@ -130,7 +130,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
                       {item.cover_image ? (
                         <Image
                           src={item.cover_image}
-                          alt={item.title || "Mahsulot rasmi"}
+                          alt={item.title || t("product-image")}
                           width={40}
                           height={40}
                           className="object-cover rounded-lg w-10 h-10"
@@ -151,7 +151,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
                 </div>
               </>
             ) : (
-              <p className="text-center text-dolphin">Hech narsa topilmadi</p>
+              <p className="text-center text-dolphin">{t("not-found")}</p>
             )}
           </div>
         </div>

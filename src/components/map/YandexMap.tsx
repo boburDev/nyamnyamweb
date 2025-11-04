@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import MemoizedPlacemark from "./YPlace";
 import { ProductData } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface YandexMapProps {
   products: ProductData[];
@@ -32,6 +33,7 @@ const YandexMap = ({
   setHoveredId,
   zoom
 }: YandexMapProps) => {
+  const t = useTranslations("map-preview.location");
   const uzbekistanBounds: [[number, number], [number, number]] = [
     [37.0, 55.0],
     [46.0, 73.0],
@@ -120,8 +122,8 @@ const YandexMap = ({
                 iconColor: "#1e88e5",
               }}
               properties={{
-                hintContent: "Sizning joylashuvingiz",
-                balloonContent: "Hozir bu yerdasiz",
+                hintContent: t("hint"),
+                balloonContent: t("balloon"),
               }}
 
             />
