@@ -7,13 +7,13 @@ import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
-import { getFooterData, getFooterLinks } from "@/data/footer-data";
+import { useFooterData, useFooterLinks } from "@/data/footer-data";
 
 export const Footer = () => {
   const t = useTranslations("Footer");
   const pathname = usePathname();
-  const links = getFooterLinks()
-  const footer = getFooterData()
+  const links = useFooterLinks()
+  const footer = useFooterData()
   let cleanPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "");
 
   if (cleanPath === "" || cleanPath === "/") cleanPath = "/";

@@ -4,7 +4,7 @@ import { InstagramIcon, TelegrammIcon, User, YouTubeIcon } from "@/assets/icons"
 import { ShoppingCart, House, Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-export const getFooterLinks = () => {
+export const useFooterLinks = () => {
   const t = useTranslations("Footer");
 
   return [
@@ -36,7 +36,7 @@ export const getFooterLinks = () => {
   ];
 };
 
-export const getFooterData = () => {
+export const useFooterData = () => {
   const t = useTranslations("Footer");
 
   return [
