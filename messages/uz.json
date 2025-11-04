@@ -47,13 +47,16 @@
     "logout": "Hisobdan chiqish"
   },
   "main": {
-    "title-1": "Tavsiya etilgan Super boxlar",
+    "title-1": "Mashhur surprise baglar",
     "title-2": "Super boxlar",
-    "title-3": "Taomlar",
-    "title-4": "Fast food",
-    "title-5": "Shirinliklar",
-    "title-6": "Dastur uchun qoldirilgan fikrlar",
-    "seeMore": "Ko’proq ko’rish"
+    "title-3": "Tushlik uchun surprise baglar",
+    "title-4": "Kechki surprise baglar",
+    "title-5": "Ertangi surprise baglar",
+    "title-6": "Tavsiya etilgan Super boxlar",
+    "title-7": "Yangi surprise baglar",
+    "title-8": "Ertalabki surprise baglar",
+    "seeMore": "Ko’proq ko’rish",
+    "seeMore-2": "Barchasi"
   },
   "map-preview": {
     "title": "Suprise baglar",
@@ -97,7 +100,14 @@
     "mobile-1": "Buyurtmalarim",
     "mobile-2": "Xaridlar tarixi",
     "mobile-3": "Til o’zgartirish",
-    "mobile-4": "Bildirishnomalar"
+    "mobile-4": "Bildirishnomalar",
+    "profile-logout": {
+      "title": "Profil",
+      "loginTitle": "Hisobingizga kiring",
+      "loginSubtitle": "Mazali ovqatlar va foydali takliflarni qo‘ldan boy bermang",
+      "businessButton": "Biznes uchun kirish",
+      "loginButton": "Kirish"
+    }
   },
   "saved-title": {
     "title": "Saqlangan mahsulotlar",

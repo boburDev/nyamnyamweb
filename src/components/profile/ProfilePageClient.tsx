@@ -23,6 +23,7 @@ import { LanguageMenuMobile } from "../menu";
 
 export function ProfilePageClient() {
   const t = useTranslations("profile");
+  const t2 = useTranslations("UserMenu");
   const [editMode, setEditMode] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -96,30 +97,28 @@ export function ProfilePageClient() {
             >
               <UserProfile className="2xs:size-[39px] 3xl:size-[56px]" />
             </Button>
-            <p className="flex 2xs:text-[18px] 3xl:text-2xl font-semibold text-textColor">
+            <p className="flex 2xs:text-[18px] 3xl:text-2xl font-semibold text-textColor max-w-[190px] 2xs:max-w-max">
               <span>{user.first_name}</span>
-              {user.last_name && <span className="ml-1">{user.last_name}</span>}
+              {user.last_name && <span className="ml-1 truncate">{user.last_name}</span>}
             </p>
           </div>
         </div>
 
-        <div className="mb-6 hidden md:block">
+        {/* <div className="mb-6 hidden md:block">
           {!editMode ? (
             <ProfileInfo t={t} user={user} setEditMode={setEditMode} />
           ) : (
             <ProfileForm t={t} user={user} setEditMode={setEditMode} />
           )}
-        </div>
+        </div> */}
 
-        {isOpen && (
-          <div className="mb-6">
-            {!editMode ? (
-              <ProfileInfo t={t} user={user} setEditMode={setEditMode} />
-            ) : (
-              <ProfileForm t={t} user={user} setEditMode={setEditMode} />
-            )}
-          </div>
-        )}
+        <div className={`mb-6 hidden ${isOpen && "!block"} md:block`}>
+          {!editMode ? (
+            <ProfileInfo t={t} t2={t2} user={user} setEditMode={setEditMode} />
+          ) : (
+            <ProfileForm t={t} user={user} setEditMode={setEditMode} />
+          )}
+        </div>
 
         {!isOpen && (
           <div className="md:hidden flex flex-col gap-5">

@@ -196,7 +196,7 @@ export const SurpriseSingleClient = ({
                 </div>
                 <div className="bg-plasterColor w-full h-[1.5px] my-5"></div>
                 <p className="text-dolphin text-sm xl:text-base">{product?.description}</p>
-                <AddToSingle product={product} className="w-full mt-[150px]" />
+                <AddToSingle product={product} className="w-full mt-[150px] mb-12.5" />
               </div>
             </div>
             {product &&

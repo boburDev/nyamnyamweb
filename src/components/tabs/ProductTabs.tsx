@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { useEffect, useMemo, useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { useGetCategory } from "@/hooks";
 import { useGetSupriseBag } from "@/hooks/suprise-bag";
@@ -17,6 +17,7 @@ import { useLocationStore } from "@/context/userStore";
 import { DataLoader } from "../loader";
 
 export const ProductTabs = () => {
+  const t = useTranslations("main")
   const locale = useLocale();
   const coords = useLocationStore((s) => s.coords);
   const [client, setClient] = useState(false);
@@ -80,7 +81,8 @@ export const ProductTabs = () => {
                       {product?.popular?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Mashhur surprise baglar"
+                            t={t}
+                            title={t("title-1")}
                             catalog={currentCatalog}
                             type="popular"
                             length={product?.popular?.length}
@@ -92,7 +94,8 @@ export const ProductTabs = () => {
                       {product?.recommended?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Tavsiya etilgan surprise baglar"
+                            t={t}
+                            title={t("title-6")}
                             catalog={currentCatalog}
                             type="recommended"
                             length={product?.recommended?.length}
@@ -105,7 +108,8 @@ export const ProductTabs = () => {
                       {product?.new?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Yangi surprise baglar"
+                            t={t}
+                            title={t("title-7")}
                             catalog={currentCatalog}
                             type="new"
                             length={product?.new?.length}
@@ -117,7 +121,8 @@ export const ProductTabs = () => {
                       {product?.morning?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Ertalabki surprise baglar"
+                            t={t}
+                            title={t("title-5")}
                             catalog={currentCatalog}
                             type="new"
                             length={product?.morning?.length}
@@ -129,7 +134,8 @@ export const ProductTabs = () => {
                       {product?.afternoon?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Tushlik uchun surprise baglar"
+                            t={t}
+                            title={t("title-3")}
                             catalog={currentCatalog}
                             type="new"
                             length={product?.afternoon?.length}
@@ -141,7 +147,8 @@ export const ProductTabs = () => {
                       {product?.evening?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title="Kechki surprise baglar"
+                            t={t}
+                            title={t("title-4")}
                             catalog={currentCatalog}
                             type="new"
                             length={product?.evening?.length}
@@ -153,7 +160,8 @@ export const ProductTabs = () => {
                       {product?.tomorrow?.length > 0 && (
                         <div>
                           <SurpriseHeader
-                            title=" Ertangi surprise baglar"
+                            t={t}
+                            title={t("title-5")}
                             catalog={currentCatalog}
                             type="tomorrow"
                             length={product?.tomorrow?.length}
