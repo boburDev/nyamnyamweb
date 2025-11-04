@@ -80,7 +80,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Price + Buttons */}
           <div className="flex xl:gap-[10px] justify-between items-center">
             {/* Price */}
-            <div className="flex md:flex-col xl:flex-row items-center xl:items-end gap-2.5 md:gap-0 xl:gap-2">
+            <div className="flex md:flex-col xl:flex-row items-center md:items-start xl:items-center gap-2.5 md:gap-0 xl:gap-2">
               <PriceFormatter
                 amount={product?.price_in_app}
                 className="text-base xl:text-[22px] text-mainColor font-semibold"

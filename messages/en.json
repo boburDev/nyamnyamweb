@@ -47,13 +47,16 @@
     "logout": "Log Out"
   },
   "main": {
-    "title-1": "Recommended Super Boxes",
-    "title-2": "Super Boxes",
-    "title-3": "Meals",
-    "title-4": "Fast Food",
-    "title-5": "Desserts",
-    "title-6": "App Feedback",
-    "seeMore": "See More"
+    "title-1": "Popular surprise bags",
+    "title-2": "Super boxes",
+    "title-3": "Lunch surprise bags",
+    "title-4": "Evening surprise bags",
+    "title-5": "Tomorrow's surprise bags",
+    "title-6": "Recommended surprise bags",
+    "title-7": "New surprise bags",
+    "title-8": "Morning surprise bags",
+    "seeMore": "See more",
+    "seeMore-2": "More"
   },
   "map-preview": {
     "title": "Surprise Bags",
@@ -97,7 +100,14 @@
     "mobile-1": "My Orders",
     "mobile-2": "Purchase History",
     "mobile-3": "Change Language",
-    "mobile-4": "Notifications"
+    "mobile-4": "Notifications",
+    "profile-logout": {
+      "title": "Profile",
+      "loginTitle": "Sign in to your account",
+      "loginSubtitle": "Don’t miss delicious meals and great deals",
+      "businessButton": "Business login",
+      "loginButton": "Sign in"
+    }
   },
   "saved-title": {
     "title": "Saved products",

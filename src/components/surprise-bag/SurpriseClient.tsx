@@ -8,12 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { CategoryData, ProductData } from "@/types";
 import { useGetCategory } from "@/hooks";
 import { ProductCard } from "../card";
+import { useTranslations } from "next-intl";
 interface Props {
   catalog?: string;
   type: string;
   locale: string;
 }
 const SurpriseClient = ({ catalog, type, locale }: Props) => {
+  const t = useTranslations("main")
   const [activeTab, setActiveTab] = useState<string>(catalog || "all");
   const { data: product } = useQuery({
     queryKey: ["surprise-bag", activeTab, type, locale],
@@ -31,7 +33,7 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
   return (
     <div className="pt-7.5 lg:pt-12 xl:pt-[122px]">
       <Container>
-        <h3 className="font-medium text-[22px] md:text-[28px] xl:text-[36px] text-textColor mb-5 sm:mb-6.5 xl:mb-10">Super boxlar</h3>
+        <h3 className="font-medium text-[22px] md:text-[28px] xl:text-[36px] text-textColor mb-5 sm:mb-6.5 xl:mb-10">{t("title-2")}</h3>
         {category?.length > 0 && (
           <Tabs
             defaultValue={activeTab}
