@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 interface NotificationTabsProps {
@@ -5,6 +6,7 @@ interface NotificationTabsProps {
 }
 
 const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
+  const t = useTranslations("notification.tabs")
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
 
   const handleTabChange = (tab: "all" | "unread" | "read") => {
@@ -19,7 +21,7 @@ const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "all" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
-        Hammasi
+        {t("tab-1")}
       </button>
 
       <button
@@ -27,7 +29,7 @@ const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "unread" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
-        O'qilmagan
+        {t("tab-2")}
       </button>
 
       <button
@@ -35,7 +37,7 @@ const NotificationTabs = ({ onTabChange }: NotificationTabsProps) => {
         className={`px-4 py-1.5 rounded-[10px] text-sm leading-6 border transition-all
             ${activeTab === "read" ? "bg-mainColor text-white border-mainColor" : "border-gray-300 text-tabsTextColor"}`}
       >
-        O'qilgan
+        {t("tab-3")}
       </button>
     </div>
   )

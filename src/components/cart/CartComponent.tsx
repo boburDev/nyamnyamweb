@@ -69,7 +69,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div>
                     <div className="hidden md:flex items-center justify-between mb-10">
                       <h1 className="text-4xl font-medium text-textColor">
-                        Savat
+                        {t("title")}
                       </h1>
                     </div>
 
@@ -91,7 +91,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
 
                               {item?.count && item?.count <= 5 && (
                                 <div className="absolute top-2 left-2 md:top-2.5 md:left-2.5 backdrop-blur-[3px] text-white bg-mainColor/30 text-[10px] md:text-[13px] px-2.5 py-[3px] rounded-full font-medium">
-                                  {item?.count} ta qoldi
+                                  {item?.count} {t("card-count")}
                                 </div>
                               )}
                             </div>
@@ -112,10 +112,10 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                               </div>
                               <div className="flex gap-[5px] xl:gap-2 items-center mt-4 md:mt-5 xl:mt-0">
                                 {!items?.overall_rating && (
-                                  <div className="flex gap-1 items-center">
+                                  <div className="flex gap-1">
                                     <span>
                                       <StarIcon
-                                        className="size-3.5 xl:size-5 text-accordionText fill-accordionText"
+                                        className="size-3.5 xl:size-5 mt-[1.5px] text-accordionText fill-accordionText"
                                       />
                                     </span>
                                     <span className="font-medium text-[13px] 2xl:text-lg text-textColor">
@@ -188,13 +188,13 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div className="bg-white rounded-[20px] xl:rounded-2xl shadow-sm p-[18px] xl:px-5 xl:py-[15px] sticky top-4 ">
                     <div className="flex items-center justify-between mb-[15px] 2xl:mb-5">
                       <h2 className="text-[20px] 2xl:text-[26px] font-medium text-textColor">
-                        To'lov tafsiloti
+                        {t("Payment-details.title")}
                       </h2>
                       <button
                         onClick={toggleConfirm}
                         className="text-dolphin 2xl:text-lg font-medium transition-colors"
                       >
-                        O'chirish
+                        {t("Payment-details.delete")}
                       </button>
                     </div>
 
@@ -218,7 +218,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     <Separator className="hidden xl:block mt-[30px] mb-[15px] bg-plasterColor" />
                     <div className="flex justify-between items-center mt-1 xl:mt-0">
                       <p className="font-medium 2xl:text-2xl text-mainColor">
-                        Jami:
+                        {t("Payment-details.total")}
                       </p>
                       <PriceFormatter
                         amount={totalPrice}
@@ -252,14 +252,14 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       onClick={handleCheckout}
                       className="w-full xl:h-12 text-white font-medium xl:text-xl rounded-[12px] xl:rounded-xl mt-5 xl:mt-20"
                     >
-                      {isPending ? <SubmitLoader /> : "To'lovga o'tish"}
+                      {isPending ? <SubmitLoader /> : t("Payment-details.button")}
                     </Button>
                   </div>
                 </div>
                 {/* Right Section mobile */}
                 <div className="md:hidden mt-7.5 pb-17">
                   <div className="relative">
-                    <p className="font-medium mb-3">To'lov turi</p>
+                    <p className="font-medium mb-3">{t("Payment-details.payment-type")}</p>
                     <div className="flex xl:justify-between gap-2 flex-wrap">
                       {!isDesktop && (paymentIcons.map(({ icon: Icon, name }, index) => (
                         <button
@@ -283,7 +283,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                   <div className="fixed bottom-0 z-99 left-0 w-full rounded-t-[20px] bg-white p-4">
                     <div className="flex justify-between items-center mt-1 xl:mt-0">
                       <p className="font-semibold text-lg">
-                        Jami:
+                        {t("Payment-details.total")}
                       </p>
                       <PriceFormatter
                         amount={totalPrice}
@@ -295,7 +295,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                       onClick={handleCheckout}
                       className="w-full h-12 text-white font-medium xl:text-xl rounded-[20px] mt-2.5"
                     >
-                      {isPending ? <SubmitLoader /> : "To'lovga o'tish"}
+                      {isPending ? <SubmitLoader /> : t("Payment-details.button")}
                     </Button>
                   </div>
                 </div>

@@ -3,14 +3,14 @@ import CartComponent from "@/components/cart/CartComponent";
 import Providers from "@/components/provider/Provider";
 import { getAuthStatus } from "@/lib/auth";
 import { getCartLatLon } from "@/api";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/header";
 
 export default async function CartPage() {
   const isAuth = await getAuthStatus();
   const queryClient = new QueryClient();
   const locale = await getLocale();
-
+  const t = await getTranslations("cart")
   if (isAuth) {
     await queryClient.prefetchQuery({
       queryKey: ["cart", null, null, locale],
@@ -33,7 +33,7 @@ export default async function CartPage() {
 
   return (
     <Providers dehydratedState={dehydrate(queryClient)}>
-      <PageHeader title="Savatcha" />
+      <PageHeader title={t("title-2")} />
       <CartComponent isAuth={isAuth} />
     </Providers>
   );

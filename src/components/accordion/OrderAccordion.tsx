@@ -62,7 +62,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
         >
           <AccordionTrigger className="px-[15px] py-[15px] md:!px-5 md:!py-5 xl:px-[30px] xl:!py-[24px] flex items-center hover:no-underline [&>svg]:size-6 xl:[&>svg]:size-8">
             <p className="flex flex-col font-semibold sm:text-lg">
-              Buyurtma №{item.order_number} ({item.order_items.length} ta)
+              {t("title")} №{item.order_number} ({item.order_items.length} {t("ta")})
               <span className="!font-normal text-xs md:text-base text-dolphin flex items-center gap-[6px]">
                 <CalendarDays className="size-3 md:size-4" />
                 {item.order_items[0]?.pickup_date}
@@ -139,7 +139,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                           <h4 className="font-semibold text-base 2xs:text-lg md:text-[20px] xl:text-[22px] text-mainColor">
                             {product.price?.toLocaleString()} so‘m
                           </h4>
-                          <p className="text-xs md:text-sm xl:text-[15px] line-through text-dolphin mt-1 md:mt-0 xl:mt-1">
+                          <p className="flex gap-1 text-xs md:text-sm xl:text-[15px] line-through text-dolphin mt-1 md:mt-0 xl:mt-1">
                             {product.original_price?.toLocaleString()} <span className="hidden xl:block">so‘m</span>
                           </p>
                         </div>

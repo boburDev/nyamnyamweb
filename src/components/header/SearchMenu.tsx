@@ -7,12 +7,14 @@ import { Link } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { surpriseSearch } from "@/api";
 import { ProductData } from "@/types";
+import { useTranslations } from "next-intl";
 
 type ProductDataMap = {
   [key: string]: ProductData[];
 };
 
 const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string }) => {
+  const t = useTranslations("Navbar.search")
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -73,7 +75,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
             if (search.length > 0) setIsOpen(true);
           }}
           className="border-none bg-white shadow-none h-12 rounded-[15px] placeholder:text-base placeholder:font-medium py-2 pl-10 pr-12 text-[15px] w-full text-textColor focus:outline-none"
-          placeholder="Qidirish..."
+          placeholder={`${t("placeholder")}...`}
         />
         {search && (
           <span

@@ -24,7 +24,7 @@
 
   "Navbar": {
     "search": {
-      "placeholder": "Restoran va boxlarni izlang",
+      "placeholder": "Qidirish",
       "found": "Topilgan mahsulotlar",
       "popular": "Ommabop qidiruvlar"
     },
@@ -93,10 +93,19 @@
     "send": "Yuborish",
     "phoneTitle": "Telefon raqamini o'zgartirish",
     "emailTitle": "Email o'zgartirish",
-    "updated": "Malumotlar muvaffaqiyatli yangilandi"
+    "updated": "Malumotlar muvaffaqiyatli yangilandi",
+    "mobile-1": "Buyurtmalarim",
+    "mobile-2": "Xaridlar tarixi",
+    "mobile-3": "Til o’zgartirish",
+    "mobile-4": "Bildirishnomalar"
   },
   "saved-title": {
-    "title": "Saqlangan mahsulotlar"
+    "title": "Saqlangan mahsulotlar",
+    "empty": {
+      "title": "Sevimli mahsulotlarda hech narsa yo‘q",
+      "desc": "Surprise baglarni tanlab, savatingizni to‘ldiring.",
+      "button": "Surprise baglarni ko’rish"
+    }
   },
   "orders-history": {
     "title": "Xaridlar  tarixi",
@@ -135,20 +144,28 @@
   },
   "cart": {
     "title": "Savat",
+    "title-2": "Savatcha",
     "card-count": "ta qoldi",
     "Payment-details": {
       "title": "To’lov tafsiloti",
       "delete": "O’chirish",
+      "payment-type": "To’lov turi",
       "count": "Miqdor:",
       "total": "Jami:",
       "button": "To’lovga o’tish"
     },
-    "deleteAll": "Haqiqatan ham barcha narsalarni savatingizdan olib tashlamoqchimisiz?"
+    "deleteAll": "Haqiqatan ham barcha narsalarni savatingizdan olib tashlamoqchimisiz?",
+    "empty": {
+      "title": "Savatda hozircha hech narsa yo‘q",
+      "desc": "Surprise baglarni tanlab, savatingizni to‘ldiring.",
+      "button": "Surprise baglarni ko’rish"
+    }
   },
   "my-orders": {
     "title": "Buyurtmalarim",
     "accordion-title": "Buyurtma soni:",
     "cards": {
+      "title": "Buyurtma",
       "order-time": "Olib ketish vaqti: ",
       "canceled-badge": "Bekor qilingan",
       "taken-away-badge": "Olib ketildi",
@@ -161,6 +178,11 @@
       "title": "QR code",
       "cancel-button": "Yopish",
       "share-button": "Ulashish"
+    },
+    "empty": {
+      "title": "Buyurtmalarda hozircha hech narsa yo‘q",
+      "desc": "Surprise baglarni tanlab, buyurtmalringizni to‘ldiring.",
+      "button": "Surprise baglarni ko’rish"
     }
   },
   "checkout": {
@@ -212,6 +234,11 @@
       "friday": "Juma",
       "saturday": "Shanba",
       "sunday": "Yakshanba"
+    },
+    "tabs": {
+      "tab-1": "Hammasi",
+      "tab-2": "O'qilmagan",
+      "tab-3": "O'qilgan"
     }
   },
   "Footer": {
@@ -233,6 +260,12 @@
     "social": {
       "title": "Ijtimoiy tarmoq",
       "button": "Biznes uchun kirish"
+    },
+    "mobile": {
+      "btn-1": "Bosh sahifa",
+      "btn-2": "Cart",
+      "btn-3": "Sevimlilar",
+      "btn-4": "Profil"
     }
   },
   "404": {

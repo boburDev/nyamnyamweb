@@ -24,7 +24,7 @@
 
   "Navbar": {
     "search": {
-      "placeholder": "Search for restaurants and boxes",
+      "placeholder": "Search",
       "found": "Found products",
       "popular": "Popular searches"
     },
@@ -93,10 +93,19 @@
     "send": "Send",
     "phoneTitle": "Edit phone",
     "emailTitle": "Edit email",
-    "updated": "Information updated successfully"
+    "updated": "Information updated successfully",
+    "mobile-1": "My Orders",
+    "mobile-2": "Purchase History",
+    "mobile-3": "Change Language",
+    "mobile-4": "Notifications"
   },
   "saved-title": {
-    "title": "Saved products"
+    "title": "Saved products",
+    "empty": {
+      "title": "There are no items in your favorites yet",
+      "desc": "Select surprise bags and fill your favorites.",
+      "button": "View surprise bags"
+    }
   },
   "orders-history": {
     "title": "Purchase history",
@@ -135,20 +144,28 @@
   },
   "cart": {
     "title": "Cart",
+    "title-2": "Cart",
     "card-count": "items left",
     "Payment-details": {
       "title": "Payment details",
       "delete": "Delete",
+      "payment-type": "Payment Type",
       "count": "Quantity:",
       "total": "Total:",
       "button": "Proceed to payment"
     },
-    "deleteAll": "Are you sure you want to remove all items from your cart?"
+    "deleteAll": "Are you sure you want to remove all items from your cart?",
+    "empty": {
+      "title": "There are no items in your cart yet",
+      "desc": "Select surprise bags and fill your cart.",
+      "button": "View surprise bags"
+    }
   },
   "my-orders": {
     "title": "My orders",
     "accordion-title": "Number of orders:",
     "cards": {
+      "title": "Order",
       "canceled-badge": "Canceled",
       "order-time": "Pickup time:",
       "taken-away-badge": "Picked up",
@@ -161,6 +178,11 @@
       "title": "QR code",
       "cancel-button": "Close",
       "share-button": "Share"
+    },
+    "empty": {
+      "title": "There are no orders yet",
+      "desc": "Select surprise bags and complete your orders.",
+      "button": "View surprise bags"
     }
   },
   "checkout": {
@@ -212,6 +234,11 @@
       "friday": "Friday",
       "saturday": "Saturday",
       "sunday": "Sunday"
+    },
+    "tabs": {
+      "tab-1": "All",
+      "tab-2": "Unread",
+      "tab-3": "Read"
     }
   },
   "Footer": {
@@ -233,6 +260,12 @@
     "social": {
       "title": "Social Network",
       "button": "Business Login"
+    },
+    "mobile": {
+      "btn-1": "Home",
+      "btn-2": "Cart",
+      "btn-3": "Favorites",
+      "btn-4": "Profile"
     }
   },
   "404": {

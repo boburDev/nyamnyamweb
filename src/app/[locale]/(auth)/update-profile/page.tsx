@@ -24,6 +24,7 @@ export default function UpdateProfilePage() {
   const locale = useLocale();
   const queryClient = useQueryClient();
   const t = useTranslations("verify-update");
+  const t2 = useTranslations("confirm-password");
   const {
     isEmail,
     setCode,
@@ -71,12 +72,15 @@ export default function UpdateProfilePage() {
         <button onClick={handleBack} className="mb-[10px]">
           <ArrowBackIcon />
         </button>
-        <h2 className="auth-title">Tasdiqlash kodi</h2>
+        <h2 className="auth-title">{t2("title")}</h2>
         <p className="text-dolphin text-sm mb-[5px]">
-          Biz {maskedTo} {isEmail ? "pochta manziliga" : "raqamiga SMS orqali"} 6 xonali kod yubordik.
+          {t2("desc-1")} {locale === "uz"
+            ? ` ${maskedTo} ${isEmail ? t2("email") : t2("number")} `
+            : ` ${isEmail ? t2("email") : t2("number")} ${maskedTo} `}
+          {t2("desc-2")}
         </p>
         <p className="text-dolphin text-sm">
-          Iltimos, tasdiqlash uchun kodni kiriting.
+          {t2("desc-3")}
         </p>
       </div>
 
@@ -120,7 +124,7 @@ export default function UpdateProfilePage() {
           className={`text-mainColor font-medium ${timer > 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
         >
-          Qayta yuborish
+          {t2("resell")}
         </button>
         <span className="text-textColor text-base font-medium">
           {minutes}:{seconds}
@@ -134,14 +138,14 @@ export default function UpdateProfilePage() {
           className="flex-1 !bg-hoverColor h-12 rounded-[12px] hover:!bg-white"
           onClick={handleBack}
         >
-          Bekor qilish
+          {t2("close-button")}
         </Button>
         <Button
           onClick={handleVerify}
           disabled={code.length < 6 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
-          {isPending ? <SubmitLoader /> : "Tasdiqlash"}
+          {isPending ? <SubmitLoader /> : t2("next-button")}
         </Button>
       </div>
     </div>

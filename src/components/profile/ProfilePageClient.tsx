@@ -127,7 +127,7 @@ export function ProfilePageClient() {
               <Link href={"/order"} className="flex items-center justify-between px-4 py-[14px]">
                 <div className="flex items-center gap-3">
                   <ShoppingBag className=" text-mainColor" />
-                  <h4 className="text-[18px] text-textColor">Buyurtmalarim</h4>
+                  <h4 className="text-[18px] text-textColor">{t("mobile-1")}</h4>
                 </div>
                 <ChevronRight className="text-dolphin" />
               </Link>
@@ -135,7 +135,7 @@ export function ProfilePageClient() {
               <Link href={"/order-history"} className="flex items-center justify-between px-4 py-[14px]">
                 <div className="flex items-center gap-3">
                   <History className=" text-mainColor" />
-                  <h4 className="text-[18px] text-textColor">Xaridlar tarixi</h4>
+                  <h4 className="text-[18px] text-textColor">{t("mobile-2")}</h4>
                 </div>
                 <ChevronRight className="text-dolphin" />
               </Link>
@@ -145,8 +145,8 @@ export function ProfilePageClient() {
               <div className="relative flex items-center justify-between px-4 py-[14px]">
                 <div className="flex items-center gap-3">
                   <Languages className=" text-mainColor" />
-                  <LanguageMenuMobile className="absolute right-0 top-0 w-full h-full opacity-0 md:hidden"/>
-                  <h4 className="text-[18px] text-textColor">Til o’zgartirish</h4>
+                  <LanguageMenuMobile className="absolute right-0 top-0 w-full h-full opacity-0 md:hidden" />
+                  <h4 className="text-[18px] text-textColor">{t("mobile-3")}</h4>
                 </div>
                 <ChevronRight className="text-dolphin" />
               </div>
@@ -154,7 +154,7 @@ export function ProfilePageClient() {
               <Link href={"/notification"} className="flex items-center justify-between px-4 py-[14px]">
                 <div className="flex items-center gap-3">
                   <Bell className=" text-mainColor" />
-                  <h4 className="text-[18px] text-textColor">Bildirishnomalar</h4>
+                  <h4 className="text-[18px] text-textColor">{t("mobile-4")}</h4>
                 </div>
                 <ChevronRight className="text-dolphin" />
               </Link>

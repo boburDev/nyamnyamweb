@@ -1,19 +1,19 @@
 "use client";
 
-import { links } from "@/data/footer-data";
 import { Container } from "../container";
 import { Button } from "../ui/button";
 import { LogoIcon } from "@/assets/icons";
 import { Link } from "@/i18n/navigation";
-import { FooterData } from "@/data/footer-data";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import { useTranslations } from "next-intl";
+import { getFooterData, getFooterLinks } from "@/data/footer-data";
 
 export const Footer = () => {
-  // const t = useTranslations();
-  const footer = FooterData();
+  const t = useTranslations("Footer");
   const pathname = usePathname();
-
+  const links = getFooterLinks()
+  const footer = getFooterData()
   let cleanPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "");
 
   if (cleanPath === "" || cleanPath === "/") cleanPath = "/";
@@ -25,11 +25,10 @@ export const Footer = () => {
           <div className="flex items-center justify-between">
             <div className="w-[325px] xl:w-[433px] gap-2.5 xl:gap-[21px] flex flex-col xl:-mt-10">
               <Link href={"/"} className="w-max">
-                <LogoIcon className="h-10 xl:h-auto"/>
+                <LogoIcon className="h-10 xl:h-auto" />
               </Link>
               <p className="text-xs xl:text-sm leading-[25px] text-white">
-                SaveMeal – bu oziq-ovqat isrofiga qarshi kurashuvchi platforma.
-                Yaroqlilik muddati yaqin mahsulotlarni arzon narxda toping.
+                {t("desc")}
               </p>
             </div>
             <div className="flex gap-10 xl:gap-30 2xl:gap-[150px]">
@@ -61,7 +60,7 @@ export const Footer = () => {
                       variant="secondary"
                       className="mt-5 xl:mt-[26px] font-medium text-[10px] xl:text-[12px] w-30 xl:w-[140px] !rounded-[10px] xl:!rounded-[12px]"
                     >
-                      Biznes uchun kirish
+                      {t("social.button")}
                     </Button>
                   )}
                 </div>
@@ -71,7 +70,7 @@ export const Footer = () => {
           <div className="flex flex-col items-center pt-5 xl:pt-[18px]">
             <div className="w-full h-[1px] bg-white/50 xl:bg-white"></div>
             <p className="text-xs xl:text-base text-white pt-[15px] xl:pt-[31px]">
-              2025 SaveMeal. Barcha huquqlar himoyalangan
+              {t("reserved")}
             </p>
           </div>
         </Container>

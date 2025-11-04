@@ -12,7 +12,6 @@ export default function OrderPage() {
   const locale = useLocale();
   const { data } = useGetOrder(locale);
   const t = useTranslations("UserMenu");
-  console.log(data);
 
   return (
     <Container>
@@ -20,7 +19,7 @@ export default function OrderPage() {
       <div className="sm:pt-6.5 2xl:pt-[150px] h-full">
         {data?.length > 0 ? (
           <>
-            <h1 className="hidden md:block font-medium text-[28px] xl:text-4xl mb-5 2xl:mb-4">Buyurtmalarim</h1>
+            <h1 className="hidden md:block font-medium text-[28px] xl:text-4xl mb-5 2xl:mb-4">{t("order")}</h1>
             <OrderAccordion open={open} setOpen={setOpen} orders={data} />
           </>
         ) : (

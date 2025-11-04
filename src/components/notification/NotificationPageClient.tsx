@@ -67,7 +67,7 @@ export const NotificationPageClient = () => {
         <div className="mt-[76px] pb-[150px]">
           <h2 className="font-medium text-4xl text-textColor">{t("title")}</h2>
           <div className="mt-10 text-center text-red-500">
-            Bildirishnomalar yuklanmadi
+            {t("noNotifications")}
           </div>
         </div>
       </Container>

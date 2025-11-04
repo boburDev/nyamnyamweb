@@ -1,6 +1,6 @@
 "use client";
 import { Container } from "@/components/container";
-import { EmptyOrderHistory } from "@/components/order";
+import { EmptyOrder } from "@/components/order";
 import { useGetOrderHistory } from "@/hooks";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
@@ -244,7 +244,7 @@ export function OrderHistoryClient() {
             ))}
           </div>
         ) : (
-          <EmptyOrderHistory />
+          <EmptyOrder />
         )}
       </div>
     </Container>
