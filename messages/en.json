@@ -86,7 +86,7 @@
   },
   "cards": {
     "count": "items left",
-    "moreButton": "More Details",
+    "moreButton": "Details",
     "product-image": "Product image"
   },
   "cards-detail": {

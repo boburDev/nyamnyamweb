@@ -62,7 +62,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
 
   return (
     <div
-      className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-5 xl:ml-20 2xl:ml-[130px]" : "mt-[18px] md:mt-0 lg:ml-[58px]"} ${className}`}
+      className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-3 xl:ml-20 2xl:ml-[130px]" : "mt-[18px] md:mt-0 lg:ml-[30px]"} ${className}`}
       ref={dropdownRef}
     >
       <div className="relative">

@@ -69,7 +69,9 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
           </Link>
 
           {/* Cart Button for non-authenticated users */}
-          <Button
+          {
+            auth ? (
+              <Button
             asChild
             className="w-[120px] h-12 px-3 font-medium text-sm relative"
           >
@@ -85,6 +87,11 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               )}
             </Link>
           </Button>
+            )
+            : (
+              null
+            )
+          }
 
           <Link href={"/signin"} className="flex">
             <Button className="w-[114px] h-12 px-5 font-medium text-sm">
