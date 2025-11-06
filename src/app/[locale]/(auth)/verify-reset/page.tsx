@@ -2,7 +2,6 @@
 
 import { AxiosError } from "axios";
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 
 import {
   InputOTP,
@@ -24,9 +23,7 @@ export default function VerifyPage() {
   const setConfirm = useAuthStore((s) => s.setConfirm);
   const router = useRouter();
   const locale = useLocale();
-  const params = useSearchParams();
-  const reset = params.get("reset");
-  const isReset = reset === "true";
+  // Always use reset=true for verify-reset page since it's specifically for password reset
   const {
     isEmail,
     setCode,
@@ -37,7 +34,7 @@ export default function VerifyPage() {
     seconds,
     maskedTo,
     onlyDigits,
-  } = useVerify(to as string, reset !== null ? isReset : undefined);
+  } = useVerify(to as string, true);
   const { mutate: verifyOtp, isPending } = useVerifyResetOtp(locale);
 
   const handleBack = () => {
@@ -45,7 +42,7 @@ export default function VerifyPage() {
   };
   if (!to) return null;
   const hanleVerify = () => {
-    const payload = isEmail ? { email: to, code } : { phone_number: to, code };
+    const payload = isEmail ? { email: to, code } : { phone: to, code };
 
     verifyOtp(payload, {
       onSuccess: (data) => {
@@ -81,16 +78,16 @@ export default function VerifyPage() {
       {/* otp */}
       <div className="mt-[30px]">
         <InputOTP
+          maxLength={4}
           value={code}
-          maxLength={6}
           onChange={(val) => setCode(val)}
           inputMode="numeric"
           pattern="[0-9]*"
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-6 w-full sm:flex">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
+          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-4 w-full sm:flex">
+            {[0, 1, 2, 3].map((i) => (
               <InputOTPSlot
                 key={i}
                 index={i}
@@ -134,7 +131,7 @@ export default function VerifyPage() {
         </Button>
         <Button
           onClick={hanleVerify}
-          disabled={code.length < 6 || isPending}
+          disabled={code.length < 4 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
           {isPending ? <SubmitLoader /> : t("next-button")}

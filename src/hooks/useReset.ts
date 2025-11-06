@@ -14,9 +14,11 @@ export const useForgotPassword = (locale: string) => {
   return useMutation<ForgotPasswordResponse, AxiosError, ForgotForm>({
     mutationFn: async (data: ForgotForm) => {
       const isEmail = data.emailOrPhone.includes("@");
+      // Remove spaces from phone number before processing
+      const cleanId = data.emailOrPhone.trim().replace(/\s/g, "");
       const payload = isEmail
-        ? { email: data.emailOrPhone }
-        : { phone_number: normalizePhone(data.emailOrPhone) };
+        ? { email: cleanId }
+        : { phone: normalizePhone(cleanId) };
 
       const res = await axios.post(FORGOT_PASSWORD, payload, {
         headers: {

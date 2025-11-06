@@ -79,6 +79,7 @@ export const AuthSyncAfterOAuth = () => {
     clearFavourites,
     queryClient,
     router,
+    t,
   ]);
 
   return null;

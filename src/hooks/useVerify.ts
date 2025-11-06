@@ -4,11 +4,13 @@ import { FORGOT_PASSWORD, SIGNUP } from "@/constants";
 import axios, { AxiosError } from "axios";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { normalizePhone } from "@/utils/sign";
 
 export const useVerify = (to: string, reset?: boolean) => {
   const t = useTranslations("toast");
   const [code, setCode] = useState("");
-  const [timer, setTimer] = useState(!reset ? 60 : 0);
+  // Timer should always start at 60 seconds for all cases
+  const [timer, setTimer] = useState(60);
   const isEmail = to?.includes("@");
   const locale = useLocale();
   const minutes = String(Math.floor(timer / 60)).padStart(2, "0");
@@ -38,9 +40,16 @@ export const useVerify = (to: string, reset?: boolean) => {
   const maskedTo = isEmail ? maskEmail(to) : maskPhone(to);
   const handleResend = async () => {
     if (timer > 0) return;
-    const payload = isEmail ? { email: to } : { phone: to };
+    // Normalize phone number by removing spaces and ensuring correct format
+    const cleanTo = isEmail ? to : to.trim().replace(/\s/g, "");
+    const normalizedTo = isEmail ? cleanTo : normalizePhone(cleanTo);
+    const payload = isEmail ? { email: normalizedTo } : { phone: normalizedTo };
     try {
-      await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload);
+      await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload, {
+        headers: {
+          "Accept-Language": locale,
+        },
+      });
       setCode("");
       showSuccess(t("code-resent"));
       setTimer(60);
@@ -53,7 +62,10 @@ export const useVerify = (to: string, reset?: boolean) => {
   };
   const updateResend = async () => {
     if (timer > 0) return;
-    const payload = isEmail ? { email: to } : { phone: to };
+    // Normalize phone number by removing spaces and ensuring correct format
+    const cleanTo = isEmail ? to : to.trim().replace(/\s/g, "");
+    const normalizedTo = isEmail ? cleanTo : normalizePhone(cleanTo);
+    const payload = isEmail ? { email: normalizedTo } : { phone: normalizedTo };
     try {
       await axios.patch(`/api/email-phone`, payload, {
         headers: {
