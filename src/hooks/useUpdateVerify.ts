@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query"
 
 interface VerifyOtpPayload {
   email?: string;
-  phone_number?: string;
+  phone?: string;
   code: string;
 }
 

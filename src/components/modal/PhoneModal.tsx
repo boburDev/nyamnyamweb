@@ -39,7 +39,7 @@ export const PhoneModal = ({ open, toggleOpen, phone }: Props) => {
       const normalized = phone.replace(/\s+/g, "");
       return axios.patch(
         "/api/email-phone",
-        { phone_number: normalized },
+        { phone: normalized },
         {
           headers: {
             "Accept-Language": locale,

@@ -23,9 +23,11 @@ export async function POST(req: Request) {
     );
   }
 
-  const identifier = id.includes("@")
-    ? { email: id }
-    : { phone_number: normalizePhone(id) };
+  // Remove spaces from phone number before processing
+  const cleanId = id.replace(/\s/g, "");
+  const identifier = cleanId.includes("@")
+    ? { email: cleanId }
+    : { phone: normalizePhone(cleanId) };
 
   const payload = {
     ...identifier,

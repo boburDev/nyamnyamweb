@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
-  let body: { email?: string; phone_number?: string; code: string };
+  let body: { email?: string; phone?: string; code: string };
 
   try {
     body = await req.json();
@@ -14,9 +14,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  if ((!body.email && !body.phone_number) || !body.code) {
+  if ((!body.email && !body.phone) || !body.code) {
     return NextResponse.json(
-      { error: "email/phone_number va code majburiy" },
+      { error: "email/phone va code majburiy" },
       { status: 400 }
     );
   }

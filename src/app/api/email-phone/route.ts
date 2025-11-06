@@ -13,6 +13,12 @@ export async function PATCH(req: Request) {
     );
   }
   const body = await req.json();
+
+  // Convert 'phone' to 'phone_number' for update_me endpoint
+  const payload = body.phone
+    ? { phone_number: body.phone }
+    : body;
+
   const response = await fetch(
     `${DOMAIN}${UPDATE_ME}`,
     {
@@ -21,7 +27,7 @@ export async function PATCH(req: Request) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     }
   );
 

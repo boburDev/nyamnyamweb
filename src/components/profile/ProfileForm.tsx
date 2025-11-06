@@ -160,7 +160,7 @@ export const ProfileForm = ({ t, user, setEditMode }: Props) => {
         <PhoneModal
           open={openPhone}
           toggleOpen={() => setOpenPhone(!openPhone)}
-          phone={user?.phone || "+998 __ ___ ____"}
+          phone={user?.phone_number || "+998 __ ___ ____"}
         />
       )}
     </div>

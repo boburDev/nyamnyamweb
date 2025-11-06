@@ -45,7 +45,7 @@ export default function UpdateProfilePage() {
   if (!to) return null;
 
   const handleVerify = () => {
-    const payload = isEmail ? { email: to, code } : { phone_number: to, code };
+    const payload = isEmail ? { email: to, code } : { phone: to, code };
 
     updateVerify(payload, {
       onSuccess: () => {
@@ -87,7 +87,7 @@ export default function UpdateProfilePage() {
       {/* otp */}
       <div className="mt-[30px]">
         <InputOTP
-          maxLength={6}
+          maxLength={4}
           value={code}
           onChange={(val) => setCode(val)}
           inputMode="numeric"
@@ -95,8 +95,8 @@ export default function UpdateProfilePage() {
           onKeyDown={onlyDigits}
           onPaste={onlyDigits}
         >
-          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-6 w-full sm:flex">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
+          <InputOTPGroup className="gap-2 md:gap-[15px] grid grid-cols-4 w-full sm:flex">
+            {[0, 1, 2, 3].map((i) => (
               <InputOTPSlot
                 key={i}
                 index={i}
@@ -142,7 +142,7 @@ export default function UpdateProfilePage() {
         </Button>
         <Button
           onClick={handleVerify}
-          disabled={code.length < 6 || isPending}
+          disabled={code.length < 4 || isPending}
           className="flex-1 h-12 rounded-[12px]"
         >
           {isPending ? <SubmitLoader /> : t2("next-button")}

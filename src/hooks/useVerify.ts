@@ -20,7 +20,9 @@ export const useVerify = (to: string, reset?: boolean) => {
     return () => clearInterval(id);
   }, [timer]);
   const maskPhone = (phone: string) => {
-    const match = phone?.match(/^\+998(\d{2})(\d{3})(\d{2})(\d{2})$/);
+    // Remove spaces before matching
+    const cleanPhone = phone?.trim().replace(/\s/g, "") || "";
+    const match = cleanPhone.match(/^\+998(\d{2})(\d{3})(\d{2})(\d{2})$/);
     if (!match) return phone;
 
     const [, code, _mid, _p1, p2] = match;
@@ -36,7 +38,7 @@ export const useVerify = (to: string, reset?: boolean) => {
   const maskedTo = isEmail ? maskEmail(to) : maskPhone(to);
   const handleResend = async () => {
     if (timer > 0) return;
-    const payload = isEmail ? { email: to } : { phone_number: to };
+    const payload = isEmail ? { email: to } : { phone: to };
     try {
       await axios.post(reset ? FORGOT_PASSWORD : SIGNUP, payload);
       setCode("");
@@ -51,7 +53,7 @@ export const useVerify = (to: string, reset?: boolean) => {
   };
   const updateResend = async () => {
     if (timer > 0) return;
-    const payload = isEmail ? { email: to } : { phone_number: to };
+    const payload = isEmail ? { email: to } : { phone: to };
     try {
       await axios.patch(`/api/email-phone`, payload, {
         headers: {
