@@ -9,8 +9,24 @@ import "slick-carousel/slick/slick-theme.css";
 import { Banner } from "@/types";
 import { BannerSkeleton } from "../loader/DataLoader";
 import { Link } from "@/i18n/navigation";
+import { useEffect, useState } from "react";
 
 export const BannerSwiper = () => {
+  const [centerPadding, setCenterPadding] = useState("60px");
+  useEffect(() => {
+    const updatePadding = () => {
+      if (window.innerWidth >= 1280) {
+        setCenterPadding("200px");
+      } else {
+        setCenterPadding("60px");
+      }
+    };
+
+    updatePadding();
+    window.addEventListener("resize", updatePadding);
+    return () => window.removeEventListener("resize", updatePadding);
+  }, []);
+
   const {
     data: banners,
     isLoading,
@@ -41,7 +57,7 @@ export const BannerSwiper = () => {
   const settings = {
     infinite: !isSingle,
     centerMode: !isSingle,
-    centerPadding: isSingle ? "0px" : "200px",
+    centerPadding: isSingle ? "0px" : centerPadding,
     slidesToShow: 1,
     autoplay: !isSingle,
     autoplaySpeed: 3000,
@@ -59,12 +75,12 @@ export const BannerSwiper = () => {
   };
 
   return (
-    <div className="relative w-full mt-6 sm:mt-8 3xl:mt-10 max-w-[1920px] mx-auto">
+    <div className="relative  w-full mt-6 sm:mt-8 3xl:mt-10 max-w-[1920px] mx-auto">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">
-            <div className="relative w-full cursor-pointer">
-              <Link href={banner.url} target="_blank" className="block md:h-[500px]! 3xl:h-[746px]! w-full max-w-[1220px]! max-h-[746px]!">
+            <div className="relative h-full w-full cursor-pointer">
+              <Link href={banner.url} target="_blank" className="block h-[200px] md:h-[500px]! 3xl:h-[746px]! w-full max-w-[1220px]! max-h-[746px]!">
                 <Image
                   priority
                   src={banner.cover_image}

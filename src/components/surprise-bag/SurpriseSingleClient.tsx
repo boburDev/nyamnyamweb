@@ -1,7 +1,15 @@
 "use client";
 import Image from "next/image";
 import { Container } from "../container";
-import { ArrowLeft, Clock, Map, MapPin, StarIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  ExternalLink,
+  Map,
+  MapPin,
+  StarIcon,
+  X,
+} from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { formatPrice } from "@/utils/price-format";
 import { PriceFormatter } from "../price-format";
@@ -28,6 +36,9 @@ export const SurpriseSingleClient = ({
   const t = useTranslations("cards-detail");
   const coords = useLocationStore((s) => s.coords);
   const [client, setClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showMapOptions, setShowMapOptions] = useState(false);
+  const [mapCoords, setMapCoords] = useState<{ lat: number; lon: number } | null>(null);
   const { data: product, isLoading } = useQuery({
     queryKey: [
       "surprise-bag",
@@ -56,12 +67,26 @@ export const SurpriseSingleClient = ({
     setClient(true);
   }, []);
 
-  const handleOpenYandexMap = (lat: number, lon: number) => {
+  useEffect(() => {
+    if (!client) return;
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [client]);
+
+  const handleOpenMap = (lat: number, lon: number) => {
+    if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+    if (isMobile) {
+      setMapCoords({ lat, lon });
+      setShowMapOptions(true);
+      return;
+    }
     const url = `https://yandex.uz/maps/?from=api-maps&mode=routes&rtext=~${lat}%2C${lon}&rtt=auto&z=15`;
     window.open(url, "_blank");
   };
-  
-  console.log(product);
 
   if (!client) return <DataLoader />;
   const range = formatTimeRangeInTz(product?.start_time, product?.end_time);
@@ -122,10 +147,10 @@ export const SurpriseSingleClient = ({
                     </span>
                   </div>
                   <button
-                  onClick={() => handleOpenYandexMap(Number(product?.lat), Number(product?.long))}
-                  className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5">
-                      <Map className="w-5 h-5 text-mainColor" />
-                      {t("map")}
+                    onClick={() => handleOpenMap(Number(product?.lat), Number(product?.long))}
+                    className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5">
+                    <Map className="w-5 h-5 text-mainColor" />
+                    {t("map")}
                   </button>
                 </div>
                 <div className="flex mb-3 xl:mb-5">
@@ -186,12 +211,10 @@ export const SurpriseSingleClient = ({
                 </div>
                 <div className="mt-[15px] flex justify-between items-center">
                   <button
-                  onClick={() => handleOpenYandexMap(Number(product?.lat), Number(product?.long))}
-                  className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5">
+                    onClick={() => handleOpenMap(Number(product?.lat), Number(product?.long))}
+                    className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center">
                     <MapPin size={16} />
                     <p className=" text-textColor">{product?.branch_name}</p>
-                    {/* <Link href={`/surprise-bag/${product?.id}/map`}>
-                    </Link> */}
                     <Map size={16} className="text-mainColor ml-2" />
                   </button>
                   <div className="flex items-center gap-1">
@@ -222,6 +245,75 @@ export const SurpriseSingleClient = ({
           </>
         )}
       </Container>
+      {isMobile && showMapOptions && mapCoords ? (
+        <div className="fixed inset-0 z-50 sm:hidden">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setShowMapOptions(false)}
+            aria-hidden="true"
+          />
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-base font-semibold text-textColor">{t("map")}</p>
+              <button
+                onClick={() => setShowMapOptions(false)}
+                aria-label="Close map options"
+                className="text-dolphin"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button
+                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
+                onClick={() => {
+                  window.open(
+                    `https://yandex.uz/maps/?from=api-maps&mode=routes&rtext=~${mapCoords.lat}%2C${mapCoords.lon}&rtt=auto&z=15`,
+                    "_blank"
+                  );
+                  setShowMapOptions(false);
+                }}
+              >
+                <span className="font-medium text-textColor">Yandex Maps</span>
+                <ExternalLink className="size-4 text-dolphin" />
+              </button>
+              <button
+                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
+                onClick={() => {
+                  window.open(
+                    `https://www.google.com/maps/dir/?api=1&destination=${mapCoords.lat},${mapCoords.lon}`,
+                    "_blank"
+                  );
+                  setShowMapOptions(false);
+                }}
+              >
+                <span className="font-medium text-textColor">Google Maps</span>
+                <ExternalLink className="size-4 text-dolphin" />
+              </button>
+              <button
+                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
+                onClick={() => {
+                  window.open(`http://maps.apple.com/?daddr=${mapCoords.lat},${mapCoords.lon}`, "_blank");
+                  setShowMapOptions(false);
+                }}
+              >
+                <span className="font-medium text-textColor">Apple Maps</span>
+                <ExternalLink className="size-4 text-dolphin" />
+              </button>
+              <button
+                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
+                onClick={() => {
+                  window.open(`geo:${mapCoords.lat},${mapCoords.lon}`, "_blank");
+                  setShowMapOptions(false);
+                }}
+              >
+                <span className="font-medium text-textColor">Device default</span>
+                <ExternalLink className="size-4 text-dolphin" />
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
