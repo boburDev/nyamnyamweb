@@ -24,14 +24,14 @@ export const BannerSwiper = () => {
 
   if (error)
     return (
-      <div className="relative w-full aspect-[16/9] bg-red-100 rounded-2xl flex items-center justify-center">
+      <div className="relative w-full bg-red-100 rounded-2xl flex items-center justify-center">
         <div className="text-red-500">Error loading banners</div>
       </div>
     );
 
   if (!banners || banners.length === 0)
     return (
-      <div className="relative w-full aspect-[16/9] bg-gray-100 rounded-2xl flex items-center justify-center">
+      <div className="relative w-full bg-gray-100 rounded-2xl flex items-center justify-center">
         <div className="text-gray-500">No banners available</div>
       </div>
     );
@@ -41,7 +41,7 @@ export const BannerSwiper = () => {
   const settings = {
     infinite: !isSingle,
     centerMode: !isSingle,
-    centerPadding: isSingle ? "0px" : "60px",
+    centerPadding: isSingle ? "0px" : "100px",
     slidesToShow: 1,
     autoplay: !isSingle,
     autoplaySpeed: 3000,
@@ -59,12 +59,12 @@ export const BannerSwiper = () => {
   };
 
   return (
-    <div className="relative w-full mt-6 sm:mt-10 max-w-[1560px] mx-auto">
+    <div className="relative w-full mt-6 sm:mt-10 max-w-[1536px] mx-auto">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">
-            <div className="relative w-full aspect-[16/9] cursor-pointer">
-              <Link href={banner.url} target="_blank" className="block h-full w-full max-w-[1220px]! max-h-[746px]!">
+            <div className="relative w-full cursor-pointer">
+              <Link href={banner.url} target="_blank" className="block md:h-[60vh]! w-full max-w-[1220px]! max-h-[746px]!">
                 <Image
                   priority
                   src={banner.cover_image}
