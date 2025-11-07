@@ -1,8 +1,11 @@
 'use client'
 import { useEffect, useCallback } from "react";
 import { useLocationStore } from "@/context/userStore";
+import { useTranslations } from "next-intl";
 
 export const useLocationService = () => {
+    const t = useTranslations("map-preview");
+
     const {
         coords,
         address,
@@ -38,10 +41,10 @@ export const useLocationService = () => {
                 "";
 
             const locationText = [street, city].filter(Boolean).join(", ");
-            setAddress(locationText || "Manzil topilmadi");
+            setAddress(locationText || t("placeholder"));
         } catch (error) {
             console.error("Manzilni aniqlashda xatolik:", error);
-            setAddress("Manzil topilmadi");
+            setAddress(t("placeholder"));
         }
     }, [setAddress]);
 
@@ -67,7 +70,7 @@ export const useLocationService = () => {
             (error) => {
                 console.warn("Geolocation error:", error);
                 setPermission('denied');
-                setAddress("Joylashuv aniqmas");
+                setAddress(t("placeholder-1"));
                 setLoading(false);
             },
             {

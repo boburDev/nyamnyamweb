@@ -54,9 +54,9 @@ export const SurpriseBagCard = ({
             className="rounded-lg object-cover"
           />
           {/* Remaining Count Badge */}
-          <div className="absolute top-[10px] left-[10px] bg-mainColor/20 text-white text-xs backdrop-blur-[45px] px-[10px] py-[3px] rounded-full font-medium">
-            {/* {product.stock || 0} ta qoldi */}
-          </div>
+          {/* <div className="absolute top-[10px] left-[10px] bg-mainColor/20 text-white text-xs backdrop-blur-[45px] px-[10px] py-[3px] rounded-full font-medium">
+            {product.stock || 0} ta qoldi
+          </div> */}
         </div>
 
         {/* Product Details */}

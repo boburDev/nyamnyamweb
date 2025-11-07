@@ -13,8 +13,11 @@ import useCartStore from "@/context/cartStore";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCart } from "@/api";
+import { useTranslations } from "next-intl";
 
 const HeaderRight = ({ auth }: { auth: boolean }) => {
+  const t = useTranslations("profile.profile-logout")
+  const t2 = useTranslations("UserMenu")
   const guestCount = useCartStore((s) => s.items.length);
   const [isClient, setIsClient] = useState(false);
   const { data } = useQuery({
@@ -64,7 +67,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
               variant="secondary"
               className="w-[174px] h-12 px-5 font-medium text-sm"
             >
-              Biznes uchun kirish
+              {t("businessButton")}
             </Button>
           </Link>
 
@@ -78,7 +81,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
             <Link href="/cart">
               <div className="flex items-center gap-2">
                 <CartIcon />
-                <span>Savat</span>
+                <span>{t2("cart")}</span>
               </div>
               {isClient && guestCount > 0 && (
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -96,7 +99,7 @@ const HeaderRight = ({ auth }: { auth: boolean }) => {
           <Link href={"/signin"} className="flex">
             <Button className="w-[114px] h-12 px-5 font-medium text-sm">
               <UserIcon />
-              Kirish
+              {t("loginButton")}
             </Button>
           </Link>
         </div>

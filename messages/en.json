@@ -83,7 +83,8 @@
     "view-on-map": "View on map",
     "all": "All",
     "sort-type": "Sort Type",
-    "placeholder": "Location not found"
+    "placeholder": "Location not found",
+    "placeholder-1": "Location is unknown"
   },
   "cards": {
     "count": "items left",
