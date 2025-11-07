@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Container } from "../container";
 import { ArrowLeft, Clock, Map, MapPin, StarIcon } from "lucide-react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { formatPrice } from "@/utils/price-format";
 import { PriceFormatter } from "../price-format";
 import { ProductCard } from "../card";
@@ -55,6 +55,14 @@ export const SurpriseSingleClient = ({
   useEffect(() => {
     setClient(true);
   }, []);
+
+  const handleOpenYandexMap = (lat: number, lon: number) => {
+    const url = `https://yandex.uz/maps/?from=api-maps&mode=routes&rtext=~${lat}%2C${lon}&rtt=auto&z=15`;
+    window.open(url, "_blank");
+  };
+  
+  console.log(product);
+
   if (!client) return <DataLoader />;
   const range = formatTimeRangeInTz(product?.start_time, product?.end_time);
   return (
@@ -113,15 +121,12 @@ export const SurpriseSingleClient = ({
                       {product?.distance}
                     </span>
                   </div>
-                  <div className="flex items-center">
-                    <Link
-                      href={`/surprise-bag/${product?.id}/map`}
-                      className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5"
-                    >
+                  <button
+                  onClick={() => handleOpenYandexMap(Number(product?.lat), Number(product?.long))}
+                  className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5">
                       <Map className="w-5 h-5 text-mainColor" />
                       {t("map")}
-                    </Link>
-                  </div>
+                  </button>
                 </div>
                 <div className="flex mb-3 xl:mb-5">
                   <p className="text-mainColor">{t("time")}</p>
@@ -180,13 +185,15 @@ export const SurpriseSingleClient = ({
                   </div>
                 </div>
                 <div className="mt-[15px] flex justify-between items-center">
-                  <div className="flex items-center gap-1">
+                  <button
+                  onClick={() => handleOpenYandexMap(Number(product?.lat), Number(product?.long))}
+                  className="ml-[10px] text-mainColor text-sm xl:text-[17px] flex gap-[10px] items-center mb-3 xl:mb-5">
                     <MapPin size={16} />
                     <p className=" text-textColor">{product?.branch_name}</p>
-                    <Link href={`/surprise-bag/${product?.id}/map`}>
-                      <Map size={16} className="text-mainColor ml-2" />
-                    </Link>
-                  </div>
+                    {/* <Link href={`/surprise-bag/${product?.id}/map`}>
+                    </Link> */}
+                    <Map size={16} className="text-mainColor ml-2" />
+                  </button>
                   <div className="flex items-center gap-1">
                     <Clock size={16} />
                     <p>

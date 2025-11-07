@@ -25,3 +25,4 @@ export const SURPRISE_BAG_ALL_CATEGORY = `${DOMAIN}/surprise-bag/category/`;
 export const ORDER = `${DOMAIN}/order/`;
 export const NOTIFICATION = `${DOMAIN}/notification/`
 export const MARK_ALL_READ = `${NOTIFICATION}mark_all_as_read/`
+export const YANDEX_API_KEY = process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY;
