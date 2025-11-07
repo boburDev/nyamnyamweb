@@ -95,6 +95,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
       className={`
         ${sizeClasses[size]}
         ${className}
+        flex items-center justify-center gap-2
         ${isAddedToCart
           ? "bg-mainColor text-white hover:bg-mainColor/90"
           : "bg-gray-100 !text-mainColor hover:bg-gray-200 hover:!text-white"

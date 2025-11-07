@@ -1,12 +1,12 @@
 {
   "Header": {
-    "title": "Nyam-Nyam — Fast and Delicious Food Delivery"
+    "title": "Azera — Fast and Delicious Food Delivery"
   },
   "Metadata": {
-    "title": "Nyam-Nyam — Fast and Delicious Food",
-    "description": "Nyam-Nyam — buy near-expiry products at discounted prices from supermarkets and hypermarkets in Tashkent. Order fast food, national dishes, sushi, and pizza with quick delivery. Reduce food waste and enjoy exclusive discounts!",
+    "title": "Azera — Fast and Delicious Food",
+    "description": "Azera — buy near-expiry products at discounted prices from supermarkets and hypermarkets in Tashkent. Order fast food, national dishes, sushi, and pizza with quick delivery. Reduce food waste and enjoy exclusive discounts!",
     "keywords": [
-      "Nyam-nyam",
+      "Azera",
       "Super box",
       "Surprise box",
       "fast delivery",
@@ -279,8 +279,8 @@
     }
   },
   "Footer": {
-    "desc": "SaveMeal is a platform that fights against food waste. Find products close to their expiry date at a discounted price.",
-    "reserved": "© 2025 SaveMeal. All rights reserved",
+    "desc": "Azera is a platform that fights against food waste. Find products close to their expiry date at a discounted price.",
+    "reserved": "2025 Azera. All rights reserved",
     "usefulLinks": {
       "title": "Useful Links",
       "link-1": "About the web app",
@@ -325,7 +325,7 @@
     },
     "respect": "Best regards,",
     "reserved": "All rights reserved.",
-    "footer-text": "You are receiving this email because you have joined the SaveMeal platform as a user or creator. This also indicates that you agree to our Terms of Use and Privacy Policy. If you no longer wish to receive emails from us, click the link below to unsubscribe."
+    "footer-text": "You are receiving this email because you have joined the Azera platform as a user or creator. This also indicates that you agree to our Terms of Use and Privacy Policy. If you no longer wish to receive emails from us, click the link below to unsubscribe."
   },
   "sign-up": {
     "title": "Sign Up",

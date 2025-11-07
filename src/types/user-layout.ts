@@ -30,6 +30,7 @@ export interface ProductData {
   quantity: number;
   lat?: string;
   lon?: string;
+  long?: string;
   title: string;
   size_name?: string;
   price: number;

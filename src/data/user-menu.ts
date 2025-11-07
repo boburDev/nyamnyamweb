@@ -4,7 +4,6 @@ import {
   ProfileHistory,
   ProfileNotification,
   ProfileOrder,
-  ProfilePayment,
   ProfileUser,
 } from "@/assets/icons";
 
@@ -19,11 +18,11 @@ export const userMenu = [
     icon: ProfileUser,
     path: "/profile",
   },
-  {
-    name: "payment",
-    icon: ProfilePayment,
-    path: "/payment",
-  },
+  // {
+  //   name: "payment",
+  //   icon: ProfilePayment,
+  //   path: "/payment",
+  // },
   {
     name: "order",
     icon: ProfileOrder,

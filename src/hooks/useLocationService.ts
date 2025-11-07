@@ -46,7 +46,7 @@ export const useLocationService = () => {
             console.error("Manzilni aniqlashda xatolik:", error);
             setAddress(t("placeholder"));
         }
-    }, [setAddress]);
+    }, [setAddress, t]);
 
     const fetchLocation = useCallback(async () => {
         if (!navigator.geolocation) {
@@ -79,7 +79,7 @@ export const useLocationService = () => {
                 maximumAge: 300000, // 5 minutes
             }
         );
-    }, [setCoords, setAddress, setLoading, setPermission, fetchAddressFromCoords]);
+    }, [setCoords, setAddress, setLoading, setPermission, fetchAddressFromCoords, t]);
 
     const checkPermissionAndFetch = useCallback(async () => {
         if (!navigator.permissions) {

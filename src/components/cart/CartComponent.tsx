@@ -227,7 +227,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                     </div>
                     <Separator className="mb-[15px] 2xl:mb-5 mt-[15px] bg-plasterColor" />
                     <div className="relative">
-                      <div className="flex xl:justify-between gap-x-1 gap-y-2 flex-wrap">
+                      <div className="flex items-center gap-x-3 gap-y-2 flex-wrap">
                         {isDesktop && (paymentIcons.map(({ icon: Icon, name }, index) => (
                           <button
                             key={index + 10}

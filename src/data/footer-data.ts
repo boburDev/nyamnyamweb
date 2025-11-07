@@ -20,9 +20,9 @@ export const useFooterLinks = () => {
       title: t("companyLinks.title"),
       link: [
         { title: t("companyLinks.link-1") },
-        { title: t("companyLinks.link-2") },
+        // { title: t("companyLinks.link-2") },
         { title: t("companyLinks.link-3") },
-        { title: t("companyLinks.link-4") },
+        // { title: t("companyLinks.link-4") },
       ],
     },
     {

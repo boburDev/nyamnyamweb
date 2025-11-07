@@ -19,7 +19,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const t = useTranslations("cards");
   return (
     <div className="relative">
-      <div className="absolute z-7 top-0 left-0 w-full h-full block md:hidden rounded-[15px]"
+      <div className="absolute z-7 top-0 left-0 w-full h-full block rounded-[15px]"
         onClick={(e) => {
           e.preventDefault();
           router.push(`/surprise-bag/${product?.id}`);

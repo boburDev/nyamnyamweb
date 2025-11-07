@@ -5,13 +5,12 @@ import { ArrowLeft, Clock, Map, MapPin, StarIcon } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { formatPrice } from "@/utils/price-format";
 import { PriceFormatter } from "../price-format";
-import AddToSingle from "../add-to-cart/AddToSingle";
 import { ProductCard } from "../card";
 import { useQuery } from "@tanstack/react-query";
 import { useLocationStore } from "@/context/userStore";
 import { getSurpriseBagSingle } from "@/api";
 import { formatTimeRangeInTz } from "@/utils/time";
-import { AddToFavourites } from "../add-to-cart";
+import { AddToCart, AddToFavourites } from "../add-to-cart";
 import { ProductData } from "@/types";
 import { DataLoader } from "../loader";
 import { useEffect, useState } from "react";
@@ -139,7 +138,7 @@ export const SurpriseSingleClient = ({
                     />
                     <p></p>
                   </div>
-                  <AddToSingle product={product} />
+                  <AddToCart product={product} showText />
                 </div>
               </div>
               {/* Mobile desc */}
@@ -198,7 +197,7 @@ export const SurpriseSingleClient = ({
                 </div>
                 <div className="bg-plasterColor w-full h-[1.5px] my-5"></div>
                 <p className="text-dolphin text-sm xl:text-base">{product?.description}</p>
-                <AddToSingle product={product} className="w-full mt-[150px] mb-12.5" />
+                <AddToCart showText product={product} className="w-full mt-[150px] mb-12.5" />
               </div>
             </div>
             {product &&

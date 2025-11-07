@@ -41,7 +41,7 @@ export const BannerSwiper = () => {
   const settings = {
     infinite: !isSingle,
     centerMode: !isSingle,
-    centerPadding: isSingle ? "0px" : "100px",
+    centerPadding: isSingle ? "0px" : "200px",
     slidesToShow: 1,
     autoplay: !isSingle,
     autoplaySpeed: 3000,
@@ -59,12 +59,12 @@ export const BannerSwiper = () => {
   };
 
   return (
-    <div className="relative w-full mt-6 sm:mt-10 max-w-[1536px] mx-auto">
+    <div className="relative w-full mt-6 sm:mt-8 3xl:mt-10 max-w-[1920px] mx-auto">
       <Slider {...settings}>
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">
             <div className="relative w-full cursor-pointer">
-              <Link href={banner.url} target="_blank" className="block md:h-[60vh]! w-full max-w-[1220px]! max-h-[746px]!">
+              <Link href={banner.url} target="_blank" className="block md:h-[500px]! 3xl:h-[746px]! w-full max-w-[1220px]! max-h-[746px]!">
                 <Image
                   priority
                   src={banner.cover_image}
