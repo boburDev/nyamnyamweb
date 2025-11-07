@@ -82,7 +82,8 @@
     },
     "view-on-map": "Xaritada ko'rish",
     "all": "Hamma",
-    "sort-type": "Saralash turi"
+    "sort-type": "Saralash turi",
+    "placeholder": "Joylashuv topilmadi"
   },
   "cards": {
     "count": "ta qoldi",

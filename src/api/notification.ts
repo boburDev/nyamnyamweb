@@ -36,7 +36,7 @@ export async function getNotifications(locale?: string): Promise<AppNotification
             cache: "no-store",
         });
 
-        if (!res.ok) throw new Error("Notifications olishda xatolik");
+        if (!res?.ok) throw new Error("Notifications olishda xatolik");
 
         const raw = await res.json();
         const list = (raw?.data ?? raw ?? []) as AppNotification[];
