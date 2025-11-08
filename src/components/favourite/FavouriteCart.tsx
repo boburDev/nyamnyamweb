@@ -30,7 +30,7 @@ const FavouriteCart = ({ isAuth }: { isAuth: boolean }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-5 mt-10">
           <ProductSkeletons count={3} />
         </div>
-      ) : items?.length < 0 ? (
+      ) : items?.length > 0 ? (
         <div className="mt-7.5 lg:mt-12.5 2xl:mt-[76px]">
           <div className="mb-5 sm:mb-6.5 xl:mb-10">
             <h1 className="font-medium text-[22px] md:text-[28px] xl:text-[36px] text-textColor">
