@@ -1,15 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Container } from "../container";
-import {
-  ArrowLeft,
-  Clock,
-  ExternalLink,
-  Map,
-  MapPin,
-  StarIcon,
-  X,
-} from "lucide-react";
+import { ArrowLeft, Clock, Map, MapPin, StarIcon } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { formatPrice } from "@/utils/price-format";
 import { PriceFormatter } from "../price-format";
@@ -24,6 +16,7 @@ import { DataLoader } from "../loader";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
+import { MapOptionsSheet } from "./MapOptionsSheet";
 
 export const SurpriseSingleClient = ({
   id,
@@ -245,75 +238,12 @@ export const SurpriseSingleClient = ({
           </>
         )}
       </Container>
-      {isMobile && showMapOptions && mapCoords ? (
-        <div className="fixed inset-0 z-50 sm:hidden">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setShowMapOptions(false)}
-            aria-hidden="true"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 shadow-lg">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-base font-semibold text-textColor">{t("map")}</p>
-              <button
-                onClick={() => setShowMapOptions(false)}
-                aria-label="Close map options"
-                className="text-dolphin"
-              >
-                <X className="size-5" />
-              </button>
-            </div>
-            <div className="flex flex-col gap-3">
-              <button
-                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
-                onClick={() => {
-                  window.open(
-                    `https://yandex.uz/maps/?from=api-maps&mode=routes&rtext=~${mapCoords.lat}%2C${mapCoords.lon}&rtt=auto&z=15`,
-                    "_blank"
-                  );
-                  setShowMapOptions(false);
-                }}
-              >
-                <span className="font-medium text-textColor">Yandex Maps</span>
-                <ExternalLink className="size-4 text-dolphin" />
-              </button>
-              <button
-                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
-                onClick={() => {
-                  window.open(
-                    `https://www.google.com/maps/dir/?api=1&destination=${mapCoords.lat},${mapCoords.lon}`,
-                    "_blank"
-                  );
-                  setShowMapOptions(false);
-                }}
-              >
-                <span className="font-medium text-textColor">Google Maps</span>
-                <ExternalLink className="size-4 text-dolphin" />
-              </button>
-              <button
-                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
-                onClick={() => {
-                  window.open(`http://maps.apple.com/?daddr=${mapCoords.lat},${mapCoords.lon}`, "_blank");
-                  setShowMapOptions(false);
-                }}
-              >
-                <span className="font-medium text-textColor">Apple Maps</span>
-                <ExternalLink className="size-4 text-dolphin" />
-              </button>
-              <button
-                className="flex items-center justify-between rounded-xl border border-plasterColor px-4 py-3 text-left"
-                onClick={() => {
-                  window.open(`geo:${mapCoords.lat},${mapCoords.lon}`, "_blank");
-                  setShowMapOptions(false);
-                }}
-              >
-                <span className="font-medium text-textColor">Device default</span>
-                <ExternalLink className="size-4 text-dolphin" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <MapOptionsSheet
+        isOpen={isMobile && showMapOptions}
+        mapCoords={mapCoords}
+        title={t("map")}
+        onClose={() => setShowMapOptions(false)}
+      />
     </div>
   );
 };

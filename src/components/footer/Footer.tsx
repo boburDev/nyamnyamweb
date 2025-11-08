@@ -56,12 +56,14 @@ export const Footer = () => {
                     ))}
                   </div>
                   {index === 2 && (
-                    <Button
-                      variant="secondary"
-                      className="mt-5 xl:mt-[26px] font-medium text-[10px] xl:text-[12px] w-30 xl:w-[140px] !rounded-[10px] xl:!rounded-[12px]"
-                    >
-                      {t("social.button")}
-                    </Button>
+                    <Link href={'https://business.azera.uz/signin'} target="_blank">
+                      <Button
+                        variant="secondary"
+                        className="mt-5 xl:mt-[26px] font-medium text-[10px] xl:text-[12px] w-30 xl:w-[140px] !rounded-[10px] xl:!rounded-[12px]"
+                      >
+                        {t("social.button")}
+                      </Button>
+                    </Link>
                   )}
                 </div>
               ))}
