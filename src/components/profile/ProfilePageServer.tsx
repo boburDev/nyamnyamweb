@@ -9,7 +9,7 @@ const ProfilePageServer = async () => {
     const t = await getTranslations("profile.profile-logout");
     return (
         <Container>
-            <PageHeader title="Profile" />
+            <PageHeader title={t("title")} />
             <div className="bg-white rounded-[15px] p-2.5 mt-7.5">
                 <h1 className="font-semibold text-[18px] text-textColor">{t("loginTitle")}</h1>
                 <h3 className="text-sm text-dolphin pt-[5px]">{t("loginSubtitle")}</h3>

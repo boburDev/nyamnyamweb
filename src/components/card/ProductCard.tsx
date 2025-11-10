@@ -17,6 +17,10 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const router = useRouter();
   const t = useTranslations("cards");
+  const imageSrc =
+    typeof product?.cover_image === "string" && product.cover_image.trim() !== ""
+      ? product.cover_image
+      : "/productimg.png";
   return (
     <div className="relative">
       <div className="absolute z-7 top-0 left-0 w-full h-full block rounded-[15px]"
@@ -28,7 +32,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Product Image */}
         <div className="relative h-[165px] xl:h-[200px]">
           <Image
-            src={product?.cover_image}
+            src={imageSrc}
             alt={product?.title ?? t("product-image")}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
