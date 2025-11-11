@@ -11,19 +11,22 @@ import { Share } from "lucide-react";
 import { Button } from "../ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface QrCodeModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   qrCode: string;
+  order_item_number: string;
 }
 
-export const QrCodeModal = ({ open, setOpen, qrCode }: QrCodeModalProps) => {
+export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number }: QrCodeModalProps) => {
+  const t = useTranslations("my-orders.qr-code-modal");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="rounded-2xl bg-white border-none !pt-[30px] md:!px-[130px] flex flex-col items-center gap-5 [&>button]:hidden">
         <DialogHeader>
-          <DialogTitle className="font-semibold text-2xl md:text-4xl">QR Kod</DialogTitle>
+          <DialogTitle className="font-semibold text-2xl md:text-4xl">{t("title")}</DialogTitle>
         </DialogHeader>
         <Image
           src={qrCode}
@@ -33,21 +36,22 @@ export const QrCodeModal = ({ open, setOpen, qrCode }: QrCodeModalProps) => {
           className="w-[210px] h-[210px]"
         />
         <p className="text-[20px] text-mainColor py-[8.5px] px-[11px] bg-completedColor rounded-[20px]">
-          515515
+          {order_item_number}
         </p>
-        <DialogFooter className="grid grid-cols-1 w-full sm:w-auto">
+        <DialogFooter className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
           <DialogClose asChild>
             <Button
               className="w-full sm:w-[194px] h-12 bg-transparent font-semibold text-[16px]"
               variant={"outline"}
             >
-              Yopish
+              {t("cancel-button")}
             </Button>
           </DialogClose>
-          <Button className="w-full sm:w-[194px] h-12 font-semibold text-[16px]">
-            Ulashish <Share size={19} />
+          <Button className="w-full sm:w-[194px] h-12 font-semibold text-[16px] flex items-center justify-center gap-2">
+            {t("share-button")} <Share size={19} />
           </Button>
         </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );

@@ -25,6 +25,7 @@ interface OrderItem {
   end_time: string;
   qr_code_img: string;
   pickup_date: string;
+  order_item_number: string;
 }
 
 interface Order {
@@ -46,7 +47,7 @@ interface Props {
 export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
   const [qrCode, setQrCode] = useState<string>("");
   const t = useTranslations("my-orders.cards");
-  
+  const [order_item_number, setOrderItemNumber] = useState<string>("");
   return (
     <Accordion
       type="single"
@@ -146,6 +147,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                         <Button
                           onClick={() => {
                             setQrCode(product.qr_code_img);
+                            setOrderItemNumber(product.order_item_number);
                             setOpen(true);
                           }}
                           className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm"
@@ -180,7 +182,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
           </AccordionContent>
         </AccordionItem>
       ))}
-      <QrCodeModal open={open} setOpen={setOpen} qrCode={qrCode} />
+      <QrCodeModal open={open} setOpen={setOpen} qrCode={qrCode} order_item_number={order_item_number} />
     </Accordion>
   );
 };
