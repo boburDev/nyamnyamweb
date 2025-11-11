@@ -16,6 +16,7 @@ interface Props {
 }
 const SurpriseClient = ({ catalog, type, locale }: Props) => {
   const t = useTranslations("main")
+  const ta = useTranslations("map-preview")
   const [activeTab, setActiveTab] = useState<string>(catalog || "all");
   const { data: product } = useQuery({
     queryKey: ["surprise-bag", activeTab, type, locale],
@@ -48,7 +49,7 @@ const SurpriseClient = ({ catalog, type, locale }: Props) => {
                 value="all"
                 className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
               >
-                Hamma
+                {ta("all")}
               </TabsTrigger>
               {category?.map((el: CategoryData) => (
                 <TabsTrigger

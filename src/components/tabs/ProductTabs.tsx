@@ -18,6 +18,7 @@ import { DataLoader } from "../loader";
 
 export const ProductTabs = () => {
   const t = useTranslations("main")
+  const t2 = useTranslations("map-preview")
   const locale = useLocale();
   const coords = useLocationStore((s) => s.coords);
   const [client, setClient] = useState(false);
@@ -59,7 +60,7 @@ export const ProductTabs = () => {
                 value="all"
                 className="data-[state=active]:!bg-mainColor data-[state=active]:!text-white !text-textColor font-medium data-[state=active]:font-semibold px-[15px] sm:px-5 xl:px-[25px] py-[10.5px] rounded-[20px] sm:rounded-[25px] leading-[100%] bg-white border !border-plasterColor data-[state=active]:!border-mainColor sm:h-9.5 xl:h-12 capitalize flex-0 md:!flex-1 shadow-none!"
               >
-                Hamma
+                {t2("all")}
               </TabsTrigger>
               {category?.map((cat: CategoryData) => (
                 <TabsTrigger
