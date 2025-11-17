@@ -48,6 +48,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
   const [qrCode, setQrCode] = useState<string>("");
   const t = useTranslations("my-orders.cards");
   const [order_item_number, setOrderItemNumber] = useState<string>("");
+  const [orderId, setOrderId] = useState<string>("");
   return (
     <Accordion
       type="single"
@@ -144,18 +145,22 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                             {product.original_price?.toLocaleString()} <span className="hidden xl:block">so‘m</span>
                           </p>
                         </div>
-                        <Button
-                          onClick={() => {
-                            setQrCode(product.qr_code_img);
-                            setOrderItemNumber(product.order_item_number);
-                            setOpen(true);
-                          }}
-                          className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm"
-                          variant={"outline"}
-                        >
-                          <ScanQrCode size={20} />
-                          QR kod
-                        </Button>
+                        {
+                          item.payment_status === 'waiting' && (<Button
+                            onClick={() => {
+                              setQrCode(product.qr_code_img);
+                              setOrderItemNumber(product.order_item_number);
+                              setOrderId(item.id);
+                              setOpen(true);
+                            }}
+                            className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm"
+                            variant={"outline"}
+                          >
+                            <ScanQrCode size={20} />
+                            ({t("qr-code")})
+                          </Button>
+                          )
+                        }
                       </div>
                     </div>
                     {/* <div className="flex flex-col justify-between">
@@ -182,7 +187,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
           </AccordionContent>
         </AccordionItem>
       ))}
-      <QrCodeModal open={open} setOpen={setOpen} qrCode={qrCode} order_item_number={order_item_number} />
+      <QrCodeModal open={open} setOpen={setOpen} qrCode={qrCode} order_item_number={order_item_number} orderId={orderId} />
     </Accordion>
   );
 };

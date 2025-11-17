@@ -426,5 +426,149 @@
       "email-required": "Email is required",
       "email-invalid": "Enter a valid email"
     }
+  },
+  "public-offer": {
+    "title": "Public Offer",
+    "description": "RULES FOR USING THE AZERA SERVICE",
+    "city": "Tashkent",
+    "last-update": "Updated: October 15, 2025",
+    "section1": {
+      "title": "1. General Provisions",
+      "item1_1": "1.1 This Public Offer (hereinafter referred to as the \"Offer\" or \"Rules\") is the official proposal of LLC \"AZERA\", registered in accordance with the legislation of the Republic of Uzbekistan (hereinafter referred to as the \"Azera Company\" or the \"Operator\"), to conclude a service agreement through the mobile application and web platform \"Azera\" (hereinafter referred to as the \"Service\").",
+      "item1_2": "1.2 This Offer regulates the relationship between: Users — individuals purchasing food products in the form of Surprise Boxes; Partners (Suppliers) — legal entities or sole proprietors (restaurants, cafés, stores, supermarkets, etc.) selling products through the Service; and Azera Company — the operator of the information technology platform.",
+      "item1_3": "1.3 Acceptance of this Offer occurs at the moment of registration on the Service, when placing an Order, or signing a partnership agreement, and constitutes full and unconditional consent by the User and/or Partner to all its terms.",
+      "item1_4": "1.4 The Operator reserves the right to amend the Offer. The current version is always available in the mobile app and on Azera's website. Amendments take effect upon publication."
+    },
+    "section2": {
+      "title": "2. Terms and Definitions",
+      "service": "2.1 Service (Azera Platform) — the mobile application and web platform created to reduce food waste. The Service allows users to purchase, at reduced prices, leftover food from restaurants, cafés, supermarkets, and other outlets in the form of \"Surprise Boxes.\"",
+      "surpriseBox": "2.2 Surprise Box — a set of ready-made dishes or food products formed by the Supplier from unsold but edible goods. The contents of the Surprise Box are not disclosed in advance; only the category (e.g., pastries, salads, coffee, vegetables, etc.) is indicated.",
+      "user": "2.3 User — an individual aged 18 or older with full legal capacity who uses the Service to purchase Surprise Boxes.",
+      "supplier": "2.4 Supplier (Partner) — a legal entity or sole proprietor (restaurant, café, supermarket, bakery, etc.) selling food through the Azera Service.",
+      "order": "2.5 Order — a User's request for a specific Surprise Box from a Supplier, with advance payment.",
+      "operator": "2.6 Operator (Azera) — LLC \"Azera,\" the owner and operator of the Service, providing information and technical interaction between Users and Suppliers."
+    },
+    "section3": {
+      "title": "3. Subject of the Offer",
+      "item3_1": "3.1 Azera provides Users and Suppliers with the opportunity to use the Service to interact in the sale of Surprise Boxes, place offers, make payments, and exchange information.",
+      "item3_2": "3.2 Azera is not the seller of the food, does not determine the composition of Surprise Boxes, and bears no responsibility for their quality. The Company acts solely as an intermediary providing technical and information services and processing orders and payments.",
+      "item3_3": "3.3 The sale of food products is carried out directly between the User and the Supplier, who is fully responsible for product quality, safety, and compliance with sanitary regulations.",
+      "item3_4": "3.4 The purpose of the Service is to reduce food waste, promote environmentally responsible consumption, and allow users to purchase fresh products at reduced prices.",
+      "item3_5": "3.5 The main mission of Azera is environmentally and socially responsible activity aimed at reducing food waste and minimizing negative environmental impact."
+    },
+    "section4": {
+      "title": "4. Registration and Use of the Service",
+      "item4_1": "4.1 To use the Service, both Users and Suppliers must register in the Azera mobile app and provide accurate information.",
+      "item4_2": "4.2 The User is responsible for maintaining the confidentiality of login data and passwords.",
+      "item4_3": "4.3 The Supplier must provide accurate information about the Surprise Boxes, including pickup times and locations, and comply with sanitary norms.",
+      "item4_4": "4.4 Azera processes personal data in accordance with the legislation of the Republic of Uzbekistan and its Privacy Policy.",
+      "item4_5": "4.5 Azera may suspend access to the Service if a User or Partner violates this Offer, applicable laws, or behaves dishonestly."
+    },
+    "section5": {
+      "title": "5. Ordering and Receiving Surprise Boxes",
+      "item5_1": "5.1 The User selects an available Surprise Box through the Service interface based on location and category.",
+      "item5_2": "5.2 The Supplier independently forms the Surprise Box from unsold but still consumable products.",
+      "item5_3": "5.3 When placing an Order, the User agrees to the category, price, pickup time, and location.",
+      "item5_4": "5.4 Upon successful payment, a sales agreement for food products is concluded between the User and Supplier, and a service agreement between the User and LLC \"Azera.\"",
+      "item5_5": "5.5 The User must pick up the paid Surprise Box from the Supplier at the specified time. Delivery is not provided unless explicitly indicated in the order.",
+      "item5_6": "5.6 Surprise Boxes are perishable products. Returns or exchanges are not permitted, except as required by the legislation of the Republic of Uzbekistan (e.g., in case of clear spoilage upon receipt).",
+      "item5_7": "5.7 Pickup times may vary by up to 15 minutes without constituting a breach of this Offer."
+    },
+    "section6": {
+      "title": "6. Rights and Obligations of the Parties",
+      "userObligations": {
+        "title": "6.1 User Obligations:",
+        "items": [
+          "6.1.1 Provide accurate information during registration and payment;",
+          "6.1.2Pick up the paid Surprise Box on time;",
+          "6.1.3 Follow Partner instructions regarding food collection."
+        ]
+      },
+      "userRights": {
+        "title": "6.2 User Rights:",
+        "items": [
+          "6.2.1 Use the Service to search for and purchase Surprise Boxes;",
+          "6.2.2 Receive informational support from Azera."
+        ]
+      },
+      "partnerObligations": {
+        "title": "6.3 Partner Obligations:",
+        "items": [
+          "6.3.1 Ensure the quality, safety, and suitability of food products;",
+          "6.3.2 Provide up-to-date information about available Surprise Boxes;",
+          "6.3.3 Comply with sanitary norms."
+        ]
+      },
+      "azeraObligations": {
+        "title": "6.4 Azera Obligations:",
+        "items": [
+          "6.4.1 Ensure uninterrupted operation of the Service;",
+          "6.4.2 Protect Users' personal and payment data;",
+          "6.4.3 Timely relay information between parties."
+        ]
+      }
+    },
+    "section7": {
+      "title": "7. Payment, Order Cancellation, and Refunds",
+      "item7_1": "7.1 Payment is made cashlessly via bank cards, Click, Payme, or other systems integrated into the Service.",
+      "item7_2": "7.2 Payments go to the account of LLC \"Azera,\" which then transfers funds to the Supplier minus a service fee.",
+      "item7_3": "7.3 All prices are listed in Uzbek soums, inclusive of taxes and fees.",
+      "item7_4": "7.4 The User may cancel an Order before it is processed by the Supplier through the Service or by calling support: +998 94 007 01 77.",
+      "item7_5": "7.5 Returns or exchanges of non-defective Surprise Boxes are not allowed as they are perishable goods.",
+      "item7_6": "7.6 The Supplier may cancel an Order if: The User has not paid; The User cannot be contacted; The User avoids picking up the order.",
+      "item7_7": "7.7 Refunds are made only in cases provided by law or if the order cannot be properly fulfilled (e.g., spoiled product before transfer). In such cases, the funds are returned to the User's payment account within three (3) business days."
+    },
+    "section8": {
+      "title": "8. Liability of the Parties",
+      "item8_1": "8.1 Azera is not liable for: The contents or taste of Surprise Boxes or user expectations; Actions or omissions of Suppliers or third parties; Delays or failures caused by external factors; Misuse or violations by Users; Technical malfunctions or data loss due to unforeseen issues.",
+      "item8_2": "8.2 Azera's liability is limited to the technical functionality of the Service and proper payment processing.",
+      "item8_3": "8.3 The Supplier is fully responsible for food quality, safety, compliance, and proper storage.",
+      "item8_4": "8.4 The User uses the Service at their own risk.",
+      "item8_5": "8.5 The User is responsible for providing accurate data and collecting their order on time."
+    },
+    "section9": {
+      "title": "9. Personal Data Processing",
+      "item9_1": "9.1 By registering, Users and Suppliers consent to the processing of personal data by LLC \"Azera\" in accordance with the Law of the Republic of Uzbekistan \"On Personal Data.\"",
+      "item9_2": "9.2 Data is processed for service provision, security, feedback, and accounting.",
+      "item9_3": "9.3 Azera may transfer User data to payment systems (Click, Payme, banks) solely for payment processing."
+    },
+    "section10": {
+      "title": "10. Force Majeure",
+      "item10_1": "10.1 The Parties are exempt from liability for non-performance caused by force majeure (natural disasters, epidemics, power outages, fires, wars, communication failures, banking disruptions, cyberattacks, etc.).",
+      "item10_2": " ",
+      "item10_3": " ",
+      "item10_4": " "
+    },
+    "section11": {
+      "title": "11. Interaction with Partners (Suppliers)",
+      "item11_1": "11.1 The Partner agrees to use the Service under this Offer.",
+      "item11_2": "11.2 Azera provides Partners with the technology to list offers and receive payments.",
+      "item11_3": "11.3 The Partner is responsible for accuracy, hygiene, and product quality.",
+      "item11_4": "11.4 Azera may suspend or terminate cooperation for violations, user complaints, or breaches of this Offer."
+    },
+    "section12": {
+      "title": "12. Final Provisions",
+      "item12_1": "12.1 Azera may amend this Offer; the new version takes effect upon publication.",
+      "item12_2": "12.2 Continued use of the Service implies consent to the updated Offer.",
+      "item12_3": "12.3 Notices are sent via email or mobile app.",
+      "item12_4": "12.4 This Offer is governed by the laws of the Republic of Uzbekistan.",
+      "item12_5": "12.5 Disputes are settled through negotiation, or in court at the place of Azera's registration.",
+      "item12_6": "12.6 Registration or order placement confirms that the User has read and agrees to this Offer.",
+      "item12_7": "12.7 The Company may assign its rights and obligations under this Offer to third parties without additional consent."
+    },
+    "section13": {
+      "title": "13. Details of LLC \"AZERA\"",
+      "companyName": "Company Name: LLC \"AZERA\"",
+      "director": "Director: Karimov Nozimjon Rustamovich",
+      "address": "Address: Tashkent, Almazar District, Gulsaroy Mahalla, Qora-Qamish ¼ Block, House 26/11",
+      "bank": "Bank: \"IPAK YO'LI\" Bank JSC, Main Office, Tashkent",
+      "account": "Account: 20208000107323282001",
+      "tin": "TIN: 312481535",
+      "oked": "OKED: 62090",
+      "okonh": "OKONH: 79994",
+      "bankCode": "Bank Code: 00444",
+      "supportPhone": "Support Phone: +998 94 007 01 77",
+      "email": "Email:"
+    }
   }
 }

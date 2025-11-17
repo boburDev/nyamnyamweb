@@ -12,16 +12,46 @@ import { Button } from "../ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-
 interface QrCodeModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   qrCode: string;
   order_item_number: string;
+  orderId: string;
 }
 
-export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number }: QrCodeModalProps) => {
+export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number, orderId }: QrCodeModalProps) => {
   const t = useTranslations("my-orders.qr-code-modal");
+
+
+  const handleDownload = async () => {
+    try {
+      const res = await fetch(`/api/proxy/order/${orderId}/download-qr/?item_number=${order_item_number}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to download QR code: ${res.status}`);
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `qr-code-${order_item_number}.png`;
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("Download error:", e);
+    }
+  };
+
+
+
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="rounded-2xl bg-white border-none !pt-[30px] md:!px-[130px] flex flex-col items-center gap-5 [&>button]:hidden">
@@ -47,7 +77,10 @@ export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number }: QrCode
               {t("cancel-button")}
             </Button>
           </DialogClose>
-          <Button className="w-full sm:w-[194px] h-12 font-semibold text-[16px] flex items-center justify-center gap-2">
+          <Button
+            onClick={handleDownload}
+            className="w-full sm:w-[194px] h-12 font-semibold text-[16px] flex items-center justify-center gap-2"
+          >
             {t("share-button")} <Share size={19} />
           </Button>
         </DialogFooter>

@@ -39,7 +39,7 @@ export const Footer = () => {
                     {item.link?.map((item, index) => (
                       <Link
                         key={index}
-                        href="/"
+                        href={item.path}
                         className="text-[11px] lg:text-xs xl:text-sm lg:leading-[25px]"
                       >
                         {item.title}
