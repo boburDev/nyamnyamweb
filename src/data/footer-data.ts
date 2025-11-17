@@ -11,17 +11,17 @@ export const useFooterLinks = () => {
     {
       title: t("usefulLinks.title"),
       link: [
-        { title: t("usefulLinks.link-1") },
-        { title: t("usefulLinks.link-2") },
-        { title: t("usefulLinks.link-3") },
+        { title: t("usefulLinks.link-1"), path: "/" },
+        { title: t("usefulLinks.link-2"), path: "/public-offer" },
+        { title: t("usefulLinks.link-3"), path: "/" },
       ],
     },
     {
       title: t("companyLinks.title"),
       link: [
-        { title: t("companyLinks.link-1") },
+        { title: t("companyLinks.link-1"), path: "/" },
         // { title: t("companyLinks.link-2") },
-        { title: t("companyLinks.link-3") },
+        { title: t("companyLinks.link-3"), path: "/" },
         // { title: t("companyLinks.link-4") },
       ],
     },

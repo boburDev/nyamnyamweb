@@ -426,5 +426,149 @@
       "email-required": "Email kiritilishi shart",
       "email-invalid": "To'g'ri email kiriting"
     }
+  },
+  "public-offer": {
+    "title": "Ommaviy oferta",
+    "description": "AZERA XIZMATIDAN FOYDALANISH QOIDALARI",
+    "city": "Toshkent shahri",
+    "last-update": "Yangilangan sana: 2025-yil 15-oktabr",
+    "section1": {
+      "title": "1. UMUMIY QOIDALAR",
+      "item1_1": "1.1 Mazkur Ommaviy oferta (bundan buyon matnda — \"Oferta\", \"Qoidalar\") — O'zbekiston Respublikasi qonunchiligiga muvofiq ro'yxatdan o'tgan \"AZERA\" mas'uliyati cheklangan jamiyati (bundan buyon matnda — \"Azera kompaniyasi\" yoki \"Operator\") tomonidan e'lon qilingan rasmiy taklif bo'lib, mobil ilova va veb-platforma orqali xizmatlar ko'rsatish to'g'risida fuqarolik-huquqiy shartnoma tuzishni nazarda tutadi (bundan buyon — \"Xizmat\").",
+      "item1_2": "1.2 Mazkur Oferta quyidagi subyektlar o'rtasidagi huquqiy munosabatlarni tartibga soladi: Foydalanuvchilar — \"Surprise Box\" shaklida oziq-ovqat mahsulotlarini xarid qiluvchi jismoniy shaxslar; Hamkorlar (Yetkazib beruvchilar) — \"Azera\" Xizmati orqali mahsulotlar sotuvchi yuridik shaxslar va yakka tartibdagi tadbirkorlar (restoranlar, kafe, do'konlar, supermarketlar va boshqalar); Azera kompaniyasi — mazkur Xizmatning axborot-texnologik platformasining operatori.",
+      "item1_3": "1.3 Ushbu Ofertaning shartlarini qabul qilish (ya'ni, Xizmatda ro'yxatdan o'tish, buyurtma rasmiylashtirish yoki hamkorlik shartnomasini tuzish) Foydalanuvchi yoki Hamkor tomonidan Ofertaning barcha shartlariga to'liq va so'zsiz rozilik berilganligini anglatadi.",
+      "item1_4": "1.4 Operator mazkur Ofertaga o'zgartirishlar kiritish huquqini o'zida saqlab qoladi. Ofertaning amaldagi (oxirgi) tahriri har doim mobil ilovada va \"Azera\" veb-saytida joylashtiriladi. O'zgartirishlar ularning e'lon qilingan paytidan boshlab kuchga kiradi."
+    },
+    "section2": {
+      "title": "2. ATAMALAR VA TA'RIFLAR",
+      "service": "2.1 Xizmat (Azera platformasi) — oziq-ovqat chiqindilarini kamaytirish maqsadida yaratilgan mobil ilova va veb-platforma bo'lib, Foydalanuvchilarga restoran, kafe, supermarket va boshqa savdo nuqtalarida qolgan, lekin iste'molga yaroqli taomlarni arzonlashtirilgan narxlarda \"Surprise Box\" (syurpriz quti) shaklida xarid qilish imkoniyatini beradi.",
+      "surpriseBox": "2.2 \"Surprise Box\" (Syurpriz quti) — Yetkazib beruvchi tomonidan sotilmay qolgan, ammo iste'mol uchun yaroqli bo'lgan tayyor taomlar yoki oziq-ovqat mahsulotlaridan tuzilgan to'plamdir. Syurpriz qutining tarkibi oldindan oshkor etilmaydi, faqatgina umumiy toifa ko'rsatiladi (masalan: pishiriqlar, salatlar, qahva, sabzavotlar va boshqalar).",
+      "user": "2.3 Foydalanuvchi — 18 yoshga to'lgan, to'liq muomalaga layoqatli jismoniy shaxs bo'lib, Xizmatdan \"Surprise Box\" xarid qilish maqsadida foydalanadi.",
+      "supplier": "2.4 Yetkazib beruvchi (Hamkor) — yuridik shaxs yoki yakka tartibdagi tadbirkor (restoran, kafe, supermarket, qandolatchilik korxonasi va hokazolar) bo'lib, \"Azera\" Xizmati orqali oziq-ovqat mahsulotlarini sotadi.",
+      "order": "2.5 Buyurtma — Foydalanuvchi tomonidan ma'lum bir Yetkazib beruvchidan \"Surprise Box\" olish uchun Xizmat orqali rasmiylashtirilgan va oldindan to'langan so'rovdir.",
+      "operator": "2.6 Operator (Azera) — \"Azera\" MChJ bo'lib, Xizmatning egasi va operatori hisoblanadi, u Foydalanuvchilar va Yetkazib beruvchilar o'rtasidagi axborot almashinuvini, buyurtmalarni va to'lovlarni texnik jihatdan ta'minlaydi."
+    },
+    "section3": {
+      "title": "3. SHARTNOMA PREDMETI",
+      "item3_1": "3.1 \"Azera\" kompaniyasi Foydalanuvchilarga va Yetkazib beruvchilarga \"Azera\" Xizmatidan foydalanish imkoniyatini beradi. Mazkur Xizmat orqali tomonlar \"Surprise Box\" (syurpriz quti) savdosi bo'yicha o'zaro hamkorlik qiladi, takliflar joylashtiriladi, buyurtmalar rasmiylashtiriladi, to'lovlar amalga oshiriladi hamda zarur axborot almashinuvi ta'minlanadi.",
+      "item3_2": "3.2 \"Azera\" kompaniyasi oziq-ovqat mahsulotlarining to'g'ridan-to'g'ri sotuvchisi hisoblanmaydi, \"Surprise Box\" tarkibini shakllantirishda ishtirok etmaydi hamda ularning sifati uchun javobgar emas. Kompaniya faqat texnik va axborot vositachilik funksiyasini bajaradi, buyurtmalarni va to'lovlarni qayta ishlash xizmatini ko'rsatadi.",
+      "item3_3": "3.3 Mahsulotlar savdosi Foydalanuvchi va Yetkazib beruvchi o'rtasida bevosita amalga oshiriladi. Yetkazib beruvchi mahsulotlarning sifati, xavfsizligi va sanitariya talablariga muvofiqligi uchun to'liq javobgarlikni o'z zimmasiga oladi.",
+      "item3_4": "3.4 Xizmat faoliyatining maqsadi — oziq-ovqat chiqindilarini kamaytirish, ekologik mas'uliyatli iste'molni qo'llab-quvvatlash va foydalanuvchilarga sifatli oziq-ovqat mahsulotlarini arzon narxlarda xarid qilish imkoniyatini yaratishdan iborat.",
+      "item3_5": "3.5 \"Azera\" kompaniyasining asosiy missiyasi — ekologik va ijtimoiy mas'uliyatli faoliyat yuritish, oziq-ovqat chiqindilarining kamayishiga hamda atrof-muhitga salbiy ta'sirni qisqartirishga xizmat qilishdir."
+    },
+    "section4": {
+      "title": "4. Ro'yxatdan o'tish va Xizmatdan foydalanish tartibi",
+      "item4_1": "4.1 \"Azera\" Xizmatidan foydalanish uchun Foydalanuvchi va Yetkazib beruvchi mobil ilova orqali ro'yxatdan o'tishi lozim. Ro'yxatdan o'tish jarayonida ular o'zlari haqidagi aniq va ishonchli ma'lumotlarni kiritishlari shart.",
+      "item4_2": "4.2 Foydalanuvchi o'zining login va parol ma'lumotlarining maxfiyligini ta'minlashga shaxsan mas'uldir. Uchinchi shaxslar tomonidan ushbu ma'lumotlardan noqonuniy foydalanish oqibatida yuzaga kelgan har qanday holatlar uchun \"Azera\" javobgar emas.",
+      "item4_3": "4.3 Yetkazib beruvchi Xizmatda \"Surprise Box\" haqida to'liq va ishonchli ma'lumot joylashtirishi, mahsulotni olish joyi va vaqtini ko'rsatishi, shuningdek, amaldagi sanitariya-gigiyena me'yorlariga rioya etishi shart.",
+      "item4_4": "4.4 \"Azera\" kompaniyasi Foydalanuvchilar va Yetkazib beruvchilarning shaxsga doir ma'lumotlarini O'zbekiston Respublikasi qonunchiligiga muvofiq hamda Kompaniyaning Maxfiylik siyosatiga asosan qayta ishlaydi.",
+      "item4_5": "4.5 \"Azera\" kompaniyasi Foydalanuvchi yoki Hamkorning ushbu Oferta shartlarini, amaldagi qonun talablarini buzgan, shuningdek, vijdonsiz yoki firibgarlik harakatlarini sodir etgan taqdirda, ularning Xizmatdan foydalanish imkoniyatini vaqtincha to'xtatish yoki butunlay cheklash huquqiga ega."
+    },
+    "section5": {
+      "title": "5. \"Surprise Box\"ni rasmiylashtirish va olish tartibi",
+      "item5_1": "5.1 Foydalanuvchi \"Azera\" Xizmati interfeysi orqali o'zining joylashuvi va tovar toifasi (masalan, pishiriqlar, qahva, salatlar va boshqalar)dan kelib chiqib, mavjud \"Surprise Box\"ni tanlaydi va buyurtma rasmiylashtiradi.",
+      "item5_2": "5.2 \"Surprise Box\" Yetkazib beruvchi tomonidan mustaqil ravishda shakllantiriladi va u savdo kuni davomida sotilmay qolgan, ammo iste'molga yaroqli mahsulotlardan iborat bo'ladi.",
+      "item5_3": "5.3 Buyurtma rasmiylashtirilayotganda Foydalanuvchi \"Surprise Box\" toifasiga, uning narxiga, mahsulotni olish vaqti hamda manziliga rozilik bildirgan hisoblanadi.",
+      "item5_4": "5.4 Foydalanuvchi tomonidan muvaffaqiyatli to'lov amalga oshirilganidan so'ng: Foydalanuvchi va Yetkazib beruvchi o'rtasida oziq-ovqat mahsulotlarini oldi-sotdi shartnomasi, Foydalanuvchi va \"Azera\" MChJ o'rtasida esa axborot vositachilik xizmatlarini ko'rsatish bo'yicha haq evaziga xizmat ko'rsatish shartnomasi tuzilgan hisoblanadi.",
+      "item5_5": "5.5 Foydalanuvchi to'lovni amalga oshirgach, ko'rsatilgan muddat oralig'ida \"Surprise Box\"ni Yetkazib beruvchi joyidan shaxsan olib ketadi. \"Azera\" tomonidan mahsulotni yetkazib berish amalga oshirilmaydi, agar bu holat buyurtma rasmiylashtirilish vaqtida alohida ko'rsatilmagan bo'lsa.",
+      "item5_6": "5.6 \"Surprise Box\" tez buziluvchi mahsulot toifasiga kiradi. Shu sababli, to'lov amalga oshirilgan buyurtma qaytarilmaydi yoki almashtirilmaydi, bundan faqat O'zbekiston Respublikasi qonunchiligida nazarda tutilgan holatlar mustasno (masalan, mahsulotni qabul qilish vaqtida uning iste'molga yaroqsizligi aniq bo'lsa).",
+      "item5_7": "5.7 Buyurtma berishda ko'rsatilgan mahsulotni olish vaqti 15 daqiqagacha farq qilishi mumkin. Bu holat Oferta shartlarini buzish deb hisoblanmaydi."
+    },
+    "section6": {
+      "title": "6. Tomonlarning huquq va majburiyatlari",
+      "userObligations": {
+        "title": "6.1 Foydalanuvchining majburiyatlari:",
+        "items": [
+          "6.1.1 Ro'yxatdan o'tish va to'lovni amalga oshirish jarayonida faqat to'g'ri va ishonchli ma'lumotlarni taqdim etish;",
+          "6.1.2 To'lov amalga oshirilgan \"Surprise Box\"ni belgilangan muddatda Yetkazib beruvchidan olib ketish;",
+          "6.1.3 \"Surprise Box\"ni olishda Yetkazib beruvchi tomonidan belgilangan sanitariya va xizmat ko'rsatish qoidalariga rioya etish."
+        ]
+      },
+      "userRights": {
+        "title": "6.2 Foydalanuvchining huquqlari:",
+        "items": [
+          "6.2.1 \"Azera\" Xizmatidan \"Surprise Box\" topish va xarid qilish maqsadida foydalanish;",
+          "6.2.2 \"Azera\" kompaniyasidan Xizmat bo'yicha axborot va texnik yordam olish."
+        ]
+      },
+      "partnerObligations": {
+        "title": "6.3 Yetkazib beruvchining (Hamkorning) majburiyatlari:",
+        "items": [
+          "6.3.1 Foydalanuvchiga taqdim etilayotgan oziq-ovqat mahsulotlarining sifati, xavfsizligi va iste'molga yaroqliligini ta'minlash;",
+          "6.3.2 Xizmatda joylashtirilayotgan \"Surprise Box\" haqida aniq, yangilangan va ishonchli ma'lumot berish;",
+          "6.3.3 Mahsulotlarni tayyorlash, saqlash va topshirish jarayonida sanitariya-gigiyena me'yorlariga to'liq amal qilish."
+        ]
+      },
+      "azeraObligations": {
+        "title": "6.4 \"Azera\" kompaniyasining majburiyatlari:",
+        "items": [
+          "6.4.1 Xizmatning uzluksiz ishlashini, ya'ni texnik va dasturiy barqarorligini ta'minlash;",
+          "6.4.2 Foydalanuvchilarning shaxsiy va to'lov ma'lumotlarini himoya qilish choralarini ko'rish;",
+          "6.4.3 Foydalanuvchilar va Yetkazib beruvchilar o'rtasidagi axborot almashinuvini o'z vaqtida ta'minlash."
+        ]
+      }
+    },
+    "section7": {
+      "title": "7. To'lov tartibi, buyurtmani bekor qilish va mablag'ni qaytarish shartlari",
+      "item7_1": "7.1 \"Surprise Box\" uchun to'lov naqd pulsiz shaklda amalga oshiriladi. To'lovni Foydalanuvchi bank kartasi, \"Click\", \"Payme\" yoki \"Azera\" Xizmatiga integratsiya qilingan boshqa to'lov tizimlari orqali amalga oshiradi.",
+      "item7_2": "7.2 To'lov \"Azera\" MChJning hisob raqamiga tushgandan so'ng, kompaniya tegishli komissiya to'lovi ushlab qolinib, qolgan mablag'ni Yetkazib beruvchining hisob raqamiga o'tkazadi.",
+      "item7_3": "7.3 Xizmatdagi barcha narxlar O'zbekiston Respublikasi milliy valyutasi – UZSda, amaldagi soliqlar va yig'imlarni inobatga olgan holda ko'rsatiladi.",
+      "item7_4": "7.4 Foydalanuvchi buyurtmani Yetkazib beruvchiga topshirilmaguncha \"Azera\" mobil ilovasi interfeysi orqali yoki +998 94 007 01 77 telefon raqami orqali bekor qilish huquqiga ega.",
+      "item7_5": "7.5 \"Surprise Box\" tez buziluvchi mahsulot toifasiga kirganligi sababli, sifatli mahsulot uchun to'lov qaytarilmaydi va mahsulot almashtirilmaydi.",
+      "item7_6": "7.6 Yetkazib beruvchi quyidagi hollarda buyurtmani bekor qilish huquqiga ega: Foydalanuvchi buyurtmani to'lamagan bo'lsa; Foydalanuvchi bilan bog'lanish imkoni bo'lmasa; Foydalanuvchi buyurtmani olishdan asabiy yoki qasddan bosh tortsa.",
+      "item7_7": "7.7 O'zbekiston Respublikasining amaldagi qonunchiligiga muvofiq, to'langan mablag'lar quyidagi hollarda qaytariladi: agar buyurtma bajarilishi mumkin bo'lmasa yoki buyurtma sifatsiz mahsulot sababli bekor qilinsa; agar texnik nosozlik, Yetkazib beruvchi tomonidan buyurtma bekor qilinishi, savdo nuqtasining yopilishi, yoki mahsulotning mavjud emasligi sababli buyurtma bajarilmasa. Bunday hollarda to'langan mablag'lar to'lov amalga oshirilgan hisob raqamiga qaytariladi. Qaytarish muddati — 3 (uch) ish kuni ichida, holat aniqlangan kundan boshlab hisoblanadi."
+    },
+    "section8": {
+      "title": "8. Tomonlarning javobgarligi",
+      "item8_1": "8.1 \"Azera\" kompaniyasi quyidagi holatlar uchun javobgarlikni o'z zimmasiga olmaydi: \"Surprise Box\" tarkibi, mahsulotning ta'mi, Foydalanuvchining shaxsiy didiga mos kelmasligi yoki mahsulot tarkibi (xili) bo'yicha kutilgan natijaga erishilmagan hollarda; Yetkazib beruvchi yoki uchinchi shaxslarning harakatlari, harakatsizligi, majburiyatlarni buzishi yoki \"Surprise Box\" tarkibiga oid har qanday xatti-harakatlari oqibatida yuzaga kelgan holatlar uchun; Buyurtmalarni to'liq yoki qisman bajarilmasligiga sabab bo'lgan, \"Azera\" faoliyatiga bog'liq bo'lmagan tashqi omillar, jumladan: logistika tizimidagi uzilishlar, yetkazib berishdagi kechikishlar, texnik nosozliklar, favqulodda (fors-major) holatlar va boshqalar uchun; Foydalanuvchining o'zi tomonidan amalga oshirilgan vijdonsiz, beparvo yoki qonunga xilof harakatlar (yoki harakatsizlik) natijasida yuzaga kelgan oqibatlar uchun; Xizmat faoliyatidagi vaqtinchalik uzilishlar, texnik nosozliklar, dasturiy ta'minotdagi xatoliklar, aloqa vositalari ishlamasligi yoki foydalanuvchi ma'lumotlarining yo'qolishi, buzilishi, noto'g'ri qayta ishlanishi bilan bog'liq holatlar uchun.",
+      "item8_2": "8.2 \"Azera\" kompaniyasi faqat texnik jihatdan Xizmatning mavjudligi va to'lovlarni to'g'ri qayta ishlash uchun javobgar hisoblanadi.",
+      "item8_3": "8.3 Yetkazib beruvchi mahsulotlarning sifati, xavfsizligi, ularning sanitariya, texnik va boshqa majburiy talablariga muvofiqligi, shuningdek, mahsulotlarni saqlash va topshirish sharoitlari uchun to'liq javobgarlikni o'z zimmasiga oladi.",
+      "item8_4": "8.4 Foydalanuvchi Xizmatdan o'z xavfi va mas'uliyati ostida foydalanadi. \"Azera\" kompaniyasi Foydalanuvchi tomonidan tanlangan yoki iste'mol qilingan mahsulotlar oqibatida yuzaga kelgan salbiy holatlar uchun javobgar emas.",
+      "item8_5": "8.5 Foydalanuvchi ro'yxatdan o'tishda va buyurtma rasmiylashtirishda kiritgan ma'lumotlarning to'g'riligiga, shuningdek, buyurtmani ya'ni \"Surprise Box\"ni belgilangan muddatda olishga javobgar hisoblanadi."
+    },
+    "section9": {
+      "title": "9. Shaxsga doir ma'lumotlarni qayta ishlash",
+      "item9_1": "9.1 \"Azera\" Xizmatida ro'yxatdan o'tayotgan Foydalanuvchi va Yetkazib beruvchi ushbu harakati bilan \"Azera\" MChJga o'z shaxsiy ma'lumotlarini qayta ishlashga rozilik beradi. Ushbu rozilik O'zbekiston Respublikasining \"Shaxsga doir maʼlumotlar toʻgʻrisida\"gi Qonuniga muvofiq beriladi.",
+      "item9_2": "9.2 Shaxsga doir ma'lumotlar Xizmatni to'g'ri va to'liq ko'rsatish, xavfsizlikni ta'minlash, foydalanuvchilar bilan aloqa o'rnatish, buxgalteriya hisobi va moliyaviy operatsiyalarni yuritish hamda texnik qo'llab-quvvatlash va xizmat sifatini oshirish maqsadlarida qayta ishlanadi.",
+      "item9_3": "9.3 \"Azera\" kompaniyasi Foydalanuvchi va Yetkazib beruvchining shaxsga doir ma'lumotlarini uchinchi shaxslarga bermaydi, bundan faqat quyidagi hollatlar mustasno: to'lov tizimlariga (Click, Payme, banklar va boshqalar) to'lov operatsiyalarini amalga oshirish maqsadida ma'lumotlar taqdim etilishi; O'zbekiston Respublikasi qonunchiligida nazarda tutilgan hollar (masalan, sud yoki vakolatli davlat organlari talabi bilan)."
+    },
+    "section10": {
+      "title": "10. Fors-major",
+      "item10_1": "10.1 Tomonlar mazkur Oferta bo'yicha o'z majburiyatlarini, agar bunday majburiyatlar fors-major (yengib bo'lmaydigan kuch) holatlari natijasida yuzaga kelgan bo'lsa, to'liq yoki qisman bajarmaganliklari uchun javobgarlikdan ozod etiladi. Fors-major holatlar qatoriga, quyidagilar kiradi (lekin bular bilan cheklanmaydi): tabiiy ofatlar (zilzila, suv toshqini, yong'in, bo'ron va boshqalar); epidemiyalar va pandemiyalar; elektr ta'minotidagi uzilishlar, internet yoki aloqa tizimlaridagi nosozliklar; urush harakatlari, harbiy mojarolar, terrorchilik aktlari; bank va to'lov tizimlaridagi uzilishlar; kiberhujumlar yoki axborot tizimlariga ruxsatsiz aralashuvlar; davlat organlarining harakatlari yoki ularning hujjatlari ta'siri ostidagi majburiy to'xtalishlar.",
+      "item10_2": "10.2. Fors-major holatlar qatoriga, quyidagilar kiradi (lekin bular bilan cheklanmaydi): tabiiy ofatlar (zilzila, suv toshqini, yong‘in, bo‘ron va boshqalar); epidemiyalar va pandemiyalar; elektr ta’minotidagi uzilishlar, internet yoki aloqa tizimlaridagi nosozliklar; urush harakatlari, harbiy mojarolar, terrorchilik aktlari; bank va to‘lov tizimlaridagi uzilishlar; kiberhujumlar yoki axborot tizimlariga ruxsatsiz aralashuvlar; davlat organlarining harakatlari yoki ularning hujjatlari ta’siri ostidagi majburiy to‘xtalishlar",
+      "item10_3": "10.3. Agar fors-major holatlari yuzaga kelsa, tomonlar imkon qadar tezroq bir-birlarini bu haqda yozma ravishda (elektron shaklda ham bo‘lishi mumkin) xabardor qilishi lozim.",
+      "item10_4": "10.4. Fors-major holatlari tugaganidan so‘ng, tomonlar o‘z majburiyatlarini tegishli darajada va imkon doirasida bajarishni davom ettiradi."
+    },
+    "section11": {
+      "title": "11. Hamkorlar (Yetkazib beruvchilar) bilan o'zaro hamkorlik tartibi",
+      "item11_1": "11.1 Yetkazib beruvchi (Hamkor) \"Azera\" Xizmatidan foydalanishni mazkur Oferta shartlarida amalga oshirishga to'liq rozilik bildiradi. Ushbu Oferta hamkorlik munosabatlarini tartibga soluvchi yagona hujjat hisoblanadi.",
+      "item11_2": "11.2 \"Azera\" kompaniyasi Yetkazib beruvchilarga \"Surprise Box\" takliflarini joylashtirish va Foydalanuvchilardan to'lovlarni qabul qilish imkonini beruvchi texnologik platformani taqdim etadi.",
+      "item11_3": "11.3 Yetkazib beruvchi Xizmat orqali joylashtirilgan ma'lumotlarning aniqligi, to'liqligi va yangiligi uchun shaxsan javob beradi, shuningdek, mahsulotlarning saqlanishi, tayyorlanishi va topshirilishi jarayonida sanitariya me'yorlariga qat'iy rioya etishi lozim.",
+      "item11_4": "11.4 \"Azera\" kompaniyasi quyidagi hollarda Hamkor bilan hamkorlikni to'xtatish yoki bekor qilish huquqiga ega: amaldagi qonun hujjatlarining buzilishi; Foydalanuvchilar tomonidan asosli shikoyatlar kelib tushishi; mazkur Oferta shartlarining buzilishi yoki \"Azera\"ning obro'siga zarar yetkazuvchi harakatlar sodir etilishi."
+    },
+    "section12": {
+      "title": "12. Yakuniy qoidalar",
+      "item12_1": "12.1 \"Azera\" kompaniyasi ushbu Ofertaga o'zgartirishlar kiritish huquqiga ega. Ofertaning yangi tahriri rasmiy \"Azera\" veb-saytida e'lon qilingan paytdan boshlab kuchga kiradi.",
+      "item12_2": "12.2 Foydalanuvchi yoki Yetkazib beruvchi tomonidan Xizmatdan foydalanish Ofertaning yangilangan tahririga rozilik bildirgan hisoblanadi.",
+      "item12_3": "12.3 Xabar va bildirishnomalar Foydalanuvchiga elektron pochta orqali yoki mobil ilova xabarnomalari orqali yuboriladi va ular yuborilgan paytdan boshlab yetkazilgan deb hisoblanadi.",
+      "item12_4": "12.4 Mazkur Oferta O'zbekiston Respublikasi qonunchiligi bilan tartibga solinadi va sharhlanadi.",
+      "item12_5": "12.5 Tomonlar o'rtasidagi barcha nizolar, birinchi navbatda, muzokaralar yo'li bilan hal etiladi. Agar kelishuvga erishilmasa, nizo O'zbekiston Respublikasi sudlarida, \"Azera\" MChJ ro'yxatdan o'tgan joydagi sud yurisdiksiyasi bo'yicha ko'rib chiqiladi.",
+      "item12_6": "12.6 Foydalanuvchi ro'yxatdan o'tish yoki buyurtma rasmiylashtirish orqali ushbu Oferta shartlarini to'liq o'qib chiqqanini va ularga roziligini tasdiqlaydi.",
+      "item12_7": "12.7 \"Azera\" kompaniyasi ushbu Oferta bo'yicha o'z huquq va majburiyatlarini uchinchi shaxslarga topshirish huquqiga ega va buning uchun Foydalanuvchi yoki Yetkazib beruvchidan alohida rozilik talab etilmaydi."
+    },
+    "section13": {
+      "title": "13. \"Azera\" MChJning rekvizitlari",
+      "companyName": "Tashkilot nomi: Mas'uliyati cheklangan jamiyat \"AZERA\"",
+      "director": "Direktor: Karimov Nozimjon Rustamovich",
+      "address": "Manzil: Toshkent shahri, Olmazor tumani, Gulsaroy mahallasi, Qora-Qamish ¼ mavzesi, 26/11-uy",
+      "bank": "Bank nomi: \"IPAK YO'LI\" Aksiyadorlik tijorat banki, Bosh ofis, Toshkent shahri",
+      "account": "Hisob raqami: 20208000107323282001",
+      "tin": "STIR (INN): 312481535",
+      "oked": "OKED: 62090",
+      "okonh": "OKONX: 79994",
+      "bankCode": "Bank kodi: 00444",
+      "supportPhone": "Telefon raqami: +998 94 007 01 77",
+      "email": "Elektron pochta:"
+    }
   }
 }

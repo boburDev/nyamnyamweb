@@ -7,9 +7,8 @@ export async function GET(
   req: Request,
   context: { params: Promise<{ path: string[] }> }
 ) {
-  const { searchParams } = new URL(req.url);
-  const lat = searchParams.get("lat");
-  const lon = searchParams.get("lon");
+  const currentUrl = new URL(req.url);
+  const { searchParams } = currentUrl;
   const locale = searchParams.get("locale");
   try {
     const { path } = await context.params;
@@ -17,9 +16,10 @@ export async function GET(
     let accessToken = cookieStore.get(ACCESS_TOKEN)?.value ?? null;
     const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
     let targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/${path.join("/")}`;
-    if (lat && lon) {
-      const query = new URLSearchParams({ lat, lon });
-      targetUrl += `?${query.toString()}`;
+
+    // Forward all original query params as-is (not just a subset)
+    if (currentUrl.search) {
+      targetUrl += currentUrl.search;
     }
 
     if (!accessToken && !refreshToken) {
@@ -27,7 +27,7 @@ export async function GET(
     }
     const mainHeaders: Record<string, string> = {};
     if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
-    if(locale) mainHeaders["Accept-Language"] = locale
+    if (locale) mainHeaders["Accept-Language"] = locale
 
     let response = await fetch(targetUrl, { headers: mainHeaders });
     console.log("📡 Main response status:", response.status);
