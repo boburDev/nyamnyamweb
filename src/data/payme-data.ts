@@ -1,9 +1,9 @@
 import {
   ClickIcon,
-  PaymeIcon,
+  // PaymeIcon,
   // PaynetIcon,
   // UzcardIcon,
-  UzumIcon,
+  // UzumIcon,
 } from "@/assets/icons";
 
 export type PaymeIcons = {
@@ -15,14 +15,14 @@ export const paymentIcons: PaymeIcons[] = [
     icon: ClickIcon,
     name: "click",
   },
-  {
-    icon: PaymeIcon,
-    name: "payme",
-  },
-  {
-    icon: UzumIcon,
-    name: "uzum",
-  },
+  // {
+  //   icon: PaymeIcon,
+  //   name: "payme",
+  // },
+  // {
+  //   icon: UzumIcon,
+  //   name: "uzum",
+  // },
   // {
   //   icon: UzcardIcon,
   //   name: "uzcard",
