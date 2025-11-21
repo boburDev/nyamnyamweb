@@ -18,6 +18,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
   // state store
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [payment, setPayment] = useState<string | null>(null);
+  const [payment_url] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const coords = useLocationStore((s) => s.coords);
   const storeCart = useCartStore((s) => s.items);
@@ -121,14 +122,15 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
       })),
       total_price: totalPrice,
       payment_method: payment || "",
+      payment_url: payment_url || "",
     };
 
     createOrder(
       { data: payload, locale },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           showSuccess(t("order-created"));
-          router.push("/order");
+          router.push(res.data.data.payment_url);
         },
       }
     );

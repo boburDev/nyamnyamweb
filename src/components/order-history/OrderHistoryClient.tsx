@@ -88,12 +88,12 @@ export function OrderHistoryClient() {
     .filter((item: FilteredOrderItem) => {
       if (statusFilter !== "all") {
         const statusLower = item.status.toLowerCase();
-        if (statusFilter === "picked") {
-          if (!statusLower.includes("picked") && !statusLower.includes("olib")) {
+        if (statusFilter === "resolve") {
+          if (!statusLower.includes("resolve")) {
             return false;
           }
-        } else if (statusFilter === "canceled") {
-          if (!statusLower.includes("cancel")) {
+        } else if (statusFilter === "reject") {
+          if (!statusLower.includes("reject")) {
             return false;
           }
         }
@@ -125,15 +125,15 @@ export function OrderHistoryClient() {
                 <SelectValue placeholder={t("select.placeholder")}>
                   {statusFilter === "all"
                     ? t("select.element-1")
-                    : statusFilter === "picked"
+                    : statusFilter === "resolve"
                       ? t("select.element-2")
                       : t("select.element-3")}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent className="border-borderColor2!">
                 <SelectItem value="all">{t("select.element-1")}</SelectItem>
-                <SelectItem value="picked">{t("select.element-2")}</SelectItem>
-                <SelectItem value="canceled">{t("select.element-3")}</SelectItem>
+                <SelectItem value="resolve">{t("select.element-2")}</SelectItem>
+                <SelectItem value="reject">{t("select.element-3")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -230,9 +230,11 @@ export function OrderHistoryClient() {
                       <div
                         className={cn(
                           "px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap capitalize",
-                          item.status.toUpperCase().includes("cancel")
-                            ? "bg-red-50 text-red-600"
-                            : "bg-green-50 text-green-600"
+                          item.status.includes("pending")
+                            ? "bg-orange-50 text-orange-400" :
+                            item.status.includes("reject")
+                              ? "bg-red-50 text-red-600"
+                              : "bg-green-50 text-green-600"
                         )}
                       >
                         {getStatusText(item.status)}
