@@ -18,7 +18,6 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
   // state store
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [payment, setPayment] = useState<string | null>(null);
-  const [payment_url] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const coords = useLocationStore((s) => s.coords);
   const storeCart = useCartStore((s) => s.items);
@@ -122,7 +121,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
       })),
       total_price: totalPrice,
       payment_method: payment || "",
-      payment_url: payment_url || "",
+      payment_url: "",
     };
 
     createOrder(
@@ -130,7 +129,13 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
       {
         onSuccess: (res) => {
           showSuccess(t("order-created"));
-          router.push(res.data.data.payment_url);
+          const paymentUrl = res.data?.data?.payment_url || res.data?.payment_url;
+          if (paymentUrl) {
+            router.push(paymentUrl);
+          } else {
+            console.error("Payment URL not found in response:", res);
+            setError("Payment URL not received");
+          }
         },
       }
     );

@@ -4,9 +4,10 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
 
 export async function GET(
   req: Request,
-  { params }: { params: { orderId: string } }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const { orderId } = await params;
     const cookieStore = await cookies();
     let accessToken = cookieStore.get(ACCESS_TOKEN)?.value ?? null;
     const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
@@ -14,7 +15,7 @@ export async function GET(
     const currentUrl = new URL(req.url);
     const itemNumber = currentUrl.searchParams.get("item_number");
 
-    const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${params.orderId}/download-qr/?item_number=${itemNumber}`;
+    const targetUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${orderId}/download-qr/?item_number=${itemNumber}`;
 
     const mainHeaders: Record<string, string> = {};
     if (accessToken) mainHeaders["Authorization"] = `Bearer ${accessToken}`;
