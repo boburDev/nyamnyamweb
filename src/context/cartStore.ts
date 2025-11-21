@@ -113,7 +113,7 @@ const useCartStore = create<CartStore>()(
       getTotalPrice: () => {
         const { items } = get();
         return items.reduce((total, item) => {
-          const cleanPrice = String(item.price).replace(/[^\d.,]/g, "");
+          const cleanPrice = String(item.price_in_app).replace(/[^\d.,]/g, "");
 
           let price = 0;
           if (cleanPrice.includes(",")) {
