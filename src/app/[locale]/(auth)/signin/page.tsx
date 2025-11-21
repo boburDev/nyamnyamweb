@@ -91,6 +91,7 @@ export default function SigninPage() {
 
         showSuccess(tToast("login-success"));
         queryClient.invalidateQueries({ queryKey: ["user"] });
+        queryClient.invalidateQueries({ queryKey: ["authStatus"] });
         router.push("/");
         router.refresh();
       },

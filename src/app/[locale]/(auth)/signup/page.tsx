@@ -15,6 +15,7 @@ import { registerSchema } from "@/schema";
 import { useRegister } from "@/hooks";
 import { SignupForm } from "@/types";
 import { SubmitLoader } from "@/components/loader";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function SignUpPage() {
   const tToast = useTranslations("toast");
   const tValidation = useTranslations("validation");
   const { mutate: registerMutate, isPending } = useRegister(locale);
+  const queryClient = useQueryClient();
 
   const form = useForm<SignupForm>({
     mode: "onTouched",
@@ -37,13 +39,14 @@ export default function SignUpPage() {
   const onSubmit = (data: SignupForm) => {
     registerMutate(data, {
       onSuccess: (res) => {
+        queryClient.invalidateQueries({ queryKey: ["authStatus"] });
+        setTo(data.emailOrPhone);
+        setAuthId(res.id);
         if (res.otp_sent) {
           router.push("/verify");
         } else {
           router.push("/signup-complete");
         }
-        setTo(data.emailOrPhone);
-        setAuthId(res.id);
       },
       onError: (error) => {
         const errorMessage =
