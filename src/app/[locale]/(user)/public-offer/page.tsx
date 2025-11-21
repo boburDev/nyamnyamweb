@@ -7,7 +7,7 @@ export default async function PublicOfferPage() {
   return (
     <div className="py-10 md:py-20">
       <Container>
-        <div className="max-w-4xl mx-auto">
+        <div>
           {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="text-3xl md:text-4xl font-semibold text-textColor mb-[15px]">
