@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { isTelegramEnv } from "@/hooks/istelegram";
 interface QrCodeModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -37,13 +38,17 @@ export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number, orderId 
 
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
+      
+      if (isTelegramEnv()) {
+        window.open(url)
+      } else {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `qr-code-${order_item_number}.png`;
+        link.click();
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `qr-code-${order_item_number}.png`;
-      link.click();
-
-      URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url);
+      }
     } catch (e) {
       console.error("Download error:", e);
     }
