@@ -173,6 +173,11 @@
         "placeholder": "Enter your detailed information..."
       },
       "button": "Submit complaint"
+    },
+    "status": {
+      "pending": "Pending",
+      "reject": "Reject",
+      "resolve": "Resolve"
     }
   },
   "cart": {

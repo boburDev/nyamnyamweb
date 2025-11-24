@@ -173,6 +173,11 @@
         "placeholder": "Batafsil ma’lumotingizni kiriting..."
       },
       "button": "Shikoyat yuborish"
+    },
+    "status": {
+      "pending": "To'lov kutmoqda",
+      "reject": "Bekor qilingan",
+      "resolve": "To'lov muvaffaqiyatli"
     }
   },
   "cart": {

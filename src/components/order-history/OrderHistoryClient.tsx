@@ -71,16 +71,6 @@ export function OrderHistoryClient() {
     }
   };
 
-  const getStatusText = (status: string) => {
-    if (status.toLowerCase().includes("picked") || status.toLowerCase().includes("olib")) {
-      return t("cards.confirm-button");
-    }
-    if (status.toLowerCase().includes("cancel")) {
-      return t("cards.canceled-button");
-    }
-    return status;
-  };
-
   const filteredOrders: FilteredOrderItem[] = (orders
     ?.flatMap((order: Order) =>
       order.order_items.map((item) => ({ ...item, order_number: order.order_number }))
@@ -230,14 +220,14 @@ export function OrderHistoryClient() {
                       <div
                         className={cn(
                           "px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap capitalize",
-                          item.status.includes("pending")
-                            ? "bg-orange-50 text-orange-400" :
-                            item.status.includes("reject")
+                          item.status === "pending"
+                            ? "bg-orange-50 text-orange-400"
+                            : item.status === "reject"
                               ? "bg-red-50 text-red-600"
                               : "bg-green-50 text-green-600"
                         )}
                       >
-                        {getStatusText(item.status)}
+                        {t(`status.${item.status}`)}
                       </div>
                     </div>
                   </div>
