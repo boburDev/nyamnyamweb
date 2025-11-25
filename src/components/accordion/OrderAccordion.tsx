@@ -50,6 +50,26 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
   const t = useTranslations("my-orders.cards");
   const [order_item_number, setOrderItemNumber] = useState<string>("");
   const [orderId, setOrderId] = useState<string>("");
+
+  const handleRepay = async (orderId: string) => {
+    try {
+      const res = await fetch(`/api/proxy/order/${orderId}/repay`, {
+        method: "GET",
+      });
+  
+      const data = await res.json();
+  
+      if (data?.data?.payment_url) {
+        window.location.href = data.data.payment_url;
+      } else {
+        console.error("Payment URL topilmadi");
+      }
+    } catch (err) {
+      console.error("Repay error:", err);
+    }
+  };
+  
+  
   return (
     <Accordion
       type="single"
@@ -137,7 +157,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                           <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time} - {product.end_time}
                         </p>
                       </div>
-                      <div className="flex justify-between items-center pt-3 xl:pt-[25px]">
+                      <div className="flex flex-col 3xs:flex-row justify-between sm:items-center pt-3 xl:pt-[25px]">
                         <div className="md:flex-row-reverse xl:flex-row flex items-center gap-1 2xs:gap-2.5">
                           <h4 className="font-semibold text-base 2xs:text-lg md:text-[20px] xl:text-[22px] text-mainColor">
                             {product.price?.toLocaleString()} so‘m
@@ -146,22 +166,32 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                             {product.original_price?.toLocaleString()} <span className="hidden xl:block">so‘m</span>
                           </p>
                         </div>
-                        {
-                          item.payment_status === 'waiting' && (<Button
-                            onClick={() => {
-                              setQrCode(product.qr_code_img);
-                              setOrderItemNumber(product.order_item_number);
-                              setOrderId(item.id);
-                              setOpen(true);
-                            }}
-                            className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm"
-                            variant={"outline"}
-                          >
-                            <ScanQrCode size={20} />
-                            ({t("qr-code")})
-                          </Button>
-                          )
-                        }
+                        <div className="flex flex-col 3xs:flex-row items-center gap-2 mt-2 3xs:mt-0">
+                          {
+                            item.payment_status === 'waiting' && (<Button
+                              onClick={() => {
+                                setQrCode(product.qr_code_img);
+                                setOrderItemNumber(product.order_item_number);
+                                setOrderId(item.id);
+                                setOpen(true);
+                              }}
+                              className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max"
+                              variant={"outline"}
+                            >
+                              <ScanQrCode size={20} />
+                              ({t("qr-code")})
+                            </Button>
+                            )
+                          }
+                          {item.payment_status !== "success" && (
+                            <Button
+                              onClick={() => handleRepay(item.id)}
+                              className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max"
+                            >
+                              To‘lov qilish
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
                     {/* <div className="flex flex-col justify-between">
