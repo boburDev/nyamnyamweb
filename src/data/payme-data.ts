@@ -1,6 +1,6 @@
 import {
   ClickIcon,
-  // PaymeIcon,
+  PaymeIcon,
   // PaynetIcon,
   // UzcardIcon,
   // UzumIcon,
@@ -15,10 +15,10 @@ export const paymentIcons: PaymeIcons[] = [
     icon: ClickIcon,
     name: "click",
   },
-  // {
-  //   icon: PaymeIcon,
-  //   name: "payme",
-  // },
+  {
+    icon: PaymeIcon,
+    name: "payme",
+  },
   // {
   //   icon: UzumIcon,
   //   name: "uzum",
