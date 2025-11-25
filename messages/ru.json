@@ -209,6 +209,7 @@
     "title": "Мои заказы",
     "accordion-title": "Количество заказов:",
     "cards": {
+      "repay-button": "Оплатить",
       "title": "Заказ",
       "order-time": "Время получения:",
       "canceled-badge": "Отменен",

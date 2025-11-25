@@ -209,6 +209,7 @@
     "title": "My orders",
     "accordion-title": "Number of orders:",
     "cards": {
+      "repay-button": "Make a payment",
       "title": "Order",
       "canceled-badge": "Canceled",
       "order-time": "Pickup time:",

@@ -188,7 +188,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                               onClick={() => handleRepay(item.id)}
                               className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max"
                             >
-                              To‘lov qilish
+                             {t("repay-button")}
                             </Button>
                           )}
                         </div>

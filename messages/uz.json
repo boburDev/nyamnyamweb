@@ -209,6 +209,7 @@
     "title": "Buyurtmalarim",
     "accordion-title": "Buyurtma soni:",
     "cards": {
+      "repay-button": "To‘lov qilish",
       "title": "Buyurtma",
       "order-time": "Olib ketish vaqti: ",
       "canceled-badge": "Bekor qilingan",
