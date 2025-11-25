@@ -142,6 +142,8 @@
   },
   "orders-history": {
     "title": "Xaridlar  tarixi",
+    "order": "Buyurtma",
+    "pcs": "ta",
     "cards": {
       "cards-title": "Mahsulot sotib olingan sana",
       "confirm-button": "Olib ketilgan",
@@ -175,9 +177,9 @@
       "button": "Shikoyat yuborish"
     },
     "status": {
-      "pending": "To'lov kutmoqda",
-      "reject": "Bekor qilingan",
-      "resolve": "To'lov muvaffaqiyatli"
+      "pending": "Olib ketilishi kutilmoqda",
+      "reject": "Olib ketilmadi",
+      "resolve": "Olib ketildi"
     }
   },
   "cart": {

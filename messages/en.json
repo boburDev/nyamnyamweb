@@ -142,6 +142,8 @@
   },
   "orders-history": {
     "title": "Purchase history",
+    "order": "Order",
+    "pcs": "pcs",
     "cards": {
       "cards-title": "Product purchase date",
       "confirm-button": "Picked up",
@@ -175,9 +177,9 @@
       "button": "Submit complaint"
     },
     "status": {
-      "pending": "Pending",
-      "reject": "Reject",
-      "resolve": "Resolve"
+      "pending": "Waiting for pickup",
+      "reject": "Unable to pick up",
+      "resolve": "Pickup successful"
     }
   },
   "cart": {

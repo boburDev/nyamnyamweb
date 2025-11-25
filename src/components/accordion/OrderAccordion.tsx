@@ -19,6 +19,7 @@ interface OrderItem {
   original_price: number;
   count: number;
   business_branch_name: string;
+  business_name: string;
   overall_rating: number;
   surprise_bag_img: string;
   start_time: string;
@@ -126,7 +127,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                         </p>
                       </div>
                       <h4 className="text-xs md:text-sm xl:text-lg text-dolphin mt-[5px] xl:mt-2">
-                        {product.business_branch_name}
+                        {product.business_name} • {product.business_branch_name}
                       </h4>
                       <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
                         <h5 className="text-xs md:text-sm xl:text-base text-dolphin">

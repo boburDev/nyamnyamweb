@@ -40,7 +40,9 @@ input:-webkit-autofill:active {
   --color-textMobileHeader: #1E1E1E;
   --breakpoint-xs: 340px;
   --breakpoint-2xs: 375px;
+  --breakpoint-3xs: 426px;
   --breakpoint-sm: 540px;
+  --breakpoint-2sm: 650px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;

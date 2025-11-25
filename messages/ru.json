@@ -142,6 +142,8 @@
   },
   "orders-history": {
     "title": "История покупок",
+    "order": "Заказ",
+    "pcs": "шт",
     "cards": {
       "cards-title": "Дата покупки товара",
       "confirm-button": "Забран",
@@ -175,9 +177,9 @@
       "button": "Отправить жалобу"
     },
     "status": {
-      "pending": "Ожидание",
-      "reject": "Отклонено",
-      "resolve": "Решено"
+      "pending": "Ожидание получения",
+      "reject": "Не забран",
+      "resolve": "Забран"
     }
   },
   "cart": {
