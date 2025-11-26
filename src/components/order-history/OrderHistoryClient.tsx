@@ -7,11 +7,12 @@ import { useState } from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarDays, Clock } from "lucide-react";
+import { CalendarDays, Clock, ScanQrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionTrigger, AccordionItem, AccordionContent } from "@/components/ui/accordion";
 import Image from "next/image";
 import { format } from "date-fns";
+import { QrCodeModal } from "../modal";
 import { cn } from "@/lib/utils";
 
 interface OrderItem {
@@ -22,10 +23,13 @@ interface OrderItem {
   count: number;
   business_branch_name: string;
   business_name: string;
-  overall_rating: number | null;
+  overall_rating: number;
   surprise_bag_img: string;
   start_time: string;
+  end_time: string;
+  qr_code_img: string;
   pickup_date: string;
+  order_item_number: string;
 }
 
 interface Order {
@@ -37,12 +41,14 @@ interface Order {
   order_items: OrderItem[];
   updated_at?: string;
 }
-
 export function OrderHistoryClient() {
   const locale = useLocale();
   const t = useTranslations("orders-history");
   const { data: orders } = useGetOrderHistory(locale);
-
+  const [qrCode, setQrCode] = useState<string>("");
+  const [order_item_number, setOrderItemNumber] = useState<string>("");
+  const [orderId, setOrderId] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
 
@@ -119,8 +125,12 @@ export function OrderHistoryClient() {
 
         {/* ACCORDION */}
         {filtered.length > 0 ? (
-          <Accordion type="single" defaultValue="order-0" collapsible className="w-full space-y-2">
-
+          <Accordion
+            type="single"
+            defaultValue="order-0"
+            collapsible
+            className="w-full space-y-2"
+          >
             {filtered.map((order: Order, index: number) => {
               const first = order.order_items[0];
 
@@ -131,66 +141,111 @@ export function OrderHistoryClient() {
                   className="w-full rounded-[15px] md:rounded-[20px] xl:rounded-[30px] border-b-0 bg-white"
                 >
                   <AccordionTrigger className="px-[15px] py-[15px] md:!px-5 md:!py-5 xl:px-[30px] xl:!py-[24px] flex items-center hover:no-underline [&>svg]:size-6 xl:[&>svg]:size-8">
-                    <div className="text-left">
-                      <p className="flex flex-col font-semibold sm:text-lg">
-                        {t("order")} №{order.order_number} ({order.order_items.length} {t("pcs")})
-                      </p>
+                    <p className="flex flex-col font-semibold sm:text-lg">
+                      {t("order")} №{order.order_number} ({order.order_items.length} {t("pcs")})
                       <span className="!font-normal text-xs md:text-base text-dolphin flex items-center gap-[6px]">
-                        <CalendarDays size={16} /> {first.pickup_date}
-                        <Clock size={16} /> {first.start_time}
+                        <CalendarDays className="size-3 md:size-4" />
+                        {first.pickup_date}
+                        <Clock className="size-3 md:size-4" />
+                        {first.start_time.slice(0, 5)}
                       </span>
-                    </div>
+                    </p>
                   </AccordionTrigger>
 
-                  <AccordionContent className="px-4 pb-4 space-y-4">
-                    <div className="hidden xl:block w-full h-[1px] bg-plasterColor mt-[15px]"></div>
-                    {order.order_items.map((product, i) => (
-                      <div key={i} className="flex flex-col 3xs:flex-row gap-4 border border-plasterColor rounded-[12px] md:rounded-[15px] xl:rounded-[30px] p-4 md:p-[15px] xl:p-5 2xl:p-[30px]">
+                  <AccordionContent className="text-muted-foreground px-[15px] md:px-5">
+                    <div>
+                      <div className="hidden xl:block w-full h-[1px] bg-plasterColor mt-[25px]"></div>
 
-                        <Image
-                          src={product.surprise_bag_img}
-                          width={220}
-                          height={180}
-                          alt={product.title}
-                          className="rounded-lg object-cover w-full 3xs:w-[180px] sm:w-[220px]  "
-                        />
+                      {order.order_items.map((product, i) => (
+                        <div
+                          key={i}
+                          className="flex border border-plasterColor mb-3 last:mb-0 xl:mb-0 xl:mt-3 rounded-[12px] md:rounded-[15px] xl:rounded-[30px] p-4 md:p-[15px] xl:p-5 2xl:p-[30px]"
+                        >
+                          <Image
+                            src={product.surprise_bag_img}
+                            width={220}
+                            height={180}
+                            className="hidden md:block w-[160px] h-[141px] xl:w-[253px] xl:h-[183px] rounded-[12px] xl:rounded-[20px] object-cover"
+                            alt={product.title}
+                          />
 
-                        <div className="flex flex-col justify-between w-full">
+                          <div className="w-full md:ml-[15px] xl:ml-5">
+                            <div className="flex justify-between w-full items-center">
+                              <h3 className="font-medium md:text-lg xl:text-[22px] text-textColor">
+                                {product.title}
+                              </h3>
 
-                          <div>
-                            <h3 className="text-lg font-medium">{product.title}</h3>
-                            <p className="text-sm text-dolphin mt-1">
+                              {/* STATUS BADGE */}
+                              <span
+                                className={cn(
+                                  "px-3 py-1.5 rounded-lg text-sm font-medium capitalize text-center mt-2 sm:w-max",
+                                  product.status === "pending"
+                                    ? "bg-orange-50 text-orange-400"
+                                    : product.status === "reject"
+                                      ? "bg-red-50 text-red-600"
+                                      : "bg-green-50 text-green-600"
+                                )}
+                              >
+                                {t(`status.${product.status}`)}
+                              </span>
+                            </div>
+
+                            <h4 className="text-xs md:text-sm xl:text-lg text-dolphin mt-[5px] xl:mt-2">
                               {product.business_name} • {product.business_branch_name}
-                            </p>
-                          </div>
+                            </h4>
 
-                          <div className="flex flex-col 2sm:flex-row justify-between 2sm:items-center mt-2">
-                            <p className="font-semibold text-green-600 text-xl">
-                              {product.price.toLocaleString()} UZS
-                            </p>
-                            <span
-                              className={cn(
-                                "px-3 py-1.5 rounded-lg text-sm font-medium capitalize text-center mt-2 sm:w-max",
-                                product.status === "pending"
-                                  ? "bg-orange-50 text-orange-400"
-                                  : product.status === "reject"
-                                    ? "bg-red-50 text-red-600"
-                                    : "bg-green-50 text-green-600"
-                              )}
-                            >
-                              {t(`status.${product.status}`)}
-                            </span>
-                          </div>
+                            <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
+                              <h5 className="text-xs md:text-sm xl:text-base text-dolphin">
+                                {t("order-quantity")} {product.count} {t("pcs")}
+                              </h5>
 
+                              <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">
+                                <span className="text-mainColor">{t("order-time")}</span>{" "}
+                                {product.start_time.slice(0, 5)} - {product.end_time.slice(0, 5)}
+                              </p>
+                            </div>
+
+                            <div className="flex flex-col 3xs:flex-row justify-between sm:items-center pt-3 xl:pt-[25px]">
+                              <div className="md:flex-row-reverse xl:flex-row flex items-center gap-1 2xs:gap-2.5">
+                                <h4 className="font-semibold text-base 2xs:text-lg md:text-[20px] xl:text-[22px] text-mainColor">
+                                  {product.price?.toLocaleString()} so‘m
+                                </h4>
+
+                                <p className="flex gap-1 text-xs md:text-sm xl:text-[15px] line-through text-dolphin mt-1 md:mt-0 xl:mt-1">
+                                  {product.original_price?.toLocaleString()}
+                                  <span className="hidden xl:block">so‘m</span>
+                                </p>
+                              </div>
+
+                              <div className="flex flex-col 3xs:flex-row items-center gap-2 mt-2 3xs:mt-0">
+                                {/* QR BUTTON (waiting) */}
+                                {product.status === "pending" && (
+                                  <Button
+                                    onClick={() => {
+                                      setQrCode(product.qr_code_img);
+                                      setOrderItemNumber(product.order_item_number);
+                                      setOrderId(order.id);
+                                      setOpen(true);
+                                    }}
+                                    className="xl:!bg-plasterColor rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max"
+                                    variant="outline"
+                                  >
+                                    <ScanQrCode size={20} /> ({t("qr-code")})
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               );
             })}
+            <QrCodeModal open={open} setOpen={setOpen} qrCode={qrCode} order_item_number={order_item_number} orderId={orderId} />
           </Accordion>
+
         ) : (
           <EmptyOrder />
         )}

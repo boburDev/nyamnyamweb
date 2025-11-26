@@ -144,6 +144,9 @@
     "title": "Xaridlar  tarixi",
     "order": "Buyurtma",
     "pcs": "ta",
+    "order-time": "Olib ketish vaqti:",
+    "order-quantity": "Buyurtma miqdori:",
+    "qr-code": "QR kod",
     "cards": {
       "cards-title": "Mahsulot sotib olingan sana",
       "confirm-button": "Olib ketilgan",

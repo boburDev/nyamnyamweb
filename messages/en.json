@@ -144,6 +144,9 @@
     "title": "Purchase history",
     "order": "Order",
     "pcs": "pcs",
+    "order-time ": "Pickup time:",
+    "order-quantity": "Order quantity:",
+    "qr-code": "QR code",
     "cards": {
       "cards-title": "Product purchase date",
       "confirm-button": "Picked up",

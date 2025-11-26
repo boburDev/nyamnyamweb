@@ -144,6 +144,9 @@
     "title": "История покупок",
     "order": "Заказ",
     "pcs": "шт",
+    "order-time": "Время получения:",
+    "order-quantity": "Количество заказа:",
+    "qr-code": "QR-код",
     "cards": {
       "cards-title": "Дата покупки товара",
       "confirm-button": "Забран",

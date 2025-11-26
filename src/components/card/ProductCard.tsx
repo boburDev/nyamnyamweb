@@ -56,9 +56,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="p-3 xl:p-5">
           {/* Rating and Name */}
 
-          <p className="text-textColor font-semibold text-base xl:text-lg line-clamp-1 mb-2.5 xl:mb-4">
-            {product?.title}
-          </p>
+          <div className="flex justify-between">
+            <p className="text-textColor font-semibold text-base xl:text-lg line-clamp-1 mb-2.5 xl:mb-4">
+              {product?.title}
+            </p>
+            <p className="flex items-center gap-1 text-dolphin text-xs xl:text-sm mb-2.5"><span>{product?.start_time?.slice(0,5)}</span>-<span>{product?.end_time?.slice(0,5)}</span></p>
+          </div>
 
           {/* Business name + Branch + Distance */}
           <div className="flex justify-between items-center mb-2 xl:mb-[19px]">

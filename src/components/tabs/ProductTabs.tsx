@@ -125,7 +125,7 @@ export const ProductTabs = () => {
                             t={t}
                             title={t("title-5")}
                             catalog={currentCatalog}
-                            type="new"
+                            type="morning"
                             length={product?.morning?.length}
                           />
                           <ProductSwiper product={product?.morning} />
@@ -138,7 +138,7 @@ export const ProductTabs = () => {
                             t={t}
                             title={t("title-3")}
                             catalog={currentCatalog}
-                            type="new"
+                            type="afternoon"
                             length={product?.afternoon?.length}
                           />
                           <ProductSwiper product={product?.afternoon} />
@@ -151,7 +151,7 @@ export const ProductTabs = () => {
                             t={t}
                             title={t("title-4")}
                             catalog={currentCatalog}
-                            type="new"
+                            type="evening"
                             length={product?.evening?.length}
                           />
                           <ProductSwiper product={product?.evening} />

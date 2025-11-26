@@ -56,9 +56,9 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
       const res = await fetch(`/api/proxy/order/${orderId}/repay`, {
         method: "GET",
       });
-  
+
       const data = await res.json();
-  
+
       if (data?.data?.payment_url) {
         window.location.href = data.data.payment_url;
       } else {
@@ -68,8 +68,8 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
       console.error("Repay error:", err);
     }
   };
-  
-  
+
+
   return (
     <Accordion
       type="single"
@@ -83,16 +83,28 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
           value={`item-${index + 1}`}
           className="w-full rounded-[15px] md:rounded-[20px] xl:rounded-[30px] border-b-0 bg-white"
         >
-          <AccordionTrigger className="px-[15px] py-[15px] md:!px-5 md:!py-5 xl:px-[30px] xl:!py-[24px] flex items-center hover:no-underline [&>svg]:size-6 xl:[&>svg]:size-8">
+          <AccordionTrigger className="relative px-[15px] py-[15px] md:!px-5 md:!py-5 xl:px-[30px] xl:!py-[24px] flex items-center hover:no-underline [&>svg]:size-6 xl:[&>svg]:size-8">
             <p className="flex flex-col font-semibold sm:text-lg">
               {t("title")} №{item.order_number} ({item.order_items.length} {t("ta")})
               <span className="!font-normal text-xs md:text-base text-dolphin flex items-center gap-[6px]">
                 <CalendarDays className="size-3 md:size-4" />
                 {item.order_items[0]?.pickup_date}
                 <Clock className="size-3 md:size-4" />
-                {item.order_items[0]?.start_time}
+                {item.order_items[0]?.start_time.slice(0, 5)}
               </span>
             </p>
+            {item.payment_status !== "success" && (
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRepay(item.id)
+                }
+                }
+                className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max absolute right-13 md:right-18 xl:right-20"
+              >
+                {t("repay-button")}
+              </Button>
+            )}
           </AccordionTrigger>
           <AccordionContent className="text-muted-foreground px-[15px] md:px-5">
             <div>
@@ -154,7 +166,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                           {t("order-quantity")}  {product.count} {t("ta")}
                         </h5>
                         <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">
-                          <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time} - {product.end_time}
+                          <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time.slice(0, 5)} - {product.end_time.slice(0, 5)}
                         </p>
                       </div>
                       <div className="flex flex-col 3xs:flex-row justify-between sm:items-center pt-3 xl:pt-[25px]">
@@ -183,14 +195,6 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                             </Button>
                             )
                           }
-                          {item.payment_status !== "success" && (
-                            <Button
-                              onClick={() => handleRepay(item.id)}
-                              className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max"
-                            >
-                             {t("repay-button")}
-                            </Button>
-                          )}
                         </div>
                       </div>
                     </div>

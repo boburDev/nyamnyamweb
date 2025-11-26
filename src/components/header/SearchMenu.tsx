@@ -13,12 +13,29 @@ type ProductDataMap = {
   [key: string]: ProductData[];
 };
 
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number) {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+}
+
 const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string }) => {
   const t = useTranslations("Navbar.search");
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isTyping, setIsTyping] = useState(false);
+  console.log(isTyping, isOpen);
+
+  const debouncedSetSearch = useRef(
+    debounce((val: string) => {
+      setSearch(val);
+      setIsTyping(false);
+    }, 500) // 500ms delay — ideal
+  ).current;
 
   const { data: productDataMap = {}, isLoading } = useQuery<ProductDataMap>({
     queryKey: ["surprise-search", search],
@@ -46,9 +63,15 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setSearch(val);
-    setIsOpen(val.length > 0);
+    setIsTyping(true);
+    debouncedSetSearch(val);
+    if (val.length > 0) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
   };
+
 
   const handleItemClick = (title: string) => {
     setSearch(title);
@@ -59,7 +82,15 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
   const handleNavigationClick = () => {
     setIsOpen(false);
   };
-
+  const handleClearInput = () => {
+    if (inputRef.current) {
+      inputRef.current.value = ""; // inputni tozalash
+      inputRef.current.focus();
+    }
+    setSearch("");
+    setIsOpen(false);
+    setIsTyping(false);
+  };
   return (
     <div
       className={`relative w-full ${auth ? "mt-[18px] md:mt-0 md:ml-3 xl:ml-20 2xl:ml-[130px]" : "mt-[18px] md:mt-0 lg:ml-[30px]"} ${className}`}
@@ -69,7 +100,6 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         <input
           ref={inputRef}
-          value={search}
           onChange={handleInputChange}
           onFocus={() => {
             if (search.length > 0) setIsOpen(true);
@@ -79,10 +109,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
         />
         {search && (
           <span
-            onClick={() => {
-              setSearch("");
-              setIsOpen(false);
-            }}
+            onClick={handleClearInput}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
           >
             <X className="text-mainColor w-5 h-5" />
@@ -93,7 +120,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white shadow-lg rounded-[15px] border border-gray-100 z-50 overflow-y-auto max-h-[70vh]">
           <div className="p-4">
-            {isLoading ? (
+            {isLoading || isTyping ? (
               <p className="text-center text-dolphin">{t("loading")}</p>
             ) : allProducts.length > 0 ? (
               <>
