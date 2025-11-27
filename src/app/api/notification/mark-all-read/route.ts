@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, ORDER } from "@/constants";
+import { ACCESS_TOKEN, MARK_ALL_READ } from "@/constants";
 import axios, { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const body = await req.json();
+  const body = {};
 
   // Extract locale from query parameters
   const { searchParams } = new URL(req.url);
@@ -38,19 +38,19 @@ export async function POST(req: Request) {
       headers["Accept-Language"] = locale;
     }
 
-    const response = await axios.post(ORDER, body, { headers });
+    const response = await axios.post(MARK_ALL_READ, body, { headers });
 
     const result = response.data;
 
     return NextResponse.json({
       success: true,
-      message: result.error_message || "Order created successfully",
+      message: result.error_message || "Notification marked as read successfully",
       data: result,
     });
   } catch (error) {
     const err = error as AxiosError;
 
-    console.error("❌ Order POST xatosi:", err);
+    console.error("❌ Notification mark-all-read POST xatosi:", err);
     console.error("🔍 Error detail:", err.response?.data);
 
     const errorData = err.response?.data as ErrorResponse | undefined;

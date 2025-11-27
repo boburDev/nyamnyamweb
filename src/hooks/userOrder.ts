@@ -20,7 +20,6 @@ const getOrder = async (locale?: string) => {
     const res = await axios.get(url);
     return res.data.data;
   } catch (err) {
-    console.log("❌ Order yaratishda xato:", err);
     throw err;
   }
 }
@@ -37,7 +36,6 @@ const getOrderHistory = async (locale?: string) => {
     const res = await axios.get(url);
     return res.data.data;
   } catch (err) {
-    console.log("❌ Order history olishda xato:", err);
     throw err;
   }
 }
@@ -53,7 +51,6 @@ const createOrder = async ({ data, locale }: Props) => {
     const res = await axios.post(url, data);
     return res.data;
   } catch (err) {
-    console.log("❌ Order yaratishda xato:", err);
     throw err;
   }
 };

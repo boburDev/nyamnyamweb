@@ -13,7 +13,7 @@ type ProductDataMap = {
   [key: string]: ProductData[];
 };
 
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number) {
+function debounce<T extends (...args: string[]) => void>(func: T, delay: number) {
   let timeout: NodeJS.Timeout;
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
@@ -28,7 +28,6 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isTyping, setIsTyping] = useState(false);
-  console.log(isTyping, isOpen);
 
   const debouncedSetSearch = useRef(
     debounce((val: string) => {

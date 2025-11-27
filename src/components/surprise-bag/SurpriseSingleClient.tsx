@@ -41,12 +41,6 @@ export const SurpriseSingleClient = ({
       coords?.lon ?? null,
     ],
     queryFn: () => {
-      console.log("Client queryFn calling getSurpriseBagSingle with:", {
-        id,
-        locale,
-        lat: coords?.lat,
-        lon: coords?.lon,
-      });
       return getSurpriseBagSingle({
         id,
         locale,

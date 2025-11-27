@@ -14,12 +14,12 @@ import { format, isValid } from "date-fns";
 import { uz } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/api";
-import { useNotificationWebSocket, useNotifications } from "@/hooks";
-import { useLocale } from "next-intl";
+import { useMarkAllRead, useNotificationWebSocket, useNotifications } from "@/hooks";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 export const NotificationMenu = () => {
   const locale = useLocale();
-
+  const t = useTranslations("notification");
   // Get user data to extract user ID
   const { data: userData } = useQuery({
     queryKey: ["user"],
@@ -42,6 +42,12 @@ export const NotificationMenu = () => {
 
   // Count unread notifications
   const unreadCount = notifications.filter(n => !n.is_read).length;
+  const { mutate: markAllRead } = useMarkAllRead();
+
+  // Handle marking all notifications as read
+  const handleAllRead = () => {
+    markAllRead({ locale });
+  };
 
   return (
     <DropdownMenu>
@@ -59,22 +65,27 @@ export const NotificationMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="max-h-[79vh] md:max-h-110 xl:max-h-200 max-w-[92vw] min-w-[92vw] sm:max-w-[400px] sm:min-w-[400px] xl:max-w-[514px] xl:min-w-[514px] px-4 py-[11px] border-borderColor custom-scrollbar rounded-[12px]">
-        <DropdownMenuLabel className="px-0 xl:py-[9.5px] sm:mb-[15px] font-medium text-textColor text-xl sm:text-2xl lg:text-[30px]">
-          Bildirishnomalar
+        <DropdownMenuLabel className="flex items-center justify-between px-0 xl:py-[9.5px] sm:mb-[15px] font-medium text-textColor text-xl sm:text-2xl lg:text-[30px]">
+          <span>{t("title")}</span>
+          {
+            unreadCount > 0 && (
+              <button onClick={() => handleAllRead()} className="text-sm text-mainColor font-medium cursor-pointer underline underline-offset-2">{t("allRead")}</button>
+            )
+          }
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-col gap-[15px]">
           {loading ? (
             <div className="text-center py-4 text-gray-500">
-              Yuklanmoqda...
+              {t("loading")}
             </div>
           ) : error ? (
             <div className="text-center py-4 text-red-500">
-              Bildirishnomalar yuklanmadi
+              {t("empty")}
             </div>
           ) : notifications.length === 0 ? (
             <div className="text-center py-4 text-gray-500">
-              Bildirishnomalar yo'q
+              {t("notFound")}
             </div>
           ) : (
             notifications.slice(0, 5).map((item) => {
@@ -128,7 +139,7 @@ export const NotificationMenu = () => {
                 href="/notification"
                 className="text-mainColor text-sm hover:underline"
               >
-                Barcha bildirishnomalarni ko'rish
+                {t("viewAll")}
               </Link>
             </div>
           </>

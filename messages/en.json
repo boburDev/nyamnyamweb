@@ -263,6 +263,11 @@
   },
   "notification": {
     "title": "Notifications",
+    "viewAll": "All notifications viewed",
+    "allRead": "Read all",
+    "loading": "Loading...",
+    "empty": "No notifications found",
+    "notFound": "Notification not found",
     "desc": "Manage your notification settings to stay informed about important updates and offers.",
     "section-1-title": "Email",
     "section-1-desc": "Receive updates and information via email.",

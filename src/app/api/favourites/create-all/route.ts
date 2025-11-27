@@ -7,7 +7,6 @@ async function checkAuth() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN)?.value;
 
-  console.log("🍪 Access token:", accessToken ? "found" : "not found");
 
   if (!accessToken) {
     return { isAuthenticated: false, token: null };
@@ -17,11 +16,9 @@ async function checkAuth() {
 }
 
 export async function POST(req: Request) {
-  console.log("📩 Incoming POST request to /api/favourites");
 
   try {
     const { isAuthenticated, token } = await checkAuth();
-    console.log("🔑 Auth status:", isAuthenticated);
 
     if (!isAuthenticated) {
       console.warn("⚠️ No access token in cookies");
@@ -32,7 +29,6 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    console.log("📦 Request body:", body);
 
     const { items } = body;
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -44,7 +40,6 @@ export async function POST(req: Request) {
     }
 
     const requestBody = { items };
-    console.log("🚀 Sending to backend:", POST_FAVORITE, requestBody);
 
     // ✅ axios config to‘g‘rilandi
     const response = await axios.post(POST_FAVORITE, requestBody, {
@@ -54,8 +49,6 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("✅ Response status:", response.status);
-    console.log("📥 Response data:", response.data);
 
     return NextResponse.json({
       success: true,

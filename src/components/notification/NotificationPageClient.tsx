@@ -3,10 +3,8 @@
 import { Container } from "@/components/container";
 import { Calendar, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useQueryClient } from "@tanstack/react-query";
-import { AppNotification } from "@/api/notification";
 import { DataLoader } from "@/components/loader";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNotifications } from "@/hooks";
 import { useLocale } from "next-intl";
 import NotificationTabs from "../tabs/NotificationTabs";
@@ -15,7 +13,6 @@ import { Link } from "@/i18n/navigation";
 export const NotificationPageClient = () => {
   const t = useTranslations("notification");
   const t2 = useTranslations("cards");
-  const queryClient = useQueryClient();
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "read">("all");
   const {
@@ -35,18 +32,18 @@ export const NotificationPageClient = () => {
   }, [notifications, activeTab]);
 
   // Mark notification as read when component mounts
-  useEffect(() => {
-    if (notifications.length > 0) {
-      // Update cache to mark all notifications as read
-      queryClient.setQueryData(["notification"], (oldData: AppNotification[]) => {
-        if (!oldData) return oldData;
-        return oldData.map((notification: AppNotification) => ({
-          ...notification,
-          is_read: true,
-        }));
-      });
-    }
-  }, [notifications, queryClient]);
+  // useEffect(() => {
+  //   if (notifications.length > 0) {
+  //     // Update cache to mark all notifications as read
+  //     queryClient.setQueryData(["notification"], (oldData: AppNotification[]) => {
+  //       if (!oldData) return oldData;
+  //       return oldData.map((notification: AppNotification) => ({
+  //         ...notification,
+  //         is_read: true,
+  //       }));
+  //     });
+  //   }
+  // }, [notifications, queryClient]);
 
   if (isLoading) {
     return (

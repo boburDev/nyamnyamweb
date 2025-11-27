@@ -57,7 +57,6 @@ export async function getNotificationsServer(locale?: string): Promise<AppNotifi
         const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
 
         if (!accessToken && !refreshToken) {
-            console.log("No auth tokens found for server-side notification fetch");
             return [];
         }
 
@@ -161,7 +160,6 @@ export async function getNotificationByIdServer(id: string | number, locale?: st
         const refreshToken = cookieStore.get(REFRESH_TOKEN)?.value ?? null;
 
         if (!accessToken && !refreshToken) {
-            console.log("No auth tokens found for server-side notification fetch");
             return null;
         }
 

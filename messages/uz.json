@@ -263,6 +263,11 @@
   },
   "notification": {
     "title": "Bildirishnoma",
+    "viewAll": "Barcha bildirishnomalarni ko'rish",
+    "allRead": "Hammasini o'qish",
+    "loading": "Yuklanmoqda...",
+    "empty": "Bildirishnomalar mavjud emas",
+    "notFound": "Bildirishnoma topilmadi",
     "desc": "Muhim maʼlumotlar va takliflardan xabardor boʻlish uchun bildirishnoma sozlamalarini boshqaring.",
     "section-1-title": "Email",
     "section-1-desc": "Elektron pochta orqali yangilanishlar va ma'lumotlarni oling.",

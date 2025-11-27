@@ -30,7 +30,6 @@ export async function GET(
     if (locale) mainHeaders["Accept-Language"] = locale
 
     let response = await fetch(targetUrl, { headers: mainHeaders });
-    console.log("📡 Main response status:", response.status);
 
     if (response.status === 401 && refreshToken) {
       console.warn("⚠️ Access token expired, attempting refresh...");
@@ -44,12 +43,8 @@ export async function GET(
         }
       );
 
-      console.log("📡 Refresh response status:", refreshRes.status);
       const rawRefresh = await refreshRes.text();
-      console.log(
-        "📦 Raw refresh response (preview):",
-        rawRefresh.slice(0, 500)
-      );
+      
 
       if (!refreshRes.ok) {
         console.error(
@@ -100,7 +95,6 @@ export async function GET(
       };
 
       response = await fetch(targetUrl, { headers: retryHeaders });
-      console.log("📡 Retry response status:", response.status);
 
       const rawText = await response.text();
       let parsed: unknown = null;
@@ -127,7 +121,6 @@ export async function GET(
             path: "/",
           });
         }
-        console.log("✅ Returning JSON response with Set-Cookie headers");
         return nr;
       } else {
         const nr = new NextResponse(rawText, { status: response.status });
@@ -145,7 +138,6 @@ export async function GET(
             path: "/",
           });
         }
-        console.log("✅ Returning text response with Set-Cookie headers");
         return nr;
       }
     }

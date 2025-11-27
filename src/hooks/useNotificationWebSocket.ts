@@ -21,12 +21,9 @@ export const useNotificationWebSocket = ({
         const ws = new WebSocket(socketUrl);
         wsRef.current = ws;
 
-        ws.onopen = () => {
-            console.log("✅ WebSocket connected for user notifications:", socketUrl);
-        };
+       
 
         ws.onmessage = (event) => {
-            console.log("📩 New notification received:", event.data);
 
             try {
                 // Parse the notification data to check the type
@@ -35,10 +32,8 @@ export const useNotificationWebSocket = ({
 
                 // Only refetch if the notification type is in our allowed list
                 if (notificationType && NOTIFICATION_TYPES_TO_REFETCH.includes(notificationType as NotificationTypeToRefetch)) {
-                    console.log("🔄 Refetching notifications for type:", notificationType);
                     queryClient.invalidateQueries({ queryKey: ["notification"] });
                 } else {
-                    console.log("⏭️ Skipping refetch for notification type:", notificationType);
                 }
             } catch (error) {
                 console.error("❌ Error parsing notification data:", error);
@@ -52,7 +47,6 @@ export const useNotificationWebSocket = ({
         };
 
         ws.onclose = () => {
-            console.log("🔌 WebSocket disconnected");
         };
 
         return () => {
