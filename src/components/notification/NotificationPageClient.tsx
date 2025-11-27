@@ -5,10 +5,11 @@ import { Calendar, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DataLoader } from "@/components/loader";
 import { useState, useMemo } from "react";
-import { useNotifications } from "@/hooks";
+import { useMarkAllRead, useNotifications } from "@/hooks";
 import { useLocale } from "next-intl";
 import NotificationTabs from "../tabs/NotificationTabs";
 import { Link } from "@/i18n/navigation";
+import { Button } from "../ui/button";
 
 export const NotificationPageClient = () => {
   const t = useTranslations("notification");
@@ -44,12 +45,18 @@ export const NotificationPageClient = () => {
   //     });
   //   }
   // }, [notifications, queryClient]);
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+  const { mutate: markAllRead } = useMarkAllRead();
 
+  // Handle marking all notifications as read
+  const handleAllRead = () => {
+    markAllRead({ locale });
+  };
   if (isLoading) {
     return (
       <Container>
         <div className="mt-[76px] pb-[150px]">
-          <h2 className="hidden md:block font-medium text-4xl text-textColor">{t("title")}</h2>
+          <h2 className="hidden md:block font-medium text-4xl text-textColor">{t("title")}a</h2>
           <div className="mt-10">
             <DataLoader />
           </div>
@@ -76,10 +83,26 @@ export const NotificationPageClient = () => {
   return (
     <Container>
       <div className="md:mt-10 xl:mt-[76px]">
-        <h2 className="font-medium text-4xl text-textColor hidden md:block">{t("title")}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-medium text-4xl text-textColor hidden md:block">{t("title")}</h2>
+          <div className="hidden md:block">
+            {
+              unreadCount > 0 && (
+                <Button onClick={() => handleAllRead()} className="text-sm font-medium py-0!">{t("allRead")}</Button>
+              )
+            }
+          </div>
+        </div>
         <div className="overflow-x-auto" style={{ scrollbarWidth: "none" }}>
           <NotificationTabs onTabChange={setActiveTab} />
         </div>
+          <div  className="flex md:hidden mt-5 justify-end">
+            {
+              unreadCount > 0 && (
+                <Button onClick={() => handleAllRead()} className="text-sm font-medium py-0!">{t("allRead")}</Button>
+              )
+            }
+          </div>
         <div className="mt-7.5 md:mt-10 space-y-4 xl:bg-white xl:p-[30px] rounded-[20px] xl:border border-plasterColor">
           {filteredNotifications.length > 0 ? (
             filteredNotifications.map((notification) => (
