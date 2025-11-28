@@ -40,6 +40,7 @@ interface Order {
   total_price: number;
   order_items: OrderItem[];
   updated_at?: string;
+  created_at?: string;
 }
 export function OrderHistoryClient() {
   const locale = useLocale();
@@ -132,7 +133,6 @@ export function OrderHistoryClient() {
             className="w-full space-y-2"
           >
             {filtered.map((order: Order, index: number) => {
-              const first = order.order_items[0];
 
               return (
                 <AccordionItem
@@ -145,9 +145,9 @@ export function OrderHistoryClient() {
                       {t("order")} №{order.order_number} ({order.order_items.length} {t("pcs")})
                       <span className="!font-normal text-xs md:text-base text-dolphin flex items-center gap-[6px]">
                         <CalendarDays className="size-3 md:size-4" />
-                        {first.pickup_date}
+                        {order.created_at?.slice(0, 10)}
                         <Clock className="size-3 md:size-4" />
-                        {first.start_time.slice(0, 5)}
+                        {order.created_at?.slice(11, 16)}
                       </span>
                     </p>
                   </AccordionTrigger>
@@ -195,8 +195,9 @@ export function OrderHistoryClient() {
                             </h4>
 
                             <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
-                              <h5 className="text-xs md:text-sm xl:text-base text-dolphin">
+                              <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2">
                                 {t("order-quantity")} {product.count} {t("pcs")}
+                                 <span className="flex gap-1"><CalendarDays size={16} className="mt-[3px]"/> {product.pickup_date}</span>
                               </h5>
 
                               <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">

@@ -106,7 +106,7 @@ const useAddToCart = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: (items: Array<{ id: string; quantity: number }>) =>
+    mutationFn: (items: Array<{ id: string; quantity: number; weekday: number }>) =>
       addToCart(items),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });

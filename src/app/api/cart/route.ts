@@ -92,6 +92,7 @@ export async function POST(req: Request) {
     const mappedItems = items.map((item: CartData) => ({
       surprise_bag: item.id,
       quantity: item.quantity,
+      weekday: item.weekday,
     }));
 
     const response = await fetch(POST_CART, {

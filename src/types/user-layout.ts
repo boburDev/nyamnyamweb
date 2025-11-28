@@ -58,6 +58,7 @@ export interface CartData {
   start_time: string;
   end_time: string;
   distance: number;
+  weekday: number;
 }
 export interface Cart {
   cart_total: number;

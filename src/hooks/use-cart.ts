@@ -117,7 +117,7 @@ export const useHelpCart = ({ auth }: { auth: boolean }) => {
         surprise_bag: item.id,
         start_time: item.start_time || "",
         end_time: item.end_time || "",
-        weekday: item.weekday ?? 0,
+        weekday: item.weekday || 0,
       })),
       total_price: totalPrice,
       payment_method: payment || "",

@@ -50,7 +50,7 @@ const AddToCart: React.FC<AddToCartProps> = ({
       if (isAddedToCart) {
         router.push("/cart");
       } else {
-        addToCartApi([{ id: product.id, quantity: 1 }], {
+        addToCartApi([{ id: product.id, quantity: 1, weekday: product.weekday }], {
           onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["cart"] });
             showToast({

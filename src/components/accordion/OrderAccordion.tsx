@@ -37,6 +37,7 @@ interface Order {
   total_price: number;
   order_items: OrderItem[];
   updated_at?: string;
+  created_at?: string;
 }
 
 interface Props {
@@ -88,9 +89,9 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
               {t("title")} №{item.order_number} ({item.order_items.length} {t("ta")})
               <span className="!font-normal text-xs md:text-base text-dolphin flex items-center gap-[6px]">
                 <CalendarDays className="size-3 md:size-4" />
-                {item.order_items[0]?.pickup_date}
+                {item.created_at?.slice(0, 10)}
                 <Clock className="size-3 md:size-4" />
-                {item.order_items[0]?.start_time.slice(0, 5)}
+                {item.created_at?.slice(11, 16)}
               </span>
             </p>
             {item.payment_status !== "success" && (
@@ -162,8 +163,9 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                         {product.business_name} • {product.business_branch_name}
                       </h4>
                       <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
-                        <h5 className="text-xs md:text-sm xl:text-base text-dolphin">
-                          {t("order-quantity")}  {product.count} {t("ta")}
+                        <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2">
+                          <span>{t("order-quantity")}  {product.count} {t("ta")}</span>
+                          <span className="flex gap-1 "><CalendarDays size={16}/> {product.pickup_date}</span>
                         </h5>
                         <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">
                           <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time.slice(0, 5)} - {product.end_time.slice(0, 5)}
