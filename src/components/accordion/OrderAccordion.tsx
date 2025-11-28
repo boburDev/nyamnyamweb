@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CalendarDays, Clock, ScanQrCode } from "lucide-react";
+import { CalendarDays, Clock, ScanQrCode, Wallet } from "lucide-react";
 import { Button } from "../ui/button";
 import { QrCodeModal } from "../modal";
 import Image from "next/image";
@@ -101,9 +101,10 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                   handleRepay(item.id)
                 }
                 }
-                className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-full 3xs:w-max absolute right-13 md:right-18 xl:right-20"
+                className="bg-mainColor text-white rounded-[10px] xl:rounded-xl text-xs md:text-sm w-fit 3xs:w-max absolute right-13 md:right-18 xl:right-20"
               >
-                {t("repay-button")}
+                <span className="hidden 3xs:block">{t("repay-button")}</span>
+                <Wallet className="3xs:hidden"/>
               </Button>
             )}
           </AccordionTrigger>
@@ -163,9 +164,9 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                         {product.business_name} • {product.business_branch_name}
                       </h4>
                       <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
-                        <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2">
+                        <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2 mb-1">
                           <span>{t("order-quantity")}  {product.count} {t("ta")}</span>
-                          <span className="flex gap-1 "><CalendarDays size={16}/> {product.pickup_date}</span>
+                          <span className="flex gap-1"><CalendarDays size={16}/> {product.pickup_date}</span>
                         </h5>
                         <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">
                           <span className="text-mainColor"> {t("order-time")}</span>  {product.start_time.slice(0, 5)} - {product.end_time.slice(0, 5)}

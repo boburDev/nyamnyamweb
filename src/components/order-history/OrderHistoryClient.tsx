@@ -178,7 +178,7 @@ export function OrderHistoryClient() {
                               {/* STATUS BADGE */}
                               <span
                                 className={cn(
-                                  "px-3 py-1.5 rounded-lg text-sm font-medium capitalize text-center mt-2 sm:w-max",
+                                  "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium capitalize text-center sm:mt-2 sm:w-max",
                                   product.status === "pending"
                                     ? "bg-orange-50 text-orange-400"
                                     : product.status === "reject"
@@ -195,9 +195,9 @@ export function OrderHistoryClient() {
                             </h4>
 
                             <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0 mt-3 xl:mt-[25px]">
-                              <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2">
+                              <h5 className="text-xs md:text-sm xl:text-base text-dolphin flex flex-col gap-2 mb-1">
                                 {t("order-quantity")} {product.count} {t("pcs")}
-                                 <span className="flex gap-1"><CalendarDays size={16} className="mt-[3px]"/> {product.pickup_date}</span>
+                                 <span className="flex gap-1"><CalendarDays size={16} className="xl:mt-[3px]"/> {product.pickup_date}</span>
                               </h5>
 
                               <p className="font-medium text-xs 2xs:text-sm xl:text-base text-dolphin">
