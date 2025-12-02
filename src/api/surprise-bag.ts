@@ -62,6 +62,7 @@ export async function getSurpriseBagsByCategory({
 export const getSurpriseBagSingle = async ({
   id,
   locale,
+  weekday,
   lat,
   lon,
 }: {
@@ -69,10 +70,12 @@ export const getSurpriseBagSingle = async ({
   locale: string;
   lat?: number;
   lon?: number;
+  weekday?: number | null;
 }) => {
   try {
-    const params = { lat, lon };
-    const res = await axios.get(`${SURPRISE_BAG_ALL}${id}/`, {
+    const params = weekday ? { lat, lon, weekday } : { lat, lon };
+    const url = `${SURPRISE_BAG_ALL}${id}/`;
+    const res = await axios.get(url, {
       headers: { "Accept-Language": locale },
       params,
     });

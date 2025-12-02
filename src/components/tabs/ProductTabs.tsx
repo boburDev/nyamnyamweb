@@ -33,8 +33,11 @@ export const ProductTabs = () => {
 
   useEffect(() => {
     setClient(true);
+    const isTomorrowLocal = localStorage.getItem("weekday");
+    if (isTomorrowLocal) {
+      localStorage.removeItem("weekday");
+    }
   }, []);
-
   const currentCatalog = useMemo(() => {
     if (activeTab === "all") return null;
     return (
@@ -89,7 +92,7 @@ export const ProductTabs = () => {
                             length={product?.popular?.length}
                           />
 
-                          <ProductSwiper product={product?.popular} />
+                          <ProductSwiper product={product?.popular} isTomorrow={false} />
                         </div>
                       )}
                       {product?.recommended?.length > 0 && (
@@ -102,7 +105,7 @@ export const ProductTabs = () => {
                             length={product?.recommended?.length}
                           />
 
-                          <ProductSwiper product={product?.recommended} />
+                          <ProductSwiper product={product?.recommended} isTomorrow={false} />
                         </div>
                       )}
                       {/* new card */}
@@ -115,7 +118,7 @@ export const ProductTabs = () => {
                             type="new"
                             length={product?.new?.length}
                           />
-                          <ProductSwiper product={product?.new} />
+                          <ProductSwiper product={product?.new} isTomorrow={false} />
                         </div>
                       )}
                       {/* morning card */}
@@ -128,7 +131,7 @@ export const ProductTabs = () => {
                             type="morning"
                             length={product?.morning?.length}
                           />
-                          <ProductSwiper product={product?.morning} />
+                          <ProductSwiper product={product?.morning} isTomorrow={false} />
                         </div>
                       )}
                       {/* afternoon card */}
@@ -141,7 +144,7 @@ export const ProductTabs = () => {
                             type="afternoon"
                             length={product?.afternoon?.length}
                           />
-                          <ProductSwiper product={product?.afternoon} />
+                          <ProductSwiper product={product?.afternoon} isTomorrow={false} />
                         </div>
                       )}
                       {/* evening card */}
@@ -154,7 +157,7 @@ export const ProductTabs = () => {
                             type="evening"
                             length={product?.evening?.length}
                           />
-                          <ProductSwiper product={product?.evening} />
+                          <ProductSwiper product={product?.evening} isTomorrow={false} />
                         </div>
                       )}
                       {/* tomorrow */}
@@ -167,7 +170,7 @@ export const ProductTabs = () => {
                             type="tomorrow"
                             length={product?.tomorrow?.length}
                           />
-                          <ProductSwiper product={product?.tomorrow} />
+                          <ProductSwiper product={product?.tomorrow} isTomorrow={true} />
                         </div>
                       )}
                     </div>

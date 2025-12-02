@@ -12,11 +12,13 @@ import { useTranslations } from "next-intl";
 
 interface ProductCardProps {
   product: ProductData;
+  isTomorrow?: number | false;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, isTomorrow }) => {
   const router = useRouter();
   const t = useTranslations("cards");
+
   const imageSrc =
     typeof product?.cover_image === "string" && product.cover_image.trim() !== ""
       ? product.cover_image
@@ -60,7 +62,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <p className="text-textColor font-semibold text-base xl:text-lg line-clamp-1 mb-2.5 xl:mb-4">
               {product?.title}
             </p>
-            <p className="flex items-center gap-1 text-dolphin text-xs xl:text-sm mb-2.5"><span>{product?.start_time?.slice(0,5)}</span>-<span>{product?.end_time?.slice(0,5)}</span></p>
+            <p className="flex items-center gap-1 text-dolphin text-xs xl:text-sm mb-2.5"><span>{product?.start_time?.slice(0, 5)}</span>-<span>{product?.end_time?.slice(0, 5)}</span></p>
           </div>
 
           {/* Business name + Branch + Distance */}
@@ -109,7 +111,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 className="hidden md:flex flex-1"
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/surprise-bag/${product?.id}`);
+                  if (isTomorrow) {
+                    localStorage.setItem("weekday", isTomorrow.toString());
+                    router.push(`/surprise-bag/${product?.id}`);
+                  } else {
+                    router.push(`/surprise-bag/${product?.id}`);
+                  }
                 }}
               >
                 <Button className="w-full h-10 px-3 3xl:px-5 bg-gray-100 !text-mainColor rounded-lg hover:!text-white font-medium hover:bg-gray-200 transition-colors">

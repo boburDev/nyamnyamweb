@@ -80,7 +80,7 @@ export const BannerSwiper = () => {
         {banners?.map((banner: Banner, index: number) => (
           <div key={index} className="px-1 sm:px-2">
             <div className="relative h-full w-full cursor-pointer">
-              <Link href={banner.url} target="_blank" className="block h-[200px] md:h-[500px]! 3xl:h-[746px]! w-full max-w-[1220px]! max-h-[746px]!">
+              <Link href={banner.url} target="_blank" className="relative block h-[200px] md:h-[500px]! 3xl:h-[746px]! w-full max-w-[1220px]! max-h-[746px]!">
                 <Image
                   priority
                   src={banner.cover_image}

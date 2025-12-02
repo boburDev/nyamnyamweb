@@ -32,11 +32,13 @@ export const SurpriseSingleClient = ({
   const [isMobile, setIsMobile] = useState(false);
   const [showMapOptions, setShowMapOptions] = useState(false);
   const [mapCoords, setMapCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const isWeekday = localStorage.getItem("weekday");
   const { data: product, isLoading } = useQuery({
     queryKey: [
       "surprise-bag",
       id,
       locale,
+      isWeekday ? Number(isWeekday) : null,
       coords?.lat ?? null,
       coords?.lon ?? null,
     ],
@@ -44,6 +46,7 @@ export const SurpriseSingleClient = ({
       return getSurpriseBagSingle({
         id,
         locale,
+        weekday: isWeekday ? Number(isWeekday) : null,
         lat: coords?.lat,
         lon: coords?.lon,
       });

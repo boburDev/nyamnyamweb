@@ -9,13 +9,13 @@ import { useEffect, useState } from "react";
 
 interface ProductSwiperProps {
   product?: ProductData[];
+  isTomorrow?: boolean;
 }
 
-export const ProductSwiper = ({ product }: ProductSwiperProps) => {
+export const ProductSwiper = ({ product, isTomorrow }: ProductSwiperProps) => {
   const { currentSlide, setCurrentSlide, NextArrow, PrevArrow } =
     useSliderArrows();
   const [width, setWidth] = useState(0);
-
   useEffect(() => {
     setWidth(window.innerWidth);
     const handleResize = () => setWidth(window.innerWidth);
@@ -95,7 +95,7 @@ export const ProductSwiper = ({ product }: ProductSwiperProps) => {
     ),
   };
 
-  const CustomNextArrow = (props:  {onClick?: () => void}) => {
+  const CustomNextArrow = (props: { onClick?: () => void }) => {
     const { onClick } = props;
     return (
       <NextArrow
@@ -127,7 +127,7 @@ export const ProductSwiper = ({ product }: ProductSwiperProps) => {
       >
         {product.map((item: ProductData) => (
           <div key={item.id} className="w-auto px-[8.5px] xl:px-[9.5px]">
-            <ProductCard product={item} />
+            <ProductCard product={item} isTomorrow={isTomorrow && item.weekday}  />
           </div>
         ))}
       </Slider>
