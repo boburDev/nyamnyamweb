@@ -1,4 +1,4 @@
-import { FacebookIcon, GoogleIcon, YandexIcon } from "@/assets/icons";
+import { GoogleIcon, YandexIcon } from "@/assets/icons";
 
 export const browserData = [
   {
@@ -9,8 +9,8 @@ export const browserData = [
     name: "auth/yandex/login",
     icon: YandexIcon,
   },
-  {
-    name: "auth/facebook/login",
-    icon: FacebookIcon,
-  },
+  // {
+  //   name: "auth/facebook/login",
+  //   icon: FacebookIcon,
+  // },
 ];
