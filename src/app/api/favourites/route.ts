@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({ surprise_bag: body.id }),
+    body: JSON.stringify({ surprise_bag: body.id , weekday: body.weekday  }),
   });
 
   const text = await response.text();

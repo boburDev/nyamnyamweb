@@ -28,7 +28,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isTomorrow })
       <div className="absolute z-7 top-0 left-0 w-full h-full block rounded-[15px]"
         onClick={(e) => {
           e.preventDefault();
-          router.push(`/surprise-bag/${product?.id}`);
+          if (isTomorrow) {
+            localStorage.setItem("weekday", isTomorrow.toString());
+            router.push(`/surprise-bag/${product?.id}`);
+          } else {
+            router.push(`/surprise-bag/${product?.id}`);
+          }
         }}></div>
       <div className="bg-white rounded-[15px] xl:rounded-t-[20px] xl:rounded-b-[25px] overflow-hidden border border-gray-100">
         {/* Product Image */}

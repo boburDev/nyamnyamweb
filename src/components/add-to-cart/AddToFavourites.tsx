@@ -47,7 +47,7 @@ export const AddToFavourites = ({ product, showText = false, className }: Props)
         });
       } else {
         addFavouritesApi(
-          { id: product.id },
+          { id: product.id , weekday: product.weekday  },
           {
             onSuccess: () => {
               showToast({

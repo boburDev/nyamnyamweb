@@ -32,7 +32,7 @@ export const useFavouritesQueryLatLon = ({
 export const useAddFavourites = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id }: { id: string }) => addFavourites({ id }),
+    mutationFn: ({ id , weekday }: { id: string; weekday?: number }) => addFavourites({ id, weekday }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["favourites"] });
     },

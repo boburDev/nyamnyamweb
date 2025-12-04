@@ -47,10 +47,11 @@ export async function getFavouritesLatLon({
   }
 }
 
-export const addFavourites = async ({ id }: { id: string }) => {
+export const addFavourites = async ({ id , weekday }: { id: string; weekday?: number }) => {
   try {
     const res = await axios.post(`/api/favourites`, {
       id,
+      weekday,
     });
     return res.data.data;
   } catch (error: unknown) {
