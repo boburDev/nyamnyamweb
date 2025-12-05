@@ -95,7 +95,7 @@ export const SurpriseSingleClient = ({
                   width={250}
                   height={250}
                   className="w-full sm:size-[250px] xl:w-[350px] xl:h-[308px] sm:rounded-[12px] object-cover "
-                  priority
+                  loading="lazy"
                 />
                 <span className="absolute bottom-0 right-0 sm:top-5 sm:left-5 size-fit py-2 px-[14.5px] bg-white sm:bg-mainColor/50 rounded-tl-[15px] sm:rounded-[15px]! backdrop-blur-[45px] font-medium text-sm sm:text-white">
                   {product?.count} {t("count")}

@@ -44,6 +44,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, isTomorrow })
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover rounded-[15px] xl:rounded-[20px]"
+            loading="lazy"
           />
 
           {/* Stock Badge */}

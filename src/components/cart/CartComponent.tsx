@@ -87,6 +87,7 @@ const CartComponent = ({ isAuth }: { isAuth: boolean }) => {
                                 alt={item?.title}
                                 fill
                                 className="object-cover rounded-s-[12px] md:rounded-[12px] xl:roundeed-xl"
+                                loading="lazy"
                               />
 
                               {item?.count && item?.count <= 5 && (

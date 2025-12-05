@@ -130,6 +130,7 @@ export const OrderAccordion = ({ open, setOpen, orders = [] }: Props) => {
                       height={180}
                       className="hidden md:block w-[160px] h-[141px] xl:w-[253px] xl:h-[183px] rounded-[12px] xl:rounded-[20px] object-cover"
                       alt={product.title}
+                      loading="lazy"
                     />
                     <div className="w-full md:ml-[15px] xl:ml-5">
                       <div className="flex justify-between w-full items-center">

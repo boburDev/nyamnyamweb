@@ -52,6 +52,7 @@ export const SurpriseBagCard = ({
             alt={product.title ?? product.title ?? t3("product-image")}
             fill
             className="rounded-lg object-cover"
+            loading="lazy"
           />
           {/* Remaining Count Badge */}
           {/* <div className="absolute top-[10px] left-[10px] bg-mainColor/20 text-white text-xs backdrop-blur-[45px] px-[10px] py-[3px] rounded-full font-medium">

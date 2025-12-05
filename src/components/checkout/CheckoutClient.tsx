@@ -42,6 +42,7 @@ const CheckoutClient = () => {
                     width={170}
                     height={130}
                     className="w-[179px] h-[139px] "
+                    loading="lazy"
                   />
                 </div>
                 <div className="flex flex-col">

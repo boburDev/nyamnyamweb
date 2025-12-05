@@ -160,6 +160,7 @@ const SearchMenu = ({ auth, className }: { auth?: boolean, className?: string })
                           width={40}
                           height={40}
                           className="object-cover rounded-lg w-10 h-10"
+                          loading="lazy"
                         />
                       ) : (
                         <div className="w-10 h-10 bg-gray-200 rounded-lg" />

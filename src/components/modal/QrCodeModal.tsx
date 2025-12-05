@@ -69,6 +69,7 @@ export const QrCodeModal = ({ open, setOpen, qrCode, order_item_number, orderId 
           width={200}
           height={200}
           className="w-[210px] h-[210px]"
+          loading="lazy"
         />
         <p className="text-[20px] text-mainColor py-[8.5px] px-[11px] bg-completedColor rounded-[20px]">
           {order_item_number}

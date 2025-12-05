@@ -244,7 +244,10 @@ export default async function PublicOfferPage() {
               <p>{t("section13.oked")}</p>
               <p>{t("section13.okonh")}</p>
               <p>{t("section13.bankCode")}</p>
-              <p>{t("section13.supportPhone")}</p>
+              <div className="flex items-center gap-2">
+                <p>{t("section13.supportPhone")}</p>
+                <a href="tel:+998940070177">+998 94 007 01 77</a>
+              </div>
               <div className="flex items-center gap-2">
                 <p>{t("section13.email")}</p><a href="mailto:azerauzb@gmail.com">azerauzb@gmail.com</a>
               </div>
